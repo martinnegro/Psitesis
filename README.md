@@ -10,8 +10,8 @@ Dentro encontrarán las siguientes secciones:
 - Colaboradores, que contará con información de contacto y sus artículos relacionados.
 
 #### Links de utilidad
-[Protitipo funcional](https://www.figma.com/file/6kETsk0daI1CHXhZMq6bBc/Prototipo-funcional-Psitesis-(Alta)?node-id=0%3A1).
-[Users Stories](https://miro.com/app/board/o9J_l4Kmvns=/).
+- [Protitipo funcional](https://www.figma.com/file/6kETsk0daI1CHXhZMq6bBc/Prototipo-funcional-Psitesis-(Alta)?node-id=0%3A1).
+- [Users Stories](https://miro.com/app/board/o9J_l4Kmvns=/).
 
 ### Tecnologías
 
