@@ -6,6 +6,7 @@ Aplicación WEB para ayudar a alumnos de psicología a escribir su tesis siguien
 
 
 ### Diagrama Directorios
+```
 Psitesis
 ├── api
 │   ├── auth
@@ -37,7 +38,7 @@ Psitesis
 │       ├── reportWebVitals.js
 │       └── setupTests.js
 └── README.md
-
+```
 
 ### Diagrama Entidad - Relación
 
