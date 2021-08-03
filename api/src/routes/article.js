@@ -27,14 +27,12 @@ router.update('/:id', (req, res, next) => {
     const { id } = req.params;
     console.log(id);
     res.json({ message: `ID recibido: ${id}`})
-
 });
 
 router.delete('/:id', (req, res, next) => {
     const { id } = req.params;
     console.log(id);
     res.json({ message: `ID recibido: ${id}`})
-
 });
 
 
