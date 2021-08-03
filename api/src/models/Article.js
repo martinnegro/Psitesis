@@ -10,11 +10,6 @@ module.exports = (sequelize) => {
       allowNull: false,
       primaryKey: true
     },
-    user_id:{
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        foreignKey: true
-      },
 
     art_contents: {
       type: DataTypes.STRING,
