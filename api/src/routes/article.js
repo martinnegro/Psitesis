@@ -30,7 +30,6 @@ router.get("/:id", (req, res, next) => {
   } else res.json({ id });
 });
 
-
 router.put("/:id", (req, res, next) => {
   const { id } = req.params;
   console.log(id);
@@ -42,5 +41,6 @@ router.delete("/:id", (req, res, next) => {
   console.log(id);
   res.json({ message: `ID recieved: ${id}` });
 });
+
 
 module.exports = router;
