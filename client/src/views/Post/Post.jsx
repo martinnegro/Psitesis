@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useAuth0 } from '@auth0/auth0-react';
+import axios from 'axios'
 import Nav from '../../components/Nav/Nav';
 import "./Post.css";
 import style from "./Post.module.css";
@@ -21,7 +23,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
 import { makeStyles } from '@material-ui/core/styles';
-import purple from '@material-ui/core/colors/purple';
+//import purple from '@material-ui/core/colors/purple';
 
 
 
@@ -43,6 +45,7 @@ const useStyles = makeStyles({
 function Post() {
 
     const classes = useStyles();
+    const { user } = useAuth0();
 
 
   const [body, setBody] = useState("");
@@ -70,27 +73,25 @@ function Post() {
   //   console.log("Esto es body-prev:", body);
   // };
 
-  const handleSubmitBody = (e) => {
+  const handleSubmitBody = async (e) => {
     e.preventDefault();
     let data = {
       description: body,
       title: titulo,
       categoria: categoria,
-      subcategoria: subcategoria
+      subcategoria: subcategoria,
+      userName: user.name,
     };
-    //CRear funcion Validate
+    //Crear funcion Validate
     //let aux = validate(Data);
     //Aqui Post
     // if (aux === true) {
-    //   try {
-    //     await axios.post(VIDEOGAME_ID, Data);
-    //   } catch (err) {
-    //     setExito(true);
-    //     setMensaje(
-    //       `😓 Ups!!! ha ocurrido un error, intentalo en unos momentos`
-    //     );
-    //     return;
-    //   }
+      try {
+        await axios.post("http://localhost:3001/article", data);
+      } catch (err) {
+        console.log(err);
+        return;
+      }
     console.log("Esto es objectPost:", data);
     setBody("");
     setTitulo("");
