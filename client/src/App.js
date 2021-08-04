@@ -1,13 +1,29 @@
-import React from "react";
-import { Route } from 'react-router-dom';
+import './App.css';
+import { useAuth0 } from '@auth0/auth0-react';
+import { Route, Switch } from 'react-router-dom';
+import { Loading, ProtectedRoute } from './components';
+import { Home, ExamplePage } from './views';
 
-import Home from "./vistas/Home";
+const App = () => {
+	const { isLoading } = useAuth0();
 
-export default function App() {
-  return (
-    <>
-      <Route path='/home' component={Home} />
-      {/* <Route path='/post:id' component={Post} /> */}
-    </>
-  );
-}
+	if (isLoading) {
+		return (
+			<div className="App">
+				<Loading />
+			</div>
+		);
+	}
+
+	return (
+		<div className="App">
+			<Switch>
+				<Route path="/" exact component={Home} />
+        <ProtectedRoute path="/example" exact component={ExamplePage} />
+			</Switch>
+		</div>
+	);
+};
+
+export default App;
+
