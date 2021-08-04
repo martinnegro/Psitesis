@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import ReactPaginate from 'react-paginate'; 
 
-import Nav from '../componentes/Nav'
-import Card from '../componentes/Card'
+import Nav from '../../components/Nav/Nav'
+import Card from '../../components/Card/Card'
 
 export default function Home () {
 

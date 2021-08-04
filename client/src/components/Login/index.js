@@ -1,9 +1,9 @@
-import { LoginButton, LogoutButton } from '../../components';
+import { LoginButton, LogoutButton } from '..';
 import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 const URL_API = 'http://localhost:3001';
 
-const Home = () => {
+const Login = () => {
 	const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
 
 	async function callApiPublicRoute() {
@@ -68,4 +68,4 @@ const Home = () => {
 	);
 };
 
-export default Home;
+export default Login;

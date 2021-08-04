@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -28,9 +29,8 @@ import PeopleOutlineOutlinedIcon from '@material-ui/icons/PeopleOutlineOutlined'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
-import user from '../assets/user.jpg'
-import logo from '../assets/Logo.png'
-
+import user from '../../assets/user.jpg'
+import logo from '../../assets/Logo.png'
 
 const drawerWidth = 240;
 
@@ -101,9 +101,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Nav () {
 
+    const { isAuthenticated, user } = useAuth0();
+    console.log('user', user)
+
     const classes = useStyles();
     const theme = useTheme();
-    const isAdmin = true
 
     const [open, setOpen] = useState(false);
 
@@ -134,7 +136,7 @@ export default function Nav () {
                     <div className={classes.logoMax}>
                         <Avatar variant="square" src={logo} className={classes.square}/>
                     </div>
-                    <Avatar alt="User" src={user} />
+                    <Avatar alt="User" src={user.picture} />
                 </Toolbar>
             </AppBar>
 
@@ -165,7 +167,7 @@ export default function Nav () {
                 </ListItem>
                 <Divider />
                 {
-                    isAdmin ? (
+                    isAuthenticated ? (
                         <ListItem button >
                             <ListItemIcon><ExitToAppIcon/></ListItemIcon>
                             <ListItemText>LogOut</ListItemText>
