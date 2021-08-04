@@ -20,8 +20,13 @@ router.post('/', (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
     const { id } = req.params;
-    console.log(id);
-    res.json({ id });
+    console.log(id)
+    Institution.findByPk(id)
+        .then((inst) => {
+            res.json(inst);
+        }).catch((err) => {
+            next(err)
+        })
 });
 
 

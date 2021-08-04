@@ -27,7 +27,8 @@
     }
     ```
 - `GET /institutions/:id`:
-
+  - Ej: `/institutions/3148ec28-29d5-4882-8b23-1f1932a28cd1`
+  - Respuesta: ídem a POST.
 ### `/article`
 
 - `POST   /article`     : creación de post en la DB. 
