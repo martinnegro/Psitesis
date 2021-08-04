@@ -23,7 +23,7 @@ router.get('/:id', (req, res, next) => {
     } else res.json({ id });
 });
 
-router.update('/:id', (req, res, next) => {
+router.put('/:id', (req, res, next) => {
     const { id } = req.params;
     console.log(id);
     res.json({ message: `ID recibido: ${id}`})
