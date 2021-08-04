@@ -12,7 +12,7 @@ const authorizeAccessToken = jwt({
   }),
   audience: AUDIENCE,
   issuer: `https://${JWKSURI}/`,
-  algorithms: [`${ALGORITHMS}`],
+  algorithms: ["RS256"],
 });
 
 const checkAdminPermission = jwtAuthz(["read:messages"], {
