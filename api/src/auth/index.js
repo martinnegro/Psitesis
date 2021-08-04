@@ -15,7 +15,7 @@ const authorizeAccessToken = jwt({
   algorithms: ["RS256"],
 });
 
-const checkAdminPermission = jwtAuthz(["read:messages"], {
+const checkAdminPermission = jwtAuthz(["admin:all"], {
   customScopeKey: "permissions",
   checkAllScopes: true,
 });
