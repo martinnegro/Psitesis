@@ -3,7 +3,7 @@ const {DataTypes} = require('sequelize')
 module.exports = (sequelize) => {
     sequelize.define ('institution', {
         inst_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.UUID,
             allowNull: false,
             primaryKey: true,
         },
@@ -14,6 +14,4 @@ module.exports = (sequelize) => {
         inst_descriptions: {
             type: DataTypes.STRING,
         },
-     
-
     })}
