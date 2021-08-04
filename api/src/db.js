@@ -44,7 +44,7 @@ const { Article, Institution, Rol, Network, User, Category, SubCategory } = sequ
 //rol tiene muchos usuarios, se le añade el id de rol en la tabla user
 //1 a N usuario --- rol
 Rol.hasMany(User);
-User.belongsTo(Rol);
+User.belongsTo(Rol, {targetKey: 'rol_id', foreignKey: 'rol_id'});
 
 // N a N red ----- usuario
 User.hasMany(Network)
@@ -54,9 +54,9 @@ Network.belongsTo(User);
 User.hasMany(Article)
 Article.belongsTo(User);
 
-// 1 a N institucion ----- Articulo
-Institution.hasMany(Article)
-Article.belongsTo(Institution);
+//#### Reemplazada la relacion inst - articulo por inst - user
+Institution.belongsToMany(User, { through: 'userinstitution'})
+User.belongsToMany(Institution, { through: 'userinstitution'});
 
 //1 a N institucion ------redes
 Institution.hasMany(Network)

@@ -3,6 +3,18 @@
 ### `/users`
 
 - `  POST /users`    :  creación de usuario en la DB.
+  - Ej. body: 
+    ```
+    {
+        "user_id_A0": "105592403739955785044" || null,
+        "user_name": "Martín",
+        "user_email": "martin@mail.com",
+        "user_img_profile": "http:",
+        "biography": "FSWD",
+        "inst_id": ["ea9b3f96-0097-4370-843f-52a02e398e90"],
+        "rol_id": 1
+    }
+    ```
 - `  GET /users/:id` :  request de usuario específico.
 - `  GET /users?`    :  bulk request con parámetros.
 
