@@ -6,6 +6,28 @@
 - `  GET /users/:id` :  request de usuario específico.
 - `  GET /users?`    :  bulk request con parámetros.
 
+### `/institutions`
+
+- `POST /institutions`   : creación de instituto.
+   - Ej. body: 
+    ```
+    {
+        "name": "string",
+        "descriptions": "string"
+    }
+    ```
+    - Respuesta:
+    ```
+    {
+        "inst_id": "c5309940-a26d-48b7-bd8f-832e22b311aa",
+        "inst_name": "Henry",
+        "inst_descriptions": "Bootcamp",
+        "updatedAt": "2021-08-04T20:56:03.082Z",
+        "createdAt": "2021-08-04T20:56:03.082Z"
+    }
+    ```
+- `GET /institutions/:id`:
+
 ### `/article`
 
 - `POST   /article`     : creación de post en la DB. 
