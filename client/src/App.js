@@ -1,11 +1,13 @@
-import './App.css';
+import React from "react";
+import { Route } from 'react-router-dom';
 
-function App() {
+import Home from "./vistas/Home";
+
+export default function App() {
   return (
-    <div className="App">
-      <h1>Henry Videogames</h1>
-    </div>
+    <>
+      <Route path='/home' component={Home} />
+      {/* <Route path='/post:id' component={Post} /> */}
+    </>
   );
 }
-
-export default App;
