@@ -37,7 +37,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Article, Institution, Rol, SocialNetwork, User } = sequelize.models;
+const { Article, Institution, Rol, Network, User, Category, SubCategory } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
@@ -46,9 +46,9 @@ const { Article, Institution, Rol, SocialNetwork, User } = sequelize.models;
 Rol.hasMany(User);
 User.belongsTo(Rol);
 
-// 1 a N red ----- usuario
-// User.hasMany(SocialNetwork)
-// SocialNetwork.belongsTo(User);
+// N a N red ----- usuario
+User.hasMany(Network)
+Network.belongsTo(User);
 
 // 1 a N Usuario ----- Articulo
 User.hasMany(Article)
@@ -59,8 +59,18 @@ Institution.hasMany(Article)
 Article.belongsTo(Institution);
 
 //1 a N institucion ------redes
-// Institution.hasMany(SocialNetwork)
-// SocialNetwork.belongsTo(Institution);
+Institution.hasMany(Network)
+Network.belongsTo(Institution);
+
+//1 a N categoria------sub-categoria
+
+Category.hasMany(SubCategory)
+SubCategory.belongsTo(Category);
+
+// 1 a N Categoria-----Articulo
+
+Category.hasMany(Article)
+Article.belongsTo(Category);
 
 
 
