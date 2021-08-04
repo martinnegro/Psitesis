@@ -1,3 +1,2 @@
-import Home from './Home';
-import ExamplePage from './ExamplePage';
-export { Home, ExamplePage };
+import Login from './Login/index';
+export { Login };

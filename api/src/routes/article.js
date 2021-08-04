@@ -30,11 +30,12 @@ router.get("/:id", (req, res, next) => {
   } else res.json({ id });
 });
 
+
 router.put("/:id", (req, res, next) => {
   const { id } = req.params;
   console.log(id);
   res.json({ message: `ID recieved: ${id}` });
-});
+
 
 router.delete("/:id", (req, res, next) => {
   const { id } = req.params;
