@@ -11,7 +11,6 @@ router.post(
   (req, res, next) => {
     const id = uuidv4();
     console.log(req.body);
-
     res.json({ message: "Article recieved", id });
   }
 );
@@ -26,7 +25,6 @@ router.get("/:id", (req, res, next) => {
   console.log(id);
   if (!id) {
     const err = new Error("No Id");
-
     err.status = 400;
     next(err);
   } else res.json({ id });
