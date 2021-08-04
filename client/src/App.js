@@ -3,6 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Route, Switch } from "react-router-dom";
 import { Loading, ProtectedRoute } from "./components";
 import Login from "./views/Login";
+import ExamplePage from "./views/ExamplePage";
 
 const App = () => {
   const { isLoading } = useAuth0();
@@ -19,7 +20,7 @@ const App = () => {
     <div className="App">
       <Switch>
         <Route path="/" exact component={Login} />
-        {/* <ProtectedRoute path="/example" exact component={ExamplePage} /> */}
+        <ProtectedRoute path="/example" exact component={ExamplePage} />
       </Switch>
     </div>
   );
