@@ -1,10 +1,11 @@
-import { LoginButton, LogoutButton } from '..';
+import { LoginButton } from '..';
 import { useAuth0 } from '@auth0/auth0-react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 const URL_API = 'http://localhost:3001';
 
 const Login = () => {
-	const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
+	const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
 	async function callApiPublicRoute() {
 		try {
@@ -42,13 +43,7 @@ const Login = () => {
 	return (
 		<div>
 			{isAuthenticated ? (
-				<div>
-					<h1>pagina de Home estando logeado</h1>
-					<pre style={{ textAlign: 'center' }}>
-						{JSON.stringify(user, null, 2)}
-					</pre>
-					<LogoutButton btnText="Cerrar session" />
-				</div>
+				<Redirect to="/home" />
 			) : (
 				<div>
 					<h1>pagina de Home sin logear</h1>
