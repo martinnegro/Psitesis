@@ -21,6 +21,21 @@ Dentro encontrarán las siguientes secciones:
 - REST: ExpressJs
 - ORM: Sequelize
 
+### Enviroment variables
+
+#### En client:
+- `REACT_APP_AUTH0_DOMAIN=`
+- `REACT_APP_AUTH0_CLIENT_ID=`
+- `REACT_APP_AUTH0_AUDIENCE=`
+
+#### En api:
+- `DB_USER=`
+- `DB_PASSWORD=`
+- `DB_HOST=`
+- `JWKSURI=` 
+- `AUDIENCE=` 
+- `ALGORITMHS=` 
+
 ### Diagrama Directorios
 ```
 Psitesis
