@@ -3,12 +3,12 @@ import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { useDispatch, useSelector } from 'react-redux';
 import { findOrCreateUser as findOrCreateUserAction } from '../../redux/actions/actions';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useAuth0,withAuthenticationRequired } from '@auth0/auth0-react';
 import Nav from '../../components/Nav/Nav';
 import CardPost from '../../components/Card/Card';
 
 import Container from '@material-ui/core/Container';
-
+import { Loading } from "../../components";
 import {
 	/* Divider, IconButton, InputBase, */ makeStyles,
 	/* Paper, TextField, */ Typography,
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function Home() {
+ function Home() {
 	const { user, getAccessTokenSilently } = useAuth0();
 	// just as an example
 	const [post /* setPosts */] = useState(undefined);
@@ -173,3 +173,8 @@ export default function Home() {
 		</Container>
 	);
 }
+
+
+export default withAuthenticationRequired(Home,{
+    onRedirecting: () => <Loading></Loading>
+})
