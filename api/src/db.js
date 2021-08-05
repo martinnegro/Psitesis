@@ -51,8 +51,8 @@ User.hasMany(Network)
 Network.belongsTo(User);
 
 // 1 a N Usuario ----- Articulo
-User.hasMany(Article, { targetKey: 'user_id', foreignKey: 'user_id' })
-// Article.belongsTo(User);
+User.hasMany(Article, { as: 'articles'})
+Article.belongsTo(User, { foreignKey: 'user_id' });
 
 //#### Reemplazada la relacion inst - articulo por inst - user
 Institution.belongsToMany(User, { through: 'userinstitution'})
@@ -64,12 +64,12 @@ Network.belongsTo(Institution);
 
 //1 a N categoria------sub-categoria
 
-// Category.hasMany(SubCategory)
+Category.hasMany(SubCategory)
 SubCategory.belongsTo(Category, { targetKey: 'cat_id', foreignKey: 'cat_id' });
 
 // 1 a N Categoria-----Articulo
 
-// Category.hasMany(Article)
+SubCategory.hasMany(Article)
 Article.belongsTo(SubCategory, { targetKey: 'sub_cat_id', foreignKey: 'sub_cat_id' });
 
 

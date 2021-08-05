@@ -1,8 +1,9 @@
 const { Router } = require("express");
 const router = Router();
 const { v4: uuidv4 } = require("uuid");
-const { User, Institution, Rol } = require('../db');
+const { User, Institution, Rol, Article } = require('../db');
 const { Op } = require('sequelize');
+
 
 
 
@@ -13,6 +14,7 @@ router.post("/", async (req, res, next) => {
     err.status = 400;
     return next(err);
   }
+  try {
   const result = await User.findOne({ where: {
               [Op.or]: [{ user_id_A0 },{ user_email }] 
             },
@@ -21,8 +23,11 @@ router.post("/", async (req, res, next) => {
               through:{ attributes: [] }
             }]
   });
-  if (result) return res.json({...result, created: false})
-  else {
+  if (result) return res.json({...result.dataValues, created: false})
+  } catch (err) {
+    return next(err);
+  }
+  
     const user_id = uuidv4();
     try {
       const user =  await User.create({
@@ -46,13 +51,27 @@ router.post("/", async (req, res, next) => {
           res.json({...finded.dataValues, created: true})
         })
     } catch(err) { return next(err) }
-  }
+  
 });
 
-router.get("/:id", (req, res, next) => {
-  const { id } = req.params;
-  console.log(id);
-  res.json({ id });
+router.get("/:user_id", (req, res, next) => {
+  const { user_id } = req.params;
+  User.findByPk(user_id,
+    {
+      include: [
+        { 
+          model: Institution,
+          through: {
+            attributes: [] 
+          }
+        }
+      ]
+  }).then(finded => {
+    Article.findAll({where: {user_id}})
+      .then(arts => {
+        res.json({...finded.dataValues, articles: arts});
+      })
+  }).catch(err => next(err));
 });
 
 module.exports = router;
