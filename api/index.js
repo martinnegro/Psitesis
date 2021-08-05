@@ -21,6 +21,7 @@ const server = require("./src/app.js");
 const { v4: uuidv4 } = require('uuid');
 const { conn, Rol, Category, SubCategory, Institution, User, Article } = require("./src/db.js");
 
+
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {
 server.listen(3001, () => {
@@ -31,15 +32,17 @@ server.listen(3001, () => {
     {rol_id: 3, rol_name: 'basic' }
   ]).then(() => { console.log('**** ROLES CREADOS')})
   Category.bulkCreate([
-    { cat_id: 1, cat_name: 'Investigación' },
-    { cat_id: 2, cat_name: 'Normas APA' }
+    { cat_id: 1, cat_name: 'General' },
+{ cat_id: 2, cat_name: 'Investigación' },
+{ cat_id: 3, cat_name: 'Normas APA' }
   ]).then(() => {
     console.log('**** CATEGORÍAS CREADAS')
     SubCategory.bulkCreate([
-      { sub_cat_id: 1 , sub_cat_name: 'Diseño Experimental', cat_id: 1 },
-      { sub_cat_id: 2 , sub_cat_name: 'Elección de Tema', cat_id: 1 },
-      { sub_cat_id: 3 , sub_cat_name: 'Citado en el texto', cat_id: 2 },
-      { sub_cat_id: 4 , sub_cat_name: 'Referencias Bibliográficas', cat_id: 2 }
+      { sub_cat_id: 1 , sub_cat_name: 'Noticias', cat_id: 1 },
+      { sub_cat_id: 2 , sub_cat_name: 'Dudas generales', cat_id: 1 },
+      { sub_cat_id: 3 , sub_cat_name: 'Elección de tema', cat_id: 2 },
+      { sub_cat_id: 4 , sub_cat_name: 'Citado en el texto', cat_id: 3 }
+      
     ])
   }).then(async () => {
     console.log('**** SUB CAT CREADAS');
