@@ -43,6 +43,11 @@ function Post() {
   const [categoria, setCategoria] = useState("");
   const [subcategoria, setSubcategoria] = useState("");
 
+  
+  const hoy = new Date(Date.now());
+  const date = (hoy.toLocaleDateString());
+
+
   const handleBody = (e) => {
     setBody(e);
   };
@@ -68,8 +73,9 @@ function Post() {
     let data = {
       art_contents: body,
       art_title: titulo,
-      sub_cat_id: hash,
+      sub_cat_id: subcategoria,
       user_id: user.sub,
+      art_date: date,
     };
     try {
       const token = await getAccessTokenSilently();
@@ -118,12 +124,14 @@ function Post() {
               >
                 <option aria-label="None" value="" />
                 <optgroup label="General">
-                  <option value={"Categoria1-hash"}>Noticias</option>
-                  <option value={"Categoria1-hash2"}>Dudas</option>
+                  <option value={"General-1"}>Noticias</option>
+                  <option value={"General-2"}>Dudas generales</option>
                 </optgroup>
-                <optgroup label="Category 2">
-                  <option value={"Categoria2-Option3"}>Option 3</option>
-                  <option value={"Categoria2-Option4"}>Option 4</option>
+                <optgroup label="Investigación">
+                  <option value={"Investigación-3"}>Elección de tema</option>
+                </optgroup>
+                <optgroup label="Normas APA">
+                  <option value={"Normas APA-4"}>Citado en el texto</option>
                 </optgroup>
               </Select>
             </FormControl>
