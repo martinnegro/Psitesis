@@ -1,8 +1,10 @@
 import axios from 'axios';
 
+
 const APIURL = 'http://localhost:3001';
 
 export const createPost = (newPost, token) => async (dispatch) => {
+
     try {
       const headers = {
         Authorization: `Bearer ${token}`,
@@ -12,4 +14,5 @@ export const createPost = (newPost, token) => async (dispatch) => {
       console.log(err);
       return;
     }
+
 };

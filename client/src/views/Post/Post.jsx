@@ -72,7 +72,7 @@ function Post() {
     let data = {
       art_contents: body,
       art_title: titulo,
-      //sub_cat_id: hash,
+      /* sub_cat_id: hash, */
       user_id: user.sub,
     };
 
