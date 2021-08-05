@@ -174,9 +174,9 @@ export default function Nav () {
                 <Divider />
                 {
                     isAuthenticated ? (
-                        <ListItem button >
+                        <ListItem button onClick={handleLogOut}>
                             <ListItemIcon><ExitToAppIcon/></ListItemIcon>
-                            <ListItemText onClick={handleLogOut}>LogOut</ListItemText>
+                            <ListItemText>LogOut</ListItemText>
                         </ListItem>
                     ) : null
                 }
