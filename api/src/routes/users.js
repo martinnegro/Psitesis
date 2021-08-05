@@ -54,6 +54,12 @@ router.post("/", async (req, res, next) => {
   
 });
 
+router.get('/',(req,res,next) => {
+  User.findAll()
+    .then(finded => res.json(finded))
+    .catch(err => next(err));
+});
+
 router.get("/:user_id", (req, res, next) => {
   const { user_id } = req.params;
   User.findByPk(user_id,

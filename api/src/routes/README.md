@@ -80,6 +80,7 @@
     }
     ```
 - `  GET /users?`    :  bulk request con parámetros.
+  - __SIN PARÁMETROS TRAE TODOS LOS ARTÍCULOS__
 
 ### `/institutions`
 
@@ -101,6 +102,9 @@
         "createdAt": "2021-08-04T20:56:03.082Z"
     }
     ```
+
+- `GET /institutions`
+  - __SIN PARÁMETROS TRAE TODOS LOS ARTÍCULOS__
 - `GET /institutions/:id`:
   - Ej: `/institutions/3148ec28-29d5-4882-8b23-1f1932a28cd1`
   - Respuesta: ídem a POST.
@@ -131,8 +135,12 @@
     }
     ```
 - `GET    /article?`    : bulk request de artículos con parámetros.
+  - __SIN PARÁMETROS TRAE TODOS LOS ARTÍCULOS__
 - `GET    /article/:id` : request de artículo específico.
   - Ej. `/article/7fdd9c5e-70b9-4906-ab76-73af2d0cf662`
   - Respuesta: ídem a POST.
 - `PUT    /article/:id` : update de artículo específico.
 - `DELETE /article/:id` : delete de artículo específico.
+
+### `/categories`
+- Trae todas las caegorias y subcategorias para renderizar.

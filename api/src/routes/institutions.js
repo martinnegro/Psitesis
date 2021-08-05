@@ -18,6 +18,12 @@ router.post('/', (req, res, next) => {
     });
 });
 
+router.get('/', (req, res, next) => {
+    Institution.findAll()
+        .then(finded => res.json(finded))
+        .catch(err => next(err))
+});
+
 router.get('/:id', (req, res, next) => {
     const { id } = req.params;
     console.log(id)

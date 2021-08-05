@@ -28,8 +28,10 @@ router.post(
 );
 
 router.get("/", (req, res, next) => {
-  console.log(req.query);
-  res.json(req.query);
+  Article.findAll()
+    .then(finded => {
+      res.json(finded)
+    }).catch(err => next(err));
 });
 
 router.get("/:art_id", (req, res, next) => {
