@@ -39,7 +39,7 @@ router.post("/", async (req, res, next) => {
           biography,
           rol_id,  
       });
-      await user.addInstitution(inst_id)
+      inst_id || inst_id.length > 0 && await user.addInstitution(inst_id);
       User.findByPk(user_id, {
         include: {
           model: Institution,
