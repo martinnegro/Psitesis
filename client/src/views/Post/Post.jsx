@@ -123,15 +123,13 @@ function Post() {
                 onChange={handleInputCat}
               >
                 <option aria-label="None" value="" />
-                <optgroup label="General">
-                  <option value={"General-1"}>Noticias</option>
-                  <option value={"General-2"}>Dudas generales</option>
-                </optgroup>
                 <optgroup label="Investigación">
-                  <option value={"Investigación-3"}>Elección de tema</option>
+                  <option value={"General-1"}>Metodologia de investigación</option>
+                  <option value={"General-2"}>Elección de tema</option>
                 </optgroup>
-                <optgroup label="Normas APA">
-                  <option value={"Normas APA-4"}>Citado en el texto</option>
+                <optgroup label="Normas Apa">
+                  <option value={"Investigación-3"}>Citado en el texto</option>
+                  <option value={"Investigación-3"}>Referencias bibliográficas</option>
                 </optgroup>
               </Select>
             </FormControl>
