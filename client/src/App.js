@@ -4,6 +4,7 @@ import { Loading } from "./components";
 import Login from "./components/Login/index";
 import Home from "./views/Home/Home.jsx";
 import Post from "./views/Post/Post.jsx";
+import ContentForm from "./components/Form/ContentForm";
 
 const App = () => {
   const { isLoading } = useAuth0();
@@ -22,6 +23,8 @@ const App = () => {
         <Route path="/" exact component={Login} />
         <Route path="/home" exact component={Home} />
         <Route path="/post" exact component={Post} />
+
+        <Route path="/form" exact component={ContentForm} />
       </Switch>
     </div>
   );
