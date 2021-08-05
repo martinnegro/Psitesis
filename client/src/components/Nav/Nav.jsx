@@ -23,14 +23,15 @@ import clsx from 'clsx';
 
 import IconButton from '@material-ui/core/IconButton';
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
-import BookOutlinedIcon from '@material-ui/icons/BookOutlined';
-import ForumIcon from '@material-ui/icons/Forum';
-import PeopleOutlineOutlinedIcon from '@material-ui/icons/PeopleOutlineOutlined';
+// import BookOutlinedIcon from '@material-ui/icons/BookOutlined';
+// import ForumIcon from '@material-ui/icons/Forum';
+// import PeopleOutlineOutlinedIcon from '@material-ui/icons/PeopleOutlineOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
-import user from '../../assets/user.jpg'
+import userAvatar from '../../assets/user.jpg'
 import logo from '../../assets/Logo.png'
+import { useHistory } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -101,9 +102,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Nav () {
 
-    const { logout, isAuthenticated, user } = useAuth0();
-    //console.log('user', user)
 
+    const { isAuthenticated, user, logout } = useAuth0();
+
+
+    const handleLogout = () => {
+      logout({
+        returnTo: window.location.origin,
+      })
+    }
+
+    const history = useHistory()
     const classes = useStyles();
     const theme = useTheme();
 
@@ -142,7 +151,11 @@ export default function Nav () {
                     <div className={classes.logoMax}>
                         <Avatar variant="square" src={logo} className={classes.square}/>
                     </div>
-                    <Avatar alt="User" src={user.picture} />
+                    {
+                      isAuthenticated ? (
+                        <Avatar alt="User" src={user.picture} />
+                      ) : <Avatar alt="User" src={userAvatar} />
+                    }
                 </Toolbar>
             </AppBar>
 
@@ -157,29 +170,33 @@ export default function Nav () {
                 </div>
                 <Divider />
                 <List>
-                  {['Home', 'Guía de Tesis', 'Foro', 'Colaboradores'].map((text, index) => (
+                  {['Home', /* 'Guía de Tesis', 'Foro', 'Colaboradores' */].map((text, index) => (
                     <ListItem button key={text}>
                         <ListItemIcon>
-                            {index === 0 ? <HomeOutlinedIcon /> : index === 1 ? <BookOutlinedIcon /> : index === 2 ? <ForumIcon /> : <PeopleOutlineOutlinedIcon />}
+                            {index === 0 ? <HomeOutlinedIcon onClick={()=>history.push('/home')} /> : null /*  index === 1 ? <BookOutlinedIcon /> : index === 2 ? <ForumIcon /> : <PeopleOutlineOutlinedIcon   /> */}
                         </ListItemIcon>
                         <ListItemText primary={text} />
                     </ListItem>
                   ))}
                 </List>
                 <Divider />
-                <ListItem button >
-                    <ListItemIcon><AddCircleOutlineIcon/></ListItemIcon>
-                    <ListItemText>Add Post</ListItemText>
-                </ListItem>
-                <Divider />
                 {
                     isAuthenticated ? (
-                        <ListItem button onClick={handleLogOut}>
-                            <ListItemIcon><ExitToAppIcon/></ListItemIcon>
-                            <ListItemText>LogOut</ListItemText>
-                        </ListItem>
+
+
+                  <ListItem button onClick={() => history.push('/post')} >
+                      <ListItemIcon><AddCircleOutlineIcon/></ListItemIcon>
+                      <ListItemText>Add Post</ListItemText>
+                  </ListItem>
+
                     ) : null
+
                 }
+                <Divider />
+                  <ListItem button onClick={handleLogout}>
+                      <ListItemIcon><ExitToAppIcon/></ListItemIcon>
+                      <ListItemText>LogOut</ListItemText>
+                  </ListItem>
             </Drawer>
         </div>
     )

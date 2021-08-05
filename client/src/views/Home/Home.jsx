@@ -1,141 +1,122 @@
-import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import ReactPaginate from 'react-paginate';
-import { useDispatch } from 'react-redux';
-import { useAuth0 } from '@auth0/auth0-react';
-import { findOrCreateUser as findOrCreateUserAction } from '../../redux/actions/actions';
-import Nav from '../../components/Nav/Nav';
-import Card from '../../components/Card/Card';
-import axios from 'axios';
-export default function Home() {
-	// just as an example
-	const [post, setPosts] = useState(undefined);
-	const { user, getAccessTokenSilently } = useAuth0();
-	console.log(user);
+import React, { useEffect, useState } from 'react'; 
+// import { NavLink } from 'react-router-dom';
+import ReactPaginate from 'react-paginate'; 
+import { useDispatch, useSelector } from 'react-redux';
 
-    const dispatch = useDispatch();
-    
-	useEffect(() => {
-		// action Create or find User
-        const userPost = {
-            user_id_A0: user.sub,
-            user_name: user.name,
-            user_email: user.email,
-            user_img_profile: user.picture,
-            inst_id: [],
-        };
+import Nav from '../../components/Nav/Nav'
+import CardPost from '../../components/Card/Card'
 
-        async function findOrCreateUser(userPost) {
-            const token = await getAccessTokenSilently();
-            dispatch(findOrCreateUserAction(userPost, token));
-        }
+import Container from '@material-ui/core/Container';
 
-		findOrCreateUser(userPost);
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+import { /* Divider, IconButton, InputBase, */ makeStyles, /* Paper, TextField, */ Typography } from '@material-ui/core';
+// import SearchIcon from '@material-ui/icons/Search';
+import { getAllArticle } from '../../redux/actions/actions';
 
-	useEffect(() => {
-		const getPost = async () => {
-			const response = await fetch(
-				'https://jsonplaceholder.typicode.com/posts'
-			);
-			const json = await response.json();
-			setPosts(json);
-		};
-		getPost();
-	}, []);
+const useStyles = makeStyles(theme => ({
+    offset: theme.mixins.toolbar,
+    Home: {
+        // marginLeft: theme.spacing(15),
+        margin: theme.spacing(5),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
 
-	const [search, setSearch] = useState('');
-	const [pageNumber, setPageNumber] = useState(0);
+    root: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    width: 700,
+    marginTop: '20px',
+    marginBottom: '30px',
+    },
+    input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+    },
+    iconButton: {
+    padding: 10,
+    },
+}))
 
-	const postsByPage = 9;
-	const pagesVisited = pageNumber * postsByPage;
-	const pageCount = Math.ceil(post?.length / postsByPage);
+export default function Home () {
 
-	const onChange = (e) => {
-		if (e.target.name === 'search') setSearch(e.target.value);
-	};
+    // just as an example
+    const [ post, /* setPosts */ ] = useState(undefined)
+    const classes = useStyles()
+   const dispatch = useDispatch()
+   const articles = useSelector(state => state.articles)
 
-	const changePage = ({ selected }) => {
-		setPageNumber(selected);
-	};
+    useEffect(() => {
+    //     const getPost = async () => {
+    //         const response = await fetch('https://jsonplaceholder.typicode.com/posts')
+    //         const json = await response.json()
+    //         setPosts(json)
+    //     }
+    //    getPost()
+        dispatch(getAllArticle())
+    }, [dispatch])
 
-	return (
-		<>
-			<header>
-				<Nav />
-				{/* <img src='' alt='Logo Psitesis'/> */}
-			</header>
-			<div>
-				<div>
-					<h2>Bienvenidos</h2>
-					<p>
-						En Psitesis encontrarás <NavLink to="#">ARTICULOS</NavLink> escritos
-						por <NavLink to="#">COLABORADORES</NavLink> expertos en la
-						contrucción de tesis.
-					</p>
-					<p>
-						Si seguís con dudas podés escribir en el{' '}
-						<NavLink to="#">FORO</NavLink>, donde encontrarás otros colegas que
-						puedan ayudarte.
-					</p>
-				</div>
-				<div>
-					<input
-						onChange={onChange}
-						type="text"
-						name="search"
-						value={search}
-						placeholder="Escribí aquí el artículo que deseas encontrar"
-					/>
-					<img src="" alt="Imagen de búsqueda" />
-				</div>
-				<div>
-					{post?.length > 0
-						? post
-								.slice(pagesVisited, pagesVisited + postsByPage)
-								.map((p) => (
-									<Card
-										key={p.id}
-										title={p.title}
-										body={p.body}
-										userId={p.userId}
-									/>
-								))
-						: null}
-					<div>
-						<ReactPaginate
-							previousLabel={'<'}
-							nextLabel={'>'}
-							onPageChange={changePage}
-							pageCount={pageCount}
-							pageRangeDisplayed={0}
-							marginPagesDisplayed={0}
-							breakLabel={0}
-						/>
-					</div>
-				</div>
-			</div>
-			<footer>
-				<div>
-					<NavLink to="/home">Home</NavLink>
-					<NavLink to="#">Foro</NavLink>
-					<NavLink to="#">Guía de Tesis</NavLink>
-					<NavLink to="#">Colaboradores</NavLink>
-				</div>
-			</footer>
-		</>
-	);
+
+    // const [ search, setSearch ] = useState('')
+    const [ pageNumber, setPageNumber ] = useState(0)
+
+    const postsByPage = 9;
+    const pagesVisited = pageNumber * postsByPage;
+    const pageCount = Math.ceil(post?.length / postsByPage)
+
+    // const onChange = (e) => {
+    //     if (e.target.name === 'search') setSearch(e.target.value)
+    // }
+
+    const changePage = ({ selected }) => {
+        setPageNumber(selected)
+    }
+
+    return (
+        <Container>
+        <div className={classes.offset}></div>
+            <Nav />
+            <Container className={classes.Home}>
+                <Container align='center'>
+                    <Typography variant='h3' align='center' style={{'marginBottom':'20px'}} >Bienvenidos</Typography>
+                    <Typography>En Psitesis encontrarás {/* <NavLink to='#'> */}<span style={{color: 'purple'}}>ARTICULOS</span>{/* </NavLink> */} escritos por {/* <NavLink to='#'> */}<span style={{color: 'purple'}}>COLABORADORES</span>{/* </NavLink> */} expertos en la contrucción de tesis.</Typography>
+                    <Typography>Si seguís con dudas podés escribir en el {/* <NavLink to='#'> */}<span style={{color: 'purple'}}>FORO</span>{/* </NavLink> */}, donde encontrarás otros colegas que puedan ayudarte.</Typography>
+                </Container>
+                
+                {/* <Paper component="form" className={classes.root}>
+                    <InputBase
+                      className={classes.input}
+                      placeholder="Escribí aquí el artículo que deseas encontrar"
+                      onChange={onChange}
+                      name='search'
+                    />
+                    <IconButton type="submit" className={classes.iconButton} aria-label="search">
+                      <SearchIcon />
+                    </IconButton>
+                </Paper> */}
+                
+                <Container style={{'display' : 'flex', 'flexWrap' : 'wrap', 'marginTop': '20px'}}>
+                    {
+                        articles?.length > 0 ? (articles?.slice(pagesVisited, pagesVisited + postsByPage).map(p => (
+                            <CardPost key={p.art_id} title={p.art_title} body={p.art_contents} id={p.user_id} articleId={p.art_id}/>
+                        ))
+                        ) : null
+                    }
+                    <Container>
+                        <ReactPaginate previousLabel={'<'} nextLabel={'>'} onPageChange={changePage} pageCount={pageCount} pageRangeDisplayed={0} marginPagesDisplayed={0} breakLabel={0} />
+                    </Container>
+                </Container>
+            </Container>
+            {/* <Container>
+                <Container>
+                    <NavLink to='/home'>Home</NavLink>
+                    <NavLink to='#'>Foro</NavLink>
+                    <NavLink to='#'>Guía de Tesis</NavLink>
+                    <NavLink to='#'>Colaboradores</NavLink>
+                </Container>
+            </Container> */}
+        </Container>
+    )
 }
-
-/*
-
-¿Qué imágenes vamos a usar? Por ejemplo para los botones de 'back and go' ? Propongo React-Icons. SI REACT-ICONS
-¿Definimos los componentes de esta manera o con arrow functions? ARROW FUNCTION
-¿Axios? se usa AXIOS
-
-Modifique la carpeta Public y el index del respectivo
-Añadi react-router-dom
-Añadí react-paginate
-
-*/

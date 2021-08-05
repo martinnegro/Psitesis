@@ -77,7 +77,9 @@ function Post() {
     let data = {
       art_contents: body,
       art_title: titulo,
+
       sub_cat_id: subcategoria,
+
       user_id: user.sub,
       art_date: date,
     };
