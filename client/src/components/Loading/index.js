@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { pink } from '@material-ui/core/colors';
+import { purple } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 		position: 'relative',
 	},
 	CircularProgress: {
-		color: pink[500],
+		color: purple[500],
 		position: 'absolute',
 		top: '50%',
 		left: '50%',
