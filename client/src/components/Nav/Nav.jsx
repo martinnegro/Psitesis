@@ -31,6 +31,7 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 import user from '../../assets/user.jpg'
 import logo from '../../assets/Logo.png'
+import LogoutButton from '../LogoutButton';
 
 const drawerWidth = 240;
 
@@ -101,9 +102,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Nav () {
 
-    const { isAuthenticated, user } = useAuth0();
+    const { isAuthenticated, user} = useAuth0();
+    
     console.log('user', user)
 
+   
     const classes = useStyles();
     const theme = useTheme();
 
@@ -170,11 +173,13 @@ export default function Nav () {
                     isAuthenticated ? (
                         <ListItem button >
                             <ListItemIcon><ExitToAppIcon/></ListItemIcon>
-                            <ListItemText>LogOut</ListItemText>
+                            <ListItemText >LogOut</ListItemText>
                         </ListItem>
+                        
                     ) : null
                 }
             </Drawer>
+            
         </div>
     )
 }
