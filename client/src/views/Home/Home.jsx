@@ -6,7 +6,7 @@ import { findOrCreateUser as findOrCreateUserAction } from '../../redux/actions/
 import { useAuth0 } from '@auth0/auth0-react';
 import Nav from '../../components/Nav/Nav';
 import CardPost from '../../components/Card/Card';
-
+import s from './Home.module.css'
 import Container from '@material-ui/core/Container';
 
 import {
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 	offset: theme.mixins.toolbar,
 	Home: {
 		// marginLeft: theme.spacing(15),
-		margin: theme.spacing(5),
+		marginTop: theme.spacing(5),
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
@@ -153,11 +153,13 @@ export default function Home() {
 						<ReactPaginate
 							previousLabel={'<'}
 							nextLabel={'>'}
-							onPageChange={changePage}
 							pageCount={pageCount}
-							pageRangeDisplayed={0}
-							marginPagesDisplayed={0}
-							breakLabel={0}
+							onPageChange={changePage}
+							containerClassName={s.paginationBttns}
+							previousLinkClassName={s.previousBttn}
+							nextLinkClassName={s.nextBttn}
+							disabledClassName={s.paginationDisabled}
+							activeClassName={s.paginationActive}
 						/>
 					</Container>
 				</Container>
