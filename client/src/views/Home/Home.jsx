@@ -26,6 +26,7 @@ export default function Home () {
                     user_name: user.name,
                     user_email: user.email,
                     user_img_profile: user.picture,
+                    inst_id: [],
                 };
                 const token = await getAccessTokenSilently();
                 const response = await axios({

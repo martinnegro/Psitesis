@@ -15,11 +15,11 @@ router.post("/", async (req, res, next) => {
     rol_id,
   } = req.body;
   console.log(req.body);
-  /*  if (!Array.isArray(inst_id)) {
+  if (!Array.isArray(inst_id)) {
     const err = new Error("inst_id must be an array");
     err.status = 400;
     return next(err);
-  } */
+  }
   try {
     const result = await User.findOne({
       where: {
@@ -48,7 +48,7 @@ router.post("/", async (req, res, next) => {
       biography,
       rol_id,
     });
-    await user.addInstitution(inst_id);
+    inst_id.length > 0 && (await user.addInstitution(inst_id));
     User.findByPk(user_id, {
       include: {
         model: Institution,
