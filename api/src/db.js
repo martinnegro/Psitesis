@@ -2,10 +2,10 @@ require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const fs = require("fs");
 const path = require("path");
-const { DB_USER, DB_PASSWORD, DB_HOST } = process.env;
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME } = process.env;
 
 const sequelize = new Sequelize(
-  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/psitesis`,
+  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
   {
     logging: false, // set to console.log to see the raw SQL queries
     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
@@ -43,7 +43,7 @@ const { Article, Institution, Rol, Network, User, Category, SubCategory } = sequ
 // Product.hasMany(Reviews);
 //rol tiene muchos usuarios, se le añade el id de rol en la tabla user
 //1 a N usuario --- rol
-Rol.hasMany(User);
+// Rol.hasMany(User);
 User.belongsTo(Rol, {targetKey: 'rol_id', foreignKey: 'rol_id'});
 
 // N a N red ----- usuario
@@ -51,8 +51,8 @@ User.hasMany(Network)
 Network.belongsTo(User);
 
 // 1 a N Usuario ----- Articulo
-User.hasMany(Article)
-Article.belongsTo(User);
+User.hasMany(Article, { targetKey: 'user_id', foreignKey: 'user_id' })
+// Article.belongsTo(User);
 
 //#### Reemplazada la relacion inst - articulo por inst - user
 Institution.belongsToMany(User, { through: 'userinstitution'})
@@ -64,13 +64,13 @@ Network.belongsTo(Institution);
 
 //1 a N categoria------sub-categoria
 
-Category.hasMany(SubCategory)
-SubCategory.belongsTo(Category);
+// Category.hasMany(SubCategory)
+SubCategory.belongsTo(Category, { targetKey: 'cat_id', foreignKey: 'cat_id' });
 
 // 1 a N Categoria-----Articulo
 
-Category.hasMany(Article)
-Article.belongsTo(Category);
+// Category.hasMany(Article)
+Article.belongsTo(SubCategory, { targetKey: 'sub_cat_id', foreignKey: 'sub_cat_id' });
 
 
 

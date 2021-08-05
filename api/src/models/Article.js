@@ -6,13 +6,13 @@ module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('article', {
     art_id:{
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true
     },
 
     art_contents: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
 

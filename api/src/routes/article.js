@@ -1,17 +1,28 @@
 const { Router } = require("express");
 const router = Router();
 const { v4: uuidv4 } = require("uuid");
-
 const { authorizeAccessToken, checkAdminPermission } = require("../auth/index");
+const { Article, User } = require('../db')
+
 
 router.post(
   "/",
-  authorizeAccessToken,
-  checkAdminPermission,
+  // authorizeAccessToken,
+  // checkAdminPermission,
   (req, res, next) => {
-    const id = uuidv4();
-    console.log(req.body);
-    res.json({ message: "Article recieved", id });
+    const { art_contents, art_title, art_date, art_tags, user_id } = req.body
+    const art_id = uuidv4();
+    console.log(art_contents)
+    Article.create({
+      art_title,
+      art_contents,
+      art_date,
+      art_tags,
+      art_id,
+      user_id
+    }).then(created => res.json(created.dataValues))
+    .catch(err => next(err))
+    
   }
 );
 

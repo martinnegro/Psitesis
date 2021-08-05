@@ -1,8 +1,10 @@
 const { Router } = require("express");
 const router = Router();
 const { v4: uuidv4 } = require("uuid");
-const { User, Institution } = require('../db');
+const { User, Institution, Rol } = require('../db');
 const { Op } = require('sequelize');
+
+
 
 router.post("/", async (req, res, next) => {
   const { user_id_A0, user_name, user_email, user_img_profile, inst_id, biography, rol_id } = req.body;
@@ -41,7 +43,6 @@ router.post("/", async (req, res, next) => {
           }
         }
       }).then(finded => {
-          console.log(finded)
           res.json({...finded.dataValues, created: true})
         })
     } catch(err) { return next(err) }
