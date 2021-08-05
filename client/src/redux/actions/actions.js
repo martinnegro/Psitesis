@@ -1,7 +1,7 @@
 import axios from "axios";
 const URL_API = "http://localhost:3001";
 
-export async function callApiPost() {
+/* export async function callApiPost() {
   return function () {
     try {
       const token = await getAccessTokenSilently();
@@ -18,4 +18,4 @@ export async function callApiPost() {
       console.log(error.message);
     }
   };
-}
+} */

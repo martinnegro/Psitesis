@@ -1,14 +1,53 @@
 import React, { useEffect, useState } from 'react'; 
 import { NavLink } from 'react-router-dom';
 import ReactPaginate from 'react-paginate'; 
-
+import { useAuth0 } from "@auth0/auth0-react";
 import Nav from '../../components/Nav/Nav'
 import Card from '../../components/Card/Card'
-
+import axios from 'axios';
 export default function Home () {
 
     // just as an example
     const [ post, setPosts ] = useState(undefined)
+    const {user, getAccessTokenSilently } = useAuth0();
+    console.log(user)
+
+
+    // Create or find User
+
+    useEffect(()=>{
+        async function findOrCreateUser(){
+
+            
+            const URL_API = "http://localhost:3001";
+            try {
+                const userPost = {
+                    user_id_A0: user.sub,
+                    user_name: user.name,
+                    user_email: user.email,
+                    user_img_profile: user.picture,
+                };
+                const token = await getAccessTokenSilently();
+                const response = await axios({
+                  method: "post",
+                  url: `${URL_API}/users/`,
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                  data: userPost,
+                  
+                });
+                console.log(user.sub);
+                console.log(response.data);
+                return response.data;
+               
+                
+              } catch (error) {
+                console.log(error.message);
+              }
+        }
+        findOrCreateUser()
+    })
 
     useEffect(() => {
         const getPost = async () => {
