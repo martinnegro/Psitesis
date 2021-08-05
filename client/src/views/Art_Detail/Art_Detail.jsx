@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Nav from "../../components/Nav/Nav";
 import { useSelector, useDispatch } from "react-redux";
+
 import { getArticleDetail, clearDetail, getAllUsers } from "../../redux/actions/actions";
 import { useParams, useHistory } from "react-router-dom";
 import { Container, makeStyles, Typography } from "@material-ui/core";
@@ -37,6 +38,7 @@ const { id } = useParams();
     return () => dispatch(clearDetail());
   }, [id, dispatch]);
 
+
   useEffect(() => {
     dispatch(getAllUsers())
 }, [dispatch])
@@ -67,6 +69,7 @@ useEffect(() => {
             }
         </Container> 
     );
+
 }
  
 export default Art_Detail;

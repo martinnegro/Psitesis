@@ -102,7 +102,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Nav () {
 
+
     const { isAuthenticated, user, logout } = useAuth0();
+
 
     const handleLogout = () => {
       logout({
@@ -124,6 +126,12 @@ export default function Nav () {
       setOpen(false);
     };
 
+    const handleLogOut = () => {
+      logout({
+        returnTo: window.location.origin,
+      })
+    };
+    
     return (
         <div className={classes.root}>
             <CssBaseline />
@@ -175,10 +183,12 @@ export default function Nav () {
                 {
                     isAuthenticated ? (
 
+
                   <ListItem button onClick={() => history.push('/post')} >
                       <ListItemIcon><AddCircleOutlineIcon/></ListItemIcon>
                       <ListItemText>Add Post</ListItemText>
                   </ListItem>
+
                     ) : null
 
                 }

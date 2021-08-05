@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useDispatch } from 'react-redux';
+import { createPost } from '../../redux/actions/actions';
 import axios from "axios";
 import Nav from "../../components/Nav/Nav";
 
@@ -35,6 +37,7 @@ const theme = createTheme({
 });
 
 function Post() {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const { user, getAccessTokenSilently } = useAuth0();
 
@@ -42,6 +45,11 @@ function Post() {
   const [titulo, setTitulo] = useState("");
   const [categoria, setCategoria] = useState("");
   const [subcategoria, setSubcategoria] = useState("");
+
+  
+  const hoy = new Date(Date.now());
+  const date = (hoy.toLocaleDateString());
+
 
   const handleBody = (e) => {
     setBody(e);
@@ -65,13 +73,21 @@ function Post() {
 
   const handleSubmitBody = async (e) => {
     e.preventDefault();
+
     let data = {
       art_contents: body,
       art_title: titulo,
-      // sub_cat_id: hash,
+
+      sub_cat_id: subcategoria,
+
       user_id: user.sub,
+      art_date: date,
     };
-    try {
+
+    // action createPost
+    const token = await getAccessTokenSilently();
+    dispatch(createPost(data, token));
+    /*try {
       const token = await getAccessTokenSilently();
       const headers = {
         Authorization: `Bearer ${token}`,
@@ -80,7 +96,7 @@ function Post() {
     } catch (err) {
       console.log(err);
       return;
-    }
+    }*/
     console.log("Esto es objectPost:", data);
     setBody("");
     setTitulo("");
@@ -118,12 +134,14 @@ function Post() {
               >
                 <option aria-label="None" value="" />
                 <optgroup label="General">
-                  <option value={"Categoria1-hash"}>Noticias</option>
-                  <option value={"Categoria1-hash2"}>Dudas</option>
+                  <option value={"General-1"}>Noticias</option>
+                  <option value={"General-2"}>Dudas generales</option>
                 </optgroup>
-                <optgroup label="Category 2">
-                  <option value={"Categoria2-Option3"}>Option 3</option>
-                  <option value={"Categoria2-Option4"}>Option 4</option>
+                <optgroup label="Investigación">
+                  <option value={"Investigación-3"}>Elección de tema</option>
+                </optgroup>
+                <optgroup label="Normas APA">
+                  <option value={"Normas APA-4"}>Citado en el texto</option>
                 </optgroup>
               </Select>
             </FormControl>
