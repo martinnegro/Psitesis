@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Nav () {
 
-    const { isAuthenticated, user } = useAuth0();
+    const { logout, isAuthenticated, user } = useAuth0();
     //console.log('user', user)
 
     const classes = useStyles();
@@ -117,6 +117,12 @@ export default function Nav () {
       setOpen(false);
     };
 
+    const handleLogOut = () => {
+      logout({
+        returnTo: window.location.origin,
+      })
+    };
+    
     return (
         <div className={classes.root}>
             <CssBaseline />
@@ -170,7 +176,7 @@ export default function Nav () {
                     isAuthenticated ? (
                         <ListItem button >
                             <ListItemIcon><ExitToAppIcon/></ListItemIcon>
-                            <ListItemText>LogOut</ListItemText>
+                            <ListItemText onClick={handleLogOut}>LogOut</ListItemText>
                         </ListItem>
                     ) : null
                 }
