@@ -9,10 +9,14 @@ router.post(
   "/",
   // authorizeAccessToken,
   // checkAdminPermission,
-  (req, res, next) => {
-    const { art_contents, art_title, art_date, art_tags, sub_cat_id, user_id } = req.body
+  async (req, res, next) => {
+    const { art_contents, art_title, art_date, art_tags, sub_cat_id, user_id } = req.body;
+    let aux_id = user_id;
     const art_id = uuidv4();
-    console.log(art_contents)
+    if (aux_id.includes('google')) {
+      const aux_user = await User.findOne({ where: { user_id_A0: aux_id }})
+      aux_id = aux_user.user_id;
+    }
     Article.create({
       art_title,
       art_contents,
@@ -20,10 +24,9 @@ router.post(
       art_tags,
       art_id,
       sub_cat_id,
-      user_id
+      user_id: aux_id
     }).then(created => res.json(created.dataValues))
     .catch(err => next(err))
-    
   }
 );
 

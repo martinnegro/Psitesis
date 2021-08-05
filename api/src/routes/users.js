@@ -14,7 +14,6 @@ router.post("/", async (req, res, next) => {
     biography,
     rol_id,
   } = req.body;
-  console.log(req.body);
   if (!Array.isArray(inst_id)) {
     const err = new Error("inst_id must be an array");
     err.status = 400;
