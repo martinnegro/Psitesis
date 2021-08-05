@@ -124,12 +124,12 @@ function Post() {
               >
                 <option aria-label="None" value="" />
                 <optgroup label="Investigación">
-                  <option value={"General-1"}>Metodologia de investigación</option>
-                  <option value={"General-2"}>Elección de tema</option>
+                  <option value={"Investigación-1"}>Metodologia de investigación</option>
+                  <option value={"Investigación-2"}>Elección de tema</option>
                 </optgroup>
                 <optgroup label="Normas Apa">
-                  <option value={"Investigación-3"}>Citado en el texto</option>
-                  <option value={"Investigación-4"}>Referencias bibliográficas</option>
+                  <option value={"Normas Apa-3"}>Citado en el texto</option>
+                  <option value={"Normas Apa-4"}>Referencias bibliográficas</option>
                 </optgroup>
               </Select>
             </FormControl>
