@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useDispatch } from 'react-redux';
+import { createPost } from '../../redux/actions/actions';
 import axios from "axios";
 import Nav from "../../components/Nav/Nav";
 
@@ -35,6 +37,7 @@ const theme = createTheme({
 });
 
 function Post() {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const { user, getAccessTokenSilently } = useAuth0();
 
@@ -65,13 +68,18 @@ function Post() {
 
   const handleSubmitBody = async (e) => {
     e.preventDefault();
+
     let data = {
       art_contents: body,
       art_title: titulo,
       /* sub_cat_id: hash, */
       user_id: user.sub,
     };
-    try {
+
+    // action createPost
+    const token = await getAccessTokenSilently();
+    dispatch(createPost(data, token));
+    /*try {
       const token = await getAccessTokenSilently();
       const headers = {
         Authorization: `Bearer ${token}`,
@@ -80,7 +88,7 @@ function Post() {
     } catch (err) {
       console.log(err);
       return;
-    }
+    }*/
     console.log("Esto es objectPost:", data);
     setBody("");
     setTitulo("");
