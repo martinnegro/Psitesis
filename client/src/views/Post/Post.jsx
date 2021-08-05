@@ -129,7 +129,7 @@ function Post() {
                 </optgroup>
                 <optgroup label="Normas Apa">
                   <option value={"Investigación-3"}>Citado en el texto</option>
-                  <option value={"Investigación-3"}>Referencias bibliográficas</option>
+                  <option value={"Investigación-4"}>Referencias bibliográficas</option>
                 </optgroup>
               </Select>
             </FormControl>
