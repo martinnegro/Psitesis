@@ -1,21 +1,15 @@
-import axios from "axios";
-const URL_API = "http://localhost:3001";
+import axios from 'axios';
 
-export async function callApiPost() {
-  return function () {
+const APIURL = 'http://localhost:3001';
+
+export const createPost = (newPost, token) => async (dispatch) => {
     try {
-      const token = await getAccessTokenSilently();
-      const response = await axios({
-        method: "post",
-        url: `${URL_API}/article/`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(response.data);
-      console.log(user.sub);
-    } catch (error) {
-      console.log(error.message);
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      await axios.post(`${APIURL}/article`, newPost, { headers });
+    } catch (err) {
+      console.log(err);
+      return;
     }
-  };
-}
+};
