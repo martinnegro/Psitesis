@@ -1,5 +1,6 @@
 import axios from "axios";
 
+const URL_API = "http://localhost:3001";
 
 export const GET_ALL_ARTICLE = 'GET ALL ARTICLE';
 export const GET_ARTICLE_DETAIL = 'GET ARTICLE DETAIL';
@@ -68,13 +69,16 @@ export const getAllUsers = () => {
   }
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> d47535ab96270d757cbbbc2419e9a98c1c68d9d8
 export const findOrCreateUser = (newPost, token) => async (dispatch) => {
   try {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
-    await axios.post(`${APIURL}/users`, newPost, { headers });
+    await axios.post(`${URL_API}/users`, newPost, { headers });
   } catch (err) {
     console.log(err);
     return;
@@ -86,7 +90,7 @@ export const createPost = (newPost, token) => async (dispatch) => {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
-    await axios.post(`${APIURL}/article`, newPost, { headers });
+    await axios.post(`${URL_API}/article`, newPost, { headers });
   } catch (err) {
     console.log(err);
     return;
