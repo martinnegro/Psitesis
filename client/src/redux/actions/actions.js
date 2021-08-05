@@ -5,10 +5,11 @@ export const GET_ALL_ARTICLE = 'GET ALL ARTICLE';
 export const GET_ARTICLE_DETAIL = 'GET ARTICLE DETAIL';
 export const GET_USERS = 'GET USERS';
 
+const APIURL = "http://localhost:3001";
 // This actions destroy the project 
 // export async function callApiPost() {
 //   return function () {
-//     try {
+  //     try {
 //       const token = await getAccessTokenSilently();
 //       const response = await axios({
 //         method: "post",
@@ -67,7 +68,6 @@ export const getAllUsers = () => {
   }
 }
 
-const APIURL = "http://localhost:3001";
 
 export const findOrCreateUser = (newPost, token) => async (dispatch) => {
   try {
