@@ -29,16 +29,9 @@ module.exports = (sequelize) => {
             // allowNull: false, 
             // Por ahora vale null, ya que manejamos Auth0
         },
-
-        institution_id:{
-            type: DataTypes.INTEGER,
-            // allowNull: false,
-        },
-
         biography:{
             type: DataTypes.STRING
         },
-
         // soc_net_id:{
         //     type: DataTypes.STRING,
         //     allowNull: false,

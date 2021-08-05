@@ -15,6 +15,33 @@
         "rol_id": 1
     }
     ```
+  - Respuesta: 
+    ```
+    {
+        "user_id": "7607f241-b9af-43ba-8bbf-295e04ed9f8d",
+        "user_id_A0": "105592403739955785044",
+        "user_name": "Martín",
+        "user_email": "martin@mail.com",
+        "user_img_profile": "http:",
+        "user_password": null,
+        "institution_id": null,
+        "biography": "FSWD",
+        "createdAt": "2021-08-05T02:23:24.728Z",
+        "updatedAt": "2021-08-05T02:23:24.728Z",
+        "rolRolId": null,
+        "rol_id": 1,
+        "institutions": [
+            {
+              "inst_id": "90ed7d1e-b27c-432b-a2e2-0470888f657e",
+              "inst_name": "Henry",
+              "inst_descriptions": "Bootcamp",
+              "createdAt": "2021-08-05T02:23:07.303Z",
+              "updatedAt": "2021-08-05T02:23:07.303Z"
+            }
+        ]
+        "created": true || false
+    }
+    ```
 - `  GET /users/:id` :  request de usuario específico.
 - `  GET /users?`    :  bulk request con parámetros.
 
