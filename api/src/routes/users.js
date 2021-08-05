@@ -47,8 +47,8 @@ router.post("/", async (req, res, next) => {
             attributes: []
           }
         }
-      }).then(finded => {
-          res.json({...finded.dataValues, created: true})
+      }).then(found => {
+          res.json({...found.dataValues, created: true})
         })
     } catch(err) { return next(err) }
   
@@ -72,10 +72,10 @@ router.get("/:user_id", (req, res, next) => {
           }
         }
       ]
-  }).then(finded => {
+  }).then(found => {
     Article.findAll({where: {user_id}})
       .then(arts => {
-        res.json({...finded.dataValues, articles: arts});
+        res.json({...found.dataValues, articles: arts});
       })
   }).catch(err => next(err));
 });
