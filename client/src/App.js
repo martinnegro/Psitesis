@@ -23,8 +23,8 @@ const App = () => {
       <Switch>
         <Route path="/" exact component={Login} />
         <ProtectedRoute path="/home" exact component={Home} />
-        <Route path="/post" exact component={Post} />
-        <Route path="/post/:id" exact component={Art_Detail} />
+        <ProtectedRoute path="/post" exact component={Post} />
+        <ProtectedRoute path="/post/:id" exact component={Art_Detail} />
       </Switch>
     </div>
   );
