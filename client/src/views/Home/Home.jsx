@@ -75,13 +75,10 @@ export default function Home () {
 }
 
 /*
-
 ¿Qué imágenes vamos a usar? Por ejemplo para los botones de 'back and go' ? Propongo React-Icons. SI REACT-ICONS
 ¿Definimos los componentes de esta manera o con arrow functions? ARROW FUNCTION
 ¿Axios? se usa AXIOS
-
 Modifique la carpeta Public y el index del respectivo
 Añadi react-router-dom
 Añadí react-paginate
-
 */
