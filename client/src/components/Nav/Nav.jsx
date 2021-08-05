@@ -102,7 +102,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Nav () {
 
     const { isAuthenticated, user } = useAuth0();
-    console.log('user', user)
+    //console.log('user', user)
 
     const classes = useStyles();
     const theme = useTheme();
