@@ -69,10 +69,7 @@ export const getAllUsers = () => {
   }
 }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> d47535ab96270d757cbbbc2419e9a98c1c68d9d8
 export const findOrCreateUser = (newPost, token) => async (dispatch) => {
   try {
     const headers = {
