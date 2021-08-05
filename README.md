@@ -45,30 +45,59 @@ Psitesis
 │   ├── index.js
 │   ├── package.json
 │   ├── package-lock.json
-│   ├── src
-│   │   ├── app.js
-│   │   ├── db.js
-│   │   ├── models
-│   │   └── routes
-│   │       ├── article.js
-│   │       ├── index.js
-│   │       └── users.js
-│   └── tests
+│   └── src
+│       ├── app.js
+│       ├── db.js
 │       ├── models
+│       │   ├── Article.js
+│       │   ├── Category.js
+│       │   ├── Institution.js
+│       │   ├── Network.js
+│       │   ├── Rol.js
+│       │   ├── SubCategory.js
+│       │   └── User.js
 │       └── routes
+│           ├── article.js
+│           ├── index.js
+│           ├── README.md
+│           └── users.js
 ├── client
 │   ├── package.json
+│   ├── package-lock.json
 │   ├── public
-│   │   ├── index.html
+│   │   └── index.html
 │   └── src
-│       ├── App.css
 │       ├── App.js
-│       ├── App.test.js
-│       ├── index.css
+│       ├── assets
+│       │   ├── Logo.png
+│       │   └── user.jpg
+│       ├── components
+│       │   ├── Auth0ProviderWithHistory
+│       │   │   └── index.js
+│       │   ├── Card
+│       │   │   └── Card.jsx
+│       │   ├── index.js
+│       │   ├── Loading
+│       │   │   └── index.js
+│       │   ├── Login
+│       │   │   └── index.js
+│       │   ├── LoginButton
+│       │   │   └── index.js
+│       │   ├── LogoutButton
+│       │   │   └── index.js
+│       │   ├── Nav
+│       │   │   └── Nav.jsx
+│       │   └── ProtectedRoute
+│       │       └── index.js
 │       ├── index.js
-│       ├── reportWebVitals.js
-│       └── setupTests.js
+│       └── views
+│           ├── Home
+│           │   └── Home.jsx
+│           ├── index.js
+│           └── Post
+│               └── Post.jsx
 └── README.md
+
 ```
 
 ### Diagrama Entidad - Relación

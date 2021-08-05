@@ -1,0 +1,25 @@
+.contenedor_editor{
+    width: 60%;
+    margin: 100px auto;
+}
+
+.centrado {
+    text-align: center;
+}
+
+.botones {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+}
+
+.input_titulo {
+    border: none;
+    border-bottom: 1px solid grey;
+}
+
+.input_titulo:focus {
+    outline: none;
+}
+
