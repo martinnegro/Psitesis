@@ -5,6 +5,7 @@ import Login from "./components/Login/index";
 import Art_Detail from "./views/Art_Detail/Art_Detail";
 import Home from "./views/Home/Home.jsx";
 import Post from "./views/Post/Post.jsx";
+import { ProtectedRoute } from "./components";
 
 const App = () => {
   const { isLoading } = useAuth0();
@@ -21,7 +22,7 @@ const App = () => {
     <div className="App">
       <Switch>
         <Route path="/" exact component={Login} />
-        <Route path="/home" exact component={Home} />
+        <ProtectedRoute path="/home" exact component={Home} />
         <Route path="/post" exact component={Post} />
         <Route path="/post/:id" exact component={Art_Detail} />
       </Switch>
