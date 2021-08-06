@@ -30,6 +30,12 @@ const useStyles = makeStyles({
     pos: {
       marginBottom: 12,
     },
+    cardContents:{
+      display : 'flex',
+      width: '100%',
+      justifyContent: 'space-between',
+      backgroundColor: 'white'
+    }
   });
 
 export default function CardPost (props) {
@@ -55,13 +61,13 @@ export default function CardPost (props) {
         <Card className={classes.root} variant="outlined">
             <CardContent>
                 <Typography className={classes.title} color="textSecondary" gutterBottom>{title}</Typography>
-                <Typography variant="body2" component="p"><span
+                <Typography variant="body2" component="p" style={{height: '50px'}}><span
                       dangerouslySetInnerHTML={{
                         __html: body,
                       }}
                 /></Typography>
             </CardContent>
-            <CardActions style={{'display' : 'flex', 'width': '100%','justifyContent': 'space-between'}}>
+            <CardActions className={classes.cardContents}>
                 <Typography component="p" >{idUser[0]?.user_name}</Typography>
                 <Button  size="small"  onClick={() => history.push(`/post/${articleId}`)} ><AddIcon/></Button>
             </CardActions>

@@ -6,9 +6,9 @@ import { findOrCreateUser as findOrCreateUserAction } from '../../redux/actions/
 import { useAuth0 } from '@auth0/auth0-react';
 import Nav from '../../components/Nav/Nav';
 import CardPost from '../../components/Card/Card';
-
+import s from './Home.module.css'
 import Container from '@material-ui/core/Container';
-
+import { Loading } from "../../components";
 import {
 	/* Divider, IconButton, InputBase, */ makeStyles,
 	/* Paper, TextField, */ Typography,
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 	offset: theme.mixins.toolbar,
 	Home: {
 		// marginLeft: theme.spacing(15),
-		margin: theme.spacing(5),
+		marginTop: theme.spacing(5),
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
@@ -44,10 +44,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function Home() {
+ export default function Home() {
 	const { user, getAccessTokenSilently } = useAuth0();
-	// just as an example
-	const [post /* setPosts */] = useState(undefined);
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const articles = useSelector((state) => state.articles);
@@ -69,12 +67,6 @@ export default function Home() {
 	}, []);
 
 	useEffect(() => {
-		//     const getPost = async () => {
-		//         const response = await fetch('https://jsonplaceholder.typicode.com/posts')
-		//         const json = await response.json()
-		//         setPosts(json)
-		//     }
-		//    getPost()
 		dispatch(getAllArticle());
 	}, [dispatch]);
 
@@ -83,7 +75,7 @@ export default function Home() {
 
 	const postsByPage = 9;
 	const pagesVisited = pageNumber * postsByPage;
-	const pageCount = Math.ceil(post?.length / postsByPage);
+	const pageCount = Math.ceil(articles?.length / postsByPage);
 
 	// const onChange = (e) => {
 	//     if (e.target.name === 'search') setSearch(e.target.value)
@@ -153,11 +145,13 @@ export default function Home() {
 						<ReactPaginate
 							previousLabel={'<'}
 							nextLabel={'>'}
-							onPageChange={changePage}
 							pageCount={pageCount}
-							pageRangeDisplayed={0}
-							marginPagesDisplayed={0}
-							breakLabel={0}
+							onPageChange={changePage}
+							containerClassName={s.paginationBttns}
+							previousLinkClassName={s.previousBttn}
+							nextLinkClassName={s.nextBttn}
+							disabledClassName={s.paginationDisabled}
+							activeClassName={s.paginationActive}
 						/>
 					</Container>
 				</Container>
@@ -173,3 +167,5 @@ export default function Home() {
 		</Container>
 	);
 }
+
+
