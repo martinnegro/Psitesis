@@ -102,7 +102,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Nav () {
 
-
     const { isAuthenticated, user, logout } = useAuth0();
 
 
@@ -113,6 +112,7 @@ export default function Nav () {
     }
 
     const history = useHistory();
+
     const classes = useStyles();
     const theme = useTheme();
 
@@ -126,11 +126,11 @@ export default function Nav () {
       setOpen(false);
     };
 
-    const handleLogOut = () => {
+    const handleLogout = () => {
       logout({
         returnTo: window.location.origin,
       })
-    };
+    }
     
     return (
         <div className={classes.root}>
@@ -171,9 +171,9 @@ export default function Nav () {
                 <Divider />
                 <List>
                   {['Home', /* 'Guía de Tesis', 'Foro', 'Colaboradores' */].map((text, index) => (
-                    <ListItem button key={text}>
+                    <ListItem button key={text} onClick={()=>history.push('/home')}>
                         <ListItemIcon>
-                            {index === 0 ? <HomeOutlinedIcon onClick={()=>history.push('/home')} /> : null /*  index === 1 ? <BookOutlinedIcon /> : index === 2 ? <ForumIcon /> : <PeopleOutlineOutlinedIcon   /> */}
+                            {index === 0 ? <HomeOutlinedIcon/> : null /*  index === 1 ? <BookOutlinedIcon /> : index === 2 ? <ForumIcon /> : <PeopleOutlineOutlinedIcon   /> */}
                         </ListItemIcon>
                         <ListItemText primary={text} />
                     </ListItem>

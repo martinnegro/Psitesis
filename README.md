@@ -32,9 +32,12 @@ Dentro encontrarán las siguientes secciones:
 - `DB_USER=`
 - `DB_PASSWORD=`
 - `DB_HOST=`
+- `DB_NAME=`
 - `JWKSURI=` 
 - `AUDIENCE=` 
-- `ALGORITMHS=` 
+- `AUTH_CLIENT_DOMAIN`
+- `AUTH_CLIENT_ID`
+- `AUTH_CLIENT_SECRET`
 
 ### Diagrama Directorios
 ```
