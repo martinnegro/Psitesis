@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { Loading } from "./components";
 import Landing from "./components/Landing/Landing";
 import Art_Detail from "./views/Art_Detail/Art_Detail";
@@ -28,6 +28,7 @@ const App = () => {
         <ProtectedRoute path="/post" exact component={Post} />
         <ProtectedRoute path="/post/:id" exact component={Art_Detail} />
         <ProtectedRoute path="/post_exitoso" exact component={PostOk} />
+        <Route path="*" render={() => <Redirect to="/" />} />
       </Switch>
     </div>
   );
