@@ -37,7 +37,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Article, Institution, Rol, Network, User, Category, SubCategory } = sequelize.models;
+const { Article, Institution, Rol, Network, User, Category, SubCategory, Tag } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
@@ -72,7 +72,10 @@ SubCategory.belongsTo(Category, { targetKey: 'cat_id', foreignKey: 'cat_id' });
 SubCategory.hasMany(Article)
 Article.belongsTo(SubCategory, { targetKey: 'sub_cat_id', foreignKey: 'sub_cat_id' });
 
+// N a N Tag-------Articulo
 
+Article.belongsToMany(Tag, {through: "article_tag"});
+Tag.belongsToMany(Article, {through: "article_tag"});
 
 
 module.exports = {
