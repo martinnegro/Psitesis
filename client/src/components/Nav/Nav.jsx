@@ -126,11 +126,7 @@ export default function Nav () {
       setOpen(false);
     };
 
-    const handleLogout = () => {
-      logout({
-        returnTo: window.location.origin,
-      })
-    }
+
     
     return (
         <div className={classes.root}>
