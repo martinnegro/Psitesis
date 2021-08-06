@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch } from 'react-redux';
 import { createPost } from '../../redux/actions/actions';
-import axios from "axios";
 import Nav from "../../components/Nav/Nav";
-
+import { useHistory } from 'react-router-dom';
 import ReactQuill from "react-quill";
 import "../../../node_modules/react-quill/dist/quill.snow.css";
 import { Typography, Button } from "@material-ui/core";
@@ -15,9 +14,10 @@ import Select from "@material-ui/core/Select";
 import { makeStyles, createTheme } from "@material-ui/core/styles";
 import { purple } from "@material-ui/core/colors";
 import Divider from "@material-ui/core/Divider";
-import { ThemeProvider } from "@material-ui/styles";
+import { ThemeProvider } from "@material-ui/core/styles";
 import "./Post.css";
 import style from "./Post.module.css";
+
 
 const useStyles = makeStyles({
   root: {
@@ -31,8 +31,18 @@ const useStyles = makeStyles({
 
 const theme = createTheme({
   palette: {
-    primary: purple,
-    secondary: purple,
+    primary: {
+      main: purple[500],
+      light: '#ffc4ff',
+      dark: '#9c64a6',
+      contrastText: '#fff',
+    },
+    secondary: {
+      main: purple[500],
+      light: '#ffc4ff',
+      dark: '#9c64a6',
+      contrastText: '#fff',
+    },
   },
 });
 
@@ -43,9 +53,9 @@ function Post() {
 
   const [body, setBody] = useState("");
   const [titulo, setTitulo] = useState("");
-  const [categoria, setCategoria] = useState("");
   const [subcategoria, setSubcategoria] = useState("");
 
+  const history = useHistory()
   
   const hoy = new Date(Date.now());
   const date = (hoy.toLocaleDateString());
@@ -62,7 +72,7 @@ function Post() {
   const handleInputCat = (e) => {
     let index = e.target.selectedIndex;
     let option = e.target.options[index].value;
-    setCategoria(option.split("-")[0]);
+    // setCategoria(option.split("-")[0]);
     setSubcategoria(option.split("-")[1]);
   };
 
@@ -100,7 +110,7 @@ function Post() {
     console.log("Esto es objectPost:", data);
     setBody("");
     setTitulo("");
-    setCategoria("");
+    history.push("/home");
   };
 
   return (

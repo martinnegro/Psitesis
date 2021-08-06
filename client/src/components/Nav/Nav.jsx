@@ -112,7 +112,7 @@ export default function Nav () {
       })
     }
 
-    const history = useHistory()
+    const history = useHistory();
     const classes = useStyles();
     const theme = useTheme();
 

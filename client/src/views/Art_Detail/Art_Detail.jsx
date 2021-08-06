@@ -3,9 +3,11 @@ import Nav from "../../components/Nav/Nav";
 import { useSelector, useDispatch } from "react-redux";
 
 import { getArticleDetail, clearDetail, getAllUsers } from "../../redux/actions/actions";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Container, makeStyles, Typography } from "@material-ui/core";
-import s from './Art_Detail.module.css'
+import s from './Art_Detail.module.css';
+
+
 
 const useStyles = makeStyles(theme => ({
     offset: theme.mixins.toolbar,
@@ -56,10 +58,13 @@ useEffect(() => {
             {
                 articlesDetail !== undefined ? (
                     <Container className={classes.Home}>
-                    <Typography>{articlesDetail?.art_date}</Typography>
-                    <Typography>{idUser[0]?.user_name}</Typography>
-                    <Typography>{articlesDetail.art_title}</Typography>
-                    <Typography variant="body2" component="p"><span
+                        <div className={s.perfil}>
+                            <Typography variant="body2">{idUser[0]?.user_name}</Typography>&nbsp; 
+                            <Typography variant="body2">el {articlesDetail?.art_date}</Typography>                            
+                        </div>
+                    
+                    <Typography variant="h2" color="initial">{articlesDetail.art_title}</Typography>
+                    <Typography align="justify" variant="body2" component="p"><span
                             dangerouslySetInnerHTML={{
                                 __html: articlesDetail.art_contents,
                             }}

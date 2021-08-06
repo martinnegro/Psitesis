@@ -7,8 +7,8 @@ const { Article, User } = require('../db')
 
 router.post(
   "/",
-  // authorizeAccessToken,
-  // checkAdminPermission,
+  authorizeAccessToken,
+  checkAdminPermission,
   async (req, res, next) => {
     const { art_contents, art_title, art_date, art_tags, sub_cat_id, user_id } = req.body;
     let aux_id = user_id;
