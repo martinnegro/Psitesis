@@ -1,0 +1,13 @@
+.container{
+    text-align: center;
+    margin-top: 2rem;
+    color: purple;
+    display: block;
+}
+.image{
+    width: 250px
+}
+
+.information{
+    margin: 20px;
+}
