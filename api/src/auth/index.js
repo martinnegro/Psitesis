@@ -1,8 +1,10 @@
+require("dotenv").config();
 const jwt = require("express-jwt");
 const jwks = require("jwks-rsa");
 const jwtAuthz = require("express-jwt-authz");
-require("dotenv").config();
-const { JWKSURI, AUDIENCE, ISSUER, ALGORITHMS } = process.env;
+
+const { JWKSURI, AUDIENCE, AUTH_CLIENT_DOMAIN, AUTH_CLIENT_ID, AUTH_CLIENT_SECRET } = process.env;
+
 const authorizeAccessToken = jwt({
   secret: jwks.expressJwtSecret({
     cache: true,
@@ -20,4 +22,11 @@ const checkAdminPermission = jwtAuthz(["admin:all"], {
   checkAllScopes: true,
 });
 
-module.exports = { authorizeAccessToken, checkAdminPermission };
+const ManagementClient = require('auth0').ManagementClient;
+const management = new ManagementClient({
+	domain: AUTH_CLIENT_DOMAIN,
+	clientId: AUTH_CLIENT_ID,
+	clientSecret: AUTH_CLIENT_SECRET,
+});
+
+module.exports = { authorizeAccessToken, checkAdminPermission, management };
