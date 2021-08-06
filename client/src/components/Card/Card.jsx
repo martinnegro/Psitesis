@@ -61,7 +61,7 @@ export default function CardPost (props) {
         <Card className={classes.root} variant="outlined">
             <CardContent>
                 <Typography className={classes.title} color="textSecondary" gutterBottom>{title}</Typography>
-                <Typography variant="body2" component="p" style={{maxHeight: '85px'}}><span
+                <Typography variant="body2" component="p" style={{height: '50px'}}><span
                       dangerouslySetInnerHTML={{
                         __html: body,
                       }}
