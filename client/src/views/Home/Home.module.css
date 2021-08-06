@@ -31,3 +31,7 @@
     color: #500050;
     background-color: #500050;
   }
+
+  ::-webkit-scrollbar {
+    display: none;
+}

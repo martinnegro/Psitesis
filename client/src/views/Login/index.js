@@ -9,7 +9,6 @@ const Login = () => {
   async function callApiPublicRoute() {
     try {
       const response = await axios.get(`${URL_API}/public`);
-      console.log(response.data);
     } catch (error) {
       console.log(error.message);
     }
@@ -25,8 +24,6 @@ const Login = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
-      console.log(user.sub);
     } catch (error) {
       console.log(error.message);
     }
@@ -45,7 +42,6 @@ const Login = () => {
           audience: "http://localhost:3001/",
         },
       });
-      console.log(response.data);
     } catch (error) {
       console.log(error.message);
     }
@@ -57,7 +53,6 @@ const Login = () => {
       const response = await axios.get(`${URL_API}/private-scoped`, {
         headers: { authorization: `Bearer ${token}` },
       });
-      console.log(response.data);
     } catch (error) {
       console.log(error.message);
     }
