@@ -104,7 +104,15 @@ export default function Nav () {
 
     const { isAuthenticated, user, logout } = useAuth0();
 
-    const history = useHistory()
+
+    const handleLogout = () => {
+      logout({
+        returnTo: window.location.origin,
+      })
+    }
+
+    const history = useHistory();
+
     const classes = useStyles();
     const theme = useTheme();
 
