@@ -22,7 +22,7 @@ const App = () => {
   return (
     <div className="App">
       <Switch>
-        <Route path="/" exact component={Login} />
+        <Route path="/" exact component={Landing} />
         <ProtectedRoute path="/home" exact component={Home} />
         <ProtectedRoute path="/post" exact component={Post} />
         <ProtectedRoute path="/post/:id" exact component={Art_Detail} />
