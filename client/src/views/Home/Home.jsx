@@ -46,8 +46,6 @@ const useStyles = makeStyles((theme) => ({
 
  export default function Home() {
 	const { user, getAccessTokenSilently } = useAuth0();
-	// just as an example
-	const [post /* setPosts */] = useState(undefined);
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const articles = useSelector((state) => state.articles);
@@ -69,12 +67,6 @@ const useStyles = makeStyles((theme) => ({
 	}, []);
 
 	useEffect(() => {
-		//     const getPost = async () => {
-		//         const response = await fetch('https://jsonplaceholder.typicode.com/posts')
-		//         const json = await response.json()
-		//         setPosts(json)
-		//     }
-		//    getPost()
 		dispatch(getAllArticle());
 	}, [dispatch]);
 
@@ -83,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
 
 	const postsByPage = 9;
 	const pagesVisited = pageNumber * postsByPage;
-	const pageCount = Math.ceil(post?.length / postsByPage);
+	const pageCount = Math.ceil(articles?.length / postsByPage);
 
 	// const onChange = (e) => {
 	//     if (e.target.name === 'search') setSearch(e.target.value)
