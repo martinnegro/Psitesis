@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 // import { NavLink } from 'react-router-dom';
 import ReactPaginate from "react-paginate";
-import { useDispatch, useSelector } from "react-redux";
-import { findOrCreateUser as findOrCreateUserAction } from "../../redux/actions/actions";
-import { useAuth0 } from "@auth0/auth0-react";
 import Nav from "../../components/Nav/Nav";
 import CardPost from "../../components/Card/Card";
 import s from "./Home.module.css";
 import Container from "@material-ui/core/Container";
-import { Loading } from "../../components";
+import { useDispatch, useSelector } from "react-redux";
 import {
   /* Divider, IconButton, InputBase, */ makeStyles,
   /* Paper, TextField, */ Typography,
@@ -45,26 +42,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home() {
-  const { user, getAccessTokenSilently } = useAuth0();
   const classes = useStyles();
-  const dispatch = useDispatch();
   const articles = useSelector((state) => state.articles);
-
-  useEffect(() => {
-    const userPost = {
-      user_id_A0: user.sub,
-      user_name: user.name,
-      user_email: user.email,
-      user_img_profile: user.picture,
-      inst_id: [],
-    };
-    const findOrCreateUser = async () => {
-      const token = await getAccessTokenSilently();
-      dispatch(findOrCreateUserAction(userPost, token));
-    };
-    findOrCreateUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllArticle());
