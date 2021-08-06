@@ -107,10 +107,9 @@ function Post() {
       console.log(err);
       return;
     }*/
-    console.log("Esto es objectPost:", data);
     setBody("");
     setTitulo("");
-    history.push("/home");
+    history.push("/post_exitoso");
   };
 
   return (
@@ -121,9 +120,9 @@ function Post() {
           <Typography variant="h2" color="initial">
             NUEVO POST ARTICULO
           </Typography>
-          <Divider
+          {/* <Divider
             style={{ background: "purple", width: "70%", marginLeft: "15%" }}
-          />
+          /> */}
           <br />
           <div className={style.botones}>
             <TextField
@@ -164,9 +163,9 @@ function Post() {
             value={body}
           />
           <br />
-          <Divider
+          {/* <Divider
             style={{ background: "purple", width: "70%", marginLeft: "15%" }}
-          />
+          /> */}
           <br />
           <div className={style.botones}>
             {/* <Button

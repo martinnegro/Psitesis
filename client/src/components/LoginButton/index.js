@@ -21,7 +21,6 @@ const ColorButton = withStyles((theme) => ({
   }));
 
 const LoginButton = ({ btnText, loginWith }) => {
-	console.log(btnText, "aaaa")
 	const { loginWithPopup, loginWithRedirect } = useAuth0();
 	const classes = useStyles();
 	function login() {

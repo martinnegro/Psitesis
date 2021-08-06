@@ -11,7 +11,6 @@ const initialState = {
 function rootReducer(state = initialState, action) {
   switch (action.type) {
     case GET_ALL_ARTICLE:
-      console.log('entre al reducer')
       return {
         ...state,
         articles: action.payload
