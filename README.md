@@ -43,64 +43,82 @@ Dentro encontrarán las siguientes secciones:
 ```
 Psitesis
 ├── api
-│   ├── auth
-│   │   └── index.js
-│   ├── index.js
-│   ├── package.json
-│   ├── package-lock.json
-│   └── src
-│       ├── app.js
-│       ├── db.js
-│       ├── models
-│       │   ├── Article.js
-│       │   ├── Category.js
-│       │   ├── Institution.js
-│       │   ├── Network.js
-│       │   ├── Rol.js
-│       │   ├── SubCategory.js
-│       │   └── User.js
-│       └── routes
-│           ├── article.js
-│           ├── index.js
-│           ├── README.md
-│           └── users.js
-├── client
-│   ├── package.json
-│   ├── package-lock.json
-│   ├── public
-│   │   └── index.html
-│   └── src
-│       ├── App.js
-│       ├── assets
-│       │   ├── Logo.png
-│       │   └── user.jpg
-│       ├── components
-│       │   ├── Auth0ProviderWithHistory
-│       │   │   └── index.js
-│       │   ├── Card
-│       │   │   └── Card.jsx
-│       │   ├── index.js
-│       │   ├── Loading
-│       │   │   └── index.js
-│       │   ├── Login
-│       │   │   └── index.js
-│       │   ├── LoginButton
-│       │   │   └── index.js
-│       │   ├── LogoutButton
-│       │   │   └── index.js
-│       │   ├── Nav
-│       │   │   └── Nav.jsx
-│       │   └── ProtectedRoute
-│       │       └── index.js
-│       ├── index.js
-│       └── views
-│           ├── Home
-│           │   └── Home.jsx
-│           ├── index.js
-│           └── Post
-│               └── Post.jsx
-└── README.md
-
+│   ├── index.js
+│   ├── package.json
+│   └── src
+│       ├── app.js
+│       ├── auth
+│       │   └── index.js
+│       ├── db.js
+│       ├── models
+│       │   ├── Article.js
+│       │   ├── Category.js
+│       │   ├── Institution.js
+│       │   ├── Network.js
+│       │   ├── Rol.js
+│       │   ├── SubCategory.js
+│       │   └── User.js
+│       └── routes
+│           ├── article.js
+│           ├── categories.js
+│           ├── index.js
+│           ├── institutions.js
+│           ├── README.md
+│           └── users.js
+└── client
+    ├── package.json
+    ├── public
+    │   └── index.html
+    └── src
+        ├── App.js
+        ├── assets
+        │   ├── imgLanding.jpg
+        │   ├── Logo.png
+        │   └── user.jpg
+        ├── components
+        │   ├── Auth0ProviderWithHistory
+        │   │   └── index.js
+        │   ├── Card
+        │   │   └── Card.jsx
+        │   ├── index.js
+        │   ├── Landing
+        │   │   ├── Landing.js
+        │   │   └── Landing.module.css
+        │   ├── Loading
+        │   │   └── index.js
+        │   ├── LoginButton
+        │   │   └── index.js
+        │   ├── LogoutButton
+        │   │   └── index.js
+        │   ├── Nav
+        │   │   └── Nav.jsx
+        │   └── ProtectedRoute
+        │       └── index.js
+        ├── index.js
+        ├── redux
+        │   ├── actions
+        │   │   └── actions.js
+        │   ├── reducers
+        │   │   └── reducer.js
+        │   └── store
+        │       └── store.js
+        ├── utils
+        │   └── auth
+        │       └── index.js
+        └── views
+            ├── Art_Detail
+            │   ├── Art_Detail.jsx
+            │   └── Art_Detail.module.css
+            ├── Home
+            │   ├── Home.jsx
+            │   └── Home.module.css
+            ├── index.js
+            ├── Login
+            │   └── index.js
+            └── Post
+                ├── Post.css
+                ├── Post.jsx
+                └── Post.module.css
 ```
 
 ### Diagrama Entidad - Relación
