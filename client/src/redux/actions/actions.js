@@ -68,9 +68,10 @@ export const findOrCreateUser = (user, token) => async (dispatch) => {
     if(response.data.user_id){
       dispatch(setUserID(response.data.user_id));
     }
-    if(response.data.user_roles){
-      dispatch(setUserRoles(response.data.user_roles));
+    if(response.data.roles){
+      dispatch(setUserRoles(response.data.roles));
     }
+	console.log(response.data.roles);
 	} catch (err) {
 		console.log(err);
 		return;
