@@ -8,7 +8,6 @@ import {
   clearDetail,
   getAllUsers,
   deletePost,
-  editPost
 } from "../../redux/actions/actions";
 import { useHistory, useParams } from "react-router-dom";
 import { Container, makeStyles, Typography, Button } from "@material-ui/core";
@@ -16,6 +15,20 @@ import s from "./Art_Detail.module.css";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { purple } from "@material-ui/core/colors";
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+
+
+
+//Modal confirmacion eliminar
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -108,14 +121,33 @@ const Art_Detail = () => {
 
   
   const deletePostHandler = async () => {  
-    const token = await getAccessTokenSilently();
-  
+    const token = await getAccessTokenSilently();  
     dispatch(deletePost(id, token))
   }
 
   const editArticle = () => {
     history.push('/postEdit/'+ id);
   }
+
+
+  //Modal constantes:
+  const [open, setOpen] = React.useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleConfirm = () => {
+    deletePostHandler();
+    history.push('/post_exitoso/Eliminado');
+  };
+
 
   return (
     <Container>
@@ -139,18 +171,43 @@ const Art_Detail = () => {
             </div>
           </div>
          <div className={s.btns}>
-           <Button variant="contained"
+           <Button 
+           startIcon={<DeleteIcon />}
+           variant="contained"
               size="medium"
               color="primary"
               classes={{
                 root: classes.root,
                 label: classes.label,
-              }} onClick={deletePostHandler}>
+              }} onClick={handleClickOpen}>
                 Eliminar
               </Button>
+              <Dialog
+        fullScreen={fullScreen}
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogTitle id="responsive-dialog-title">ELIMINAR ARTICULO</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Estas seguro que quieres eliminar el articulo
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={handleClose} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={handleConfirm} color="primary" autoFocus>
+            Aceptar
+          </Button>
+        </DialogActions>
+      </Dialog>
               &nbsp;
               &nbsp;
-              <Button size="medium"
+              <Button 
+              startIcon={<EditIcon />}
+              size="medium"
               color="primary"
               classes={{
                 root: classes.root,

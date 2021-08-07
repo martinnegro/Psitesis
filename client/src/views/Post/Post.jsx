@@ -141,7 +141,7 @@ function Post() {
       dispatch(createPost(data, token));
       setBody("");
       setTitulo("");
-      history.push("/post_exitoso");      
+      history.push("/post_exitoso/Creado");      
       //handleOpen()
 	  //window.location.reload();
     }

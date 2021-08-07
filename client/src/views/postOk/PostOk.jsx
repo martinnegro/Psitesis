@@ -1,7 +1,7 @@
 import React from 'react';
 import Nav from "../../components/Nav/Nav";
 import { Container, makeStyles, Typography } from "@material-ui/core";
-import { NavLink } from 'react-router-dom';
+import { NavLink,useParams } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     offset: theme.mixins.toolbar,
@@ -16,6 +16,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const PostOk = () => {
+    const {accion} = useParams();
 
     const classes = useStyles();
 
@@ -26,7 +27,7 @@ const PostOk = () => {
             <Nav />
            
                     <Container className={classes.Home}>                       
-                            <Typography variant="h2">Posteo creado con éxito</Typography>&nbsp; 
+                            <Typography variant="h2">{accion} con éxito</Typography>&nbsp; 
                             <Typography variant="overline">
                                 <NavLink to='/home'>
                                     Ir al home
