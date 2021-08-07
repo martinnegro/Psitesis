@@ -39,7 +39,7 @@ const App = () => {
 				<ProtectedRoute path="/post" exact component={Post} />
 				<ProtectedRoute path="/postEdit/:id" exact component={Post} />
 				<ProtectedRoute path="/post/:id" exact component={Art_Detail} />
-				<ProtectedRoute path="/post_exitoso" exact component={PostOk} />
+				<ProtectedRoute path="/post_exitoso/:accion" exact component={PostOk} />
 				<Route path="*" render={() => <Redirect to="/" />} />
 			</Switch>
 		</div>
