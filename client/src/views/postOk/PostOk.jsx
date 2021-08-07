@@ -2,6 +2,7 @@ import React from 'react';
 import Nav from "../../components/Nav/Nav";
 import { Container, makeStyles, Typography } from "@material-ui/core";
 import { NavLink,useParams } from 'react-router-dom';
+import CloudDoneOutlinedIcon from '@material-ui/icons/CloudDoneOutlined';
 
 const useStyles = makeStyles(theme => ({
     offset: theme.mixins.toolbar,
@@ -26,7 +27,8 @@ const PostOk = () => {
             <div className={classes.offset}></div>
             <Nav />
            
-                    <Container className={classes.Home}>                       
+                    <Container className={classes.Home}>
+                        <CloudDoneOutlinedIcon fontSize='large' />                       
                             <Typography variant="h2">{accion} con éxito</Typography>&nbsp; 
                             <Typography variant="overline">
                                 <NavLink to='/home'>
