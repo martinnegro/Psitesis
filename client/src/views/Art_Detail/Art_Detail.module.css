@@ -53,6 +53,12 @@
   flex-direction: row;
 }
 
+.btns{
+  display: flex;
+  float: row;
+  justify-content: space-between;
+}
+
 
 
 

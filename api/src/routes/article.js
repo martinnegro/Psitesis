@@ -72,10 +72,16 @@ router.put('/:art_id', authorizeAccessToken, async (req, res, next) => {
   }
 });
 
-router.delete('/:id', (req, res, next) => {
-	const { id } = req.params;
-	console.log(id);
-	res.json({ message: `ID recieved: ${id}` });
+router.delete('/:art_id', authorizeAccessToken, async (req, res, next) => {
+	const { art_id } = req.params;
+	const artToDelete = await Article.findOne({ where: { art_id: art_id } });
+	if (artToDelete) {
+		artToDelete.destroy()
+			.then(() => res.status(200).json({ message: `article ${art_id} successfully deleted` }))
+			.catch((err) => next(err));
+	} else {
+	res.status(404).json({ message: `ID recieved: ${art_id} but dont exist article with ID!` });
+  }
 });
 
 module.exports = router;
