@@ -18,7 +18,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { makeStyles, createTheme } from "@material-ui/core/styles";
 import { purple } from "@material-ui/core/colors";
-import Divider from "@material-ui/core/Divider";
+//import Divider from "@material-ui/core/Divider";
 import { ThemeProvider } from "@material-ui/core/styles";
 import "./Post.css";
 import style from "./Post.module.css";
@@ -62,7 +62,7 @@ const useStyles = makeStyles({
     border: "2px solid purple",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    width: "80%",
+    maxWidth: "80%",
   },
 });
 

@@ -8,10 +8,15 @@ import {
   clearDetail,
   getAllUsers,
   deletePost,
+  editPost
 } from "../../redux/actions/actions";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { Container, makeStyles, Typography, Button } from "@material-ui/core";
 import s from "./Art_Detail.module.css";
+import { createTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/core/styles";
+import { purple } from "@material-ui/core/colors";
+
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
@@ -23,7 +28,43 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
+  root: {
+    color: "#ffffff",
+    backgroundColor: purple[500],
+    "&:hover": {
+      backgroundColor: purple[700],
+    },
+  },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid purple",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    width: "80%",
+  },
 }));
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: purple[500],
+      light: "#ffc4ff",
+      dark: "#9c64a6",
+      contrastText: "#fff",
+    },
+    secondary: {
+      main: purple[500],
+      light: "#ffc4ff",
+      dark: "#9c64a6",
+      contrastText: "#fff",
+    },
+  },
+});
 
 const Art_Detail = () => {
   const { id } = useParams();
@@ -34,6 +75,8 @@ const Art_Detail = () => {
   const articlesDetail = useSelector((state) => state.articlesDetail);
   const users = useSelector((state) => state.users);
   const [idUser, setIdUser] = useState([]);
+
+  const history = useHistory();
 
   const classes = useStyles();
 
@@ -63,13 +106,22 @@ const Art_Detail = () => {
     setSection(subCats.filter((c) => c.id === articlesDetail?.sub_cat_id));
   }, [articlesDetail?.sub_cat_id]);
 
-  const deletePostHandler = async () => {
+  
+  const deletePostHandler = async () => {  
     const token = await getAccessTokenSilently();
+  
     dispatch(deletePost(id, token))
+  }
+
+  const editArticle = () => {
+    history.push('/postEdit/'+ id);
   }
 
   return (
     <Container>
+       <ThemeProvider theme={theme}>
+
+       
       <div className={classes.offset}></div>
       <Nav />
       {articlesDetail !== undefined ? (
@@ -86,7 +138,28 @@ const Art_Detail = () => {
               <Typography variant="body2">el {articlesDetail?.art_date}</Typography>
             </div>
           </div>
-
+         <div className={s.btns}>
+           <Button variant="contained"
+              size="medium"
+              color="primary"
+              classes={{
+                root: classes.root,
+                label: classes.label,
+              }} onClick={deletePostHandler}>
+                Eliminar
+              </Button>
+              &nbsp;
+              &nbsp;
+              <Button size="medium"
+              color="primary"
+              classes={{
+                root: classes.root,
+                label: classes.label,
+              }} onClick={editArticle}>
+                Editar
+              </Button>
+           </div> 
+          
           <Typography variant="h2" color="initial">
             {articlesDetail.art_title}
           </Typography>
@@ -98,10 +171,6 @@ const Art_Detail = () => {
               }}
             />
           </Typography>
-          <br></br>
-              <Button variant="text" color="default" onClick={deletePostHandler}>
-                delete
-              </Button>
         </Container>
       ) : (
         <div className={`${s.lds_ring} ${s.centrar}`}>
@@ -111,6 +180,7 @@ const Art_Detail = () => {
           <div></div>
         </div>
       )}
+      </ThemeProvider>
     </Container>
   );
 };
