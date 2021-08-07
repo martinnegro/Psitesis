@@ -138,7 +138,7 @@ function Post() {
 			<ThemeProvider theme={theme}>
 				<header className={`${style.contenedor_editor} ${style.centrado}`}>
 					<Typography variant="h2" color="initial">
-						NUEVO POST ARTICULO
+					{id ? 'EDITAR POST ARTICULO' : 'NUEVO POST ARTICULO'}
 					</Typography>
 					{/* <Divider
             style={{ background: "purple", width: "70%", marginLeft: "15%" }}
