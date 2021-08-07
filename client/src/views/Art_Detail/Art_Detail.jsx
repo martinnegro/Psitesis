@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Nav from "../../components/Nav/Nav";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
   getArticleDetail,
   clearDetail,
   getAllUsers,
+  deletePost,
 } from "../../redux/actions/actions";
 import { useParams } from "react-router-dom";
-import { Container, makeStyles, Typography } from "@material-ui/core";
+import { Container, makeStyles, Typography, Button } from "@material-ui/core";
 import s from "./Art_Detail.module.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -25,6 +27,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Art_Detail = () => {
   const { id } = useParams();
+
+  const { getAccessTokenSilently } = useAuth0();
 
   const dispatch = useDispatch();
   const articlesDetail = useSelector((state) => state.articlesDetail);
@@ -59,6 +63,11 @@ const Art_Detail = () => {
     setSection(subCats.filter((c) => c.id === articlesDetail?.sub_cat_id));
   }, [articlesDetail?.sub_cat_id]);
 
+  const deletePostHandler = async () => {
+    const token = await getAccessTokenSilently();
+    dispatch(deletePost(id, token))
+  }
+
   return (
     <Container>
       <div className={classes.offset}></div>
@@ -90,9 +99,9 @@ const Art_Detail = () => {
             />
           </Typography>
           <br></br>
-          {/* <div className={s.perfil}>
-            <Typography variant="body2">Sección: {section[0]?.name}</Typography>
-          </div> */}
+              <Button variant="text" color="default" onClick={deletePostHandler}>
+                delete
+              </Button>
         </Container>
       ) : (
         <div className={`${s.lds_ring} ${s.centrar}`}>

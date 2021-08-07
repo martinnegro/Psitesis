@@ -110,3 +110,17 @@ export const editPost = (editPost, token) => async (dispatch) => {
 		return;
 	}
 };
+
+export const deletePost = (art_id, token) => async (dispatch) => {
+	try {
+		const headers = {
+			Authorization: `Bearer ${token}`,
+		};
+		await axios.delete(`${URL_API}/article/${art_id}`, {
+			headers,
+		});
+	} catch (err) {
+		console.log(err);
+		return;
+	}
+};
