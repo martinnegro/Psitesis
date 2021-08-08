@@ -14,7 +14,6 @@ router.post(
     let aux_id = user_id;
     const art_id = uuidv4();
     if (aux_id.includes("google")) {
-      console.log('aux_id',aux_id)
       const aux_user = await User.findOne({ where: { user_id_A0: aux_id } });
       aux_id = aux_user.user_id;
     }
