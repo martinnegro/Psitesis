@@ -54,8 +54,8 @@ conn.sync({ force: true }).then(() => {
       console.log('**** SUB CAT CREADAS');
       const inst_id = uuidv4();
       const inst = await Institution.bulkCreate([
-        {inst_id: uuidv4(), inst_name: 'Henry', inst_description: 'Bootcamp'},
-        {inst_id: uuidv4(), inst_name: 'UBA', inst_description: 'Universidad'}
+        {inst_id: uuidv4(), inst_name: 'Henry', inst_descriptions: 'Bootcamp'},
+        {inst_id: uuidv4(), inst_name: 'UBA', inst_descriptions: 'Universidad'}
         ]);
       console.log('**** INSTITUCIÓN CREADA');
       const user_id = uuidv4();
