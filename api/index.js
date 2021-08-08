@@ -88,7 +88,7 @@ server.listen(3001, () => {
         art_tags: '',
         art_id: uuidv4(),
         sub_cat_id: 3,
-        user_id: user[0].user_id
+        user_id: user[1].user_id
       },{
         art_title: 'Sobre Proyectos',
         art_contents: 'Contenido Extenso',
@@ -97,6 +97,54 @@ server.listen(3001, () => {
         art_id: uuidv4(),
         sub_cat_id: 4,
         user_id: user[1].user_id
+      },{
+        art_title: 'Sobre APA',
+        art_contents: 'Contenido Extenso',
+        art_date: '03/05/2020',
+        art_tags: '',
+        art_id: uuidv4(),
+        sub_cat_id: 4,
+        user_id: user[1].user_id
+      },{
+        art_title: 'Sobre APA',
+        art_contents: 'Contenido Extenso',
+        art_date: '03/05/2020',
+        art_tags: '',
+        art_id: uuidv4(),
+        sub_cat_id: 4,
+        user_id: user[0].user_id
+      },{
+        art_title: 'Sobre Proyectos',
+        art_contents: 'Contenido Extenso',
+        art_date: '03/05/2020',
+        art_tags: '',
+        art_id: uuidv4(),
+        sub_cat_id: 4,
+        user_id: user[0].user_id
+      },{
+        art_title: 'Sobre Proyectos',
+        art_contents: 'Contenido Extenso',
+        art_date: '03/05/2020',
+        art_tags: '',
+        art_id: uuidv4(),
+        sub_cat_id: 1,
+        user_id: user[0].user_id
+      },{
+        art_title: 'Sobre tesis',
+        art_contents: 'Contenido Extenso',
+        art_date: '03/05/2020',
+        art_tags: '',
+        art_id: uuidv4(),
+        sub_cat_id: 2,
+        user_id: user[0].user_id
+      },{
+        art_title: 'Sobre tesis',
+        art_contents: 'Contenido Extenso',
+        art_date: '03/05/2020',
+        art_tags: '',
+        art_id: uuidv4(),
+        sub_cat_id: 3,
+        user_id: user[0].user_id
       }
     ])
     console.log('**** ARTICULOS CREADOS')

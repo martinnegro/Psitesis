@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 const URL_API = 'http://localhost:3001';
 
 export const GET_ALL_ARTICLE = 'GET ALL ARTICLE';
