@@ -9,11 +9,12 @@ router.post(
   authorizeAccessToken,
   checkAdminPermission,
   async (req, res, next) => {
-    const { art_contents, art_title, art_date, art_tags, sub_cat_id, user_id } =
+    const { art_contents, art_title, art_date, art_tags, sub_cat_id, user_id, art_abstract } =
       req.body;
     let aux_id = user_id;
     const art_id = uuidv4();
     if (aux_id.includes("google")) {
+      console.log('aux_id',aux_id)
       const aux_user = await User.findOne({ where: { user_id_A0: aux_id } });
       aux_id = aux_user.user_id;
     }
@@ -22,6 +23,7 @@ router.post(
       art_contents,
       art_date,
       art_tags,
+      art_abstract,
       art_id,
       sub_cat_id,
       user_id: aux_id,
@@ -59,7 +61,7 @@ router.get("/:art_id", (req, res, next) => {
 });
 
 router.put("/:art_id", authorizeAccessToken, async (req, res, next) => {
-  const { art_contents, art_title } = req.body;
+  const { art_contents, art_title, art_abstract } = req.body;
   const { art_id } = req.params;
   const artToEdit = await Article.findOne({ where: { art_id: art_id } });
   if (artToEdit) {
@@ -67,6 +69,7 @@ router.put("/:art_id", authorizeAccessToken, async (req, res, next) => {
       .update({
         art_title,
         art_contents,
+        art_abstract
       })
       .then((updated) => res.json(updated.dataValues))
       .catch((err) => next(err));

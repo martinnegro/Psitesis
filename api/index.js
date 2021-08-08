@@ -78,6 +78,7 @@ server.listen(3001, () => {
         art_contents: 'Contenido extenso',
         art_date: '05/10/2021',
         art_tags: '',
+        art_abstract: 'Abstract-1',
         art_id: uuidv4(),
         sub_cat_id: 1,
         user_id: user[0].user_id
@@ -86,6 +87,7 @@ server.listen(3001, () => {
         art_contents: 'Contenido Extenso',
         art_date: '17/01/1997',
         art_tags: '',
+        art_abstract: 'Abstract-2',
         art_id: uuidv4(),
         sub_cat_id: 3,
         user_id: user[0].user_id
@@ -94,6 +96,7 @@ server.listen(3001, () => {
         art_contents: 'Contenido Extenso',
         art_date: '03/05/2020',
         art_tags: '',
+        art_abstract: 'Abstract-3',
         art_id: uuidv4(),
         sub_cat_id: 4,
         user_id: user[1].user_id
