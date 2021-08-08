@@ -5,7 +5,6 @@ const URL_API = "http://localhost:3001";
 export const GET_ALL_ARTICLE = "GET ALL ARTICLE";
 export const GET_ARTICLE_DETAIL = "GET ARTICLE DETAIL";
 export const GET_USERS = "GET USERS";
-
 export const SET_USER_ID = "SET_USER_ID";
 export const SET_USER_ROLES = "SET_USER_ROLES";
 export const ORDER_ARTICLES = "ORDER_ARTICLES";
@@ -132,9 +131,10 @@ export const deletePost = (art_id, token) => async (dispatch) => {
 export const orderArticles = (orderBy, order) => {
   return async (dispatch) => {
     try {
-      const response = axios.get(
-        `${URL_API}/article?orderby=${orderBy}&order=${order}`
+      const response = await axios.get(
+        `${URL_API}/article?orderBy=${orderBy}&order=${order}`
       );
+      console.log(response.data);
       dispatch({
         type: ORDER_ARTICLES,
         payload: response.data,
