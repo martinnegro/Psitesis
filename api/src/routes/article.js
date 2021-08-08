@@ -33,9 +33,17 @@ router.post(
 );
 
 router.get("/", (req, res, next) => {
+  const { orderBy, order } = req.query;
+  if (orderBy && order) {
+    return Article.findAll({
+      order: [[orderBy, order]],
+    })
+      .then((articlesOrdered) => res.json(articlesOrdered))
+      .catch((err) => next(err));
+  }
   Article.findAll()
-    .then((finded) => {
-      res.json(finded);
+    .then((articlesFound) => {
+      return res.json(articlesFound);
     })
     .catch((err) => next(err));
 });

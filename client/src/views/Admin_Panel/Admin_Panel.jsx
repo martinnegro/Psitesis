@@ -53,7 +53,7 @@ const Admin_Panel = () => {
                             aria-controls="panel1bh-content"
                             id="panel1bh-header"
                         >
-                            Categorías
+                            
                         </AccordionSummary>
                         <AccordionDetails>
                             Mundo
