@@ -26,13 +26,40 @@ router.get('/', (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
     const { id } = req.params;
-    console.log(id)
+    
     Institution.findByPk(id)
         .then((inst) => {
             res.json(inst);
         }).catch((err) => {
             next(err)
         })
+});
+
+router.put('/:inst_id', async (req, res, next) => {
+    const { inst_id } = req.params;
+    const { inst_name, inst_descriptions } = req.body;
+    let inst = {};
+    try {
+    inst = await Institution.findOne({ where: { inst_id }})
+    } catch(err) { next(err) }
+    inst.inst_name = inst_name;
+    inst.inst_descriptions = inst_descriptions;
+    try {
+    await inst.save();
+    } catch(err) { next(err) }
+    res.json(inst)
+});
+
+router.delete('/:inst_id', async (req, res, next) => {
+    const { inst_id } = req.params;
+    let inst = {};
+    try {
+    inst = await Institution.findOne({ where: { inst_id }})
+    } catch(err) { next(err) }
+    try {
+        await inst.destroy();
+    } catch(err) { next(err) };
+    res.json({message: 'Deleting Succesful'})
 });
 
 
