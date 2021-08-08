@@ -10,6 +10,10 @@ const router = Router();
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
+router.get('/', (req, res, next) => {
+    res.json({message: 'Deploy succesful'});
+});
+
 router.use("/article", article);
 router.use("/users", users);
 router.use('/institutions',institutions);
