@@ -69,8 +69,8 @@ const useStyles = makeStyles({
 function Post() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const articlesDetail = useSelector((state) => state.rootReducer.articlesDetail);
-  const user_id = useSelector((state) => state.rootReducer.user_id);
+  const articlesDetail = useSelector((state) => state.rootReducer.articlesDetail); // Nueva forma de acceder al estado por combineReducer
+  const user_id = useSelector((state) => state.rootReducer.user_id); // Nueva forma de acceder al estado por combineReducer
   const classes = useStyles();
   const { user, getAccessTokenSilently } = useAuth0();
 

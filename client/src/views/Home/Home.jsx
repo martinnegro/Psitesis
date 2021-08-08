@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home() {
   const classes = useStyles();
-  const articles = useSelector((state) => state.rootReducer.articles);
+  const articles = useSelector((state) => state.rootReducer.articles); // Nueva forma de acceder al estado por combineReducer
   const dispatch = useDispatch();
 
   useEffect(() => {

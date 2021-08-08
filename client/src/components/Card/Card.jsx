@@ -41,7 +41,7 @@ const useStyles = makeStyles({
 export default function CardPost (props) {
 
     const dispatch = useDispatch()
-    const users = useSelector(state => state.rootReducer.users)
+    const users = useSelector(state => state.rootReducer.users) // Nueva forma de acceder al estado por combineReducer
     const history = useHistory()
     const [idUser, setIdUser] = useState([])
 
