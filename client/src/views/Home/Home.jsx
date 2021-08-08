@@ -132,6 +132,7 @@ export default function Home() {
                     body={p.art_contents}
                     id={p.user_id}
                     articleId={p.art_id}
+                    articleAbstract={p.art_abstract}
                   />
                 ))
             : null}

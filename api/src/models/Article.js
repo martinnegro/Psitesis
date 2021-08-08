@@ -18,6 +18,11 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
 
+      art_abstract: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+
       art_title: {
         type: DataTypes.STRING,
         allowNull: false,
