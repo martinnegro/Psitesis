@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home() {
   const classes = useStyles();
-  const articles = useSelector((state) => state.articles);
+  const articles = useSelector((state) => state.rootReducer.articles);
   const dispatch = useDispatch();
 
   useEffect(() => {

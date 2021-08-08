@@ -85,8 +85,8 @@ const Art_Detail = () => {
   const { getAccessTokenSilently } = useAuth0();
 
   const dispatch = useDispatch();
-  const articlesDetail = useSelector((state) => state.articlesDetail);
-  const users = useSelector((state) => state.users);
+  const articlesDetail = useSelector((state) => state.rootReducer.articlesDetail);
+  const users = useSelector((state) => state.rootReducer.users);
   const [idUser, setIdUser] = useState([]);
 
   const history = useHistory();
