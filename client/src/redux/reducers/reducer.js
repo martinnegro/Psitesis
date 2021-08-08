@@ -13,6 +13,7 @@ const initialState = {
   users: [],
   user_id: undefined,
   user_roles: [],
+  orderedArticles: [],
 };
 
 function rootReducer(state = initialState, action) {

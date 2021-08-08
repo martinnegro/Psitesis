@@ -47,7 +47,7 @@ export default function CardPost (props) {
 
     const classes = useStyles();
 
-    const { title, body, id, articleId } = props
+    const { title, body, id, articleId, articleAbstract } = props
 
     useEffect(() => {
         dispatch(getAllUsers())
@@ -61,11 +61,14 @@ export default function CardPost (props) {
         <Card className={classes.root} variant="outlined">
             <CardContent>
                 <Typography className={classes.title} color="textSecondary" gutterBottom>{title}</Typography>
-                <Typography variant="body2" component="p" style={{height: '50px'}}><span
+                <Typography variant="body2" component="p" style={{height: '50px'}}>
+                  {articleAbstract}
+                  {/* <span
                       dangerouslySetInnerHTML={{
                         __html: body,
                       }}
-                /></Typography>
+                  /> */}
+                </Typography>
             </CardContent>
             <CardActions className={classes.cardContents}>
                 <Typography component="p" >{idUser[0]?.user_name}</Typography>

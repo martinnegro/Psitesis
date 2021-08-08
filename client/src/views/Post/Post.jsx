@@ -76,21 +76,22 @@ function Post() {
 
   const [body, setBody] = useState("");
   const [titulo, setTitulo] = useState("");
+  const [reseña, setReseña] = useState("");
   const [subcategoria, setSubcategoria] = useState("");
 
   //MOdal
   //const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [on, setOn] = React.useState('1');
+  const [on, setOn] = React.useState("1");
 
   const handleOpen = () => {
     setOpen(true);
-	setOn('0')
+    setOn("0");
   };
 
   const handleClose = () => {
     setOpen(false);
-	setOn('1');
+    setOn("1");
   };
 
   const history = useHistory();
@@ -104,6 +105,10 @@ function Post() {
 
   const handleInput = (e) => {
     setTitulo(e.target.value);
+  };
+
+  const handleInputReseña = (e) => {
+    setReseña(e.target.value);
   };
 
   const handleInputCat = (e) => {
@@ -126,6 +131,7 @@ function Post() {
       art_title: titulo,
       sub_cat_id: subcategoria,
       user_id: user.sub,
+      art_abstract: reseña,
       art_date: date,
       art_id: id ? articlesDetail.art_id : null,
     };
@@ -141,9 +147,9 @@ function Post() {
       dispatch(createPost(data, token));
       setBody("");
       setTitulo("");
-      history.push("/post_exitoso/Creado");      
+      history.push("/post_exitoso/Creado");
       //handleOpen()
-	  //window.location.reload();
+      //window.location.reload();
     }
   };
 
@@ -207,6 +213,28 @@ function Post() {
               </Select>
             </FormControl>
           </div>
+          <div>
+            <TextField
+              id="outlined-full-width"
+              label="Reseña"
+              style={{ marginTop: 20 }}
+              placeholder="Placeholder"
+              helperText="max - 120 caracteres"
+              fullWidth
+              margin="normal"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+              name="reseña"
+              type="text"
+              value={reseña}
+              onChange={handleInputReseña}
+              inputProps={{
+                maxLength: 120,
+              }}
+            />
+          </div>
           <br />
           <br />
           <ReactQuill
@@ -245,22 +273,22 @@ function Post() {
                 }}
               >
                 <Fade in={open}>
-                  <div className={classes.paper}>{
-					  on === '0' ? (<>
-					  <Typography>{titulo}</Typography>
-                    <br />
-                    <Typography variant="body2">
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: `${body}`,
-                        }}
-                      />
-                    </Typography>
-					</>) : (
-						<Typography>Post creado con éxito</Typography>
-					)
-				  }
-                    
+                  <div className={classes.paper}>
+                    {on === "0" ? (
+                      <>
+                        <Typography>{titulo}</Typography>
+                        <br />
+                        <Typography variant="body2">
+                          <span
+                            dangerouslySetInnerHTML={{
+                              __html: `${body}`,
+                            }}
+                          />
+                        </Typography>
+                      </>
+                    ) : (
+                      <Typography>Post creado con éxito</Typography>
+                    )}
                   </div>
                 </Fade>
               </Modal>

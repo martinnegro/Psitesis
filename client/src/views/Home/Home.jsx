@@ -11,7 +11,7 @@ import {
   /* Paper, TextField, */ Typography,
 } from "@material-ui/core";
 // import SearchIcon from '@material-ui/icons/Search';
-import { getAllArticle } from "../../redux/actions/actions";
+import { getAllArticle,orderArticles } from "../../redux/actions/actions";
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
@@ -44,11 +44,19 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
   const classes = useStyles();
   const articles = useSelector((state) => state.rootReducer.articles); // Nueva forma de acceder al estado por combineReducer
+  const orderedArticles = useSelector((state) => state.rootReducer.orderedArticles)
   const dispatch = useDispatch();
+  
 
   useEffect(() => {
     dispatch(getAllArticle());
   }, [dispatch]);
+
+  useEffect(()=>{
+    dispatch(orderArticles("art_views","DESC"))
+  },[dispatch])
+
+  console.log(orderedArticles)
 
   // const [ search, setSearch ] = useState('')
   const [pageNumber, setPageNumber] = useState(0);
@@ -122,8 +130,8 @@ export default function Home() {
         <Container
           style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}
         >
-          {articles?.length > 0
-            ? articles
+          {orderedArticles?.length > 0
+            ? orderedArticles
                 ?.slice(pagesVisited, pagesVisited + postsByPage)
                 .map((p) => (
                   <CardPost
@@ -132,6 +140,7 @@ export default function Home() {
                     body={p.art_contents}
                     id={p.user_id}
                     articleId={p.art_id}
+                    articleAbstract={p.art_abstract}
                   />
                 ))
             : null}
