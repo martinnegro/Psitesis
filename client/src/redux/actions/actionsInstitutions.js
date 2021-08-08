@@ -12,9 +12,9 @@ export function isFetching() {
 
 export function getInstitutions() {
     return function (dispatch) {
-        dispatch()
+        dispatch(isFetching())
         axios.get(`${URL_API}/institutions`)
-
+        
     }
 }
 
