@@ -38,7 +38,7 @@ module.exports = (sequelize) => {
       art_views: {
         type: DataTypes.INTEGER,
       },
-    },
-    { timestamps: false }
+    }
+    /* { timestamps: false } */
   );
 };
