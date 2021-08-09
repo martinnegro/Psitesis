@@ -6,6 +6,7 @@ import {
   editPost,
   getArticleDetail,
   clearDetail,
+  getAllCatSub
 } from "../../redux/actions/actions";
 import Nav from "../../components/Nav/Nav";
 import { useHistory, useParams } from "react-router-dom";
@@ -26,6 +27,7 @@ import style from "./Post.module.css";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
+import Selectores from "../../components/Select/Select";
 
 const theme = createTheme({
   palette: {
@@ -71,6 +73,7 @@ function Post() {
   const dispatch = useDispatch();
   const articlesDetail = useSelector((state) => state.rootReducer.articlesDetail); // Nueva forma de acceder al estado por combineReducer
   const user_id = useSelector((state) => state.rootReducer.user_id); // Nueva forma de acceder al estado por combineReducer
+  
   const classes = useStyles();
   const { user, getAccessTokenSilently } = useAuth0();
 
@@ -78,7 +81,7 @@ function Post() {
   const [titulo, setTitulo] = useState("");
   const [reseña, setReseña] = useState("");
   const [subcategoria, setSubcategoria] = useState("");
-
+  
   //MOdal
   //const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -114,14 +117,9 @@ function Post() {
   const handleInputCat = (e) => {
     let index = e.target.selectedIndex;
     let option = e.target.options[index].value;
-    // setCategoria(option.split("-")[0]);
-    setSubcategoria(option.split("-")[1]);
+    setSubcategoria(option);
   };
 
-  // const handleSubmitPrevia = (e) => {
-  //   e.preventDefault();
-  //   console.log("Esto es body-prev:", body);
-  // };
 
   const handleSubmitBody = async (e) => {
     e.preventDefault();
@@ -138,11 +136,12 @@ function Post() {
 
     // action createPost or editPost
     const token = await getAccessTokenSilently();
+    console.log('token:', token)
     if (id) {
       dispatch(editPost(data, token));
       setBody("");
       setTitulo("");
-      history.push("/post_exitoso");
+      history.push("/post_exitoso/Editado");
     } else {
       dispatch(createPost(data, token));
       setBody("");
@@ -170,6 +169,14 @@ function Post() {
       }
     }
   }, [articlesDetail, history, user_id]);
+
+
+  useEffect(() => {
+    dispatch(getAllCatSub())
+  }, []);
+
+
+  
 
   return (
     <div>
@@ -199,19 +206,21 @@ function Post() {
               >
                 <option aria-label="None" value="" />
                 <optgroup label="Investigación">
-                  <option value={"Investigación-1"}>
-                    Metodologia de investigación
-                  </option>
-                  <option value={"Investigación-2"}>Elección de tema</option>
+                  <option value={"1"}>Metodologia de investigación</option>
+                  <option value={"2"}>Elección de tema</option>
                 </optgroup>
                 <optgroup label="Normas Apa">
-                  <option value={"Normas Apa-3"}>Citado en el texto</option>
-                  <option value={"Normas Apa-4"}>
+                  <option value={"3"}>Citado en el texto</option>
+                  <option value={"4"}>
                     Referencias bibliográficas
                   </option>
                 </optgroup>
+                <Selectores />
               </Select>
             </FormControl>
+          </div>
+          <div>
+          <select options={options2} />
           </div>
           <div>
             <TextField
