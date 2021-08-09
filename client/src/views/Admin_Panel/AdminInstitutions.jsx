@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getInstitutions,  updateInstitution, getOneInstitution, deleteInstitution } from '../../redux/actions/actionsInstitutions'
-import { Table, TableHead, TableCell, TableBody, TableRow} from '@material-ui/core';
+import { getInstitutions,  updateInstitution, deleteInstitution, createNewInstitution } from '../../redux/actions/actionsInstitutions'
+import { Table, TableHead, TableCell, TableBody, TableRow, TableFooter }  from '@material-ui/core';
 import IconButton from "@material-ui/core/IconButton";
 import Input from "@material-ui/core/Input";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
-import { makeStyles } from '@material-ui/core/styles';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+
+import ConfirmAlert from './ConfirmAlert'
 
 
-
-const createData = ({inst_id, inst_name, inst_descriptions}) => ({
+const createData = ({inst_id, inst_name, inst_descriptions, inst_link, inst_logo}) => ({
     inst_id,
     inst_name,
     inst_descriptions,
+    inst_link,
+    inst_logo,
     isEditMode: false
   });
   const CustomTableCell = ({row, name, onChange}) => {
@@ -34,11 +37,24 @@ const createData = ({inst_id, inst_name, inst_descriptions}) => ({
       );
 }
 
+const CustomInputCell = ({newInst, name, handleNewInst}) => {
+    return (
+        <TableCell align="left">
+            <Input
+              value={newInst[name]}
+              name={name}
+              onChange={(e) => handleNewInst(e)}
+            />
+        </TableCell>
+      );
+}
+
 function AdminInstitutions() {
     const institutions = useSelector(state => state.institutionsReducer)
     const dispatch = useDispatch();
     const [ rows, setRows] = useState([]);
     const [previous, setPrevious] = useState({});
+    
     
     useEffect(()=> {
         dispatch(getInstitutions());
@@ -83,19 +99,63 @@ function AdminInstitutions() {
         onToggleEditMode(id);
     }
 
-    const onDelete = async (id) => {
+    // Maneja botón para delete. Alerta y dispatch de eliminar.
+    const [open, setOpen] = useState({});
+    useEffect(()=>{
+        const newOpen = {};
+        rows && rows.forEach(r => newOpen[r.inst_id] = false)
+        setOpen(newOpen)
+    },[rows])
+    const handleClickOpen = (id) => {
+        setOpen({
+            ...open,
+            [id]: true
+        });
+    };
+    const handleClose = (id) => {
+        setOpen({
+            ...open,
+            [id]: false
+        });
+    };
+    const handleConfirm = (id) => {  
+        console.log(id);
+        setOpen(false);
         dispatch(deleteInstitution(id));
-        const newRows = rows.filter(row => row.inst_id !== id);
-        setRows(newRows);
-    }   
+    }
 
-
+    // Maneja nuevos inputs
+    const [ isCreating, setIsCreating ] = useState(false);
+    const initialNewInst = {
+        inst_name: '',
+        inst_descriptions: '',
+        inst_link: '',
+        inst_log: ''
+    }
+    const [ newInst, setNewInst ] = useState(initialNewInst);           
+    const handleNewInst = (e) => {
+        setNewInst({
+            ...newInst,
+            [e.target.name]: e.target.value
+        })
+    }                                
+    const cancelNewInst = () => {
+        setIsCreating(false);
+        setNewInst(initialNewInst);
+    }
+    const confirmNewInst = (inst) => {
+        dispatch(createNewInstitution(inst));
+        setIsCreating(false);
+        setNewInst(initialNewInst);
+    }
     return (
         institutions.isFetching ?  <div>CARGANDO</div> :
-        <Table size="small">
+        <Table size="small" width="100%">
             <TableHead>
                 <TableCell align="left">Nombre</TableCell>
                 <TableCell>Descripción</TableCell>
+                <TableCell>Link</TableCell>
+                <TableCell>Link Logo</TableCell>
                 <TableCell align="right">Editar</TableCell>
                 <TableCell align="right">Eliminar</TableCell>
             </TableHead>
@@ -103,8 +163,10 @@ function AdminInstitutions() {
             {
             rows ? rows.map(row => (
                 <TableRow key={row.inst_id}>
-                    <CustomTableCell {...{row, name: "inst_name", onChange}}/>
+                    <CustomTableCell {...{row, name: "inst_name", onChange}} component="th" scope="row"/>
                     <CustomTableCell {...{row, name: "inst_descriptions", onChange}}/>
+                    <CustomTableCell {...{row, name: "inst_link", onChange}}/>
+                    <CustomTableCell {...{row, name: "inst_logo", onChange}}/>
                     {   
                         row.isEditMode ? 
                         <TableCell align="right">
@@ -122,12 +184,43 @@ function AdminInstitutions() {
                         </TableCell>
                     }
                     <TableCell align="right" >
-                        <IconButton onClick={() => onDelete(row.inst_id)}>
+                        <IconButton onClick={() => handleClickOpen(row.inst_id)}>
                             <DeleteForeverIcon color="secondary"/>
+                        </IconButton>
+                        <ConfirmAlert 
+                            open={open[row.inst_id]} 
+                            handleClose={handleClose} 
+                            handleConfirm={handleConfirm}
+                            inst={row.inst_name} inst_id={row.inst_id}
+                        />
+                    </TableCell>
+                </TableRow>
+                
+            )) : <div>CARGANDO</div>
+            }
+            {   isCreating ? 
+                <TableRow>
+                    <CustomInputCell {...{newInst, name: "inst_name", handleNewInst}}/>
+                    <CustomInputCell {...{newInst, name: "inst_descriptions", handleNewInst}}/>
+                    <CustomInputCell {...{newInst, name: "inst_link", handleNewInst}}/>
+                    <CustomInputCell {...{newInst, name: "inst_logo", handleNewInst}}/>
+                    <TableCell align="right">
+                        <IconButton onClick={() => confirmNewInst(newInst)}>
+                            <DoneIcon />
+                        </IconButton>
+                    </TableCell>
+                    <TableCell>
+                        <IconButton onClick={() => cancelNewInst()}>
+                            <CloseIcon/>
                         </IconButton>
                     </TableCell>
                 </TableRow>
-            )) : <div>CARGANDO</div>
+                :
+                <TableFooter align="center">
+                        <IconButton align="center" onClick={()=> setIsCreating(true)}>
+                            <AddCircleOutlineIcon/>
+                        </IconButton>
+                </TableFooter>
             }
             </TableBody>
         </Table>
