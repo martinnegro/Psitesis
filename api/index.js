@@ -27,12 +27,20 @@ const {
   Institution,
   User,
   Article,
+  Tag
 } = require("./src/db.js");
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {
   server.listen(3001, () => {
     console.log("%s listening at 3001");
+    Tag.bulkCreate([
+      {tag_id: 1, tag_name: "Investigacion"},
+      {tag_id: 2, tag_name: "Tesis"},
+      {tag_id: 3, tag_name: "General"}
+    ]).then(() => {
+      console.log("**** TAGS CREADOS");
+    });
     Rol.bulkCreate([
       { rol_id: 1, rol_name: "admin" },
       { rol_id: 2, rol_name: "colab" },
@@ -105,7 +113,6 @@ conn.sync({ force: true }).then(() => {
             art_title: "Sobre tesis",
             art_contents: "Contenido extenso",
             art_date: "05/10/2021",
-            art_tags: "",
             art_views: 0,
             art_abstract: 'Abstract-1',
             art_id: uuidv4(),
@@ -116,7 +123,6 @@ conn.sync({ force: true }).then(() => {
             art_title: "Sobre APA",
             art_contents: "Contenido Extenso",
             art_date: "17/01/1997",
-            art_tags: "",
             art_views: 0,
             art_abstract: 'Abstract-2',
             art_id: uuidv4(),
@@ -127,7 +133,6 @@ conn.sync({ force: true }).then(() => {
             art_title: "Sobre Proyectos",
             art_contents: "Contenido Extenso",
             art_date: "03/05/2020",
-            art_tags: "",
             art_views: 0,
             art_abstract: 'Abstract-3',
             art_id: uuidv4(),
@@ -138,5 +143,6 @@ conn.sync({ force: true }).then(() => {
         console.log("**** ARTICULOS CREADOS");
       });
     // eslint-disable-line no-console
+    
   });
 });

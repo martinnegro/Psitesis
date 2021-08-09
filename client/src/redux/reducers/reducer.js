@@ -5,6 +5,7 @@ import {
   SET_USER_ID,
   SET_USER_ROLES,
   ORDER_ARTICLES,
+  GET_ARTICLE_TAG
 } from "../actions/actions";
 
 const initialState = {
@@ -47,6 +48,11 @@ function rootReducer(state = initialState, action) {
         ...state,
         orderedArticles: action.payload,
       };
+    case GET_ARTICLE_TAG:
+      return {
+        ...state,
+        article: action.payload,
+      }
     default:
       return state;
   }

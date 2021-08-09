@@ -31,10 +31,6 @@ module.exports = (sequelize) => {
       art_date: {
         type: DataTypes.STRING,
       },
-
-      art_tags: {
-        type: DataTypes.STRING,
-      },
       art_views: {
         type: DataTypes.INTEGER,
       },
