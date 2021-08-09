@@ -1,14 +1,14 @@
 import { LoginButton, LogoutButton } from "../../components";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
-const URL_API = "http://localhost:3001";
+const { REACT_APP_URL_API } = process.env
 
 const Login = () => {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
 
   async function callApiPublicRoute() {
     try {
-      const response = await axios.get(`${URL_API}/public`);
+      const response = await axios.get(`${REACT_APP_URL_API}/public`);
     } catch (error) {
       console.log(error.message);
     }
@@ -42,7 +42,7 @@ const Login = () => {
   async function callApiPrivateRoute() {
     try {
       const token = await getAccessTokenSilently();
-      const response = await axios.post(`${URL_API}/article`, {
+      const response = await axios.post(`${REACT_APP_URL_API}/article`, {
         headers: { authorization: `Bearer ${token}` },
         data: {
           grant_type: "client_credentials",
@@ -60,7 +60,7 @@ const Login = () => {
   async function callApiPrivateScopedRoute() {
     try {
       const token = await getAccessTokenSilently();
-      const response = await axios.get(`${URL_API}/private-scoped`, {
+      const response = await axios.get(`${REACT_APP_URL_API}/private-scoped`, {
         headers: { authorization: `Bearer ${token}` },
       });
     } catch (error) {
