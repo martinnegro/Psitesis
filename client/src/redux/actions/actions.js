@@ -149,7 +149,7 @@ export const orderArticles = (orderBy, order) => {
 export const getAllCatSub = () => {
   return async (dispatch) => {
     try {
-      const response = await axios(`${URL_API}/categories`);
+      const response = await axios(`${REACT_APP_URL_API}/categories`);
       dispatch({
         type: GET_ALL_CAT_SUB,
         payload: response.data,

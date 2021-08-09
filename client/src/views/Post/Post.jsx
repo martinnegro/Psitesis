@@ -220,7 +220,7 @@ function Post() {
             </FormControl>
           </div>
           <div>
-          <select options={options2} />
+          {/*<select options={options2} />*/}
           </div>
           <div>
             <TextField
