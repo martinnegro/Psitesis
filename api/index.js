@@ -27,7 +27,8 @@ const {
   Institution,
   User,
   Article,
-  Tag
+  Tag,
+  article_tag
 } = require("./src/db.js");
 
 // Syncing all the models at once.
@@ -41,6 +42,9 @@ conn.sync({ force: true }).then(() => {
     ]).then(() => {
       console.log("**** TAGS CREADOS");
     });
+    // article_tag.bulkCreate([
+    //   {articleArtId: uuid.v4(), articletagTagId: 1}
+    // ])
     Rol.bulkCreate([
       { rol_id: 1, rol_name: "admin" },
       { rol_id: 2, rol_name: "colab" },
@@ -139,6 +143,7 @@ conn.sync({ force: true }).then(() => {
             sub_cat_id: 4,
             user_id: user[1].user_id,
           },
+          //1ab454b1-b0ee-4a6e-a3a7-a4a5afbf1899
         ]);
         console.log("**** ARTICULOS CREADOS");
       });
