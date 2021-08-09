@@ -74,7 +74,6 @@ export const findOrCreateUser = (user, token) => async (dispatch) => {
     if (response.data.roles) {
       dispatch(setUserRoles(response.data.roles));
     }
-    console.log(response.data.roles);
   } catch (err) {
     console.log(err);
     return;
