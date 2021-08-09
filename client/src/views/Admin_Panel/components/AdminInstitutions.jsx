@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getInstitutions,  updateInstitution, deleteInstitution, createNewInstitution } from '../../redux/actions/actionsInstitutions'
+import { getInstitutions,  updateInstitution, deleteInstitution, createNewInstitution } from '../../../redux/actions/actionsInstitutions'
 import { Table, TableHead, TableCell, TableBody, TableRow, TableFooter }  from '@material-ui/core';
 import IconButton from "@material-ui/core/IconButton";
 import Input from "@material-ui/core/Input";

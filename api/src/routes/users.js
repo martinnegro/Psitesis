@@ -79,9 +79,25 @@ router.post('/', async (req, res, next) => {
 });
 
 router.get('/', (req, res, next) => {
-	User.findAll()
-		.then((finded) => res.json(finded))
-		.catch((err) => next(err));
+	const { user_name } = req.query;
+	if (user_name) {
+		User.findAll({
+			where: {
+				user_name: {
+					[Op.iLike]: `%${user_name}%`
+				}
+			},
+			include: {
+				model: Institution,
+				through: { attributes: []}
+			}
+		}).then(finded => res.json(finded))
+		  .catch(err => next(err));
+	} else {
+		User.findAll()
+			.then((finded) => res.json(finded))
+			.catch((err) => next(err));
+	}
 });
 
 router.get('/:user_id', (req, res, next) => {

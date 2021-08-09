@@ -4,10 +4,9 @@ import Accordion from '@material-ui/core/Accordion';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
-import App from './example'
 
 import Nav from "../../components/Nav/Nav";
-import AdminInstitutions from './AdminInstitutions';
+import AdminInstitutions from './components/AdminInstitutions';
 
 const useStyles = makeStyles((theme) => ({
     offset: theme.mixins.toolbar,
@@ -43,11 +42,10 @@ const Admin_Panel = () => {
                             aria-controls="panel1bh-content"
                             id="panel1bh-header"
                         >
-                            Instituciones
+                            Usuarios
                         </AccordionSummary>
                         <AccordionDetails>
-                            {/* <App/> */}
-                            <AdminInstitutions/>
+                            
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -56,10 +54,10 @@ const Admin_Panel = () => {
                             aria-controls="panel1bh-content"
                             id="panel1bh-header"
                         >
-                            
+                            Instituciones
                         </AccordionSummary>
                         <AccordionDetails>
-                            Mundo
+                            <AdminInstitutions/>
                         </AccordionDetails>
                     </Accordion>
                     </div>
