@@ -12,6 +12,8 @@ import {
 } from "@material-ui/core";
 import SearchIcon from '@material-ui/icons/Search';
 import { getAllArticle, getArticleTag } from "../../redux/actions/actions";
+import { Link } from "react-router-dom";
+
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
@@ -45,6 +47,7 @@ export default function Home() {
   const classes = useStyles();
   const articles = useSelector((state) => state.rootReducer.articles); // Nueva forma de acceder al estado por combineReducer
   const dispatch = useDispatch();
+  
 
   useEffect(() => {
     dispatch(getAllArticle());
@@ -59,13 +62,14 @@ export default function Home() {
   const pageCount = Math.ceil(articles?.length / postsByPage);
 
   const onChange = (e) => {
-      if (e.target.name === 'search') setTag(e.target.value)
+      setTag(e.target.value)
   }
 
   const handleSubmit = (e) => {
+    e.preventDefault()
     if(tag){
-      e.preventDefault()
       dispatch(getArticleTag(tag))
+      setTag("")
     }
     else{
       alert("Ingrese un TAG")
@@ -109,7 +113,7 @@ export default function Home() {
                       className={classes.input}
                       placeholder="Escribí aquí el artículo que deseas encontrar"
                       value={tag}
-                      onChange={(e)=>setTag(e.target.value)}
+                      onChange={onChange}
                       name='search'
                     />
                     <IconButton type="submit" className={classes.iconButton} aria-label="search">
@@ -147,7 +151,10 @@ export default function Home() {
                     articleAbstract={p.art_abstract}
                   />
                 ))
-            : null}
+            : <div>
+                <p>Articulo no encontrado</p>
+                <Link to ={'/home'}><button>Volver atras</button></Link>
+              </div>}
         </Container>
       </Container>
       {/* <Container>

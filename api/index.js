@@ -33,15 +33,14 @@ const {
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {
-  server.listen(3001, () => {
+  server.listen( 3001, async () => {
     console.log("%s listening at 3001");
-    Tag.bulkCreate([
-      {tag_id: 1, tag_name: "Investigacion"},
-      {tag_id: 2, tag_name: "Tesis"},
-      {tag_id: 3, tag_name: "General"}
-    ]).then(() => {
-      console.log("**** TAGS CREADOS");
-    });
+    const tags =  await Tag.bulkCreate([
+      {tag_id: uuidv4(), tag_name: "Investigacion"},
+      {tag_id: uuidv4(), tag_name: "Tesis"},
+      {tag_id: uuidv4(), tag_name: "General"}
+    ])
+    console.log("**** ROLES CREADOS");
     // article_tag.bulkCreate([
     //   {articleArtId: uuid.v4(), articletagTagId: 1}
     // ])
@@ -123,6 +122,7 @@ conn.sync({ force: true }).then(() => {
             sub_cat_id: 1,
             user_id: user[0].user_id,
           },
+
           {
             art_title: "Sobre APA",
             art_contents: "Contenido Extenso",
@@ -145,6 +145,9 @@ conn.sync({ force: true }).then(() => {
           },
           //1ab454b1-b0ee-4a6e-a3a7-a4a5afbf1899
         ]);
+        await art[0].addTag([tags[0].tag_id, tags[1].tag_id])
+        await art[1].addTag([tags[2].tag_id])
+        await art[2].addTag([tags[2].tag_id])
         console.log("**** ARTICULOS CREADOS");
       });
     // eslint-disable-line no-console

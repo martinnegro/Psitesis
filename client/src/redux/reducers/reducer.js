@@ -51,7 +51,7 @@ function rootReducer(state = initialState, action) {
     case GET_ARTICLE_TAG:
       return {
         ...state,
-        article: action.payload,
+        articles: action.payload,
       }
     default:
       return state;
