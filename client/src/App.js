@@ -10,6 +10,7 @@ import PostOk from './views/postOk/PostOk.jsx';
 import { ProtectedRoute } from './components';
 import { findOrCreateUser as findOrCreateUserAction } from './redux/actions/actions';
 import { useDispatch } from 'react-redux';
+import GuiaDeTesis from './views/Guia de Tesis/GuiaDeTesis';
 
 const App = () => {
 	const { isLoading, user, getAccessTokenSilently } = useAuth0();
@@ -40,6 +41,7 @@ const App = () => {
 				<ProtectedRoute path="/postEdit/:id" exact component={Post} />
 				<ProtectedRoute path="/post/:id" exact component={Art_Detail} />
 				<ProtectedRoute path="/post_exitoso/:accion" exact component={PostOk} />
+				<ProtectedRoute path="/guiadetesis" exact component={GuiaDeTesis} />
 				<Route path="*" render={() => <Redirect to="/" />} />
 			</Switch>
 		</div>

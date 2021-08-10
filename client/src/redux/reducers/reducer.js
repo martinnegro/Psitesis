@@ -5,6 +5,7 @@ import {
   SET_USER_ID,
   SET_USER_ROLES,
   ORDER_ARTICLES,
+  GET_ALL_CATEGORIES,
 } from "../actions/actions";
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   user_id: undefined,
   user_roles: [],
   orderedArticles: [],
+  categories: []
 };
 
 function rootReducer(state = initialState, action) {
@@ -48,6 +50,11 @@ function rootReducer(state = initialState, action) {
         ...state,
         orderedArticles: action.payload,
       };
+    case GET_ALL_CATEGORIES: 
+    return {
+      ...state,
+      categories: action.payload,
+    }
     default:
       return state;
   }

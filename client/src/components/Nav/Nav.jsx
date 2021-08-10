@@ -23,7 +23,7 @@ import clsx from 'clsx';
 
 import IconButton from '@material-ui/core/IconButton';
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
-// import BookOutlinedIcon from '@material-ui/icons/BookOutlined';
+import BookOutlinedIcon from '@material-ui/icons/BookOutlined';
 // import ForumIcon from '@material-ui/icons/Forum';
 // import PeopleOutlineOutlinedIcon from '@material-ui/icons/PeopleOutlineOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -179,13 +179,15 @@ export default function Nav() {
 				</div>
 				<Divider />
 				<List>
-					{['Home' /* 'Guía de Tesis', 'Foro', 'Colaboradores' */].map(
+					{['Home', 'Guía de Tesis'/* , 'Foro', 'Colaboradores' */].map(
 						(text, index) => (
-							<ListItem button key={text} onClick={() => history.push('/home')}>
+							<ListItem button key={text} /* onClick={() => history.push('/home')} */>
 								<ListItemIcon>
 									{
 										index === 0 ? (
-											<HomeOutlinedIcon />
+											<HomeOutlinedIcon onClick={() => history.push('/home')} />
+										) : index === 1 ? (
+											<BookOutlinedIcon  onClick={() => history.push('/guiadetesis')} />
 										) : null /*  index === 1 ? <BookOutlinedIcon /> : index === 2 ? <ForumIcon /> : <PeopleOutlineOutlinedIcon   /> */
 									}
 								</ListItemIcon>

@@ -2,6 +2,7 @@ import axios from "axios";
 
 const { REACT_APP_URL_API } = process.env
 
+export const GET_ALL_CATEGORIES = 'GET ALL CATEGORIES';
 export const GET_ALL_ARTICLE = "GET ALL ARTICLE";
 export const GET_ARTICLE_DETAIL = "GET ARTICLE DETAIL";
 export const GET_USERS = "GET USERS";
@@ -137,6 +138,20 @@ export const orderArticles = (orderBy, order) => {
       console.log(response.data);
       dispatch({
         type: ORDER_ARTICLES,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const getAllCategories = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios(`${REACT_APP_URL_API}/categories`);
+      dispatch({
+        type: GET_ALL_CATEGORIES,
         payload: response.data,
       });
     } catch (error) {
