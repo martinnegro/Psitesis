@@ -172,7 +172,7 @@ export default function Home() {
                 <Link to ={'/home'}><button>Volver atras</button></Link>
               </div>}
         </Container>
- : null}
+
       </Container>
       {/* <Container>
                 <Container>
