@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const { REACT_APP_URL_API } = process.env
+const { REACT_APP_URL_API } = process.env;
 
 export const GET_ALL_ARTICLE = "GET ALL ARTICLE";
 export const GET_ARTICLE_DETAIL = "GET ARTICLE DETAIL";
@@ -105,9 +105,13 @@ export const editPost = (editPost, token) => async (dispatch) => {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
-    await axios.put(`${REACT_APP_URL_API}/article/${editPost.art_id}`, editPost, {
-      headers,
-    });
+    await axios.put(
+      `${REACT_APP_URL_API}/article/${editPost.art_id}`,
+      editPost,
+      {
+        headers,
+      }
+    );
   } catch (err) {
     console.log(err);
     return;

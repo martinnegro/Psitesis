@@ -5,8 +5,12 @@ const path = require("path");
 const { DATABASE_URL } = process.env;
 
 const sequelize = new Sequelize(
-    DATABASE_URL,
-    {
+  DATABASE_URL,
+  {
+    logging: false,
+    native: false,
+  }
+  /* {
       dialect: 'postgres',
       protocol: 'postgres',
       dialectOptions: {
@@ -15,7 +19,7 @@ const sequelize = new Sequelize(
             rejectUnauthorized: false
         }
       }
-    }
+    } */
 );
 const basename = path.basename(__filename);
 
@@ -43,46 +47,49 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Article, Institution, Rol, Network, User, Category, SubCategory, Tag } = sequelize.models;
+const { Article, Institution, Rol, Network, User, Category, SubCategory, Tag } =
+  sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
 //rol tiene muchos usuarios, se le añade el id de rol en la tabla user
 //1 a N usuario --- rol
 // Rol.hasMany(User);
-User.belongsTo(Rol, {targetKey: 'rol_id', foreignKey: 'rol_id'});
+User.belongsTo(Rol, { targetKey: "rol_id", foreignKey: "rol_id" });
 
 // N a N red ----- usuario
-User.hasMany(Network)
+User.hasMany(Network);
 Network.belongsTo(User);
 
 // 1 a N Usuario ----- Articulo
-User.hasMany(Article, { as: 'articles'})
-Article.belongsTo(User, { foreignKey: 'user_id' });
+User.hasMany(Article, { as: "articles" });
+Article.belongsTo(User, { foreignKey: "user_id" });
 
 //#### Reemplazada la relacion inst - articulo por inst - user
-Institution.belongsToMany(User, { through: 'userinstitution'})
-User.belongsToMany(Institution, { through: 'userinstitution'});
+Institution.belongsToMany(User, { through: "userinstitution" });
+User.belongsToMany(Institution, { through: "userinstitution" });
 
 //1 a N institucion ------redes
-Institution.hasMany(Network)
+Institution.hasMany(Network);
 Network.belongsTo(Institution);
 
 //1 a N categoria------sub-categoria
 
-Category.hasMany(SubCategory)
-SubCategory.belongsTo(Category, { targetKey: 'cat_id', foreignKey: 'cat_id' });
+Category.hasMany(SubCategory);
+SubCategory.belongsTo(Category, { targetKey: "cat_id", foreignKey: "cat_id" });
 
 // 1 a N Categoria-----Articulo
 
-SubCategory.hasMany(Article)
-Article.belongsTo(SubCategory, { targetKey: 'sub_cat_id', foreignKey: 'sub_cat_id' });
+SubCategory.hasMany(Article);
+Article.belongsTo(SubCategory, {
+  targetKey: "sub_cat_id",
+  foreignKey: "sub_cat_id",
+});
 
 // N a N Tag-------Articulo
 
-Article.belongsToMany(Tag, {through: "article_tag"});
-Tag.belongsToMany(Article, {through: "article_tag"});
-
+Article.belongsToMany(Tag, { through: "article_tag" });
+Tag.belongsToMany(Article, { through: "article_tag" });
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

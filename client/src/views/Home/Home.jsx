@@ -6,6 +6,8 @@ import CardPost from "../../components/Card/Card";
 import s from "./Home.module.css";
 import Container from "@material-ui/core/Container";
 import { useDispatch, useSelector } from "react-redux";
+import { useAuth0 } from "@auth0/auth0-react";
+import VerifyEmail from "../../components/VerifyEmail";
 import {
   /* Divider, IconButton, InputBase, */ makeStyles,
   /* Paper, TextField, */ Typography,
@@ -45,8 +47,10 @@ export default function Home() {
   const classes = useStyles();
   const articles = useSelector((state) => state.rootReducer.articles); // Nueva forma de acceder al estado por combineReducer
   const orderedArticles = useSelector((state) => state.rootReducer.orderedArticles)
+  const { user } = useAuth0();
   const dispatch = useDispatch();
   
+ 
 
   useEffect(() => {
     dispatch(getAllArticle());
@@ -56,7 +60,7 @@ export default function Home() {
     dispatch(orderArticles("art_views","DESC"))
   },[dispatch])
 
-  console.log(orderedArticles)
+ console.log(user)
 
   // const [ search, setSearch ] = useState('')
   const [pageNumber, setPageNumber] = useState(0);
@@ -112,7 +116,7 @@ export default function Home() {
                       <SearchIcon />
                     </IconButton>
                 </Paper> */}
-
+        {user.email_verified ? 
         <Container>
           <ReactPaginate
             previousLabel={"<"}
@@ -126,7 +130,9 @@ export default function Home() {
             activeClassName={s.paginationActive}
           />
         </Container>
+ : <VerifyEmail/>}
 
+ {user.email_verified ? 
         <Container
           style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}
         >
@@ -143,8 +149,9 @@ export default function Home() {
                     articleAbstract={p.art_abstract}
                   />
                 ))
-            : null}
+            : null }
         </Container>
+ : null}
       </Container>
       {/* <Container>
                 <Container>
