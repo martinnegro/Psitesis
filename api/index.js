@@ -28,12 +28,23 @@ const {
   Institution,
   User,
   Article,
+  Tag,
+  article_tag
 } = require("./src/db.js");
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {
   server.listen(process.env.PORT || 3001, () => {
     console.log("%s listening at 3001");
+    const tags =  await Tag.bulkCreate([
+      {tag_id: uuidv4(), tag_name: "Investigacion"},
+      {tag_id: uuidv4(), tag_name: "Tesis"},
+      {tag_id: uuidv4(), tag_name: "General"}
+    ])
+    console.log("**** ROLES CREADOS");
+    // article_tag.bulkCreate([
+    //   {articleArtId: uuid.v4(), articletagTagId: 1}
+    // ])
     Rol.bulkCreate([
       { rol_id: 1, rol_name: "admin" },
       { rol_id: 2, rol_name: "colab" },
@@ -106,18 +117,17 @@ conn.sync({ force: true }).then(() => {
             art_title: "Sobre tesis",
             art_contents: "Contenido extenso",
             art_date: "05/10/2021",
-            art_tags: "",
             art_views: 0,
             art_abstract: 'Abstract-1',
             art_id: uuidv4(),
             sub_cat_id: 1,
             user_id: user[0].user_id,
           },
+
           {
             art_title: "Sobre APA",
             art_contents: "Contenido Extenso",
             art_date: "17/01/1997",
-            art_tags: "",
             art_views: 0,
             art_abstract: 'Abstract-2',
             art_id: uuidv4(),
@@ -128,16 +138,20 @@ conn.sync({ force: true }).then(() => {
             art_title: "Sobre Proyectos",
             art_contents: "Contenido Extenso",
             art_date: "03/05/2020",
-            art_tags: "",
             art_views: 0,
             art_abstract: 'Abstract-3',
             art_id: uuidv4(),
             sub_cat_id: 4,
             user_id: user[1].user_id,
           },
+          //1ab454b1-b0ee-4a6e-a3a7-a4a5afbf1899
         ]);
+        await art[0].addTag([tags[0].tag_id, tags[1].tag_id])
+        await art[1].addTag([tags[2].tag_id])
+        await art[2].addTag([tags[2].tag_id])
         console.log("**** ARTICULOS CREADOS");
       });
     // eslint-disable-line no-console
+    
   });
 });
