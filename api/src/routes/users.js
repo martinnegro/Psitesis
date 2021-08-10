@@ -94,10 +94,21 @@ router.get('/', (req, res, next) => {
 		}).then(finded => res.json(finded))
 		  .catch(err => next(err));
 	} else {
-		User.findAll()
+		User.findAll({include: [ { model: Institution, through: { attributes: [] } }]})
 			.then((finded) => res.json(finded))
 			.catch((err) => next(err));
 	}
+});
+
+router.post('/get_user_role', async (req,res,next) => {
+	const { user_id_A0 } = req.body;
+	console.log(user_id_A0)
+	try {
+	const rols = await management.getUserRoles({
+		id: user_id_A0
+	});
+	res.json(rols)
+	} catch(err) { next(err) }
 });
 
 router.get('/:user_id', (req, res, next) => {
@@ -119,5 +130,6 @@ router.get('/:user_id', (req, res, next) => {
 		})
 		.catch((err) => next(err));
 });
+
 
 module.exports = router;

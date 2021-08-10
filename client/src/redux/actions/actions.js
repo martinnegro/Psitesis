@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-import axios from 'axios';
-const URL_API = 'http://localhost:3001';
-=======
 import axios from "axios";
 
 const { REACT_APP_URL_API } = process.env
->>>>>>> main
 
 export const GET_ALL_ARTICLE = "GET ALL ARTICLE";
 export const GET_ARTICLE_DETAIL = "GET ARTICLE DETAIL";

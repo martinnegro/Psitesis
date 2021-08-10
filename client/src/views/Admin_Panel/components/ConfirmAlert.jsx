@@ -9,8 +9,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default function AlertDialog({ open, handleClose, inst, inst_id, handleConfirm }) {
     
-    console.log(inst)
-    console.log(inst_id)
     return (
       <div>
         <Dialog
