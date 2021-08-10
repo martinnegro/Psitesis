@@ -6,6 +6,7 @@ import {
   editPost,
   getArticleDetail,
   clearDetail,
+  getAllCatSub,
 } from "../../redux/actions/actions";
 import Nav from "../../components/Nav/Nav";
 import { useHistory, useParams } from "react-router-dom";
@@ -26,6 +27,7 @@ import style from "./Post.module.css";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
+import Selectores from "../../components/Select/Select";
 
 const theme = createTheme({
   palette: {
@@ -69,15 +71,21 @@ const useStyles = makeStyles({
 function Post() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const articlesDetail = useSelector((state) => state.rootReducer.articlesDetail); // Nueva forma de acceder al estado por combineReducer
+  const articlesDetail = useSelector(
+    (state) => state.rootReducer.articlesDetail
+  ); // Nueva forma de acceder al estado por combineReducer
   const user_id = useSelector((state) => state.rootReducer.user_id); // Nueva forma de acceder al estado por combineReducer
+  const user_roles = useSelector((state) => state.rootReducer.user_roles);
+
   const classes = useStyles();
   const { user, getAccessTokenSilently } = useAuth0();
 
+  const [enablePost, setEnablePost] = useState(false);
   const [body, setBody] = useState("");
   const [titulo, setTitulo] = useState("");
   const [reseña, setReseña] = useState("");
   const [subcategoria, setSubcategoria] = useState("");
+  const [tags, setTags] = useState("");
 
   //MOdal
   //const classes = useStyles();
@@ -111,17 +119,15 @@ function Post() {
     setReseña(e.target.value);
   };
 
+  const handleInputTags = (e) => {
+    setTags(e.target.value);
+  };
+
   const handleInputCat = (e) => {
     let index = e.target.selectedIndex;
     let option = e.target.options[index].value;
-    // setCategoria(option.split("-")[0]);
-    setSubcategoria(option.split("-")[1]);
+    setSubcategoria(option);
   };
-
-  // const handleSubmitPrevia = (e) => {
-  //   e.preventDefault();
-  //   console.log("Esto es body-prev:", body);
-  // };
 
   const handleSubmitBody = async (e) => {
     e.preventDefault();
@@ -133,16 +139,18 @@ function Post() {
       user_id: user.sub,
       art_abstract: reseña,
       art_date: date,
+      art_tags: tags.split(",").map((e) => e.trim()),
       art_id: id ? articlesDetail.art_id : null,
     };
 
     // action createPost or editPost
     const token = await getAccessTokenSilently();
+    console.log("token:", token);
     if (id) {
       dispatch(editPost(data, token));
       setBody("");
       setTitulo("");
-      history.push("/post_exitoso");
+      history.push("/post_exitoso/Editado");
     } else {
       dispatch(createPost(data, token));
       setBody("");
@@ -162,14 +170,24 @@ function Post() {
   }, []);
 
   useEffect(() => {
-    if (articlesDetail && user_id) {
+    if (articlesDetail && user_id && user_roles) {
       setBody(articlesDetail.art_contents);
       setTitulo(articlesDetail.art_title);
       if (articlesDetail.user_id !== user_id) {
-        history.push("/");
+        if (!user_roles.includes("admin")) {
+          history.push("/");
+        } else {
+          setEnablePost(true);
+        }
+      } else {
+        setEnablePost(true);
       }
     }
-  }, [articlesDetail, history, user_id]);
+  }, [articlesDetail, history, user_id, user_roles]);
+
+  useEffect(() => {
+    dispatch(getAllCatSub());
+  }, []);
 
   return (
     <div>
@@ -188,6 +206,7 @@ function Post() {
               type="text"
               value={titulo}
               onChange={handleInput}
+			  required
             />
             <FormControl>
               <InputLabel htmlFor="grouped-native-select">Categoria</InputLabel>
@@ -196,20 +215,10 @@ function Post() {
                 defaultValue=""
                 id="grouped-native-select"
                 onChange={handleInputCat}
+				required
               >
                 <option aria-label="None" value="" />
-                <optgroup label="Investigación">
-                  <option value={"Investigación-1"}>
-                    Metodologia de investigación
-                  </option>
-                  <option value={"Investigación-2"}>Elección de tema</option>
-                </optgroup>
-                <optgroup label="Normas Apa">
-                  <option value={"Normas Apa-3"}>Citado en el texto</option>
-                  <option value={"Normas Apa-4"}>
-                    Referencias bibliográficas
-                  </option>
-                </optgroup>
+                <Selectores />
               </Select>
             </FormControl>
           </div>
@@ -233,6 +242,7 @@ function Post() {
               inputProps={{
                 maxLength: 120,
               }}
+			  required
             />
           </div>
           <br />
@@ -244,6 +254,27 @@ function Post() {
             onChange={handleBody}
             value={body}
           />
+          <br />
+          <div>
+            <TextField
+              id="outlined-full-width"
+              label="Tags"
+              style={{ marginTop: 20 }}
+              placeholder="Placeholder"
+              helperText="Ingresa tags separados por coma ','"
+              fullWidth
+              margin="normal"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+              name="tags"
+              type="text"
+              value={tags}
+              onChange={handleInputTags}
+			  required
+            />
+          </div>
           <br />
           <br />
           <div className={style.botones}>
@@ -274,21 +305,15 @@ function Post() {
               >
                 <Fade in={open}>
                   <div className={classes.paper}>
-                    {on === "0" ? (
-                      <>
-                        <Typography>{titulo}</Typography>
-                        <br />
-                        <Typography variant="body2">
-                          <span
-                            dangerouslySetInnerHTML={{
-                              __html: `${body}`,
-                            }}
-                          />
-                        </Typography>
-                      </>
-                    ) : (
-                      <Typography>Post creado con éxito</Typography>
-                    )}
+                    <Typography>{titulo}</Typography>
+                    <br />
+                    <Typography variant="body2">
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: `${body}`,
+                        }}
+                      />
+                    </Typography>
                   </div>
                 </Fade>
               </Modal>

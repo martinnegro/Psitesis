@@ -87,7 +87,11 @@ const Art_Detail = () => {
   const dispatch = useDispatch();
   const articlesDetail = useSelector((state) => state.rootReducer.articlesDetail); // Nueva forma de acceder al estado por combineReducer
   const users = useSelector((state) => state.rootReducer.users); // Nueva forma de acceder al estado por combineReducer
+  const user_id = useSelector((state) => state.rootReducer.user_id); // Nueva forma de acceder al estado por combineReducer
+	const user_roles = useSelector((state) => state.rootReducer.user_roles);
   const [idUser, setIdUser] = useState([]);
+
+	const [enablePost, setEnablePost] = useState(false);
 
   const history = useHistory();
 
@@ -119,7 +123,18 @@ const Art_Detail = () => {
     setSection(subCats.filter((c) => c.id === articlesDetail?.sub_cat_id));
   }, [articlesDetail?.sub_cat_id]);
 
-  
+	useEffect(() => {
+		if (articlesDetail && user_id && user_roles) {
+			if (articlesDetail.user_id !== user_id) {
+				if (user_roles.includes('admin')) {
+					setEnablePost(true);
+				}
+			} else {
+        setEnablePost(true);
+      }
+		}
+	}, [articlesDetail, history, user_id, user_roles]);
+
   const deletePostHandler = async () => {  
     const token = await getAccessTokenSilently();  
     dispatch(deletePost(id, token))
@@ -128,7 +143,6 @@ const Art_Detail = () => {
   const editArticle = () => {
     history.push('/postEdit/'+ id);
   }
-
 
   //Modal constantes:
   const [open, setOpen] = React.useState(false);
@@ -170,7 +184,7 @@ const Art_Detail = () => {
               <Typography variant="body2">el {articlesDetail?.art_date}</Typography>
             </div>
           </div>
-         <div className={s.btns}>
+{enablePost ? <div className={s.btns}>
            <Button 
            startIcon={<DeleteIcon />}
            variant="contained"
@@ -215,7 +229,9 @@ const Art_Detail = () => {
               }} onClick={editArticle}>
                 Editar
               </Button>
-           </div> 
+           </div>  : null}
+
+         
           
           <Typography variant="h2" color="initial">
             {articlesDetail.art_title}
