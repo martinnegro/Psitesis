@@ -10,9 +10,11 @@ import {
   Divider, IconButton, InputBase,  makeStyles,
    Paper, TextField,  Typography,
 } from "@material-ui/core";
+
 import SearchIcon from '@material-ui/icons/Search';
-import { getAllArticle, getArticleTag } from "../../redux/actions/actions";
+import { getAllArticle, getArticleTag, orderArticles } from "../../redux/actions/actions";
 import { Link } from "react-router-dom";
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -46,12 +48,19 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
   const classes = useStyles();
   const articles = useSelector((state) => state.rootReducer.articles); // Nueva forma de acceder al estado por combineReducer
+  const orderedArticles = useSelector((state) => state.rootReducer.orderedArticles)
   const dispatch = useDispatch();
   
 
   useEffect(() => {
     dispatch(getAllArticle());
   }, [dispatch]);
+
+  useEffect(()=>{
+    dispatch(orderArticles("art_views","DESC"))
+  },[dispatch])
+
+  console.log(orderedArticles)
 
   // const [ search, setSearch ] = useState('')
   const [pageNumber, setPageNumber] = useState(0);
@@ -138,8 +147,8 @@ export default function Home() {
         <Container
           style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}
         >
-          {articles?.length > 0
-            ? articles
+          {orderedArticles?.length > 0
+            ? orderedArticles
                 ?.slice(pagesVisited, pagesVisited + postsByPage)
                 .map((p) => (
                   <CardPost

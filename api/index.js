@@ -19,6 +19,7 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require("./src/app.js");
 const { v4: uuidv4 } = require("uuid");
+require("dotenv").config();
 const {
   conn,
   Rol,
@@ -33,7 +34,7 @@ const {
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {
-  server.listen( 3001, async () => {
+  server.listen(process.env.PORT || 3001, () => {
     console.log("%s listening at 3001");
     const tags =  await Tag.bulkCreate([
       {tag_id: uuidv4(), tag_name: "Investigacion"},
