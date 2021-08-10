@@ -34,7 +34,7 @@ const {
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {
-  server.listen(process.env.PORT || 3001, () => {
+  server.listen(process.env.PORT || 3001, async () => {
     console.log("%s listening at 3001");
     const tags =  await Tag.bulkCreate([
       {tag_id: uuidv4(), tag_name: "Investigacion"},
