@@ -27,17 +27,17 @@ Dentro encontrarán las siguientes secciones:
 - `REACT_APP_AUTH0_DOMAIN=`
 - `REACT_APP_AUTH0_CLIENT_ID=`
 - `REACT_APP_AUTH0_AUDIENCE=`
+- `REACT_APP_URL_API=`
 
 #### En api:
-- `DB_USER=`
-- `DB_PASSWORD=`
-- `DB_HOST=`
-- `DB_NAME=`
-- `JWKSURI=` 
-- `AUDIENCE=` 
-- `AUTH_CLIENT_DOMAIN`
-- `AUTH_CLIENT_ID`
-- `AUTH_CLIENT_SECRET`
+- `DATABASE_URL=postgres://user:password@server:port/database`
+- `JWKSURI=`
+- `AUDIENCE =`
+- `ALGORITMHS =`
+- `AUTH_CLIENT_DOMAIN=`
+- `AUTH_CLIENT_ID=`
+- `AUTH_CLIENT_SECRET=`
+
 
 ### Diagrama Directorios
 ```
