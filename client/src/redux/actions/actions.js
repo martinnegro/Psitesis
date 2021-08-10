@@ -5,10 +5,12 @@ const { REACT_APP_URL_API } = process.env;
 export const GET_ALL_ARTICLE = "GET ALL ARTICLE";
 export const GET_ARTICLE_DETAIL = "GET ARTICLE DETAIL";
 export const GET_USERS = "GET USERS";
+export const GET_ARTICLE_TAG = "GET_ARTICLE_TAG"
 export const SET_USER_ID = "SET_USER_ID";
 export const SET_USER_ROLES = "SET_USER_ROLES";
 export const ORDER_ARTICLES = "ORDER_ARTICLES";
 export const GET_ALL_CAT_SUB = "GET_ALL_CAT_SUB";
+
 
 export const getAllArticle = () => {
   return async (dispatch) => {
@@ -149,6 +151,19 @@ export const orderArticles = (orderBy, order) => {
   };
 };
 
+
+export function getArticleTag(tag){
+  return function(dispatch) {
+      return axios.get(`${URL_API}/tag?tag=${tag}`)
+      .then(response => response.data)
+      .then(json =>{
+          dispatch({type: 'GET_ARTICLE_TAG', payload: json});
+      })
+  }
+}
+
+
+
 export const getAllCatSub = () => {
   return async (dispatch) => {
     try {
@@ -162,3 +177,4 @@ export const getAllCatSub = () => {
     }
   };
 };
+

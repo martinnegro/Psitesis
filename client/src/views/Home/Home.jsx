@@ -9,11 +9,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 import VerifyEmail from "../../components/VerifyEmail";
 import {
-  /* Divider, IconButton, InputBase, */ makeStyles,
-  /* Paper, TextField, */ Typography,
+  Divider, IconButton, InputBase,  makeStyles,
+   Paper, TextField,  Typography,
 } from "@material-ui/core";
-// import SearchIcon from '@material-ui/icons/Search';
-import { getAllArticle,orderArticles } from "../../redux/actions/actions";
+
+import SearchIcon from '@material-ui/icons/Search';
+import { getAllArticle, getArticleTag, orderArticles } from "../../redux/actions/actions";
+import { Link } from "react-router-dom";
+
+
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
@@ -64,14 +68,26 @@ export default function Home() {
 
   // const [ search, setSearch ] = useState('')
   const [pageNumber, setPageNumber] = useState(0);
+  const [tag, setTag] = useState('')
 
   const postsByPage = 9;
   const pagesVisited = pageNumber * postsByPage;
   const pageCount = Math.ceil(articles?.length / postsByPage);
 
-  // const onChange = (e) => {
-  //     if (e.target.name === 'search') setSearch(e.target.value)
-  // }
+  const onChange = (e) => {
+      setTag(e.target.value)
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if(tag){
+      dispatch(getArticleTag(tag))
+      setTag("")
+    }
+    else{
+      alert("Ingrese un TAG")
+    }
+  }
 
   const changePage = ({ selected }) => {
     setPageNumber(selected);
@@ -105,18 +121,20 @@ export default function Home() {
           </Typography>
         </Container>
 
-        {/* <Paper component="form" className={classes.root}>
+        <Paper component="form" className={classes.root} onSubmit={handleSubmit}>
                     <InputBase
                       className={classes.input}
                       placeholder="Escribí aquí el artículo que deseas encontrar"
+                      value={tag}
                       onChange={onChange}
                       name='search'
                     />
                     <IconButton type="submit" className={classes.iconButton} aria-label="search">
                       <SearchIcon />
                     </IconButton>
-                </Paper> */}
-        {user.email_verified ? 
+                </Paper>
+
+
         <Container>
           <ReactPaginate
             previousLabel={"<"}
@@ -130,9 +148,9 @@ export default function Home() {
             activeClassName={s.paginationActive}
           />
         </Container>
- : <VerifyEmail/>}
+ 
 
- {user.email_verified ? 
+  
         <Container
           style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}
         >
@@ -149,7 +167,10 @@ export default function Home() {
                     articleAbstract={p.art_abstract}
                   />
                 ))
-            : null }
+            : <div>
+                <p>Articulo no encontrado</p>
+                <Link to ={'/home'}><button>Volver atras</button></Link>
+              </div>}
         </Container>
  : null}
       </Container>
