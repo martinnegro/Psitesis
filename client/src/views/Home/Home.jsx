@@ -121,6 +121,8 @@ export default function Home() {
           </Typography>
         </Container>
 
+        {user.email_verified ? 
+
         <Paper component="form" className={classes.root} onSubmit={handleSubmit}>
                     <InputBase
                       className={classes.input}
@@ -133,8 +135,9 @@ export default function Home() {
                       <SearchIcon />
                     </IconButton>
                 </Paper>
+: <VerifyEmail/>}
 
-
+ {user.email_verified ? 
         <Container>
           <ReactPaginate
             previousLabel={"<"}
@@ -148,9 +151,10 @@ export default function Home() {
             activeClassName={s.paginationActive}
           />
         </Container>
+ : null}
  
 
-  
+  {user.email_verified ?  
         <Container
           style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}
         >
@@ -172,6 +176,8 @@ export default function Home() {
                 <Link to ={'/home'}><button>Volver atras</button></Link>
               </div>}
         </Container>
+: null}
+ 
 
       </Container>
       {/* <Container>
