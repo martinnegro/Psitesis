@@ -2,7 +2,8 @@ const { Router } = require("express");
 const router = Router();
 const { v4: uuidv4 } = require("uuid");
 const { authorizeAccessToken, checkAdminPermission } = require("../auth/index");
-const { Article, User } = require("../db");
+const { Article, User, Tag } = require("../db");
+const { Op } = require('sequelize');
 
 router.post(
   "/",
@@ -17,19 +18,43 @@ router.post(
       const aux_user = await User.findOne({ where: { user_id_A0: aux_id } });
       aux_id = aux_user.user_id;
     }
-    Article.create({
+    const createdArticle = await Article.create({
       art_title,
       art_contents,
       art_date,
-      art_tags,
       art_abstract,
       art_id,
       sub_cat_id,
       user_id: aux_id,
       art_views: 0,
     })
-      .then((created) => res.json(created.dataValues))
-      .catch((err) => next(err));
+
+    const tags = []
+
+    /*Creo una promesa para poder esperar por el forEach*/
+    var aux = new Promise((resolve, reject) => {
+      art_tags.forEach( async (tag_name, index, array) => {
+        const tag = await Tag.findOne(
+          { where: {tag_name: {[Op.iLike]: `%${tag_name}`}}}
+        );
+        if(tag){
+          tags.push(tag)
+        }else{
+          const createdTag = await Tag.create({
+            tag_id: uuidv4(),
+            tag_name: tag_name
+          });
+          tags.push(createdTag)
+        }
+        if (index === array.length -1) resolve();
+      });
+  });
+  
+  aux.then(async () => {
+     await createdArticle.setTags(tags);
+     return res.status(201).send(createdArticle);
+  });
+
   }
 );
 
