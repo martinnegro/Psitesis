@@ -121,7 +121,7 @@ export default function Home() {
           </Typography>
         </Container>
 
-        {user.email_verified ? 
+        {user?.email_verified ? 
 
         <Paper component="form" className={classes.root} onSubmit={handleSubmit}>
                     <InputBase
@@ -137,7 +137,7 @@ export default function Home() {
                 </Paper>
 : <VerifyEmail/>}
 
- {user.email_verified ? 
+ {user?.email_verified ? 
         <Container>
           <ReactPaginate
             previousLabel={"<"}
@@ -154,7 +154,7 @@ export default function Home() {
  : null}
  
 
-  {user.email_verified ?  
+  {user?.email_verified ?  
         <Container
           style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}
         >
