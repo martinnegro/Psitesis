@@ -3,7 +3,7 @@ const {DataTypes} = require('sequelize')
 module.exports = (sequelize) => {
     sequelize.define ('tag', {
             tag_id: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.UUID,
                 allowNull: false,
                 primaryKey: true,
             },
