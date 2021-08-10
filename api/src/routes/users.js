@@ -78,6 +78,32 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+router.post('/get_role', async (req,res,next) => {
+  const { user_id_A0 } = req.body;
+  try{ 
+  const role = await management.getUserRoles({ id: user_id_A0 })
+  const roles = await management.roles.getAll();
+  res.json({ role, roles })
+  } catch(err) { next(err) }
+});
+
+router.put('/change_role', async (req,res,next) => {
+  const { idUser, oldRoleId, newRolId } = req.body;
+  // if (!user_id_A0 || !rol_id) return next(new Error('user_id_A0 or rol_id are missing'));
+  var paramsDel =  { id : idUser };
+  var dataDel = { "roles" : [oldRoleId]};
+
+  await management.users.removeRoles(paramsDel, dataDel, (err)=>{
+    err && next(err);
+  });
+  
+  const paramsAssign = { id: idUser };
+  const dataAssign   = { "roles": [newRolId] }
+  await management.assignRolestoUser(paramsAssign, dataAssign, (err)=>{
+    err ? next(err) : res.json({ message: 'Role change succesful.' });
+  });
+});
+
 router.get("/", (req, res, next) => {
   User.findAll()
     .then((finded) => res.json(finded))

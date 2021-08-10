@@ -31,6 +31,7 @@ const {
   Tag,
   article_tag
 } = require("./src/db.js");
+const { management } = require("./src/auth/index.js");
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {
@@ -89,25 +90,16 @@ conn.sync({ force: true }).then(() => {
           },
         ]);
         console.log("**** INSTITUCIÓN CREADA");
-        const user_id = uuidv4();
-        const user = await User.bulkCreate([
-          {
-            user_id,
-            user_name: "Santiago",
-            user_email: "santiago@psitesis.com",
-            user_img_profile: "http://img.jpg",
-            biography: "Creador de Psitesis",
-            rol_id: 1,
-          },
-          {
-            user_id: uuidv4(),
-            user_name: "Wanda",
-            user_email: "wanda@henry.com",
-            user_img_profile: "http://img.jpg",
-            biography: "Instructora en Henry",
-            rol_id: 2,
-          },
-        ]);
+        const usersA0 = await management.getUsers();
+        const mappedusersA0 = usersA0.map(u => {return {
+          user_id: uuidv4(),
+          user_name: u.name,
+          user_id_A0: u.user_id,
+          user_email: u.email,
+          user_img_profile: u.picture,
+          biography: '',
+        }});
+        const user = await User.bulkCreate(mappedusersA0);
         await user[0].addInstitution(inst[1].inst_id);
         await user[1].addInstitution(inst[0].inst_id);
         console.log("**** USUARIO CREADO");

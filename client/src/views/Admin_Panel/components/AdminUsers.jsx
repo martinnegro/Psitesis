@@ -4,7 +4,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getAllUsers } from '../../../redux/actions/usersActions';
 import s from './AdminUser.module.css'
 
-import { TextField, Button, Paper } from '@material-ui/core'
+import { TextField, Button, Box, IconButton, Avatar } from '@material-ui/core'
+import { Radio, RadioGroup, FormControl, FormControlLabel, FormLabel } from '@material-ui/core'
+import CloseIcon from '@material-ui/icons/Close';
+import DoneIcon from '@material-ui/icons/Done';
+
 
 const { REACT_APP_URL_API } = process.env;
 
@@ -16,6 +20,8 @@ function AdminUsers() {
     const [ filteredUsers, setFilteredUsers ] = useState([]);
     const initSelectUser = { selected: false };
     const [  selectedUser, setSelectedUser  ] = useState(initSelectUser);
+    const [  wantChangeRole, setWantChangeRole ] = useState(false);
+    const [ radioRole, setRadioRole ] = useState(false);
     useEffect(()=>{
         dispatch(getAllUsers())
     },[dispatch])
@@ -35,14 +41,37 @@ function AdminUsers() {
     },[input])
 
     const onSelect = async (user_id_A0) => {
-        // const rols = await axios.post(`${REACT_APP_URL_API}/users/get_user_role`,{ user_id_A0 });
+        const response = await axios.post(`${REACT_APP_URL_API}/users/get_role`,{ user_id_A0 });
         const user = filteredUsers.find(u => u.user_id_A0 === user_id_A0)
+        let role = response.data.role[0];
+        const roles = response.data.roles
+        if (!role) role = { id: 'rol_RXyaFjSO2qcD4KNG', name: 'basic' }
         setSelectedUser({
             selected: true,
-            // rols: rols.data,
-            user,
-        })
+            role,
+            roles,
+            ...user,
+        });
+        setWantChangeRole(false);
+        
     }
+    const onClose = () => {
+        setSelectedUser({ selected: false })
+    }
+
+    const handleWantChangeRole = (id) => {
+        setWantChangeRole(true);
+        setRadioRole(id);
+    };
+    const onRadioChange = (e, rolId) => {
+        setRadioRole(e.target.value);
+    };
+    const confirmChangeRole = async (idUser, oldRoleId, newRolId) => {
+        const response = await axios.put(`${REACT_APP_URL_API}/users/change_role`,{ idUser, oldRoleId, newRolId });
+        alert(response.data.message);
+        setWantChangeRole(false);
+        onSelect(idUser)
+    }   
 
     return (
         <div className={s.container}>
@@ -55,22 +84,58 @@ function AdminUsers() {
             <div className={s.usersContainer}>
                 {
                     filteredUsers.map(u => (
-                        <Button
-                            onClick={()=>onSelect(u.user_id_A0)}
-                            key={u.user_id_A0 || u.user_id} 
-                            variant="contained"
-                            disableElevation 
-                            m={1}>
-                                {u.user_name}
-                        </Button>
+                        <Box m={1} width="25%">
+                            <Button
+                                onClick={()=>onSelect(u.user_id_A0)}
+                                key={u.user_id_A0 || u.user_id} 
+                                variant="contained"
+                                disableElevation  
+                                >
+                                    {u.user_name}
+                            </Button>
+                        </Box>
                     ))
                 }
             </div>
             {
                 selectedUser.selected &&
-                <Paper>
-                    A ver
-                </Paper>
+                <Box display="flex" m={2}>
+                    <Avatar alt={selectedUser.user_name} src={selectedUser.user_img_profile}/>
+                    <Box ml={2}>Nombre: {selectedUser.user_name}</Box>
+                    <Box>
+                        {   
+                            !wantChangeRole ?
+                            <Box>
+                                <Box ml={2}>Rol: {selectedUser.role.name}</Box>
+                                <Button onClick={() => handleWantChangeRole(selectedUser.role.id)}>Cambiar Rol</Button>
+                            </Box> : 
+                            <FormControl component="fieldset">
+                                <FormLabel component="legend">Elija el rol y confirme el cambio</FormLabel>
+                                <RadioGroup size="small" aria-label="gender" name="gender1" value={radioRole} onChange={(e) => onRadioChange(e)}>
+                                    {selectedUser.roles.map(r => (
+                                        <FormControlLabel key={r.id} value={r.id} control={<Radio />} label={r.name} />
+                                    ))}
+                                </RadioGroup>
+                                <Box>
+                                            <IconButton>
+                                                <CloseIcon onClick={() => setWantChangeRole(false)}/>
+                                            </IconButton>  
+                                    {
+                                        radioRole !== selectedUser.role.id ?
+                                        <>
+                                            <IconButton>
+                                                <DoneIcon onClick={() => confirmChangeRole(selectedUser.user_id_A0, selectedUser.role.id, radioRole)}/>
+                                            </IconButton>  
+                                        </> : <></>
+                                    }
+                                </Box>        
+                            </FormControl>
+                        }
+                    </Box>
+                    <IconButton color="secondary" onClick={onClose}>
+                        <CloseIcon color="default"/>
+                    </IconButton>
+                </Box>
             }
         </div>
     )
