@@ -92,6 +92,7 @@ export default function Home() {
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
+  console.log(orderArticles, "aaaa")
 
   return (
     <Container>
@@ -153,8 +154,8 @@ export default function Home() {
         </Container>
  : null}
  
-
-  {user.email_verified ?  
+      
+  
         <Container
           style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}
         >
@@ -176,7 +177,7 @@ export default function Home() {
                 <Link to ={'/home'}><button>Volver atras</button></Link>
               </div>}
         </Container>
-: null}
+
  
 
       </Container>
