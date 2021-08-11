@@ -13,4 +13,11 @@ module.exports = (sequelize) => {
         inst_descriptions: {
             type: DataTypes.STRING,
         },
+        // Dos columnas nuevas para link al sitio y para link al logo
+        inst_link: {
+            type: DataTypes.STRING
+        },
+        inst_logo: {
+            type: DataTypes.STRING
+        }
     })}

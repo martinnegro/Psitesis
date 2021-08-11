@@ -12,27 +12,29 @@ import { ProtectedRoute } from "./components";
 import { findOrCreateUser as findOrCreateUserAction } from "./redux/actions/actions";
 import { useDispatch } from "react-redux";
 import User_Detail from "./views/User_Detail/User_Detail";
+import Admin_Panel from './views/Admin_Panel/Admin_Panel';
 
 const App = () => {
-  const { isLoading, user, getAccessTokenSilently } = useAuth0();
-  const dispatch = useDispatch();
+	const { isLoading, user, getAccessTokenSilently } = useAuth0();
+	const dispatch = useDispatch();
 
-  useEffect(() => {
-    const findOrCreateUser = async () => {
-      const token = await getAccessTokenSilently();
-      dispatch(findOrCreateUserAction(user, token));
-    };
-    if (user) findOrCreateUser();
-  });
+	useEffect(() => {
+		const findOrCreateUser = async () => {
+			const token = await getAccessTokenSilently();
+			dispatch(findOrCreateUserAction(user, token));
+		};
+		if (user) findOrCreateUser();
+	});
 
-  if (isLoading) {
-    return (
-      <div className="App">
-        <Loading />
-      </div>
-    );
-  }
+	if (isLoading) {
+		return (
+			<div className="App">
+				<Loading />
+			</div>
+		);
+	}
 
+<<<<<<< HEAD
   return (
     <div className="App">
       <Switch>
@@ -47,6 +49,22 @@ const App = () => {
       </Switch>
     </div>
   );
+=======
+	return (
+		<div className="App">
+			<Switch>
+				<Route path="/" exact component={Landing} />
+				<ProtectedRoute path="/post" exact component={Post} />
+				<ProtectedRoute path="/postEdit/:id" exact component={Post} />
+				<ProtectedRoute path="/post/:id" exact component={Art_Detail} />
+				<ProtectedRoute path="/post_exitoso/:accion" exact component={PostOk} />
+				<ProtectedRoute path="/home" exact component={Home} />
+				<ProtectedRoute path="/adminpanel" exact component={Admin_Panel} />
+				<Route path="*" render={() => <Redirect to="/" />} />
+			</Switch>
+		</div>
+	);
+>>>>>>> main
 };
 
 export default App;
