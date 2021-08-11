@@ -99,15 +99,15 @@ function AdminUsers() {
             </div>
             {
                 selectedUser.selected &&
-                <Box display="flex" m={2}>
+                <Box display="flex" m={2} >
                     <Avatar alt={selectedUser.user_name} src={selectedUser.user_img_profile}/>
-                    <Box ml={2}>Nombre: {selectedUser.user_name}</Box>
+                    <Box ml={2}>{selectedUser.user_name}</Box>
                     <Box>
                         {   
                             !wantChangeRole ?
                             <Box>
                                 <Box ml={2}>Rol: {selectedUser.role.name}</Box>
-                                <Button onClick={() => handleWantChangeRole(selectedUser.role.id)}>Cambiar Rol</Button>
+                                <Button variant="outlined" onClick={() => handleWantChangeRole(selectedUser.role.id)}>Cambiar Rol</Button>
                             </Box> : 
                             <FormControl component="fieldset">
                                 <FormLabel component="legend">Elija el rol y confirme el cambio</FormLabel>
