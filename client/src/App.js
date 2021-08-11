@@ -34,7 +34,6 @@ const App = () => {
 		);
 	}
 
-<<<<<<< HEAD
   return (
     <div className="App">
       <Switch>
@@ -45,26 +44,11 @@ const App = () => {
         <ProtectedRoute path="/post_exitoso/:accion" exact component={PostOk} />
         <ProtectedRoute path="/home" exact component={Home} />
         <ProtectedRoute path='/user/:user_id_A0' exact component={User_Detail} />
+		<ProtectedRoute path="/adminpanel" exact component={Admin_Panel} />
         <Route path="*" render={() => <Redirect to="/" />} />
       </Switch>
     </div>
   );
-=======
-	return (
-		<div className="App">
-			<Switch>
-				<Route path="/" exact component={Landing} />
-				<ProtectedRoute path="/post" exact component={Post} />
-				<ProtectedRoute path="/postEdit/:id" exact component={Post} />
-				<ProtectedRoute path="/post/:id" exact component={Art_Detail} />
-				<ProtectedRoute path="/post_exitoso/:accion" exact component={PostOk} />
-				<ProtectedRoute path="/home" exact component={Home} />
-				<ProtectedRoute path="/adminpanel" exact component={Admin_Panel} />
-				<Route path="*" render={() => <Redirect to="/" />} />
-			</Switch>
-		</div>
-	);
->>>>>>> main
 };
 
 export default App;
