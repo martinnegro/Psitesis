@@ -21,7 +21,9 @@ const App = () => {
 			const token = await getAccessTokenSilently();
 			dispatch(findOrCreateUserAction(user, token));
 		};
-		if (user) findOrCreateUser();
+		if (user) {
+			findOrCreateUser();
+		}
 	});
 
 	if (isLoading) {

@@ -7,7 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-export default function ConfirmAlertDeleteCategory({
+export default function ConfirmAlertDeleteSubCategory({
 	open,
 	handleClose,
 	name,
@@ -27,7 +27,7 @@ export default function ConfirmAlertDeleteCategory({
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText id="alert-dialog-description">
-						Si confirmas, la categoria sera borrada y no se podra recuperar.
+						Si confirmas, la sub categoria sera borrada y no se podra recuperar.
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
