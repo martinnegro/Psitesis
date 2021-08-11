@@ -20,6 +20,7 @@
 const server = require("./src/app.js");
 const { v4: uuidv4 } = require("uuid");
 require("dotenv").config();
+const { management } = require("./src/auth/index");
 const {
   conn,
   Rol,
@@ -29,18 +30,18 @@ const {
   User,
   Article,
   Tag,
-  article_tag
+  article_tag,
 } = require("./src/db.js");
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {
   server.listen(process.env.PORT || 3001, async () => {
     console.log("%s listening at 3001");
-    const tags =  await Tag.bulkCreate([
-      {tag_id: uuidv4(), tag_name: "Investigacion"},
-      {tag_id: uuidv4(), tag_name: "Tesis"},
-      {tag_id: uuidv4(), tag_name: "General"}
-    ])
+    const tags = await Tag.bulkCreate([
+      { tag_id: uuidv4(), tag_name: "Investigacion" },
+      { tag_id: uuidv4(), tag_name: "Tesis" },
+      { tag_id: uuidv4(), tag_name: "General" },
+    ]);
     console.log("**** ROLES CREADOS");
     // article_tag.bulkCreate([
     //   {articleArtId: uuid.v4(), articletagTagId: 1}
@@ -89,25 +90,19 @@ conn.sync({ force: true }).then(() => {
           },
         ]);
         console.log("**** INSTITUCIÓN CREADA");
-        const user_id = uuidv4();
-        const user = await User.bulkCreate([
-          {
-            user_id,
-            user_name: "Santiago",
-            user_email: "santiago@psitesis.com",
-            user_img_profile: "http://img.jpg",
-            biography: "Creador de Psitesis",
-            rol_id: 1,
-          },
-          {
+        const usersA0 = await management.getUsers();
+        const mappedusersA0 = usersA0.map((u) => {
+          return {
             user_id: uuidv4(),
-            user_name: "Wanda",
-            user_email: "wanda@henry.com",
-            user_img_profile: "http://img.jpg",
-            biography: "Instructora en Henry",
-            rol_id: 2,
-          },
-        ]);
+            user_name: u.name,
+            user_id_A0: u.user_id,
+            user_email: u.email,
+            user_img_profile: u.picture,
+            biography: "",
+          };
+        });
+        const user = await User.bulkCreate(mappedusersA0);
+
         await user[0].addInstitution(inst[1].inst_id);
         await user[1].addInstitution(inst[0].inst_id);
         console.log("**** USUARIO CREADO");
@@ -118,7 +113,7 @@ conn.sync({ force: true }).then(() => {
             art_contents: "Contenido extenso",
             art_date: "05/10/2021",
             art_views: 0,
-            art_abstract: 'Abstract-1',
+            art_abstract: "Abstract-1",
             art_id: uuidv4(),
             sub_cat_id: 1,
             user_id: user[0].user_id,
@@ -129,7 +124,7 @@ conn.sync({ force: true }).then(() => {
             art_contents: "Contenido Extenso",
             art_date: "17/01/1997",
             art_views: 0,
-            art_abstract: 'Abstract-2',
+            art_abstract: "Abstract-2",
             art_id: uuidv4(),
             sub_cat_id: 3,
             user_id: user[0].user_id,
@@ -139,19 +134,18 @@ conn.sync({ force: true }).then(() => {
             art_contents: "Contenido Extenso",
             art_date: "03/05/2020",
             art_views: 0,
-            art_abstract: 'Abstract-3',
+            art_abstract: "Abstract-3",
             art_id: uuidv4(),
             sub_cat_id: 4,
             user_id: user[1].user_id,
           },
           //1ab454b1-b0ee-4a6e-a3a7-a4a5afbf1899
         ]);
-        await art[0].addTag([tags[0].tag_id, tags[1].tag_id])
-        await art[1].addTag([tags[2].tag_id])
-        await art[2].addTag([tags[2].tag_id])
+        await art[0].addTag([tags[0].tag_id, tags[1].tag_id]);
+        await art[1].addTag([tags[2].tag_id]);
+        await art[2].addTag([tags[2].tag_id]);
         console.log("**** ARTICULOS CREADOS");
       });
     // eslint-disable-line no-console
-    
   });
 });

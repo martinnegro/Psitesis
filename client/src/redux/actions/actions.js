@@ -10,7 +10,7 @@ export const SET_USER_ID = "SET_USER_ID";
 export const SET_USER_ROLES = "SET_USER_ROLES";
 export const ORDER_ARTICLES = "ORDER_ARTICLES";
 export const GET_ALL_CAT_SUB = "GET_ALL_CAT_SUB";
-
+export const GET_USERS_BY_ROLES = "GET_USERS_BY_ROLES";
 export const getAllArticle = () => {
   return async (dispatch) => {
     try {
@@ -139,7 +139,6 @@ export const orderArticles = (orderBy, order) => {
       const response = await axios.get(
         `${REACT_APP_URL_API}/article?orderBy=${orderBy}&order=${order}`
       );
-      console.log(response.data);
       dispatch({
         type: ORDER_ARTICLES,
         payload: response.data,
@@ -167,6 +166,23 @@ export const getAllCatSub = () => {
       const response = await axios(`${REACT_APP_URL_API}/categories`);
       dispatch({
         type: GET_ALL_CAT_SUB,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const getUsersByRoles = (rol) => {
+  return async (dispatch) => {
+    try {
+      /*  const headers = {
+        Authorization: `Bearer ${token}`,
+      }; */
+      const response = await axios.get(`${REACT_APP_URL_API}/users?rol=${rol}`);
+      dispatch({
+        type: GET_USERS_BY_ROLES,
         payload: response.data,
       });
     } catch (error) {

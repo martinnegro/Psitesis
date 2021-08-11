@@ -7,6 +7,7 @@ import {
   ORDER_ARTICLES,
   GET_ARTICLE_TAG,
   GET_ALL_CAT_SUB,
+  GET_USERS_BY_ROLES,
 } from "../actions/actions";
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
   user_roles: [],
   orderedArticles: [],
   cat_sub: {},
+  usersByRoles: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -60,6 +62,11 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         cat_sub: action.payload,
+      };
+    case GET_USERS_BY_ROLES:
+      return {
+        ...state,
+        usersByRoles: action.payload,
       };
     default:
       return state;

@@ -7,6 +7,7 @@ import Landing from "./components/Landing/Landing";
 import Art_Detail from "./views/Art_Detail/Art_Detail";
 import Home from "./views/Home/Home.jsx";
 import Post from "./views/Post/Post.jsx";
+import Colaborators from "./views/Colaborators/Colaborators";
 import PostOk from "./views/postOk/PostOk.jsx";
 import { ProtectedRoute } from "./components";
 import { findOrCreateUser as findOrCreateUserAction } from "./redux/actions/actions";
@@ -35,6 +36,7 @@ const App = () => {
   return (
     <div className="App">
       <Switch>
+        <Route exact path="/colaborators" component={Colaborators}></Route>
         <Route path="/" exact component={Landing} />
         <ProtectedRoute path="/post" exact component={Post} />
         <ProtectedRoute path="/postEdit/:id" exact component={Post} />
