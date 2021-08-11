@@ -80,19 +80,6 @@ router.post("/", async (req, res, next) => {
 });
 
 router.get("/", async (req, res, next) => {
-  /*  const { rol } = req.query;
-  if (rol) {
-    console.log(rol);
-    return User.findAll({
-      where: {
-        rol_id:{
-          [Op.or] : [rol,1]
-        }
-      },
-    })
-      .then((users) => res.json(users))
-      .catch((err) => next(err));
-  } */
   try {
     const { rol } = req.query;
     let params = {
