@@ -84,24 +84,26 @@ router.get("/", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.get("/:user_id", (req, res, next) => {
-  const { user_id } = req.params;
-  User.findByPk(user_id, {
-    include: [
-      {
-        model: Institution,
-        through: {
-          attributes: [],
+router.get("/:user_id_A0", async (req, res, next) => {
+  const { user_id_A0 } = req.params;
+  
+  try {
+    const user = await User.findOne({ 
+      where: { user_id_A0 },
+      include: [
+        {
+          model: Institution,
+          through: {
+            attributes: [],
+          },
         },
-      },
-    ],
-  })
-    .then((found) => {
-      Article.findAll({ where: { user_id } }).then((arts) => {
-        res.json({ ...found.dataValues, articles: arts });
-      });
-    })
-    .catch((err) => next(err));
+      ],
+    });
+    
+    const articles = await Article.findAll({ where: { user_id: user.user_id} });
+    const response = {...user.dataValues, articles: articles.dataValues}
+    res.json(response);
+  } catch(err) { next(err) };
 });
 
 router.post("/verifyemail", (req, res) => {
