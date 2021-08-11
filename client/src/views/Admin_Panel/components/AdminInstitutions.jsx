@@ -119,7 +119,6 @@ function AdminInstitutions() {
         });
     };
     const handleConfirm = (id) => {  
-        console.log(id);
         setOpen(false);
         dispatch(deleteInstitution(id));
     }

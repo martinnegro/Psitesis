@@ -28,12 +28,24 @@ const {
 	Institution,
 	User,
 	Article,
+	Tag,
+	article_tag,
 } = require('./src/db.js');
+const { management } = require('./src/auth/index.js');
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {
 	server.listen(process.env.PORT || 3001, async () => {
 		console.log('%s listening at 3001');
+		const tags = await Tag.bulkCreate([
+			{ tag_id: uuidv4(), tag_name: 'Investigacion' },
+			{ tag_id: uuidv4(), tag_name: 'Tesis' },
+			{ tag_id: uuidv4(), tag_name: 'General' },
+		]);
+		console.log('**** ROLES CREADOS');
+		// article_tag.bulkCreate([
+		//   {articleArtId: uuid.v4(), articletagTagId: 1}
+		// ])
 		Rol.bulkCreate([
 			{ rol_id: 1, rol_name: 'admin' },
 			{ rol_id: 2, rol_name: 'colab' },
@@ -49,7 +61,6 @@ conn.sync({ force: true }).then(() => {
 			{ cat_id: cat_id1, cat_name: 'Investigación' },
 			{ cat_id: cat_id2, cat_name: 'Normas APA' },
 		]);
-
 		if (categories) console.log('**** CATEGORÍAS CREADAS');
 
 		const sub_cat_id1 = uuidv4();
@@ -79,9 +90,8 @@ conn.sync({ force: true }).then(() => {
 				cat_id: cat_id2,
 			},
 		]);
-    
 		if (subCategories) console.log('**** SUB CAT CREADAS');
-
+		
 		const inst_id = uuidv4();
 		const inst = await Institution.bulkCreate([
 			{
@@ -96,25 +106,18 @@ conn.sync({ force: true }).then(() => {
 			},
 		]);
 		console.log('**** INSTITUCIÓN CREADA');
-		const user_id = uuidv4();
-		const user = await User.bulkCreate([
-			{
-				user_id,
-				user_name: 'Santiago',
-				user_email: 'santiago@psitesis.com',
-				user_img_profile: 'http://img.jpg',
-				biography: 'Creador de Psitesis',
-				rol_id: 1,
-			},
-			{
+		const usersA0 = await management.getUsers();
+		const mappedusersA0 = usersA0.map((u) => {
+			return {
 				user_id: uuidv4(),
-				user_name: 'Wanda',
-				user_email: 'wanda@henry.com',
-				user_img_profile: 'http://img.jpg',
-				biography: 'Instructora en Henry',
-				rol_id: 2,
-			},
-		]);
+				user_name: u.name,
+				user_id_A0: u.user_id,
+				user_email: u.email,
+				user_img_profile: u.picture,
+				biography: '',
+			};
+		});
+		const user = await User.bulkCreate(mappedusersA0);
 		await user[0].addInstitution(inst[1].inst_id);
 		await user[1].addInstitution(inst[0].inst_id);
 		console.log('**** USUARIO CREADO');
@@ -124,18 +127,17 @@ conn.sync({ force: true }).then(() => {
 				art_title: 'Sobre tesis',
 				art_contents: 'Contenido extenso',
 				art_date: '05/10/2021',
-				art_tags: '',
 				art_views: 0,
 				art_abstract: 'Abstract-1',
 				art_id: uuidv4(),
 				sub_cat_id: sub_cat_id1,
 				user_id: user[0].user_id,
 			},
+
 			{
 				art_title: 'Sobre APA',
 				art_contents: 'Contenido Extenso',
 				art_date: '17/01/1997',
-				art_tags: '',
 				art_views: 0,
 				art_abstract: 'Abstract-2',
 				art_id: uuidv4(),
@@ -146,15 +148,19 @@ conn.sync({ force: true }).then(() => {
 				art_title: 'Sobre Proyectos',
 				art_contents: 'Contenido Extenso',
 				art_date: '03/05/2020',
-				art_tags: '',
 				art_views: 0,
 				art_abstract: 'Abstract-3',
 				art_id: uuidv4(),
 				sub_cat_id: sub_cat_id4,
 				user_id: user[1].user_id,
 			},
+			//1ab454b1-b0ee-4a6e-a3a7-a4a5afbf1899
 		]);
+		await art[0].addTag([tags[0].tag_id, tags[1].tag_id]);
+		await art[1].addTag([tags[2].tag_id]);
+		await art[2].addTag([tags[2].tag_id]);
 		console.log('**** ARTICULOS CREADOS');
+
 		// eslint-disable-line no-console
 	});
 });

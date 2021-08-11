@@ -8,6 +8,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Nav from "../../components/Nav/Nav";
 import AdminInstitutions from './components/AdminInstitutions';
 import AdminCategories from './components/AdminCategories';
+import AdminUsers from './components/AdminUsers';
 
 const useStyles = makeStyles((theme) => ({
     offset: theme.mixins.toolbar,
@@ -46,7 +47,7 @@ const Admin_Panel = () => {
                             Usuarios
                         </AccordionSummary>
                         <AccordionDetails>
-                            
+                            <AdminUsers/>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
