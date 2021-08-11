@@ -20,12 +20,14 @@ router.put(
 	checkAdminPermission,
 	async (req, res, next) => {
 		try {
-			const { name, id } = req.body;
+			const { name, id, description } = req.body;
 			if (name && id) {
-				const targetCategory = await Category.findByPk(id);
-				if (targetCategory) {
-					targetCategory.cat_name = name;
-					await targetCategory.save();
+				console.log(id);
+				const targetSubCategory = await SubCategory.findByPk(id);
+				if (targetSubCategory) {
+					targetSubCategory.sub_cat_name = name;
+					if (description) targetSubCategory.sub_cat_description = description;
+					await targetSubCategory.save();
 				}
 			}
 			const cats = await Category.findAll();
@@ -45,7 +47,7 @@ router.delete(
 		try {
 			const { id } = req.params;
 			if (id) {
-				const targetCategory = await Category.findByPk(id);
+				const targetCategory = await SubCategory.findByPk(id);
 				if (targetCategory) {
 					await targetCategory.destroy();
 				}
@@ -65,12 +67,14 @@ router.post(
 	checkAdminPermission,
 	async (req, res, next) => {
 		try {
-			const { name } = req.body;
-			if (name) {
-				const id = uuidv4();
-				await Category.create({
+			const { id, name, description } = req.body;
+			if (id && name) {
+				const sub_cat_id = uuidv4();
+				await SubCategory.create({
+					sub_cat_id: sub_cat_id,
+					sub_cat_name: name,
+					sub_cat_description: description,
 					cat_id: id,
-					cat_name: name,
 				});
 			}
 			const cats = await Category.findAll();
