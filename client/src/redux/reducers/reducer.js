@@ -60,7 +60,7 @@ function rootReducer(state = initialState, action) {
     case GET_ARTICLE_TAG:
       return {
         ...state,
-        articles: action.payload,
+        orderedArticles: action.payload,
       };
     case GET_ALL_CAT_SUB:
       return {

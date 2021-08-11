@@ -83,6 +83,160 @@ export const findOrCreateUser = (user, token) => async (dispatch) => {
   }
 };
 
+export const setCategory = (body, token) => async (dispatch) => {
+  try {
+    const categoryData = {
+      id: body.id,
+      name: body.name,
+    };
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const response = await axios.put(
+      `${REACT_APP_URL_API}/categories`,
+      categoryData,
+      {
+        headers,
+      }
+    );
+    if (response.data) {
+      dispatch({
+        type: GET_ALL_CAT_SUB,
+        payload: response.data,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+};
+
+export const setSubCategory = (body, token) => async (dispatch) => {
+  try {
+    const categoryData = {
+      id: body.id,
+      name: body.name,
+      description: body.description,
+    };
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const response = await axios.put(
+      `${REACT_APP_URL_API}/subcategories`,
+      categoryData,
+      {
+        headers,
+      }
+    );
+    if (response.data) {
+      dispatch({
+        type: GET_ALL_CAT_SUB,
+        payload: response.data,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+};
+
+export const deleteCategory = (id, token) => async (dispatch) => {
+  try {
+    console.log("eliminar");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const response = await axios.delete(
+      `${REACT_APP_URL_API}/categories/${id}`,
+      {
+        headers,
+      }
+    );
+    if (response.data) {
+      dispatch({
+        type: GET_ALL_CAT_SUB,
+        payload: response.data,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+};
+
+export const deleteSubCategory = (id, token) => async (dispatch) => {
+  try {
+    console.log("eliminar");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const response = await axios.delete(
+      `${REACT_APP_URL_API}/subcategories/${id}`,
+      {
+        headers,
+      }
+    );
+    if (response.data) {
+      dispatch({
+        type: GET_ALL_CAT_SUB,
+        payload: response.data,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+};
+
+export const createNewCategory = (newCategory, token) => async (dispatch) => {
+  try {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const response = await axios.post(
+      `${REACT_APP_URL_API}/categories`,
+      newCategory,
+      {
+        headers,
+      }
+    );
+    if (response.data) {
+      dispatch({
+        type: GET_ALL_CAT_SUB,
+        payload: response.data,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+};
+
+export const createNewSubCategory =
+  (newSubCategory, token) => async (dispatch) => {
+    try {
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.post(
+        `${REACT_APP_URL_API}/subcategories`,
+        newSubCategory,
+        {
+          headers,
+        }
+      );
+      if (response.data) {
+        dispatch({
+          type: GET_ALL_CAT_SUB,
+          payload: response.data,
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+  };
+
 export const setUserID = (payload) => {
   return { type: SET_USER_ID, payload: payload };
 };
@@ -154,7 +308,7 @@ export const orderArticles = (orderBy, order) => {
 export function getArticleTag(tag) {
   return function (dispatch) {
     return axios
-      .get(`${REACT_APP_URL_API}/tag?tag=${tag}`)
+      .get(`${REACT_APP_URL_API}/search?search=${tag}`)
       .then((response) => response.data)
       .then((json) => {
         dispatch({ type: "GET_ARTICLE_TAG", payload: json });

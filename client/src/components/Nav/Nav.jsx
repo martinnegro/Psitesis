@@ -29,6 +29,7 @@ import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 // import PeopleOutlineOutlinedIcon from '@material-ui/icons/PeopleOutlineOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
 import userAvatar from '../../assets/user.jpg';
 import logo from '../../assets/Logo.png';
@@ -197,12 +198,20 @@ export default function Nav() {
 				</List>
 				<Divider />
 				{user_roles.includes('admin') ? (
+					<>
 					<ListItem button onClick={() => history.push('/post')}>
 						<ListItemIcon>
 							<AddCircleOutlineIcon />
 						</ListItemIcon>
 						<ListItemText>Add Post</ListItemText>
 					</ListItem>
+					<ListItem button onClick={() => history.push('/adminpanel')}>
+						<ListItemIcon>
+							<SupervisorAccountIcon />
+						</ListItemIcon>
+						<ListItemText>Panel de Administrador</ListItemText>
+					</ListItem>
+					</>
 				) : null}
 				<Divider />
 

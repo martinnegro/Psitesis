@@ -6,6 +6,7 @@ import VerifyEmail from "./components/VerifyEmail";
 import Landing from "./components/Landing/Landing";
 import Art_Detail from "./views/Art_Detail/Art_Detail";
 import Home from "./views/Home/Home.jsx";
+import Admin_Panel from "./views/Admin_Panel/Admin_Panel";
 import Post from "./views/Post/Post.jsx";
 import Colaborators from "./views/Colaborators/Colaborators";
 import PostOk from "./views/postOk/PostOk.jsx";
@@ -37,7 +38,9 @@ const App = () => {
   return (
     <div className="App">
       <Switch>
-        <Route exact path="/colaborators" component={Colaborators}></Route>
+        <ProtectedRoute>
+          <Route exact path="/colaborators" component={Colaborators}></Route>
+        </ProtectedRoute>
         <Route path="/" exact component={Landing} />
         <ProtectedRoute path="/post" exact component={Post} />
         <ProtectedRoute path="/postEdit/:id" exact component={Post} />
@@ -47,6 +50,7 @@ const App = () => {
           exact
           component={InstitutionBio}
         />
+        <ProtectedRoute path="/adminpanel" exact component={Admin_Panel} />
         <ProtectedRoute path="/post_exitoso/:accion" exact component={PostOk} />
         <ProtectedRoute path="/home" exact component={Home} />
         <Route path="*" render={() => <Redirect to="/" />} />
