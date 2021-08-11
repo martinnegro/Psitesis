@@ -2,7 +2,7 @@ const { Router } = require("express");
 const router = Router();
 const { v4: uuidv4 } = require("uuid");
 const { authorizeAccessToken, checkAdminPermission } = require("../auth/index");
-const { Article, User, Tag } = require("../db");
+const { Article, User, Tag, Subcategory, Category } = require("../db");
 const { Op } = require('sequelize');
 
 router.post(
@@ -10,7 +10,7 @@ router.post(
   authorizeAccessToken,
   checkAdminPermission,
   async (req, res, next) => {
-    const { art_contents, art_title, art_date, art_tags, sub_cat_id, user_id, art_abstract } =
+    const { art_contents, art_title, art_date, art_tags, sub_cat_id, user_id, art_abstract, cat_id } =
       req.body;
     let aux_id = user_id;
     const art_id = uuidv4();
@@ -25,6 +25,7 @@ router.post(
       art_abstract,
       art_id,
       sub_cat_id,
+      cat_id,
       user_id: aux_id,
       art_views: 0,
     })
@@ -52,6 +53,8 @@ router.post(
   
   aux.then(async () => {
      await createdArticle.setTags(tags);
+     await createdArticle.addSubcategory(sub_cat_id)
+     await createdArticle.addCategory(cat_id)
      return res.status(201).send(createdArticle);
   });
 
