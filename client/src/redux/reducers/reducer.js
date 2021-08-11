@@ -8,6 +8,8 @@ import {
   GET_ARTICLE_TAG,
   GET_ALL_CAT_SUB,
   GET_USERS_BY_ROLES,
+  GET_INSTITUTIONS,
+  GET_INSTITUTION_BIO,
 } from "../actions/actions";
 
 const initialState = {
@@ -19,6 +21,8 @@ const initialState = {
   orderedArticles: [],
   cat_sub: {},
   usersByRoles: [],
+  institutionBio: [],
+  institutions: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -67,6 +71,16 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         usersByRoles: action.payload,
+      };
+    case GET_INSTITUTIONS:
+      return {
+        ...state,
+        institutions: action.payload,
+      };
+    case GET_INSTITUTION_BIO:
+      return {
+        ...state,
+        institutionBio: action.payload,
       };
     default:
       return state;

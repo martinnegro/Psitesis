@@ -11,6 +11,8 @@ export const SET_USER_ROLES = "SET_USER_ROLES";
 export const ORDER_ARTICLES = "ORDER_ARTICLES";
 export const GET_ALL_CAT_SUB = "GET_ALL_CAT_SUB";
 export const GET_USERS_BY_ROLES = "GET_USERS_BY_ROLES";
+export const GET_INSTITUTIONS = "GET_INSTITUTIONS";
+export const GET_INSTITUTION_BIO = "GET_INSTITUTION_BIO";
 export const getAllArticle = () => {
   return async (dispatch) => {
     try {
@@ -177,14 +179,38 @@ export const getAllCatSub = () => {
 export const getUsersByRoles = (rol) => {
   return async (dispatch) => {
     try {
-      /*  const headers = {
-        Authorization: `Bearer ${token}`,
-      }; */
       const response = await axios.get(`${REACT_APP_URL_API}/users?rol=${rol}`);
       dispatch({
         type: GET_USERS_BY_ROLES,
         payload: response.data,
       });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const getInstitutions = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${REACT_APP_URL_API}/institutions`);
+      dispatch({
+        type: GET_INSTITUTIONS,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const getInstitutionBio = (id) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(
+        `${REACT_APP_URL_API}/institutions/${id}`
+      );
+      dispatch({ type: GET_INSTITUTION_BIO, payload: response.data });
     } catch (error) {
       console.error(error);
     }

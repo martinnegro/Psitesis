@@ -9,6 +9,7 @@ import Drawer from '@material-ui/core/Drawer';
 
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import PeopleAltTwoToneIcon from '@material-ui/icons/PeopleAltTwoTone';
 
 import Divider from '@material-ui/core/Divider';
 
@@ -204,6 +205,15 @@ export default function Nav() {
 					</ListItem>
 				) : null}
 				<Divider />
+
+				<ListItem button onClick={() => history.push('/colaborators')}>
+					<ListItemIcon>
+						<PeopleAltTwoToneIcon />
+					</ListItemIcon>
+					<ListItemText>Colaboradores</ListItemText>
+				</ListItem>
+
+
 				<ListItem button onClick={handleLogout}>
 					<ListItemIcon>
 						<ExitToAppIcon />

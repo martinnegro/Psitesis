@@ -9,6 +9,7 @@ import Home from "./views/Home/Home.jsx";
 import Post from "./views/Post/Post.jsx";
 import Colaborators from "./views/Colaborators/Colaborators";
 import PostOk from "./views/postOk/PostOk.jsx";
+import InstitutionBio from "./components/InstitutionBio/InstitutionBio";
 import { ProtectedRoute } from "./components";
 import { findOrCreateUser as findOrCreateUserAction } from "./redux/actions/actions";
 import { useDispatch } from "react-redux";
@@ -41,6 +42,11 @@ const App = () => {
         <ProtectedRoute path="/post" exact component={Post} />
         <ProtectedRoute path="/postEdit/:id" exact component={Post} />
         <ProtectedRoute path="/post/:id" exact component={Art_Detail} />
+        <ProtectedRoute
+          path="/institution/:id"
+          exact
+          component={InstitutionBio}
+        />
         <ProtectedRoute path="/post_exitoso/:accion" exact component={PostOk} />
         <ProtectedRoute path="/home" exact component={Home} />
         <Route path="*" render={() => <Redirect to="/" />} />
