@@ -153,7 +153,7 @@ export const orderArticles = (orderBy, order) => {
 export function getArticleTag(tag) {
   return function (dispatch) {
     return axios
-      .get(`${REACT_APP_URL_API}/tag?tag=${tag}`)
+      .get(`${REACT_APP_URL_API}/search?search=${tag}`)
       .then((response) => response.data)
       .then((json) => {
         dispatch({ type: "GET_ARTICLE_TAG", payload: json });

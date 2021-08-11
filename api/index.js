@@ -144,6 +144,17 @@ conn.sync({ force: true }).then(() => {
             sub_cat_id: 4,
             user_id: user[1].user_id,
           },
+          {
+            art_title: "prueba",
+            art_contents: "Contenido Extenso",
+            art_date: "03/05/2020",
+            art_views: 0,
+            art_abstract: 'Abstract-3',
+            art_id: uuidv4(),
+            sub_cat_id: 4,
+            user_id: user[1].user_id,
+          },
+          
           //1ab454b1-b0ee-4a6e-a3a7-a4a5afbf1899
         ]);
         await art[0].addTag([tags[0].tag_id, tags[1].tag_id])
