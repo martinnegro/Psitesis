@@ -4,9 +4,9 @@ const { Router } = require('express');
 const article = require('./article');
 const users = require('./users');
 const institutions = require('./institutions');
-const categories = require('./categories');
+const categories = require('./categories')
+const search = require('./searchHome')
 const subCategories = require('./subCategories');
-const tag = require('./tag')
 const router = Router();
 
 // Configurar los routers
@@ -17,6 +17,6 @@ router.use("/users", users);
 router.use('/institutions',institutions);
 router.use('/categories',categories);
 router.use('/subcategories', subCategories);
-router.use('/tag',tag);
+router.use('/search',search);
 
 module.exports = router;

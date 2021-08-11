@@ -92,6 +92,7 @@ export default function Home() {
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
+  console.log(orderArticles, "aaaa")
 
   return (
     <Container>
@@ -149,7 +150,7 @@ export default function Home() {
           />
         </Container>
  
-
+      
   
         <Container
           style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}
