@@ -180,24 +180,32 @@ export default function Nav() {
 					</IconButton>
 				</div>
 				<Divider />
-				<List>
-					{['Home', 'Guía de Tesis'/* , 'Foro', 'Colaboradores' */].map(
-						(text, index) => (
-							<ListItem button key={text} /* onClick={() => history.push('/home')} */>
-								<ListItemIcon>
-									{
-										index === 0 ? (
-											<HomeOutlinedIcon onClick={() => history.push('/home')} />
-										) : index === 1 ? (
-											<BookOutlinedIcon  onClick={() => history.push('/guiadetesis')} />
-										) : null /*  index === 1 ? <BookOutlinedIcon /> : index === 2 ? <ForumIcon /> : <PeopleOutlineOutlinedIcon   /> */
-									}
-								</ListItemIcon>
-								<ListItemText primary={text} />
-							</ListItem>
-						)
-					)}
-				</List>
+				
+				<ListItem button onClick={() => history.push('/home')}>
+					<ListItemIcon>
+						<HomeOutlinedIcon />
+					</ListItemIcon>
+					<ListItemText>Home</ListItemText>
+				</ListItem>
+				<ListItem button onClick={() => history.push('/guiadetesis')}>
+					<ListItemIcon>
+						<BookOutlinedIcon />
+					</ListItemIcon>
+					<ListItemText>Guía de Tesis</ListItemText>
+				</ListItem>
+				<ListItem button onClick={() => history.push('/colaborators')}>
+					<ListItemIcon>
+						<PeopleAltTwoToneIcon />
+					</ListItemIcon>
+					<ListItemText>Colaboradores</ListItemText>
+				</ListItem>
+				{/* <ListItem button onClick={() => history.push('/colaborators')}>
+					<ListItemIcon>
+						<PeopleAltTwoToneIcon />
+					</ListItemIcon>
+					<ListItemText>Colaboradores</ListItemText>
+				</ListItem> */}
+
 				<Divider />
 				{user_roles.includes('admin') ? (
 					<>
@@ -216,14 +224,6 @@ export default function Nav() {
 					</>
 				) : null}
 				<Divider />
-
-				<ListItem button onClick={() => history.push('/colaborators')}>
-					<ListItemIcon>
-						<PeopleAltTwoToneIcon />
-					</ListItemIcon>
-					<ListItemText>Colaboradores</ListItemText>
-				</ListItem>
-
 
 				<ListItem button onClick={handleLogout}>
 					<ListItemIcon>
