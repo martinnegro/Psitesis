@@ -7,7 +7,6 @@ import s from "./Home.module.css";
 import Container from "@material-ui/core/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
-import VerifyEmail from "../../components/VerifyEmail";
 import {
   Divider, IconButton, InputBase,  makeStyles,
    Paper, TextField,  Typography,
