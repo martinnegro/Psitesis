@@ -1,0 +1,9 @@
+.container {
+    width: 100%
+}
+
+.usersContainer {    
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}

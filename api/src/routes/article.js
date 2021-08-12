@@ -12,6 +12,8 @@ router.post(
   async (req, res, next) => {
     const { art_contents, art_title, art_date, art_tags, sub_cat_id, user_id, art_abstract, cat_id } =
       req.body;
+    let id_cat = cat_id
+    let id_subcat = sub_cat_id
     let aux_id = user_id;
     const art_id = uuidv4();
     if (aux_id.includes("google")) {
@@ -54,7 +56,7 @@ router.post(
   aux.then(async () => {
      await createdArticle.setTags(tags);
      await createdArticle.addSubcategory(sub_cat_id)
-     await createdArticle.addCategory(cat_id)
+     await createdArticle.addCategory(id_subcat)
      return res.status(201).send(createdArticle);
   });
 
@@ -85,7 +87,9 @@ router.get("/:art_id", (req, res, next) => {
     err.status = 400;
     next(err);
   } else {
-    Article.findByPk(art_id)
+    Article.findByPk(art_id, {
+      include: {model: Subcategory}
+    })
       .then((finded) => {
         console.log(finded);
         finded.increment("art_views");

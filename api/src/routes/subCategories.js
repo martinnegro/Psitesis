@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const { v4: uuidv4 } = require('uuid');
-const { Category, Subcategory, Article } = require('../db');
+const { Category, Subcategory } = require('../db');
 const { authorizeAccessToken, checkAdminPermission } = require('../auth/index');
 
 router.get('/', async (req, res, next) => {
@@ -20,12 +20,14 @@ router.put(
 	checkAdminPermission,
 	async (req, res, next) => {
 		try {
-			const { name, id } = req.body;
+			const { name, id, description } = req.body;
 			if (name && id) {
-				const targetCategory = await Category.findByPk(id);
-				if (targetCategory) {
-					targetCategory.cat_name = name;
-					await targetCategory.save();
+				console.log(id);
+				const targetSubcategory = await Subcategory.findByPk(id);
+				if (targetSubcategory) {
+					targetSubcategory.sub_cat_name = name;
+					if (description) targetSubcategory.sub_cat_description = description;
+					await targetSubcategory.save();
 				}
 			}
 			const cats = await Category.findAll();
@@ -45,7 +47,7 @@ router.delete(
 		try {
 			const { id } = req.params;
 			if (id) {
-				const targetCategory = await Category.findByPk(id);
+				const targetCategory = await Subcategory.findByPk(id);
 				if (targetCategory) {
 					await targetCategory.destroy();
 				}
@@ -65,12 +67,14 @@ router.post(
 	checkAdminPermission,
 	async (req, res, next) => {
 		try {
-			const { name } = req.body;
-			if (name) {
-				const id = uuidv4();
-				await Category.create({
+			const { id, name, description } = req.body;
+			if (id && name) {
+				const sub_cat_id = uuidv4();
+				await Subcategory.create({
+					sub_cat_id: sub_cat_id,
+					sub_cat_name: name,
+					sub_cat_description: description,
 					cat_id: id,
-					cat_name: name,
 				});
 			}
 			const cats = await Category.findAll();
@@ -82,26 +86,4 @@ router.post(
 	}
 );
 
-router.get('/categories', async (req, res, next) => {
-    try{
-        const article = await Category.findAll({
-            include: {model: Article},
-        })
-        res.json(article)
-    }catch(err){
-        console.error(err.message)
-    }
-});
-
-router.get('/:id', async (req, res, next) => {
-    try {
-        const {id} = req.params;
-        let categoria = await Category.findByPk(id, {
-            include: {model: Article}
-        })
-        return res.json(categoria)
-    } catch (error) {
-        next(error)
-    }
-});
 module.exports = router;

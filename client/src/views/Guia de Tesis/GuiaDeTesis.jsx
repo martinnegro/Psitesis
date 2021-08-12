@@ -9,9 +9,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TabPanel from '../../components/TabPanel/TabPanel'
-
-
-
   
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -93,8 +90,8 @@ export default function GuiaDeTesis() {
                 </AppBar>
                 {
                     categories?.length > 0 ?
-                    categories.map(c => (
-                        <TabPanel value={value} id={c.cat_id} index={c.cat_id - 1}/>
+                    categories.map((c, i) => (
+                        <TabPanel value={value} id={c.cat_id} index={i}/>
                     )): null
                 }
             </div>

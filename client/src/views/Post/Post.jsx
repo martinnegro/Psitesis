@@ -71,10 +71,8 @@ const useStyles = makeStyles({
 function Post() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const articlesDetail = useSelector(
-    (state) => state.rootReducer.articlesDetail
-  ); // Nueva forma de acceder al estado por combineReducer
-  const user_id = useSelector((state) => state.rootReducer.user_id); // Nueva forma de acceder al estado por combineReducer
+  const articlesDetail = useSelector((state) => state.rootReducer.articlesDetail); 
+  const user_id = useSelector((state) => state.rootReducer.user_id);
   const user_roles = useSelector((state) => state.rootReducer.user_roles);
 
   const classes = useStyles();
@@ -127,8 +125,9 @@ function Post() {
   const handleInputCat = (e) => {
     let index = e.target.selectedIndex;
     let option = e.target.options[index].value;
-    setCategoria(option.split('-')[0])
-    setSubcategoria(option.split('-')[1]);
+    console.log('option: ',option)
+    setCategoria(option.split('/')[0])
+    setSubcategoria(option.split('/')[1]);
   };
 
   const handleSubmitBody = async (e) => {

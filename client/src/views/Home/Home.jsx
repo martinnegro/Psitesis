@@ -86,6 +86,8 @@ export default function Home() {
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
+  
+  
 
   return (
     <Container>
@@ -115,6 +117,8 @@ export default function Home() {
           </Typography>
         </Container>
 
+         
+
         <Paper component="form" className={classes.root} onSubmit={handleSubmit}>
                     <InputBase
                       className={classes.input}
@@ -129,6 +133,7 @@ export default function Home() {
                 </Paper>
 
 
+ 
         <Container>
           <ReactPaginate
             previousLabel={"<"}
@@ -143,8 +148,9 @@ export default function Home() {
           />
         </Container>
  
+ 
 
-  
+    
         <Container
           style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}
         >
@@ -166,6 +172,7 @@ export default function Home() {
                 <Link to ={'/home'}><button>Volver atras</button></Link>
               </div>}
         </Container>
+
 
       </Container>
       {/* <Container>

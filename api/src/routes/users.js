@@ -4,6 +4,7 @@ const { v4: uuidv4 } = require("uuid");
 const { User, Institution, Rol, Article } = require("../db");
 const { Op } = require("sequelize");
 const { management } = require("../auth/index");
+const { axios } = require("axios");
 
 router.post("/", async (req, res, next) => {
   const {
@@ -78,43 +79,91 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.get("/", (req, res, next) => {
-  User.findAll()
-    .then((finded) => res.json(finded))
-    .catch((err) => next(err));
+router.post("/get_role", async (req, res, next) => {
+  const { user_id_A0 } = req.body;
+  try {
+    const role = await management.getUserRoles({ id: user_id_A0 });
+    const roles = await management.roles.getAll();
+    res.json({ role, roles });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put("/change_role", async (req, res, next) => {
+  const { idUser, oldRoleId, newRolId } = req.body;
+  // if (!user_id_A0 || !rol_id) return next(new Error('user_id_A0 or rol_id are missing'));
+  var paramsDel = { id: idUser };
+  var dataDel = { roles: [oldRoleId] };
+
+  await management.users.removeRoles(paramsDel, dataDel, (err) => {
+    err && next(err);
+  });
+
+  const paramsAssign = { id: idUser };
+  const dataAssign = { roles: [newRolId] };
+  await management.assignRolestoUser(paramsAssign, dataAssign, (err) => {
+    err ? next(err) : res.json({ message: "Role change succesful." });
+  });
+});
+
+router.get("/", async (req, res, next) => {
+  try {
+    const { rol } = req.query;
+    let params = {
+      id: rol,
+    };
+    if (rol) {
+      const usersFound = await management.getUsersInRole(params);
+      const mappedUsers = usersFound.map((u) => {
+        return { user_id_A0: u.user_id };
+      });
+
+      const result = await User.findAll({
+        where: {
+          [Op.or]: mappedUsers,
+        },
+      });
+      return res.json(result);
+    }
+    return User.findAll()
+      .then((finded) => res.json(finded))
+      .catch((err) => next(err));
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 router.get("/:user_id", (req, res, next) => {
   const { user_id } = req.params;
-  User.findByPk(user_id, {
-    include: [
-      {
-        model: Institution,
-        through: {
-          attributes: [],
+  if (user_id) {
+    return User.findByPk(user_id, {
+      include: [
+        {
+          model: Institution,
+          through: {
+            attributes: [],
+          },
         },
-      },
-    ],
-  })
-    .then((found) => {
-      Article.findAll({ where: { user_id } }).then((arts) => {
-        res.json({ ...found.dataValues, articles: arts });
-      });
+      ],
     })
-    .catch((err) => next(err));
+      .then((found) => {
+        Article.findAll({ where: { user_id } }).then((arts) => {
+          res.json({ ...found.dataValues, articles: arts });
+        });
+      })
+      .catch((err) => next(err));
+  }
 });
 
 router.post("/verifyemail", (req, res) => {
   const user = req.body;
   return management.sendEmailVerification(user, function (err) {
     if (err) {
-      return new Error("Something went wrong");
+      return res.send(err);
     }
     return res.send("Email verification sent");
   });
-
-  /* .then((result) => res.send("verification link sent"))
-    .catch((err) => console.error(err)); */
 });
 
 module.exports = router;

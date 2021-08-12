@@ -9,6 +9,7 @@ import Drawer from '@material-ui/core/Drawer';
 
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import PeopleAltTwoToneIcon from '@material-ui/icons/PeopleAltTwoTone';
 
 import Divider from '@material-ui/core/Divider';
 
@@ -28,6 +29,7 @@ import BookOutlinedIcon from '@material-ui/icons/BookOutlined';
 // import PeopleOutlineOutlinedIcon from '@material-ui/icons/PeopleOutlineOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 import userAvatar from '../../assets/user.jpg';
 import logo from '../../assets/Logo.png';
@@ -198,14 +200,31 @@ export default function Nav() {
 				</List>
 				<Divider />
 				{user_roles.includes('admin') ? (
+					<>
 					<ListItem button onClick={() => history.push('/post')}>
 						<ListItemIcon>
 							<AddCircleOutlineIcon />
 						</ListItemIcon>
 						<ListItemText>Add Post</ListItemText>
 					</ListItem>
+					<ListItem button onClick={() => history.push('/adminpanel')}>
+						<ListItemIcon>
+							<SettingsIcon />
+						</ListItemIcon>
+						<ListItemText>Panel de Administrador</ListItemText>
+					</ListItem>
+					</>
 				) : null}
 				<Divider />
+
+				<ListItem button onClick={() => history.push('/colaborators')}>
+					<ListItemIcon>
+						<PeopleAltTwoToneIcon />
+					</ListItemIcon>
+					<ListItemText>Colaboradores</ListItemText>
+				</ListItem>
+
+
 				<ListItem button onClick={handleLogout}>
 					<ListItemIcon>
 						<ExitToAppIcon />

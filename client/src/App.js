@@ -6,8 +6,11 @@ import VerifyEmail from "./components/VerifyEmail";
 import Landing from "./components/Landing/Landing";
 import Art_Detail from "./views/Art_Detail/Art_Detail";
 import Home from "./views/Home/Home.jsx";
+import Admin_Panel from "./views/Admin_Panel/Admin_Panel";
 import Post from "./views/Post/Post.jsx";
+import Colaborators from "./views/Colaborators/Colaborators";
 import PostOk from "./views/postOk/PostOk.jsx";
+import InstitutionBio from "./components/InstitutionBio/InstitutionBio";
 import { ProtectedRoute } from "./components";
 import { findOrCreateUser as findOrCreateUserAction } from "./redux/actions/actions";
 import { useDispatch } from "react-redux";
@@ -41,9 +44,18 @@ const App = () => {
         <ProtectedRoute path="/post" exact component={Post} />
         <ProtectedRoute path="/postEdit/:id" exact component={Post} />
         <ProtectedRoute path="/post/:id" exact component={Art_Detail} />
+        <ProtectedRoute
+          path="/institution/:id"
+          exact
+          component={InstitutionBio}
+        />
+        <ProtectedRoute path="/adminpanel" exact component={Admin_Panel} />
         <ProtectedRoute path="/post_exitoso/:accion" exact component={PostOk} />
         <ProtectedRoute path="/home" exact component={Home} />
 				<ProtectedRoute path="/guiadetesis" exact component={GuiaDeTesis} />
+        <ProtectedRoute>
+          <Route exact path="/colaborators" component={Colaborators}></Route>
+        </ProtectedRoute>
         <Route path="*" render={() => <Redirect to="/" />} />
       </Switch>
     </div>

@@ -13,7 +13,9 @@ export const ORDER_ARTICLES = "ORDER_ARTICLES";
 export const GET_ALL_CAT_SUB = "GET_ALL_CAT_SUB";
 export const GET_CATEGORY = "GET_CATEGORY";
 export const GET_SUB_CATEGORY = "GET_SUB_CATEGORY";
-
+export const GET_USERS_BY_ROLES = "GET_USERS_BY_ROLES";
+export const GET_INSTITUTIONS = "GET_INSTITUTIONS";
+export const GET_INSTITUTION_BIO = "GET_INSTITUTION_BIO";
 
 export const getAllArticle = () => {
   return async (dispatch) => {
@@ -85,6 +87,160 @@ export const findOrCreateUser = (user, token) => async (dispatch) => {
   }
 };
 
+export const setCategory = (body, token) => async (dispatch) => {
+  try {
+    const categoryData = {
+      id: body.id,
+      name: body.name,
+    };
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const response = await axios.put(
+      `${REACT_APP_URL_API}/categories`,
+      categoryData,
+      {
+        headers,
+      }
+    );
+    if (response.data) {
+      dispatch({
+        type: GET_ALL_CAT_SUB,
+        payload: response.data,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+};
+
+export const setSubCategory = (body, token) => async (dispatch) => {
+  try {
+    const categoryData = {
+      id: body.id,
+      name: body.name,
+      description: body.description,
+    };
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const response = await axios.put(
+      `${REACT_APP_URL_API}/subcategories`,
+      categoryData,
+      {
+        headers,
+      }
+    );
+    if (response.data) {
+      dispatch({
+        type: GET_ALL_CAT_SUB,
+        payload: response.data,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+};
+
+export const deleteCategory = (id, token) => async (dispatch) => {
+  try {
+    console.log("eliminar");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const response = await axios.delete(
+      `${REACT_APP_URL_API}/categories/${id}`,
+      {
+        headers,
+      }
+    );
+    if (response.data) {
+      dispatch({
+        type: GET_ALL_CAT_SUB,
+        payload: response.data,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+};
+
+export const deleteSubCategory = (id, token) => async (dispatch) => {
+  try {
+    console.log("eliminar");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const response = await axios.delete(
+      `${REACT_APP_URL_API}/subcategories/${id}`,
+      {
+        headers,
+      }
+    );
+    if (response.data) {
+      dispatch({
+        type: GET_ALL_CAT_SUB,
+        payload: response.data,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+};
+
+export const createNewCategory = (newCategory, token) => async (dispatch) => {
+  try {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const response = await axios.post(
+      `${REACT_APP_URL_API}/categories`,
+      newCategory,
+      {
+        headers,
+      }
+    );
+    if (response.data) {
+      dispatch({
+        type: GET_ALL_CAT_SUB,
+        payload: response.data,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+};
+
+export const createNewSubCategory =
+  (newSubCategory, token) => async (dispatch) => {
+    try {
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.post(
+        `${REACT_APP_URL_API}/subcategories`,
+        newSubCategory,
+        {
+          headers,
+        }
+      );
+      if (response.data) {
+        dispatch({
+          type: GET_ALL_CAT_SUB,
+          payload: response.data,
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+  };
+
 export const setUserID = (payload) => {
   return { type: SET_USER_ID, payload: payload };
 };
@@ -143,7 +299,6 @@ export const orderArticles = (orderBy, order) => {
       const response = await axios.get(
         `${REACT_APP_URL_API}/article?orderBy=${orderBy}&order=${order}`
       );
-      console.log(response.data);
       dispatch({
         type: ORDER_ARTICLES,
         payload: response.data,
@@ -157,7 +312,7 @@ export const orderArticles = (orderBy, order) => {
 export function getArticleTag(tag) {
   return function (dispatch) {
     return axios
-      .get(`${REACT_APP_URL_API}/tag?tag=${tag}`)
+      .get(`${REACT_APP_URL_API}/search?search=${tag}`)
       .then((response) => response.data)
       .then((json) => {
         dispatch({ type: "GET_ARTICLE_TAG", payload: json });
@@ -179,7 +334,6 @@ export const getAllCatSub = () => {
   };
 };
 
-
 export const getCategory = (id) => {
   return async (dispatch) => {
     try {
@@ -190,6 +344,20 @@ export const getCategory = (id) => {
           data: response.data,
           id
         }})
+      } catch (error) {
+        console.error(error);
+      }
+  }
+};
+        
+export const getUsersByRoles = (rol) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${REACT_APP_URL_API}/users?rol=${rol}`);
+      dispatch({
+        type: GET_USERS_BY_ROLES,
+        payload: response.data,
+      });
     } catch (error) {
       console.error(error);
     }
@@ -197,7 +365,6 @@ export const getCategory = (id) => {
 };
 
 export const getSubCategory = (id) => {
-  console.log('entre a la accion y me llego este id: ',id)
   return async (dispatch) => {
     try {
       const response = await axios(`${REACT_APP_URL_API}/subcategory/category/${id}`);
@@ -213,3 +380,31 @@ export const getSubCategory = (id) => {
     }
   };
 };
+
+
+export const getInstitutions = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${REACT_APP_URL_API}/institutions`);
+      dispatch({
+        type: GET_INSTITUTIONS,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const getInstitutionBio = (id) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(
+        `${REACT_APP_URL_API}/institutions/${id}`
+      );
+      dispatch({ type: GET_INSTITUTION_BIO, payload: response.data });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
