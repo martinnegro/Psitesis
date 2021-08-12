@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { getInstitutionBio } from '../../redux/actions/actions'
-import CardPost from '../Card/Card'
+import CardPost from '../Card/CardHome'
 import { Container } from '@material-ui/core'
 import { useDispatch,useSelector } from "react-redux"
 import Nav from '../Nav/Nav'

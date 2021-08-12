@@ -6,11 +6,13 @@ const { DATABASE_URL } = process.env;
 
 const sequelize = new Sequelize(
   DATABASE_URL,
-  /*  {
-    logging: false,
-    native: false,
-  } */
-  {
+
+  // {
+  //   logging: false,
+  //   native: false,
+  // }
+   {
+
     dialect: "postgres",
     protocol: "postgres",
     dialectOptions: {
@@ -48,7 +50,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Article, Institution, Rol, Network, User, Category, SubCategory, Tag } =
+const { Article, Institution, Rol, Network, User, Category, Subcategory, Tag } =
   sequelize.models;
 
 // Aca vendrian las relaciones
@@ -76,16 +78,22 @@ Network.belongsTo(Institution);
 
 //1 a N categoria------sub-categoria
 
-Category.hasMany(SubCategory);
-SubCategory.belongsTo(Category, { targetKey: "cat_id", foreignKey: "cat_id" });
+Category.hasMany(Subcategory);
+Subcategory.belongsTo(Category, { targetKey: "cat_id", foreignKey: "cat_id" });
 
 // 1 a N Categoria-----Articulo
 
-SubCategory.hasMany(Article);
-Article.belongsTo(SubCategory, {
-  targetKey: "sub_cat_id",
-  foreignKey: "sub_cat_id",
-});
+Subcategory.belongsToMany(Article, {through: "subcategoryarticle"});
+Article.belongsToMany(Subcategory,  {through: "subcategoryarticle"});
+
+Category.belongsToMany(Article, {through: "categoryarticle"});
+Article.belongsToMany(Category,  {through: "categoryarticle"});
+
+// Subcategory.hasMany(Article);
+// Article.belongsTo(Subcategory, {
+//   targetKey: "sub_cat_id",
+//   foreignKey: "sub_cat_id",
+// });
 
 // N a N Tag-------Articulo
 

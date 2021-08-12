@@ -5,6 +5,7 @@ const article = require('./article');
 const users = require('./users');
 const institutions = require('./institutions');
 const categories = require('./categories')
+const Subcategory = require('./Subcategory')
 const search = require('./searchHome')
 const subCategories = require('./subCategories');
 const router = Router();
@@ -16,6 +17,7 @@ router.use("/article", article);
 router.use("/users", users);
 router.use('/institutions',institutions);
 router.use('/categories',categories);
+router.use('/Subcategory',Subcategory);
 router.use('/subcategories', subCategories);
 router.use('/search',search);
 
