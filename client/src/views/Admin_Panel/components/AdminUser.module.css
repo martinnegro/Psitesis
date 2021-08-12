@@ -7,3 +7,16 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+.MuiCollapse-container {
+    width: 0px;
+    transition-property: width;
+}
+
+.MuiCollapse-entered {
+    width: 100%
+}
+
+.MuiCollapse-hidden {
+    width: 0px
+}

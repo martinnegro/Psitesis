@@ -97,12 +97,16 @@ conn.sync({ force: true }).then(() => {
 			{
 				inst_id: uuidv4(),
 				inst_name: 'Henry',
-				inst_description: 'Bootcamp',
+				inst_descriptions: 'Bootcamp',
+				inst_link: 'https://www.soyhenry.com/',
+				inst_logo: 'https://cdn.theorg.com/d3119e0e-8202-4034-85ce-d0356382515e_thumb.jpg'
 			},
 			{
 				inst_id: uuidv4(),
 				inst_name: 'UBA',
-				inst_description: 'Universidad',
+				inst_descriptions: 'Universidad de Buenos Aires',
+				inst_link: 'https://www.uba.ar/',
+				inst_logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/UBA.svg/2048px-UBA.svg.pnghen'
 			},
 		]);
 		console.log('**** INSTITUCIÓN CREADA');
