@@ -134,6 +134,30 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.get("/:admins", async (req, res, next) => {
+  try {
+    const { admin } = req.params;
+    let params = {
+      id: admin,
+    };
+    if (rol) {
+      const usersFound = await management.getUsersInRole(params);
+      const mappedUsers = usersFound.map((u) => {
+        return { user_id_A0: u.user_id };
+      });
+
+      const result = await User.findAll({
+        where: {
+          [Op.or]: mappedUsers,
+        },
+      });
+      return res.json(result);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 router.get("/:user_id", (req, res, next) => {
   const { user_id } = req.params;
   if (user_id) {
