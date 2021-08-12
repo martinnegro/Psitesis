@@ -127,7 +127,10 @@ router.get("/:user_id_A0", async (req, res, next) => {
     });
     
     const articles = await Article.findAll({ where: { user_id: user.user_id} });
-    const response = {...user.dataValues, articles: articles.dataValues}
+    console.log('**************\n',articles)
+    const cleanArticlesData = articles.map(a => { return a.dataValues })
+    const response = {...user.dataValues, articles: cleanArticlesData}
+    console.log('**************************\n',response)
     res.json(response);
   } catch(err) { next(err) };
 });
