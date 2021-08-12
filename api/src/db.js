@@ -6,13 +6,11 @@ const { DATABASE_URL } = process.env;
 
 const sequelize = new Sequelize(
   DATABASE_URL,
-
-  // {
-  //   logging: false,
-  //   native: false,
-  // }
-   {
-
+  {
+    logging: false,
+    native: false,
+  }
+  /*  {
     dialect: "postgres",
     protocol: "postgres",
     dialectOptions: {
@@ -21,7 +19,7 @@ const sequelize = new Sequelize(
         rejectUnauthorized: false,
       },
     },
-  }
+  } */
 );
 
 const basename = path.basename(__filename);
@@ -83,11 +81,11 @@ Subcategory.belongsTo(Category, { targetKey: "cat_id", foreignKey: "cat_id" });
 
 // 1 a N Categoria-----Articulo
 
-Subcategory.belongsToMany(Article, {through: "subcategoryarticle"});
-Article.belongsToMany(Subcategory,  {through: "subcategoryarticle"});
+Subcategory.belongsToMany(Article, { through: "subcategoryarticle" });
+Article.belongsToMany(Subcategory, { through: "subcategoryarticle" });
 
-Category.belongsToMany(Article, {through: "categoryarticle"});
-Article.belongsToMany(Category,  {through: "categoryarticle"});
+Category.belongsToMany(Article, { through: "categoryarticle" });
+Article.belongsToMany(Category, { through: "categoryarticle" });
 
 // Subcategory.hasMany(Article);
 // Article.belongsTo(Subcategory, {

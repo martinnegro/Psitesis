@@ -2,7 +2,7 @@ import axios from "axios";
 
 const { REACT_APP_URL_API } = process.env;
 
-export const GET_ALL_CATEGORIES = 'GET ALL CATEGORIES';
+export const GET_ALL_CATEGORIES = "GET ALL CATEGORIES";
 export const GET_ALL_ARTICLE = "GET ALL ARTICLE";
 export const GET_ARTICLE_DETAIL = "GET ARTICLE DETAIL";
 export const GET_USERS = "GET USERS";
@@ -16,6 +16,7 @@ export const GET_SUB_CATEGORY = "GET_SUB_CATEGORY";
 export const GET_USERS_BY_ROLES = "GET_USERS_BY_ROLES";
 export const GET_INSTITUTIONS = "GET_INSTITUTIONS";
 export const GET_INSTITUTION_BIO = "GET_INSTITUTION_BIO";
+export const GET_ADMINS = "GET_ADMINS";
 
 export const getAllArticle = () => {
   return async (dispatch) => {
@@ -318,7 +319,7 @@ export function getArticleTag(tag) {
         dispatch({ type: "GET_ARTICLE_TAG", payload: json });
       });
   };
-};
+}
 
 export const getAllCatSub = () => {
   return async (dispatch) => {
@@ -340,16 +341,17 @@ export const getCategory = (id) => {
       const response = await axios(`${REACT_APP_URL_API}/categories/${id}`);
       dispatch({
         type: GET_CATEGORY,
-        payload:{
+        payload: {
           data: response.data,
-          id
-        }})
-      } catch (error) {
-        console.error(error);
-      }
-  }
+          id,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 };
-        
+
 export const getUsersByRoles = (rol) => {
   return async (dispatch) => {
     try {
@@ -367,20 +369,22 @@ export const getUsersByRoles = (rol) => {
 export const getSubCategory = (id) => {
   return async (dispatch) => {
     try {
-      const response = await axios(`${REACT_APP_URL_API}/subcategory/category/${id}`);
-      console.log('response: ',response.data)
+      const response = await axios(
+        `${REACT_APP_URL_API}/subcategory/category/${id}`
+      );
+      console.log("response: ", response.data);
       dispatch({
         type: GET_SUB_CATEGORY,
-        payload:{
+        payload: {
           data: response.data,
-          id
-      }})
+          id,
+        },
+      });
     } catch (error) {
       console.error(error);
     }
   };
 };
-
 
 export const getInstitutions = () => {
   return async (dispatch) => {
@@ -406,5 +410,5 @@ export const getInstitutionBio = (id) => {
     } catch (error) {
       console.error(error);
     }
-  }
-}
+  };
+};

@@ -2,7 +2,7 @@
 import React from "react";
 import Container from "@material-ui/core/Container";
 import { useEffect,useState } from "react";
-import { getUsersByRoles,getInstitutions } from "../../redux/actions/actions";
+import {getInstitutions } from "../../redux/actions/actions";
 import { useDispatch, useSelector } from "react-redux";
 import BiosContainer from "../../components/Bios/BiosContainer";
 import Institutions from '../../components/Institutions/Institutions'
@@ -16,6 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { ThemeProvider } from "@material-ui/core/styles";
 import { purple,azul } from "@material-ui/core/colors";
+import axios from "axios";
 const theme = createTheme({
     palette: {
       primary: {
@@ -34,38 +35,26 @@ const theme = createTheme({
   });
 
 
-const useStyles = makeStyles((theme) => ({
-    
-    offset: theme.mixins.toolbar,
-    Home: {
-      // marginLeft: theme.spacing(15),
-      marginTop: theme.spacing(5),
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-  
+  const useStyles = makeStyles((theme) => ({
     root: {
-      padding: "2px 4px",
-      display: "flex",
-      alignItems: "center",
-      width: "85%",
-      marginTop: "20px",
-      marginBottom: "30px",
+      flexGrow: 1,
+      width: '100%',
+      backgroundColor: theme.palette.background.paper,
+      justifyContent: 'center'
     },
-    root2: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.paper,
-        width: "100%"
-      },
-    input: {
-      marginLeft: theme.spacing(1),
-      flex: 1,
+    offset: theme.mixins.toolbar,
+    title:{
+        marginTop: '20px',
+        backgroundColor: 'purple',
+        width: '100%',
+        textAlign: 'center',
+        color: 'white'
     },
-    iconButton: {
-      padding: 10,
-    },
+    tabs:{
+      "& .MuiTabs-flexContainer":{
+        justifyContent:'space-around'
+      }
+    }
   }));
 
 
@@ -79,10 +68,12 @@ function TabPanel(props) {
         id={`simple-tabpanel-${index}`}
         aria-labelledby={`simple-tab-${index}`}
         {...other}
+        styles = {{display: "flex"}}
+
       >
         {value === index && (
           <Box p={3}>
-            <Typography>{children}</Typography>
+            {/* <Typography > */}{children}{/* </Typography> */}
           </Box>
         )}
       </div>
@@ -110,9 +101,10 @@ export default function Colaborators(){
     const usersByRoles = useSelector((state) => state.rootReducer.usersByRoles)
     const institutions = useSelector((state) => state.rootReducer.institutions)
    
-   useEffect(()=>{
-        dispatch(getUsersByRoles('rol_mALahPQjTe8Re7vf'))
-   },[dispatch])
+useEffect(()=>{
+  getUsersByRoles('rol_mALahPQjTe8Re7vf',"admin")
+  getUsersByRoles('rol_ZtYREJr7Fq2n211C',"colaborators")
+},[])
 
    useEffect(()=>{
     dispatch(getInstitutions())
@@ -120,27 +112,61 @@ export default function Colaborators(){
 
 const classes = useStyles();
 const [value, setValue] = React.useState(0);
+const [users,setUsers] = useState({
+  admin: "",
+  colaborators: ""
+})
 
+function getUsersByRoles(id,rol){
+  return axios.get(`http://localhost:3001/users?rol=${id}`)
+  .then(response => response.data).then((result)=>{
+    setUsers(state => { return {
+      ...state,
+      [rol] : result   
+    }})
+  })
+  .catch(err => console.error(err))
+}
 const handleChange = (event, newValue) => {
   setValue(newValue);
 };
+{console.log(users)}
 
 return (
-    <div>
-        <div className={classes.offset}></div>
-    <Nav/>
-    <ThemeProvider theme={theme}>
-    <Container className={classes.Home}>
-    <div className={classes.root2}>
-      <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="Bios" {...a11yProps(0)} />
+  
+  <Container>
+      <div className={classes.offset}></div>
+      <Nav/>
+          <Container className={classes.title}>
+              <Typography variant='h2' >Colaboradores</Typography>
+          </Container>
+      <div className={classes.root}>
+          <AppBar position="static" color="default" >
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              indicatorColor="primary"
+              textColor="primary"
+              variant="scrollable"
+              scrollButtons="auto"
+              aria-label="scrollable auto tabs example"
+              className={classes.tabs}
+            >
+              <Tab label="Bios" {...a11yProps(0)} />
           <Tab label="Institutions" {...a11yProps(1)} />
-        </Tabs>
-      </AppBar>
-      <TabPanel value={value} index={0}>
-        {usersByRoles ? usersByRoles.map(user =>{
+            </Tabs>
+          </AppBar>
+          <TabPanel value={value} index={0}>
+        {users.admin ? users.admin.map(user =>{
             return(
+              
+                <BiosContainer id = {user.user_id_A0}key = {user.user_id} userName = {user.user_name} biography = {user.biography} imgProfile = {user.user_img_profile}></BiosContainer>
+               
+            )
+        }) : null}
+        {users.colaborators ? users.colaborators.map(user =>{
+            return(
+              
                 <BiosContainer id = {user.user_id_A0}key = {user.user_id} userName = {user.user_name} biography = {user.biography} imgProfile = {user.user_img_profile}></BiosContainer>
             )
         }) : null}
@@ -152,12 +178,9 @@ return (
            )
        }) : null}
       </TabPanel>
-      {console.log(institutions)}
-      
-    </div>
-   </Container>
-   </ThemeProvider>
-    </div>
-  );
-
+          
+         
+      </div>
+  </Container> 
+)
 }

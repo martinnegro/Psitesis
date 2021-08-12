@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react'
 import { getInstitutionBio } from '../../redux/actions/actions'
 import CardPost from '../Card/CardHome'
-import { Container } from '@material-ui/core'
 import { useDispatch,useSelector } from "react-redux"
 import Nav from '../Nav/Nav'
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from "@material-ui/core";
+import Avatar from '@material-ui/core/Avatar';
+import { deepOrange, green } from '@material-ui/core/colors';
+import Divider from '@material-ui/core/Divider';
+import Container from '@material-ui/core/Container'
+import user from '../../assets/user.jpg';
 
 const useStyles = makeStyles((theme) => ({
     offset: theme.mixins.toolbar,
@@ -38,6 +42,12 @@ const useStyles = makeStyles((theme) => ({
     iconButton: {
       padding: 10,
     },
+    square: {
+      color: theme.palette.getContrastText(deepOrange[500]),
+      backgroundColor: deepOrange[500],
+      width: theme.spacing(15),
+      height: theme.spacing(15),
+    },
   }));
 
 export default function InstitutionBio(props){
@@ -48,35 +58,37 @@ export default function InstitutionBio(props){
         dispatch(getInstitutionBio(props.match.params.id));
     },[])
     const {articles,institution} = institutionBio
-
-    
-    
    return(
        <div>
            <div className={classes.offset}></div>
            <Nav />
            <Container className={classes.Home}>
+             <Avatar variant="square" src = {user} className={classes.square}></Avatar>
            <Typography variant="h2" color="initial">
-            Institucion bio
+           {institution?.inst_name}
           </Typography>
+          <Divider/>
+          <Typography variant="h4" color="initial">
+          Bio
+          </Typography>
+          <Typography variant="p" color="initial">
+          Texto de bio
+          </Typography>
+          <Divider/>
            {institution ? <div>
-            <h1>{institution.inst_name}</h1>
+            
             <Typography variant="h4" color="initial">
             Los autores de esta institucion escribieron:
           </Typography>
             {console.log(articles)}
-            {articles ? articles[0].map((article)=>{
-                
+            {articles ? articles[0]?.map((article)=>{
                 return(
-                    
                     <CardPost key = {article.art_id} title = {article.art_title} body = {article.art_contents} id = {article.user_id} articleId = {article.art_id} articleAbstract = {article.art_abstract}></CardPost>
                 )
             }) : null}
            </div>
            : null}
-
 </Container>
-           
        </div>
    )
 }

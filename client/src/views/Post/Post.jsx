@@ -28,7 +28,6 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import Selectores from "../../components/Select/Select";
-
 const theme = createTheme({
   palette: {
     primary: {
@@ -174,7 +173,7 @@ function Post() {
   }, []);
 
   useEffect(() => {
-    if (articlesDetail && user_id && user_roles) {
+    if (articlesDetail && user_id && user_roles && id) {
       setBody(articlesDetail.art_contents);
       setTitulo(articlesDetail.art_title);
       if (articlesDetail.user_id !== user_id) {
@@ -187,13 +186,17 @@ function Post() {
         setEnablePost(true);
       }
     }
-  }, [articlesDetail, history, user_id, user_roles]);
+  }, [articlesDetail, history, user_id, user_roles,id]);
 
   useEffect(() => {
     dispatch(getAllCatSub());
   }, []);
 
+  console.log(history.goBack)
+  console.log(history)
+
   return (
+    
     <div>
       <Nav />
       <ThemeProvider theme={theme}>
@@ -332,6 +335,7 @@ function Post() {
                 label: classes.label,
               }}
             >
+              {console.log(id)}
               {id ? "EDITAR POST" : "POSTEAR"}
             </Button>
           </div>
