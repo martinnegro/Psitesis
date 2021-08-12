@@ -24,9 +24,11 @@ export default function TabPanel(props) {
         id={`scrollable-auto-tabpanel-${index}`}
         aria-labelledby={`scrollable-auto-tab-${index}`}
         {...other} >
-            <Container style={{display: 'flex', alignItems :'center', justifyContent: 'center', marginTop:'20px'}}>
+            {/* <Container style={{display: 'flex', alignItems :'center', justifyContent: 'center', marginTop:'20px'}}>
                 <Search/>
-            </Container>
+            </Container> */}
+            <Divider variant="middle" />
+
             {
                 value === index ? (
                     Subcategory?.length > 0 ? (
