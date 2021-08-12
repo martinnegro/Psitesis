@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllUsers } from '../../../redux/actions/usersActions';
 import s from './AdminUser.module.css'
+import { Link } from 'react-router-dom';
 
 import { TextField, Button, Box, IconButton, Avatar } from '@material-ui/core'
 import { Radio, RadioGroup, FormControl, FormControlLabel, FormLabel } from '@material-ui/core'
@@ -101,12 +102,16 @@ function AdminUsers() {
                 selectedUser.selected &&
                 <Box display="flex" m={2} >
                     <Avatar alt={selectedUser.user_name} src={selectedUser.user_img_profile}/>
-                    <Box ml={2}>{selectedUser.user_name}</Box>
+                    <Link to={`/user/${selectedUser.user_id_A0}`}>
+                        <Box ml={2}>{selectedUser.user_name}</Box>
+                    </Link>
                     <Box>
                         {   
                             !wantChangeRole ?
                             <Box>
+                                
                                 <Box ml={2}>Rol: {selectedUser.role.name}</Box>
+                                
                                 <Button variant="outlined" onClick={() => handleWantChangeRole(selectedUser.role.id)}>Cambiar Rol</Button>
                             </Box> : 
                             <FormControl component="fieldset">

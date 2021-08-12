@@ -145,5 +145,53 @@ router.post("/verifyemail", (req, res) => {
     .catch((err) => console.error(err)); */
 });
 
+router.put('/add_inst',async (req, res, next) => {
+  const { user_id_A0, inst_id } = req.query;
+  try{
+    const user = await User.findOne({ 
+      where: { user_id_A0 },
+      include: [
+        {
+          model: Institution,
+          through: {
+            attributes: [],
+          },
+        },
+      ],
+    });
+    await user.addInstitution(inst_id);
+    const newSetUserInst = user.dataValues.institutions;
+    const newInst = await Institution.findOne({where: {inst_id}})
+    res.json([...newSetUserInst,newInst.dataValues]);
+  } catch(err) { 
+    err.message = 'No se pudo agregar la Institución.'  
+    next(err) 
+  }
+});
+
+router.delete('/delete_inst', async (req, res, next) => {
+  const { user_id_A0, inst_id } = req.query;
+  try {
+    const user = await User.findOne({ 
+      where: { user_id_A0 },
+      include: [
+        {
+          model: Institution,
+          through: {
+            attributes: [],
+          },
+        },
+      ],
+    });
+    const newSetUserInst = user.dataValues.institutions.filter(i => i.inst_id !== inst_id)
+    const newSetIds = newSetUserInst.map(i => i.inst_id)
+    await user.setInstitutions(newSetIds);
+    res.json(newSetUserInst);
+  } catch(err) { 
+    err.message = 'No se pudo borrar la Institución';
+    next(err) };
+  
+});
+
 
 module.exports = router;

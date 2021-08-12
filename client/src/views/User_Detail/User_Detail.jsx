@@ -20,7 +20,6 @@ function User_Detail(props) {
 
     useEffect(async ()=>{
         const auxUser = await axios.get(`${REACT_APP_URL_API}/users/${user_id_A0}`);
-        console.log(auxUser);
         setUser(auxUser.data);
     },[])
 
