@@ -92,11 +92,11 @@ const Art_Detail = () => {
 	const user_roles = useSelector((state) => state.rootReducer.user_roles);
   const [idUser, setIdUser] = useState([]);
   const subcategories = useSelector((state) => state.rootReducer.cat_sub?.sub_cats);
-  const [section, setSection] = useState([]);
+  // const [section, setSection] = useState([]);
 
   // console.log('subcategories :', subcategories)
   // console.log('section :', section)
-  // console.log('articlesDetail :', articlesDetail)
+  console.log('articlesDetail :', articlesDetail)
   // console.log('articlesDetail?.Subcategories[0].sub_cat_id :', articlesDetail?.Subcategories[0].sub_cat_id)
 
 	const [enablePost, setEnablePost] = useState(false);
@@ -130,9 +130,9 @@ const Art_Detail = () => {
   }, [articlesDetail?.user_id, users]);
 
 
-  useEffect(() => {
-    setSection(subcategories?.filter((c) => c.sub_cat_id === articlesDetail?.Subcategories[0]?.sub_cat_id));
-  }, [articlesDetail?.Subcategories, subcategories]);
+  // useEffect(() => {
+  //   setSection(subcategories?.filter((c) => c.sub_cat_id === articlesDetail?.Subcategories[0]?.sub_cat_id));
+  // }, [articlesDetail?.Subcategories, subcategories]);
 
 	useEffect(() => {
 		if (articlesDetail && user_id && user_roles) {
@@ -186,7 +186,7 @@ const Art_Detail = () => {
           <div className={s.perfil}>
             <div>
               <Typography variant="body2">
-                Sección: {section[0]?.sub_cat_name}
+                Sección: {articlesDetail?.Subcategories[0]?.sub_cat_name}
               </Typography>
             </div>
             <div className={s.perfil2}>
