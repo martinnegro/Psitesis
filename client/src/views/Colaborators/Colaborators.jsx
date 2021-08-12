@@ -93,8 +93,6 @@ function TabPanel(props) {
     };
   }
   
-  
-
 export default function Colaborators(){
     
     const dispatch = useDispatch();
