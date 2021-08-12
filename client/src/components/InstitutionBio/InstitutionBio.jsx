@@ -81,10 +81,8 @@ export default function InstitutionBio(props){
             Los autores de esta institucion escribieron:
           </Typography>
             {console.log(articles)}
-            {articles ? articles[0].map((article)=>{
-                
+            {articles ? articles[0]?.map((article)=>{
                 return(
-                    
                     <CardPost key = {article.art_id} title = {article.art_title} body = {article.art_contents} id = {article.user_id} articleId = {article.art_id} articleAbstract = {article.art_abstract}></CardPost>
                 )
             }) : null}

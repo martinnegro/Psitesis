@@ -2,7 +2,7 @@
 import React from "react";
 import Container from "@material-ui/core/Container";
 import { useEffect,useState } from "react";
-import { getUsersByRoles,getInstitutions } from "../../redux/actions/actions";
+import {getInstitutions } from "../../redux/actions/actions";
 import { useDispatch, useSelector } from "react-redux";
 import BiosContainer from "../../components/Bios/BiosContainer";
 import Institutions from '../../components/Institutions/Institutions'
@@ -16,6 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { ThemeProvider } from "@material-ui/core/styles";
 import { purple,azul } from "@material-ui/core/colors";
+import axios from "axios";
 const theme = createTheme({
     palette: {
       primary: {
@@ -100,9 +101,10 @@ export default function Colaborators(){
     const usersByRoles = useSelector((state) => state.rootReducer.usersByRoles)
     const institutions = useSelector((state) => state.rootReducer.institutions)
    
-   useEffect(()=>{
-        dispatch(getUsersByRoles('rol_mALahPQjTe8Re7vf'))
-   },[dispatch])
+useEffect(()=>{
+  getUsersByRoles('rol_mALahPQjTe8Re7vf',"admin")
+  getUsersByRoles('rol_ZtYREJr7Fq2n211C',"colaborators")
+},[])
 
    useEffect(()=>{
     dispatch(getInstitutions())
@@ -110,12 +112,28 @@ export default function Colaborators(){
 
 const classes = useStyles();
 const [value, setValue] = React.useState(0);
+const [users,setUsers] = useState({
+  admin: "",
+  colaborators: ""
+})
 
+function getUsersByRoles(id,rol){
+  return axios.get(`http://localhost:3001/users?rol=${id}`)
+  .then(response => response.data).then((result)=>{
+    setUsers(state => { return {
+      ...state,
+      [rol] : result   
+    }})
+  })
+  .catch(err => console.error(err))
+}
 const handleChange = (event, newValue) => {
   setValue(newValue);
 };
+{console.log(users)}
 
 return (
+  
   <Container>
       <div className={classes.offset}></div>
       <Nav/>
@@ -139,11 +157,17 @@ return (
             </Tabs>
           </AppBar>
           <TabPanel value={value} index={0}>
-        {usersByRoles ? usersByRoles.map(user =>{
+        {users.admin ? users.admin.map(user =>{
             return(
               
                 <BiosContainer id = {user.user_id_A0}key = {user.user_id} userName = {user.user_name} biography = {user.biography} imgProfile = {user.user_img_profile}></BiosContainer>
                
+            )
+        }) : null}
+        {users.colaborators ? users.colaborators.map(user =>{
+            return(
+              
+                <BiosContainer id = {user.user_id_A0}key = {user.user_id} userName = {user.user_name} biography = {user.biography} imgProfile = {user.user_img_profile}></BiosContainer>
             )
         }) : null}
       </TabPanel>
@@ -159,40 +183,4 @@ return (
       </div>
   </Container> 
 )
-
-/* return (
-    <div>
-        <div className={classes.offset}></div>
-    <Nav/>
-    <ThemeProvider theme={theme}>
-    <Container className={classes.Home}>
-    <div className={classes.root2}>
-      <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="Bios" {...a11yProps(0)} />
-          <Tab label="Institutions" {...a11yProps(1)} />
-        </Tabs>
-      </AppBar>
-      <TabPanel value={value} index={0}>
-        {usersByRoles ? usersByRoles.map(user =>{
-            return(
-                <BiosContainer id = {user.user_id_A0}key = {user.user_id} userName = {user.user_name} biography = {user.biography} imgProfile = {user.user_img_profile}></BiosContainer>
-            )
-        }) : null}
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-       {institutions ? institutions.map(x =>{
-           return(
-               <Institutions id = {x.inst_id} key = {x.inst_id} instName = {x.inst_name} imgProfile = {x.imgProfile} ></Institutions>
-           )
-       }) : null}
-      </TabPanel>
-      {console.log(institutions)}
-      
-    </div>
-   </Container>
-   </ThemeProvider>
-    </div>
-  ); */
-
 }

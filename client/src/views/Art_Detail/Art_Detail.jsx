@@ -105,12 +105,7 @@ const Art_Detail = () => {
 
   const classes = useStyles();
 
-  // const subCats = [
-  //   { name: "Metodologia de investigación", id: 1 },
-  //   { name: "Elección de tema", id: 2 },
-  //   { name: "Citado en el texto", id: 3 },
-  //   { name: "Referencias bibliográficas", id: 4 },
-  // ];
+
 
   useEffect(() => {
     dispatch(getAllCatSub())
