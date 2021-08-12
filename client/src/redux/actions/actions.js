@@ -11,6 +11,9 @@ export const SET_USER_ID = "SET_USER_ID";
 export const SET_USER_ROLES = "SET_USER_ROLES";
 export const ORDER_ARTICLES = "ORDER_ARTICLES";
 export const GET_ALL_CAT_SUB = "GET_ALL_CAT_SUB";
+export const GET_CATEGORY = "GET_CATEGORY";
+export const GET_SUB_CATEGORY = "GET_SUB_CATEGORY";
+
 
 export const getAllArticle = () => {
   return async (dispatch) => {
@@ -160,7 +163,7 @@ export function getArticleTag(tag) {
         dispatch({ type: "GET_ARTICLE_TAG", payload: json });
       });
   };
-}
+};
 
 export const getAllCatSub = () => {
   return async (dispatch) => {
@@ -170,6 +173,41 @@ export const getAllCatSub = () => {
         type: GET_ALL_CAT_SUB,
         payload: response.data,
       });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+
+export const getCategory = (id) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios(`${REACT_APP_URL_API}/categories/${id}`);
+      dispatch({
+        type: GET_CATEGORY,
+        payload:{
+          data: response.data,
+          id
+        }})
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const getSubCategory = (id) => {
+  console.log('entre a la accion y me llego este id: ',id)
+  return async (dispatch) => {
+    try {
+      const response = await axios(`${REACT_APP_URL_API}/subcategory/category/${id}`);
+      console.log('response: ',response.data)
+      dispatch({
+        type: GET_SUB_CATEGORY,
+        payload:{
+          data: response.data,
+          id
+      }})
     } catch (error) {
       console.error(error);
     }

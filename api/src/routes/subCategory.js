@@ -21,6 +21,19 @@ router.get("/", async (req, res) => {
     }
 })
 
+router.get("/category/:id", async (req, res) => {
+    try{
+        const {id} = req.params
+        const subcategoria = await Subcategory.findAll({
+            where: { cat_id: id},            
+            include: { model: Article },
+        })
+        res.json(subcategoria)
+    }catch(err){
+        console.error(err.message)
+    }
+})
+
 router.get("/:id", async (req, res) => {
     try{
         const { id } = req.params
