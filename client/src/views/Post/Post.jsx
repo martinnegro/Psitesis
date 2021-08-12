@@ -71,10 +71,8 @@ const useStyles = makeStyles({
 function Post() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const articlesDetail = useSelector(
-    (state) => state.rootReducer.articlesDetail
-  ); // Nueva forma de acceder al estado por combineReducer
-  const user_id = useSelector((state) => state.rootReducer.user_id); // Nueva forma de acceder al estado por combineReducer
+  const articlesDetail = useSelector((state) => state.rootReducer.articlesDetail); 
+  const user_id = useSelector((state) => state.rootReducer.user_id);
   const user_roles = useSelector((state) => state.rootReducer.user_roles);
 
   const classes = useStyles();
@@ -85,6 +83,7 @@ function Post() {
   const [titulo, setTitulo] = useState("");
   const [reseña, setReseña] = useState("");
   const [subcategoria, setSubcategoria] = useState("");
+  const [categoria, setCategoria] = useState("");
   const [tags, setTags] = useState("");
 
   //MOdal
@@ -126,7 +125,9 @@ function Post() {
   const handleInputCat = (e) => {
     let index = e.target.selectedIndex;
     let option = e.target.options[index].value;
-    setSubcategoria(option);
+    console.log('option: ',option)
+    setCategoria(option.split('/')[0])
+    setSubcategoria(option.split('/')[1]);
   };
 
   const handleSubmitBody = async (e) => {
@@ -135,6 +136,7 @@ function Post() {
     let data = {
       art_contents: body,
       art_title: titulo,
+      cat_id: categoria,
       sub_cat_id: subcategoria,
       user_id: user.sub,
       art_abstract: reseña,
@@ -142,6 +144,8 @@ function Post() {
       art_tags: tags.split(",").map((e) => e.trim()),
       art_id: id ? articlesDetail.art_id : null,
     };
+
+    console.log('data: ',data)
 
     // action createPost or editPost
     const token = await getAccessTokenSilently();

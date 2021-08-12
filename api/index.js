@@ -24,7 +24,7 @@ const {
   conn,
   Rol,
   Category,
-  SubCategory,
+  Subcategory,
   Institution,
   User,
   Article,
@@ -68,7 +68,7 @@ conn.sync({ force: true }).then(() => {
     const sub_cat_id3 = uuidv4();
     const sub_cat_id4 = uuidv4();
 
-    const subCategories = await SubCategory.bulkCreate([
+    const subCategories = await Subcategory.bulkCreate([
       {
         sub_cat_id: sub_cat_id1,
         sub_cat_name: "Metodología de la investigación",

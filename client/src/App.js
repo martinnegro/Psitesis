@@ -14,6 +14,8 @@ import InstitutionBio from "./components/InstitutionBio/InstitutionBio";
 import { ProtectedRoute } from "./components";
 import { findOrCreateUser as findOrCreateUserAction } from "./redux/actions/actions";
 import { useDispatch } from "react-redux";
+import GuiaDeTesis from './views/Guia de Tesis/GuiaDeTesis';
+
 
 const App = () => {
   const { isLoading, user, getAccessTokenSilently } = useAuth0();
@@ -50,6 +52,7 @@ const App = () => {
         <ProtectedRoute path="/adminpanel" exact component={Admin_Panel} />
         <ProtectedRoute path="/post_exitoso/:accion" exact component={PostOk} />
         <ProtectedRoute path="/home" exact component={Home} />
+				<ProtectedRoute path="/guiadetesis" exact component={GuiaDeTesis} />
         <ProtectedRoute>
           <Route exact path="/colaborators" component={Colaborators}></Route>
         </ProtectedRoute>
@@ -57,6 +60,7 @@ const App = () => {
       </Switch>
     </div>
   );
+
 };
 
 export default App;

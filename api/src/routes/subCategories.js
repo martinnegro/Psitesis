@@ -1,13 +1,13 @@
 const { Router } = require('express');
 const router = Router();
 const { v4: uuidv4 } = require('uuid');
-const { Category, SubCategory } = require('../db');
+const { Category, Subcategory } = require('../db');
 const { authorizeAccessToken, checkAdminPermission } = require('../auth/index');
 
 router.get('/', async (req, res, next) => {
 	try {
 		const cats = await Category.findAll();
-		const sub_cats = await SubCategory.findAll();
+		const sub_cats = await Subcategory.findAll();
 		res.json({ cats, sub_cats });
 	} catch (err) {
 		next(err);
@@ -23,15 +23,15 @@ router.put(
 			const { name, id, description } = req.body;
 			if (name && id) {
 				console.log(id);
-				const targetSubCategory = await SubCategory.findByPk(id);
-				if (targetSubCategory) {
-					targetSubCategory.sub_cat_name = name;
-					if (description) targetSubCategory.sub_cat_description = description;
-					await targetSubCategory.save();
+				const targetSubcategory = await Subcategory.findByPk(id);
+				if (targetSubcategory) {
+					targetSubcategory.sub_cat_name = name;
+					if (description) targetSubcategory.sub_cat_description = description;
+					await targetSubcategory.save();
 				}
 			}
 			const cats = await Category.findAll();
-			const sub_cats = await SubCategory.findAll();
+			const sub_cats = await Subcategory.findAll();
 			res.json({ cats, sub_cats });
 		} catch (err) {
 			next(err);
@@ -47,13 +47,13 @@ router.delete(
 		try {
 			const { id } = req.params;
 			if (id) {
-				const targetCategory = await SubCategory.findByPk(id);
+				const targetCategory = await Subcategory.findByPk(id);
 				if (targetCategory) {
 					await targetCategory.destroy();
 				}
 			}
 			const cats = await Category.findAll();
-			const sub_cats = await SubCategory.findAll();
+			const sub_cats = await Subcategory.findAll();
 			res.json({ cats, sub_cats });
 		} catch (err) {
 			next(err);
@@ -70,7 +70,7 @@ router.post(
 			const { id, name, description } = req.body;
 			if (id && name) {
 				const sub_cat_id = uuidv4();
-				await SubCategory.create({
+				await Subcategory.create({
 					sub_cat_id: sub_cat_id,
 					sub_cat_name: name,
 					sub_cat_description: description,
@@ -78,7 +78,7 @@ router.post(
 				});
 			}
 			const cats = await Category.findAll();
-			const sub_cats = await SubCategory.findAll();
+			const sub_cats = await Subcategory.findAll();
 			res.json({ cats, sub_cats });
 		} catch (err) {
 			next(err);

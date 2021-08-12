@@ -34,42 +34,26 @@ const theme = createTheme({
   });
 
 
-
-
-
-
-const useStyles = makeStyles((theme) => ({
-    
-    offset: theme.mixins.toolbar,
-    Home: {
-      // marginLeft: theme.spacing(15),
-      marginTop: theme.spacing(5),
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-  
+  const useStyles = makeStyles((theme) => ({
     root: {
-      padding: "2px 4px",
-      display: "flex",
-      alignItems: "center",
-      width: "85%",
-      marginTop: "20px",
-      marginBottom: "30px",
+      flexGrow: 1,
+      width: '100%',
+      backgroundColor: theme.palette.background.paper,
+      justifyContent: 'center'
     },
-    root2: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.paper,
-        width: "100%"
-      },
-    input: {
-      marginLeft: theme.spacing(1),
-      flex: 1,
+    offset: theme.mixins.toolbar,
+    title:{
+        marginTop: '20px',
+        backgroundColor: 'purple',
+        width: '100%',
+        textAlign: 'center',
+        color: 'white'
     },
-    iconButton: {
-      padding: 10,
-    },
+    tabs:{
+      "& .MuiTabs-flexContainer":{
+        justifyContent:'space-around'
+      }
+    }
   }));
 
 
@@ -83,10 +67,12 @@ function TabPanel(props) {
         id={`simple-tabpanel-${index}`}
         aria-labelledby={`simple-tab-${index}`}
         {...other}
+        styles = {{display: "flex"}}
+
       >
         {value === index && (
           <Box p={3}>
-            <Typography>{children}</Typography>
+            {/* <Typography > */}{children}{/* </Typography> */}
           </Box>
         )}
       </div>
@@ -130,6 +116,51 @@ const handleChange = (event, newValue) => {
 };
 
 return (
+  <Container>
+      <div className={classes.offset}></div>
+      <Nav/>
+          <Container className={classes.title}>
+              <Typography variant='h2' >Colaboradores</Typography>
+          </Container>
+      <div className={classes.root}>
+          <AppBar position="static" color="default" >
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              indicatorColor="primary"
+              textColor="primary"
+              variant="scrollable"
+              scrollButtons="auto"
+              aria-label="scrollable auto tabs example"
+              className={classes.tabs}
+            >
+              <Tab label="Bios" {...a11yProps(0)} />
+          <Tab label="Institutions" {...a11yProps(1)} />
+            </Tabs>
+          </AppBar>
+          <TabPanel value={value} index={0}>
+        {usersByRoles ? usersByRoles.map(user =>{
+            return(
+              
+                <BiosContainer id = {user.user_id_A0}key = {user.user_id} userName = {user.user_name} biography = {user.biography} imgProfile = {user.user_img_profile}></BiosContainer>
+               
+            )
+        }) : null}
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+       {institutions ? institutions.map(x =>{
+           return(
+               <Institutions id = {x.inst_id} key = {x.inst_id} instName = {x.inst_name} imgProfile = {x.imgProfile} ></Institutions>
+           )
+       }) : null}
+      </TabPanel>
+          
+         
+      </div>
+  </Container> 
+)
+
+/* return (
     <div>
         <div className={classes.offset}></div>
     <Nav/>
@@ -162,6 +193,6 @@ return (
    </Container>
    </ThemeProvider>
     </div>
-  );
+  ); */
 
 }

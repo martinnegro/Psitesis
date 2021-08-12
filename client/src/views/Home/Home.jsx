@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 // import { NavLink } from 'react-router-dom';
 import ReactPaginate from "react-paginate";
 import Nav from "../../components/Nav/Nav";
-import CardPost from "../../components/Card/Card";
+import CardPost from "../../components/Card/CardHome";
 import s from "./Home.module.css";
 import Container from "@material-ui/core/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
-import VerifyEmail from "../../components/VerifyEmail";
 import {
   Divider, IconButton, InputBase,  makeStyles,
    Paper, TextField,  Typography,
@@ -16,8 +15,6 @@ import {
 import SearchIcon from '@material-ui/icons/Search';
 import { getAllArticle, getArticleTag, orderArticles } from "../../redux/actions/actions";
 import { Link } from "react-router-dom";
-
-
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
@@ -53,8 +50,6 @@ export default function Home() {
   const orderedArticles = useSelector((state) => state.rootReducer.orderedArticles)
   const { user } = useAuth0();
   const dispatch = useDispatch();
-  
- 
 
   useEffect(() => {
     dispatch(getAllArticle());
@@ -63,8 +58,6 @@ export default function Home() {
   useEffect(()=>{
     dispatch(orderArticles("art_views","DESC"))
   },[dispatch])
-
- console.log(user)
 
   // const [ search, setSearch ] = useState('')
   const [pageNumber, setPageNumber] = useState(0);
@@ -158,7 +151,7 @@ export default function Home() {
 
     
         <Container
-          style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}
+          style={{ display: "flex", flexWrap: "wrap",  marginTop: "20px" }}
         >
           {orderedArticles?.length > 0
             ? orderedArticles
