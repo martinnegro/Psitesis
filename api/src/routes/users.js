@@ -156,14 +156,14 @@ router.get("/:user_id", (req, res, next) => {
   }
 });
 
-router.post("/verifyemail", (req, res) => {
-  const user = req.body;
-  return management.sendEmailVerification(user, function (err) {
-    if (err) {
-      return res.send(err);
-    }
-    return res.send("Email verification sent");
-  });
+router.post("/verifyemail", async (req, res) => {
+  try {
+    const user = req.body;
+    const sendVerificationEmail = await management.sendEmailVerification(user);
+    return res.send(sendVerificationEmail);
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = router;
