@@ -16,10 +16,10 @@ const { REACT_APP_URL_API } = process.env;
 
 const useStyle = makeStyles({
     paper: {
-        height: '150px',
+        height: '165px',
         padding: '20px',
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
         
     },
     avatar: {
@@ -38,11 +38,12 @@ const useStyle = makeStyles({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    collapse: {
-        justifyContent: 'center'
+    paperForm: {
+        margin: "5px",
+        position: "relative"
     },
     form: {
-        margin: "10px 0 0 10px"
+        margin: "10px 10px 0 10px"
     },
     radioGroup: {
         margin: "10px 0 0 0"
@@ -146,7 +147,7 @@ function AdminUsers() {
             </div>
             {
                 selectedUser.selected &&
-                <Paper className={classes.paper}>
+                <Paper className={classes.paper} >
                     <Avatar alt={selectedUser.user_name} src={selectedUser.user_img_profile} className={classes.avatar}/>
                     <Link to={`/user/${selectedUser.user_id_A0}`}>
                         <Button variant="outlined" className={classes.name}>{selectedUser.user_name}</Button>
@@ -157,6 +158,7 @@ function AdminUsers() {
                             <Button disabled={wantChangeRole} variant="outlined" onClick={() => handleWantChangeRole(selectedUser.role.id)}>Cambiar Rol</Button>
                         </Box> 
                         <Collapse in={wantChangeRole} className={classes.collapse}> 
+                            <Paper className={classes.paperForm}>
                             <FormControl className={classes.form} component="fieldset" >
                                 <FormLabel component="legend">Elija el rol y confirme el cambio</FormLabel>
                                 <RadioGroup  className={classes.radioGroup} value={radioRole} onChange={(e) => onRadioChange(e)}>
@@ -189,6 +191,7 @@ function AdminUsers() {
                                     }
                                 </Box>        
                             </FormControl>
+                            </Paper>
                         </Collapse>
                     </Box>
                     <IconButton color="secondary" onClick={onClose}>

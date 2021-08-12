@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getInstitutions } from '../../../redux/actions/actionsInstitutions'
-import { Avatar, Box, IconButton, Link, Table, TableCell, TableHead, TableRow } from '@material-ui/core';
+import { Avatar, Box, IconButton, Link, makeStyles, Paper, Table, TableCell, TableHead, TableRow } from '@material-ui/core';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -12,14 +12,29 @@ import Select from '@material-ui/core/Select';
 import axios from 'axios';
 const { REACT_APP_URL_API } = process.env;
 
+const useStyle = makeStyles({
+    container: {
+        padding: "10px"
+    },
+    tableCell: {
+        padding: "2px"
+    },
+    iconButton: {
+        padding: "0"
+    }
+})
 
 function UserInstitutions({user}) {
+    const classes = useStyle();
     const institutions = useSelector(state => state.institutionsReducer.institutions);
     const dispatch = useDispatch();
     const [ userInst, setUserInst ] = useState([]);
     const [ availableInst, setAvailableInst ] = useState([]);
     const [ wantAddInst, setWantAddInst ] = useState(false);
     const [ selectedInst, setSelectedInst ] = useState('-1');
+
+    const user_roles = useSelector((state) => state.rootReducer.user_roles);
+    const user_id    = useSelector((state) => state.rootReducer.user_id);
 
     useEffect(()=>{
         if (availableInst.length < 1) dispatch(getInstitutions());
@@ -57,33 +72,38 @@ function UserInstitutions({user}) {
     };
 
     return (
-        <Box >
+        <Paper className={classes.container}>
                 <Box style={{color: "#861C55", fontSize: "30px"} }>
                     Instituciones:
                 </Box>
             <Table>
             { userInst.map(i => (
-                <TableRow>
-                    <TableCell>
+                <TableRow p>
+                    <TableCell className={classes.tableCell} >
                         <Avatar alt={i.inst_name} src={i.inst_logo}/>
                     </TableCell>
-                    <TableCell href={i.inst_link}>
+                    <TableCell href={i.inst_link} className={classes.tableCell}>
                             {i.inst_link_logo}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className={classes.tableCell}>
                         <Link href={i.inst_link}>
                             {i.inst_name}
                         </Link>
                      </TableCell>
-                    <TableCell>{i.inst_descriptions}</TableCell>
-                    <TableCell>
-                        <IconButton>
-                            <DeleteForeverIcon onClick={()=>handleDelete(i.inst_id)}/>
-                        </IconButton>
-                    </TableCell>
+                    <TableCell className={classes.tableCell}>{i.inst_descriptions}</TableCell>
+                        {
+                        user_id === user.user_id || user_roles.includes('admin') ?
+                        <TableCell className={classes.tableCell}>
+                            <IconButton className={classes.iconButton}>
+                                <DeleteForeverIcon onClick={()=>handleDelete(i.inst_id)}/>
+                            </IconButton>
+                        </TableCell> : <></>
+                        }
                 </TableRow>
             )) }
             </Table>
+            {
+                user_id === user.user_id || user_roles.includes('admin') ?
             <Box>
                 <FormControl /*className={classes.formControl}*/>
                     <InputLabel id="demo-simple-select-helper-label">Instituciones</InputLabel>
@@ -111,8 +131,9 @@ function UserInstitutions({user}) {
                 </IconButton> 
                 : <></>
                 }
-            </Box>
-        </Box>
+            </Box> : <></>
+            }
+        </Paper>
     )
 }
 

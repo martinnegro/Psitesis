@@ -9,7 +9,8 @@ const { REACT_APP_URL_API } = process.env;
 
 const useStyles = makeStyles({
     avatar: {
-      with: "100px",
+        height: '150px', width: '150px',
+        margin: '0 20px 20px 0'
     },
   });
 
@@ -30,7 +31,7 @@ function User_Detail(props) {
                 {
                     user ?
                     <Box>
-                        <Avatar alt={user.user_name} src={user.user_img_profile} style={{ height: '150px', width: '150px' }}/>
+                        <Avatar alt={user.user_name} src={user.user_img_profile} className={classes.avatar}/>
                         <UserInstitutions user={user}/> 
                     </Box>
                     :
