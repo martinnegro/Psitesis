@@ -29,7 +29,7 @@ import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 // import PeopleOutlineOutlinedIcon from '@material-ui/icons/PeopleOutlineOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 import userAvatar from '../../assets/user.jpg';
 import logo from '../../assets/Logo.png';
@@ -207,7 +207,7 @@ export default function Nav() {
 					</ListItem>
 					<ListItem button onClick={() => history.push('/adminpanel')}>
 						<ListItemIcon>
-							<SupervisorAccountIcon />
+							<SettingsIcon />
 						</ListItemIcon>
 						<ListItemText>Panel de Administrador</ListItemText>
 					</ListItem>
