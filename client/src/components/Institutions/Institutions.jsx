@@ -51,7 +51,7 @@ export default function Institutions({id,instName,imageProfile,bio}){
         <Link href = {`/institution/${id}`}  color = "inherit">
         <Container className = {classes.container2} width={20}  >
  <div className = {classes.root}>
-<Avatar variant="square" src = {user} className={classes.square}>  </Avatar>
+<Avatar variant="square" src = {imageProfile} className={classes.square}>  </Avatar>
 </div>
 <div className = {classes.text}>
 <h3>{instName}</h3>
