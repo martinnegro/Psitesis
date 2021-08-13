@@ -23,7 +23,6 @@ router.get('/', authorizeAccessToken, async (req, res, next) => {
 	}
 });
 
-
 router.post('/', authorizeAccessToken, async (req, res, next) => {
 	const { user_id_A0, newLink } = req.body;
 	try {
