@@ -2,7 +2,8 @@
 import React from 'react'
 
 import { makeStyles } from '@material-ui/core/styles';
-import Link from '@material-ui/core/Link';
+/* import Link from '@material-ui/core/Link'; */
+import {Link} from 'react-router-dom'
 import Avatar from '@material-ui/core/Avatar';
 import { deepOrange, green } from '@material-ui/core/colors';
 import Divider from '@material-ui/core/Divider';
@@ -50,7 +51,7 @@ export default function BiosContainer({id,userName,biography,imgProfile}){
     const preventDefault = (event) => event.preventDefault();
     
     return(
-            <Link href = {`/user/${id}`} /* onClick = {preventDefault} */ color = "inherit">
+            <Link to = {`/user/${id}`} /* onClick = {preventDefault} */ color = "inherit">
                 <Container className = {classes.container2} width={20}  >
                  <div className = {classes.root}>
             <Avatar variant="square" src = {imgProfile} className={classes.square}>  </Avatar>

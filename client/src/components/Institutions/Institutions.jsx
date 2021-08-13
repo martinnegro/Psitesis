@@ -1,5 +1,6 @@
 import React from 'react'
-import Link from '@material-ui/core/Link';
+/* import Link from '@material-ui/core/Link'; */
+import {Link} from "react-router-dom"
 import Divider from '@material-ui/core/Divider';
 import Container from '@material-ui/core/Container';
 import Avatar from '@material-ui/core/Avatar';
@@ -48,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Institutions({id,instName,imageProfile,bio}){
     const classes = useStyles();
     return(
-        <Link href = {`/institution/${id}`}  color = "inherit">
+        <Link to = {`/institution/${id}`}  color = "inherit">
         <Container className = {classes.container2} width={20}  >
  <div className = {classes.root}>
 <Avatar variant="square" src = {imageProfile} className={classes.square}>  </Avatar>
