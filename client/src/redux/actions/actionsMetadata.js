@@ -2,6 +2,8 @@ import axios from 'axios';
 const { REACT_APP_URL_API } = process.env;
 
 export const SET_METADATA = 'SET_METADATA';
+export const CLEAR_METADATA = 'CLEAR_METADATA';
+
 
 export const getUserMetadata = (id, token) => {
 	return async (dispatch) => {
@@ -85,6 +87,19 @@ export const deleteLinkInMetadata = (link, user_id_A0, token) => {
 			} else {
 				console.log('No se encontrar el user');
 			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
+};
+
+export const clearUserMetadata = () => {
+	return async (dispatch) => {
+		try {
+			dispatch({
+				type: CLEAR_METADATA,
+				payload: undefined,
+			});
 		} catch (error) {
 			console.error(error);
 		}

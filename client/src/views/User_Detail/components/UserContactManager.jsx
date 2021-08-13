@@ -22,6 +22,7 @@ import {
 	getUserMetadata,
 	createNewLinkInMetadata,
 	deleteLinkInMetadata,
+	clearUserMetadata
 } from '../../../redux/actions/actionsMetadata';
 
 const UserContactManager = ({ user }) => {
@@ -42,6 +43,7 @@ const UserContactManager = ({ user }) => {
 			dispatch(getUserMetadata(user.user_id_A0, token));
 		};
 		constGetUserMetadata();
+		return () => dispatch(clearUserMetadata());
 	}, [dispatch, getAccessTokenSilently, user.user_id_A0]);
 
 	const handleOnChangeNewLink = (e) => {
