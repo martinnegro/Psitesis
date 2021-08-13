@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles, Paper, Box } from '@material-ui/core'
-import CardPost from '../../../components/Card/Card';
+import CardPost from '../../../components/Card/CardHome';
 
 const useStyle = makeStyles({
     container: {
