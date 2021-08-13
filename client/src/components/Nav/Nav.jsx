@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-
+import { Link } from 'react-router-dom'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -147,12 +147,18 @@ export default function Nav() {
 						<MenuIcon />
 					</IconButton>
 					<div className={classes.logoMax}>
+					<Link to={`/user/${user.user_sub}`}>
 						<Avatar variant="square" src={logo} className={classes.square} />
+					</Link>
 					</div>
 					{isAuthenticated ? (
+											<Link to={`/user/${user.sub}`}>
 						<Avatar alt="User" src={user.picture} />
+						</Link>
 					) : (
+						<Link to={`/user/${user.user_sub}`}>
 						<Avatar alt="User" src={userAvatar} />
+						</Link>
 					)}
 				</Toolbar>
 			</AppBar>
