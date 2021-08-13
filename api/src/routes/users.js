@@ -134,10 +134,12 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:user_id", (req, res, next) => {
-  const { user_id } = req.params;
-  if (user_id) {
-    return User.findByPk(user_id, {
+router.get("/:user_id_A0", async (req, res, next) => {
+  const { user_id_A0 } = req.params;
+  
+  try {
+    const user = await User.findOne({ 
+      where: { user_id_A0 },
       include: [
         {
           model: Institution,
@@ -146,14 +148,15 @@ router.get("/:user_id", (req, res, next) => {
           },
         },
       ],
-    })
-      .then((found) => {
-        Article.findAll({ where: { user_id } }).then((arts) => {
-          res.json({ ...found.dataValues, articles: arts });
-        });
-      })
-      .catch((err) => next(err));
-  }
+    });
+    
+    const articles = await Article.findAll({ where: { user_id: user.user_id} });
+    console.log('**************\n',articles)
+    const cleanArticlesData = articles.map(a => { return a.dataValues })
+    const response = {...user.dataValues, articles: cleanArticlesData}
+    console.log('**************************\n',response)
+    res.json(response);
+  } catch(err) { next(err) };
 });
 
 router.post("/verifyemail", async (req, res) => {
@@ -165,5 +168,54 @@ router.post("/verifyemail", async (req, res) => {
     next(err);
   }
 });
+
+router.put('/add_inst',async (req, res, next) => {
+  const { user_id_A0, inst_id } = req.query;
+  try{
+    const user = await User.findOne({ 
+      where: { user_id_A0 },
+      include: [
+        {
+          model: Institution,
+          through: {
+            attributes: [],
+          },
+        },
+      ],
+    });
+    await user.addInstitution(inst_id);
+    const newSetUserInst = user.dataValues.institutions;
+    const newInst = await Institution.findOne({where: {inst_id}})
+    res.json([...newSetUserInst,newInst.dataValues]);
+  } catch(err) { 
+    err.message = 'No se pudo agregar la Institución.'  
+    next(err) 
+  }
+});
+
+router.delete('/delete_inst', async (req, res, next) => {
+  const { user_id_A0, inst_id } = req.query;
+  try {
+    const user = await User.findOne({ 
+      where: { user_id_A0 },
+      include: [
+        {
+          model: Institution,
+          through: {
+            attributes: [],
+          },
+        },
+      ],
+    });
+    const newSetUserInst = user.dataValues.institutions.filter(i => i.inst_id !== inst_id)
+    const newSetIds = newSetUserInst.map(i => i.inst_id)
+    await user.setInstitutions(newSetIds);
+    res.json(newSetUserInst);
+  } catch(err) { 
+    err.message = 'No se pudo borrar la Institución';
+    next(err) };
+  
+});
+
 
 module.exports = router;
