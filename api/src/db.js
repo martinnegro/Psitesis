@@ -10,7 +10,7 @@ const sequelize = new Sequelize(
     logging: false,
     native: false,
   }
-  /*  {
+  /* {
     dialect: "postgres",
     protocol: "postgres",
     dialectOptions: {

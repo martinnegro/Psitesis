@@ -80,14 +80,16 @@ export default function InstitutionBio(props){
             <Typography variant="h4" color="initial">
             Los autores de esta institucion escribieron:
           </Typography>
-            {console.log(articles)}
+            <Container style={{ display: "flex", flexWrap: "wrap",  marginTop: "20px" }}>
             {articles ? articles[0]?.map((article)=>{
                 return(
                     <CardPost key = {article.art_id} title = {article.art_title} body = {article.art_contents} id = {article.user_id} articleId = {article.art_id} articleAbstract = {article.art_abstract}></CardPost>
                 )
             }) : null}
+            </Container>
            </div>
            : null}
+           
 </Container>
        </div>
    )
