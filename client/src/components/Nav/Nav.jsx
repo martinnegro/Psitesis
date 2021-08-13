@@ -213,7 +213,7 @@ export default function Nav() {
 						<ListItemIcon>
 							<AddCircleOutlineIcon />
 						</ListItemIcon>
-						<ListItemText>Add Post</ListItemText>
+						<ListItemText>Agregar post</ListItemText>
 					</ListItem>
 					<ListItem button onClick={() => history.push('/adminpanel')}>
 						<ListItemIcon>
