@@ -172,7 +172,7 @@ return (
       <TabPanel value={value} index={1}>
        {institutions ? institutions.map(x =>{
            return(
-               <Institutions id = {x.inst_id} key = {x.inst_id} instName = {x.inst_name} imgProfile = {x.imgProfile} ></Institutions>
+               <Institutions id = {x.inst_id} key = {x.inst_id} instName = {x.inst_name} imgProfile = {x.inst_logo} bio = {x.inst_descriptions} ></Institutions>
            )
        }) : null}
       </TabPanel>

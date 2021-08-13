@@ -36,7 +36,7 @@ import logo from '../../assets/Logo.png';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const drawerWidth = 240;
+const drawerWidth = 270;
 
 const useStyles = makeStyles((theme) => ({
 	root: {

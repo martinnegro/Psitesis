@@ -235,7 +235,7 @@ function Post() {
               label="Reseña"
               style={{ marginTop: 20 }}
               placeholder="Placeholder"
-              helperText="max - 120 caracteres"
+              helperText={`Disponible - ${120 - reseña.length} caracteres`}
               fullWidth
               margin="normal"
               InputLabelProps={{
@@ -250,6 +250,8 @@ function Post() {
                 maxLength: 120,
               }}
 			  required
+        rows={3}
+            multiline
             />
           </div>
           <br />
