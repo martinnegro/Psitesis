@@ -29,7 +29,7 @@ router.post('/', authorizeAccessToken, async (req, res, next) => {
 		const user = await management.getUser({
 			id: user_id_A0,
 		});
-		if (user.user_metadata.links) {
+		if (user && user.user_metadata && user.user_metadata.links) {
 			let auxMetadata = user.user_metadata;
 			if (newLink) {
 				auxMetadata.links.push(newLink);
