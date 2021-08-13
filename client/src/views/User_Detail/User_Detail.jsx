@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Container, Box, Avatar } from '@material-ui/core';
 import Nav from '../../components/Nav/Nav';
 import UserInstitutions from './components/UserInstitutions';
+import UserContactManager from './components/UserContactManager';
 import UserArticles from './components/UserArticles';
 const { REACT_APP_URL_API } = process.env;
 
@@ -34,6 +35,7 @@ function User_Detail(props) {
                     <Box>
                         <Avatar alt={user.user_name} src={user.user_img_profile} className={classes.avatar}/>
                         <UserInstitutions user={user}/>
+                        <UserContactManager user={user}/>                        
                         <UserArticles user={user} />
                     </Box>
                     :
