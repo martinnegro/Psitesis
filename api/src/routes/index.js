@@ -8,6 +8,7 @@ const categories = require('./categories')
 const Subcategory = require('./subCategory')
 const search = require('./searchHome')
 const subCategories = require('./subCategories');
+const metadata = require('./metadata');
 const router = Router();
 
 // Configurar los routers
@@ -19,6 +20,7 @@ router.use('/institutions',institutions);
 router.use('/categories',categories);
 router.use('/Subcategory',Subcategory);
 router.use('/subcategories', subCategories);
+router.use('/metadata',metadata);
 router.use('/search',search);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getInstitutions,  updateInstitution, deleteInstitution, createNewInstitution } from '../../../redux/actions/actionsInstitutions'
-import { Table, TableHead, TableCell, TableBody, TableRow, TableFooter }  from '@material-ui/core';
+import { Table, TableHead, TableCell, TableBody, TableRow, TableFooter, Avatar }  from '@material-ui/core';
 import IconButton from "@material-ui/core/IconButton";
 import Input from "@material-ui/core/Input";
 import EditIcon from '@material-ui/icons/Edit';
@@ -31,7 +31,9 @@ const createData = ({inst_id, inst_name, inst_descriptions, inst_link, inst_logo
               onChange={e => onChange(e, row)}
             />
           ) : (
-            row[name]
+            name === 'inst_logo' ? 
+            <Avatar alt='inst_logo' src={row[name]}/>
+            :row[name]
           )}
         </TableCell>
       );
@@ -149,9 +151,9 @@ function AdminInstitutions() {
     }
     return (
         institutions.isFetching ?  <div>CARGANDO</div> :
-        <Table size="small" width="100%">
+        <Table size="small" width="100%" padding="none">
             <TableHead>
-                <TableCell align="left">Nombre</TableCell>
+                <TableCell>Nombre</TableCell>
                 <TableCell>Descripción</TableCell>
                 <TableCell>Link</TableCell>
                 <TableCell>Link Logo</TableCell>
@@ -162,29 +164,29 @@ function AdminInstitutions() {
             {
             rows ? rows.map(row => (
                 <TableRow key={row.inst_id}>
-                    <CustomTableCell {...{row, name: "inst_name", onChange}} component="th" scope="row"/>
+                    <CustomTableCell {...{row, name: "inst_name", onChange}} align="center" component="th" scope="row"/>
                     <CustomTableCell {...{row, name: "inst_descriptions", onChange}}/>
                     <CustomTableCell {...{row, name: "inst_link", onChange}}/>
                     <CustomTableCell {...{row, name: "inst_logo", onChange}}/>
                     {   
                         row.isEditMode ? 
                         <TableCell align="right">
-                            <IconButton>
-                                <DoneIcon onClick={() => onUpdate(row.inst_id)}/>
+                            <IconButton onClick={() => onUpdate(row.inst_id)}>
+                                <DoneIcon  fontSize="small"/>
                             </IconButton>
                             <IconButton onClick={() => onRevert(row.inst_id)}>
-                                <CloseIcon/>
+                                <CloseIcon fontSize="small"/>
                             </IconButton>
                         </TableCell>:
                         <TableCell align="right">
-                            <IconButton onClick={() => onToggleEditMode(row.inst_id)}>
-                                <EditIcon color="action" />
+                            <IconButton onClick={() => onToggleEditMode(row.inst_id)} fontSize="small">
+                                <EditIcon color="action" fontSize="small"/>
                             </IconButton>
                         </TableCell>
                     }
                     <TableCell align="right" >
                         <IconButton onClick={() => handleClickOpen(row.inst_id)}>
-                            <DeleteForeverIcon color="secondary"/>
+                            <DeleteForeverIcon color="secondary" size="small"/>
                         </IconButton>
                         <ConfirmAlert 
                             open={open[row.inst_id]} 
@@ -208,7 +210,7 @@ function AdminInstitutions() {
                             <DoneIcon />
                         </IconButton>
                     </TableCell>
-                    <TableCell>
+                    <TableCell align="right">
                         <IconButton onClick={() => cancelNewInst()}>
                             <CloseIcon/>
                         </IconButton>
