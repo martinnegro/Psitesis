@@ -22,7 +22,7 @@ import {
 	getUserMetadata,
 	createNewLinkInMetadata,
 	deleteLinkInMetadata,
-	clearUserMetadata
+	clearUserMetadata,
 } from '../../../redux/actions/actionsMetadata';
 
 const UserContactManager = ({ user }) => {
@@ -34,8 +34,7 @@ const UserContactManager = ({ user }) => {
 	const userMetadata = useSelector((state) => state.metadataReducer.metadata);
 
 	const user_roles = useSelector((state) => state.rootReducer.user_roles);
-    const user_id    = useSelector((state) => state.rootReducer.user_id);
-
+	const user_id = useSelector((state) => state.rootReducer.user_id);
 
 	useEffect(() => {
 		const constGetUserMetadata = async () => {
@@ -56,9 +55,16 @@ const UserContactManager = ({ user }) => {
 	};
 
 	const confirmNewLink = async (newLink) => {
-		if (!userMetadata?.metadata?.links?.includes(newLink) && newLink !== '') {
-			const token = await getAccessTokenSilently();
-			dispatch(createNewLinkInMetadata(newLink, user.user_id_A0, token));
+		if (newLink !== '') {
+			if (userMetadata.metadata.links) {
+				if (!userMetadata?.metadata?.links?.includes(newLink)) {
+					const token = await getAccessTokenSilently();
+					dispatch(createNewLinkInMetadata(newLink, user.user_id_A0, token));
+				}
+			} else {
+				const token = await getAccessTokenSilently();
+				dispatch(createNewLinkInMetadata(newLink, user.user_id_A0, token));
+			}
 		}
 		setIsCreating(false);
 		setNewLink('');
@@ -86,9 +92,7 @@ const UserContactManager = ({ user }) => {
 
 	return (
 		<Box>
-			<Box style={{ color: '#861C55', fontSize: '30px' }}>
-				Contacto
-			</Box>
+			<Box style={{ color: '#861C55', fontSize: '30px' }}>Contacto</Box>
 			<Table>
 				{userMetadata?.metadata?.links?.map((link) => (
 					<TableRow>
@@ -119,53 +123,55 @@ const UserContactManager = ({ user }) => {
 					</TableRow>
 				))}
 			</Table>
-			{ user_id === user.user_id || user_roles.includes('admin') ?
-			<Table>
-				{isCreating ? (
-					<TableRow>
-						<TableCell>
-							<CustomIcon link={newLink} height={'42px'} width={'42px'} />
-						</TableCell>
-						<TableCell>
-							<Input
-								align="center"
-								value={newLink}
-								name={'link'}
-								onChange={(e) => handleOnChangeNewLink(e)}
-							/>
-						</TableCell>
-						<TableCell align="right">
-							<IconButton
-								onClick={() => {
-									confirmNewLink(newLink);
-								}}
-								style={{ color: green[500] }}
-							>
-								<DoneIcon />
-							</IconButton>
-						</TableCell>
-						<TableCell>
-							<IconButton onClick={cancelNewLink} style={{ color: red[500] }}>
-								<CloseIcon />
-							</IconButton>
-						</TableCell>
-					</TableRow>
-				) : (
-					<TableFooter align="center">
-						<TableCell align="center">
-							Agregar forma de contacto
-							<IconButton
-								align="center"
-								onClick={() => setIsCreating(true)}
-								style={{ color: purple[500], height: '42px', width: '42px' }}
-							>
-								<AddCircleOutlineIcon />
-							</IconButton>
-						</TableCell>
-					</TableFooter>
-				)}
-			</Table> : <></>
-			}
+			{user_id === user.user_id || user_roles.includes('admin') ? (
+				<Table>
+					{isCreating ? (
+						<TableRow>
+							<TableCell>
+								<CustomIcon link={newLink} height={'42px'} width={'42px'} />
+							</TableCell>
+							<TableCell>
+								<Input
+									align="center"
+									value={newLink}
+									name={'link'}
+									onChange={(e) => handleOnChangeNewLink(e)}
+								/>
+							</TableCell>
+							<TableCell align="right">
+								<IconButton
+									onClick={() => {
+										confirmNewLink(newLink);
+									}}
+									style={{ color: green[500] }}
+								>
+									<DoneIcon />
+								</IconButton>
+							</TableCell>
+							<TableCell>
+								<IconButton onClick={cancelNewLink} style={{ color: red[500] }}>
+									<CloseIcon />
+								</IconButton>
+							</TableCell>
+						</TableRow>
+					) : (
+						<TableFooter align="center">
+							<TableCell align="center">
+								Agregar forma de contacto
+								<IconButton
+									align="center"
+									onClick={() => setIsCreating(true)}
+									style={{ color: purple[500], height: '42px', width: '42px' }}
+								>
+									<AddCircleOutlineIcon />
+								</IconButton>
+							</TableCell>
+						</TableFooter>
+					)}
+				</Table>
+			) : (
+				<></>
+			)}
 		</Box>
 	);
 };
