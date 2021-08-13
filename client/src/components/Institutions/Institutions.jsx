@@ -55,7 +55,8 @@ export default function Institutions({id,instName,imageProfile,bio}){
 </div>
 <div className = {classes.text}>
 <h3>{instName}</h3>
-<h3>Bio</h3>
+{/* <h3>Bio</h3> */}
+{bio}
 <Divider style = {{width: "300px"}} />
 </div>
 </Container>

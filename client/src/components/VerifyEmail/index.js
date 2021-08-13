@@ -69,7 +69,9 @@ export default function VerifyEmail() {
             Por favor verifique el link de verificacion que fue enviado a su
             direccion
           </h2>
-          <button onClick={handleClick}>Re send verification Email</button>
+          <button onClick={handleClick}>
+            Volver a enviar link de verificacion
+          </button>
         </Container>
       </ThemeProvider>
     </div>
