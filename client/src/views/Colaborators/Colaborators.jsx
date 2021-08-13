@@ -17,6 +17,7 @@ import Box from '@material-ui/core/Box';
 import { ThemeProvider } from "@material-ui/core/styles";
 import { purple,azul } from "@material-ui/core/colors";
 import axios from "axios";
+const { REACT_APP_URL_API } = process.env;
 const theme = createTheme({
     palette: {
       primary: {
@@ -116,7 +117,7 @@ const [users,setUsers] = useState({
 })
 
 function getUsersByRoles(id,rol){
-  return axios.get(`http://localhost:3001/users?rol=${id}`)
+  return axios.get(`${REACT_APP_URL_API}/users?rol=${id}`)
   .then(response => response.data).then((result)=>{
     setUsers(state => { return {
       ...state,
