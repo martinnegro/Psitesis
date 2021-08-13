@@ -58,6 +58,7 @@ export default function BiosContainer({id,userName,biography,imgProfile}){
             <div className = {classes.text}>
                 <h3>{userName}</h3>
                 <h3>Bio</h3>
+                {biography}
                 <Divider style = {{width: "300px"}} />
                 </div>
                 </Container>

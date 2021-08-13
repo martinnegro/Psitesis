@@ -7,6 +7,7 @@ import s from "./Home.module.css";
 import Container from "@material-ui/core/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useHistory } from 'react-router-dom';
 import {
   Divider, IconButton, InputBase,  makeStyles,
    Paper, TextField,  Typography,
@@ -46,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home() {
+  const history = useHistory();
   const classes = useStyles();
   const articles = useSelector((state) => state.rootReducer.articles); // Nueva forma de acceder al estado por combineReducer
   const orderedArticles = useSelector((state) => state.rootReducer.orderedArticles)
@@ -174,7 +176,7 @@ export default function Home() {
               variant="contained"
               size="medium"
               color="purple"
-              onClick={()=>{window.location.reload()}}
+              onClick={() => history.push('/home')}
               classes={{
                 root: classes.root,
                 label: classes.label,

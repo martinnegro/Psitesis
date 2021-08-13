@@ -69,11 +69,11 @@ export default function InstitutionBio(props){
           </Typography>
           <Divider/>
           <Typography variant="h4" color="initial">
-          Bio
+          {/* Bio */}
           </Typography>
           <Typography variant="p" color="initial">
           Texto de bio
-         {institution?.bio}
+         {institution?.inst_descriptions}
           
           </Typography>
           <Divider/>
