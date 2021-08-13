@@ -56,7 +56,7 @@ const UserContactManager = ({ user }) => {
 
 	const confirmNewLink = async (newLink) => {
 		if (newLink !== '') {
-			if (userMetadata.metadata.links) {
+			if (userMetadata?.metadata?.links) {
 				if (!userMetadata?.metadata?.links?.includes(newLink)) {
 					const token = await getAccessTokenSilently();
 					dispatch(createNewLinkInMetadata(newLink, user.user_id_A0, token));
