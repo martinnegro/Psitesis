@@ -176,6 +176,7 @@ function Post() {
     if (articlesDetail && user_id && user_roles && id) {
       setBody(articlesDetail.art_contents);
       setTitulo(articlesDetail.art_title);
+      setReseña(articlesDetail.art_abstract);
       if (articlesDetail.user_id !== user_id) {
         if (!user_roles.includes("admin")) {
           history.push("/");

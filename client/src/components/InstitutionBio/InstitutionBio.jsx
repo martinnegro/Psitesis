@@ -63,7 +63,7 @@ export default function InstitutionBio(props){
            <div className={classes.offset}></div>
            <Nav />
            <Container className={classes.Home}>
-             <Avatar variant="square" src = {institution?.inst_logo} className={classes.square}></Avatar>
+             <Avatar variant="square" src = {institution?.inst_logo || user}  className={classes.square}></Avatar>
            <Typography variant="h2" color="initial">
            {institution?.inst_name}
           </Typography>
