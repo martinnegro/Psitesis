@@ -152,12 +152,12 @@ export default function Nav() {
 					</Link>
 					</div>
 					{isAuthenticated ? (
-											<Link to={`/user/${user.sub}`}>
-						<Avatar alt="User" src={user.picture} />
+						<Link to={`/user/${user.sub}`}>
+							<Avatar alt="User" src={user.picture} />
 						</Link>
 					) : (
 						<Link to={`/user/${user.user_sub}`}>
-						<Avatar alt="User" src={userAvatar} />
+							<Avatar alt="User" src={userAvatar} />
 						</Link>
 					)}
 				</Toolbar>
