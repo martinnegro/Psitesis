@@ -151,7 +151,7 @@ return (
               className={classes.tabs}
             >
               <Tab label="Bios" {...a11yProps(0)} />
-          <Tab label="Institutions" {...a11yProps(1)} />
+          <Tab label="Instituciones" {...a11yProps(1)} />
             </Tabs>
           </AppBar>
           <TabPanel value={value} index={0}>
