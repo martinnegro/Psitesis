@@ -81,7 +81,7 @@ const UserContactManager = ({ user }) => {
 	return (
 		<Box>
 			<Box style={{ color: '#861C55', fontSize: '30px' }}>
-				Formas de contacto:
+				Contacto:
 			</Box>
 			<Table>
 				{userMetadata?.metadata?.links?.map((link) => (

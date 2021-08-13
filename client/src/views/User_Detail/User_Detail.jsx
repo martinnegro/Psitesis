@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Box, Avatar } from '@material-ui/core';
+import { Container, Box, Avatar, Paper } from '@material-ui/core';
 import Nav from '../../components/Nav/Nav';
 import UserInstitutions from './components/UserInstitutions';
 import UserContactManager from './components/UserContactManager';
@@ -10,6 +10,13 @@ import UserArticles from './components/UserArticles';
 const { REACT_APP_URL_API } = process.env;
 
 const useStyles = makeStyles({
+    head: {
+        margin: "0 0 25px 0", 
+        padding: "20px 10px 10px 20px",
+
+        display: "flex",
+        alignItems: "center",
+    },
     avatar: {
         height: '150px', width: '150px',
         margin: '0 20px 20px 0'
@@ -33,9 +40,11 @@ function User_Detail(props) {
                 {
                     user ?
                     <Box>
-                        <Avatar alt={user.user_name} src={user.user_img_profile} className={classes.avatar}/>
+                        <Paper className={classes.head}>
+                            <Avatar alt={user.user_name} src={user.user_img_profile} className={classes.avatar}/>
+                            <UserContactManager user={user}/>                        
+                        </Paper>
                         <UserInstitutions user={user}/>
-                        <UserContactManager user={user}/>                        
                         <UserArticles user={user} />
                     </Box>
                     :
