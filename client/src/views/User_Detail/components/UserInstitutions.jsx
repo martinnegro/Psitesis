@@ -20,7 +20,11 @@ const useStyle = makeStyles({
         padding: "2px"
     },
     iconButton: {
-        padding: "0"
+        padding: "10px"
+    },
+    newInst: {
+        display: "flex",
+        alignItems: "center"
     }
 })
 
@@ -104,7 +108,7 @@ function UserInstitutions({user}) {
             </Table>
             {
                 user_id === user.user_id || user_roles.includes('admin') ?
-            <Box>
+            <Box className={classes.newInst}>
                 <FormControl /*className={classes.formControl}*/>
                     <InputLabel id="demo-simple-select-helper-label">Instituciones</InputLabel>
                     <Select
