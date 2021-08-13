@@ -8,6 +8,7 @@ import {
   clearDetail,
   getAllUsers,
   deletePost,
+  getAllCatSub,
 } from "../../redux/actions/actions";
 import { useHistory, useParams } from "react-router-dom";
 import { Container, makeStyles, Typography, Button } from "@material-ui/core";
@@ -90,6 +91,13 @@ const Art_Detail = () => {
   const user_id = useSelector((state) => state.rootReducer.user_id); // Nueva forma de acceder al estado por combineReducer
 	const user_roles = useSelector((state) => state.rootReducer.user_roles);
   const [idUser, setIdUser] = useState([]);
+  const subcategories = useSelector((state) => state.rootReducer.cat_sub?.sub_cats);
+  // const [section, setSection] = useState([]);
+
+  // console.log('subcategories :', subcategories)
+  // console.log('section :', section)
+  console.log('articlesDetail :', articlesDetail)
+  // console.log('articlesDetail?.Subcategories[0].sub_cat_id :', articlesDetail?.Subcategories[0].sub_cat_id)
 
 	const [enablePost, setEnablePost] = useState(false);
 
@@ -97,12 +105,11 @@ const Art_Detail = () => {
 
   const classes = useStyles();
 
-  const subCats = [
-    { name: "Metodologia de investigación", id: 1 },
-    { name: "Elección de tema", id: 2 },
-    { name: "Citado en el texto", id: 3 },
-    { name: "Referencias bibliográficas", id: 4 },
-  ];
+
+
+  useEffect(() => {
+    dispatch(getAllCatSub())
+    }, [dispatch]);
 
   useEffect(() => {
     dispatch(getArticleDetail(id));
@@ -117,11 +124,10 @@ const Art_Detail = () => {
     setIdUser(users?.filter((u) => u.user_id === articlesDetail?.user_id));
   }, [articlesDetail?.user_id, users]);
 
-  const [section, setSection] = useState([]);
 
-  useEffect(() => {
-    setSection(subCats.filter((c) => c.id === articlesDetail?.sub_cat_id));
-  }, [articlesDetail?.sub_cat_id]);
+  // useEffect(() => {
+  //   setSection(subcategories?.filter((c) => c.sub_cat_id === articlesDetail?.Subcategories[0]?.sub_cat_id));
+  // }, [articlesDetail?.Subcategories, subcategories]);
 
 	useEffect(() => {
 		if (articlesDetail && user_id && user_roles) {
@@ -175,7 +181,7 @@ const Art_Detail = () => {
           <div className={s.perfil}>
             <div>
               <Typography variant="body2">
-                Sección: {section[0]?.name}
+                Sección: {articlesDetail?.Subcategories[0]?.sub_cat_name}
               </Typography>
             </div>
             <div className={s.perfil2}>

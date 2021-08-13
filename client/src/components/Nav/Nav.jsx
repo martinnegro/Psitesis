@@ -9,6 +9,7 @@ import Drawer from '@material-ui/core/Drawer';
 
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import PeopleAltTwoToneIcon from '@material-ui/icons/PeopleAltTwoTone';
 
 import Divider from '@material-ui/core/Divider';
 
@@ -23,12 +24,12 @@ import clsx from 'clsx';
 
 import IconButton from '@material-ui/core/IconButton';
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
-// import BookOutlinedIcon from '@material-ui/icons/BookOutlined';
+import BookOutlinedIcon from '@material-ui/icons/BookOutlined';
 // import ForumIcon from '@material-ui/icons/Forum';
 // import PeopleOutlineOutlinedIcon from '@material-ui/icons/PeopleOutlineOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 import userAvatar from '../../assets/user.jpg';
 import logo from '../../assets/Logo.png';
@@ -179,22 +180,32 @@ export default function Nav() {
 					</IconButton>
 				</div>
 				<Divider />
-				<List>
-					{['Home' /* 'Guía de Tesis', 'Foro', 'Colaboradores' */].map(
-						(text, index) => (
-							<ListItem button key={text} onClick={() => history.push('/home')}>
-								<ListItemIcon>
-									{
-										index === 0 ? (
-											<HomeOutlinedIcon />
-										) : null /*  index === 1 ? <BookOutlinedIcon /> : index === 2 ? <ForumIcon /> : <PeopleOutlineOutlinedIcon   /> */
-									}
-								</ListItemIcon>
-								<ListItemText primary={text} />
-							</ListItem>
-						)
-					)}
-				</List>
+				
+				<ListItem button onClick={() => history.push('/home')}>
+					<ListItemIcon>
+						<HomeOutlinedIcon />
+					</ListItemIcon>
+					<ListItemText>Home</ListItemText>
+				</ListItem>
+				<ListItem button onClick={() => history.push('/guiadetesis')}>
+					<ListItemIcon>
+						<BookOutlinedIcon />
+					</ListItemIcon>
+					<ListItemText>Guía de Tesis</ListItemText>
+				</ListItem>
+				<ListItem button onClick={() => history.push('/colaborators')}>
+					<ListItemIcon>
+						<PeopleAltTwoToneIcon />
+					</ListItemIcon>
+					<ListItemText>Colaboradores</ListItemText>
+				</ListItem>
+				{/* <ListItem button onClick={() => history.push('/colaborators')}>
+					<ListItemIcon>
+						<PeopleAltTwoToneIcon />
+					</ListItemIcon>
+					<ListItemText>Colaboradores</ListItemText>
+				</ListItem> */}
+
 				<Divider />
 				{user_roles.includes('admin') ? (
 					<>
@@ -206,13 +217,14 @@ export default function Nav() {
 					</ListItem>
 					<ListItem button onClick={() => history.push('/adminpanel')}>
 						<ListItemIcon>
-							<SupervisorAccountIcon />
+							<SettingsIcon />
 						</ListItemIcon>
 						<ListItemText>Panel de Administrador</ListItemText>
 					</ListItem>
 					</>
 				) : null}
 				<Divider />
+
 				<ListItem button onClick={handleLogout}>
 					<ListItemIcon>
 						<ExitToAppIcon />

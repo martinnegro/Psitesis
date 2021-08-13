@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-// import { NavLink } from 'react-router-dom';
+import { Button } from "@material-ui/core";
 import ReactPaginate from "react-paginate";
 import Nav from "../../components/Nav/Nav";
-import CardPost from "../../components/Card/Card";
+import CardPost from "../../components/Card/CardHome";
 import s from "./Home.module.css";
 import Container from "@material-ui/core/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
-import VerifyEmail from "../../components/VerifyEmail";
 import {
   Divider, IconButton, InputBase,  makeStyles,
    Paper, TextField,  Typography,
@@ -16,7 +15,6 @@ import {
 import SearchIcon from '@material-ui/icons/Search';
 import { getAllArticle, getArticleTag, orderArticles } from "../../redux/actions/actions";
 import { Link } from "react-router-dom";
-
 
 
 const useStyles = makeStyles((theme) => ({
@@ -34,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "2px 4px",
     display: "flex",
     alignItems: "center",
-    width: 700,
+    width: "70%",
     marginTop: "20px",
     marginBottom: "30px",
   },
@@ -53,8 +51,6 @@ export default function Home() {
   const orderedArticles = useSelector((state) => state.rootReducer.orderedArticles)
   const { user } = useAuth0();
   const dispatch = useDispatch();
-  
- 
 
   useEffect(() => {
     dispatch(getAllArticle());
@@ -63,8 +59,6 @@ export default function Home() {
   useEffect(()=>{
     dispatch(orderArticles("art_views","DESC"))
   },[dispatch])
-
- console.log(user)
 
   // const [ search, setSearch ] = useState('')
   const [pageNumber, setPageNumber] = useState(0);
@@ -92,7 +86,8 @@ export default function Home() {
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
-  console.log(orderArticles, "aaaa")
+  
+  
 
   return (
     <Container>
@@ -122,6 +117,8 @@ export default function Home() {
           </Typography>
         </Container>
 
+         
+
         <Paper component="form" className={classes.root} onSubmit={handleSubmit}>
                     <InputBase
                       className={classes.input}
@@ -136,6 +133,7 @@ export default function Home() {
                 </Paper>
 
 
+ 
         <Container>
           <ReactPaginate
             previousLabel={"<"}
@@ -150,10 +148,11 @@ export default function Home() {
           />
         </Container>
  
-      
-  
+ 
+
+    
         <Container
-          style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}
+          style={{ display: "flex", flexWrap: "wrap",  marginTop: "20px" }}
         >
           {orderedArticles?.length > 0
             ? orderedArticles
@@ -169,10 +168,24 @@ export default function Home() {
                   />
                 ))
             : <div>
-                <p>Articulo no encontrado</p>
-                <Link to ={'/home'}><button>Volver atras</button></Link>
+                <div className={s.centrado}>
+              <Typography variant="h6" color="initial">No hay resultados para su búsqueda</Typography>
+              <Button
+              variant="contained"
+              size="medium"
+              color="purple"
+              onClick={()=>{window.location.reload()}}
+              classes={{
+                root: classes.root,
+                label: classes.label,
+              }}
+            >
+              Volver al inicio
+            </Button>              
+            </div>
               </div>}
         </Container>
+
 
       </Container>
       {/* <Container>

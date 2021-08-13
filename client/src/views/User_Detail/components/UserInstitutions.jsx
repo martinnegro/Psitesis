@@ -78,7 +78,7 @@ function UserInstitutions({user}) {
     return (
         <Paper className={classes.container}>
                 <Box style={{color: "#861C55", fontSize: "30px"} }>
-                    Instituciones:
+                    Instituciones
                 </Box>
             <Table>
             { userInst.map(i => (

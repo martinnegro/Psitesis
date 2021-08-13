@@ -32,6 +32,10 @@ const UserContactManager = ({ user }) => {
 	const dispatch = useDispatch();
 	const userMetadata = useSelector((state) => state.metadataReducer.metadata);
 
+	const user_roles = useSelector((state) => state.rootReducer.user_roles);
+    const user_id    = useSelector((state) => state.rootReducer.user_id);
+
+
 	useEffect(() => {
 		const constGetUserMetadata = async () => {
 			const token = await getAccessTokenSilently();
@@ -81,7 +85,7 @@ const UserContactManager = ({ user }) => {
 	return (
 		<Box>
 			<Box style={{ color: '#861C55', fontSize: '30px' }}>
-				Contacto:
+				Contacto
 			</Box>
 			<Table>
 				{userMetadata?.metadata?.links?.map((link) => (
@@ -113,6 +117,7 @@ const UserContactManager = ({ user }) => {
 					</TableRow>
 				))}
 			</Table>
+			{ user_id === user.user_id || user_roles.includes('admin') ?
 			<Table>
 				{isCreating ? (
 					<TableRow>
@@ -157,7 +162,8 @@ const UserContactManager = ({ user }) => {
 						</TableCell>
 					</TableFooter>
 				)}
-			</Table>
+			</Table> : <></>
+			}
 		</Box>
 	);
 };
