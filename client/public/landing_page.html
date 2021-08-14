@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!-- fonts CSS -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;600&display=swap"
+			rel="stylesheet"
+		/>
+		<!-- Bootstrap CSS -->
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+			crossorigin="anonymous"
+		/>
+		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+		<style>
+			#root {
+				position: relative;
+				display: block;
+				margin: 0px auto;
+			}
+
+			body {
+				background-color: #800080;
+				font-size: 14px;
+				line-height: 24px;
+			}
+
+			h1 {
+				padding: 12px;
+				text-align: center;
+				color: #000;
+				font-size: 20px;
+			}
+
+			.btn:focus,
+			.btn:active:focus,
+			.btn.active:focus {
+				box-shadow: none !important;
+			}
+
+			textarea:focus,
+			textarea.form-control:focus,
+			input.form-control:focus,
+			input[type='text']:focus,
+			input[type='password']:focus,
+			input[type='email']:focus,
+			input[type='number']:focus,
+			[type='text'].form-control:focus,
+			[type='password'].form-control:focus,
+			[type='email'].form-control:focus,
+			[type='tel'].form-control:focus,
+			[contenteditable].form-control:focus {
+				box-shadow: inset 0 -1px 0 #ddd;
+				border-color: #800080;
+			}
+
+			.custom-alert {
+				padding-top: 6px;
+				padding-bottom: 6px;
+				text-align: center;
+			}
+
+			.field-custom {
+				padding-top: 6px;
+				padding-bottom: 6px;
+			}
+
+			.my-carousel {
+				position: relative;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+
+			.my-carousel-image {
+				border-radius: 10px;
+				display: block;
+				width: 360px;
+				margin: 0 auto;
+			}
+
+			.content-image-logo {
+				margin: 20px;
+				border-radius: 50%;
+				display: block;
+				margin-left: auto;
+				margin-right: auto;
+				margin-top: auto;
+				margin-bottom: auto;
+				height: 120px;
+				width: 120px;
+				background-color: #800080;
+			}
+
+			.image-logo {
+				height: 80px;
+				width: 80px;
+				position: relative;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+
+			.content-tab-form {
+				padding: 50px;
+			}
+
+			.tab-form {
+				background-color: #fff;
+				padding: 50px;
+				border-radius: 5px;
+			}
+
+			.content-landing-page {
+				padding: 50px;
+			}
+
+			.landing-page {
+				padding: 50px;
+			}
+
+			.btn-primary,
+			.btn-primary:hover,
+			.btn-primary:active,
+			.btn-primary:visited,
+			.btn-primary:focus {
+				background-color: #800080 !important;
+				border-color: #410041 !important;
+				color: #fff !important;
+				font-family: 'Titillium Web', sans-serif;
+			}
+
+			.btn-light,
+			.btn-light:hover,
+			.btn-light:active,
+			.btn-light:visited,
+			.btn-light:focus {
+				border-color: #000 !important;
+				color: #000 !important;
+				font-family: 'Titillium Web', sans-serif;
+			}
+		</style>
+		<title>Psitesis</title>
+	</head>
+	<body>
+		<div id="root">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 caption-top content-landing-page">
+						<div
+							id="carouselExampleCaptions"
+							class="carousel slide my-carousel"
+							data-bs-ride="carousel"
+						>
+							<div class="carousel-inner">
+								<div class="carousel-item active">
+									<img
+										class="my-carousel-image"
+										src="https://i.postimg.cc/vTXptyJP/Onboarding-1.png"
+										alt="img1"
+									/>
+								</div>
+								<div class="carousel-item">
+									<img
+										class="my-carousel-image"
+										src="https://i.postimg.cc/593dV5Xw/Onboarding-2.png"
+										alt="img2"
+									/>
+								</div>
+							</div>
+							<button
+								class="carousel-control-prev"
+								type="button"
+								data-bs-target="#carouselExampleCaptions"
+								data-bs-slide="prev"
+							>
+								<span
+									class="carousel-control-prev-icon"
+									aria-hidden="true"
+								></span>
+								<span class="visually-hidden"></span>
+							</button>
+							<button
+								class="carousel-control-next"
+								type="button"
+								data-bs-target="#carouselExampleCaptions"
+								data-bs-slide="next"
+							>
+								<span
+									class="carousel-control-next-icon"
+									aria-hidden="true"
+								></span>
+								<span class="visually-hidden"></span>
+							</button>
+						</div>
+					</div>
+					<div class="col-md-5 col-md-offset-1 content-tab-form">
+						<div class="tab-form">
+							<div id="tab_login">
+								<div class="content-image-logo">
+									<img
+										class="image-logo"
+										src="https://raw.githubusercontent.com/martinnegro/Psitesis/main/client/src/assets/Logo.png"
+									/>
+								</div>
+								<h1>Bienvenido a Psitesis</h1>
+								<form onsubmit="return false;" method="post">
+									<div class="field-wrap">
+										<label for="name">Usuario:</label>
+										<input
+											type="text"
+											class="form-control"
+											id="username"
+											autocomplete="off"
+										/>
+									</div>
+									<div class="field-wrap">
+										<label for="name">Contraseña:</label>
+										<input
+											type="password"
+											class="form-control"
+											id="password"
+											autocomplete="off"
+										/>
+									</div>
+									<div class="d-grid field-custom">
+										<button
+											type="submit"
+											id="btn-login"
+											class="btn btn-primary"
+										>
+											Entrar
+										</button>
+									</div>
+									<div class="d-grid field-custom">
+										<button
+											type="button"
+											id="btn-google2"
+											class="btn btn-light"
+										>
+											<img
+												src="https://img.icons8.com/color/16/000000/google-logo.png"
+											/>
+											Entrar con google
+										</button>
+									</div>
+									<div class="field-wrap field-custom">
+										Olvidaste Tu contraseña?
+										<a href="#recovery-password" id="recovery-password"
+											>Recuperar ahora!</a
+										>
+									</div>
+									<div class="field-wrap field-custom">
+										¿No tienes una Cuenta?
+										<a href="#signup" id="signup">Registrarse</a>
+									</div>
+								</form>
+							</div>
+							<div id="tab_signup">
+								<div class="content-image-logo">
+									<img
+										class="image-logo"
+										src="https://raw.githubusercontent.com/martinnegro/Psitesis/main/client/src/assets/Logo.png"
+									/>
+								</div>
+								<h1>
+									Registrate para utilizar todas las funcionalidades de Psitesis
+								</h1>
+								<form onsubmit="return false;" method="post">
+									<div class="field-wrap field-custom">
+										<label for="name">Usuario:</label>
+										<input
+											type="text"
+											class="form-control"
+											id="username2"
+											value=""
+											autocomplete="off"
+										/>
+									</div>
+									<div class="field-wrap field-custom">
+										<label for="name">Correo:</label>
+										<input
+											type="email"
+											class="form-control"
+											id="email2"
+											value=""
+											autocomplete="off"
+										/>
+									</div>
+									<div class="field-wrap field-custom">
+										<label for="name">Contraseña:</label>
+										<input
+											type="password"
+											class="form-control"
+											id="password2"
+											value=""
+											autocomplete="off"
+										/>
+									</div>
+									<div class="d-grid field-custom">
+										<button
+											type="submit"
+											id="btn-signup"
+											class="btn btn-primary"
+										>
+											Registrarse
+										</button>
+									</div>
+									<div class="d-grid field-custom">
+										<button type="button" id="btn-google" class="btn btn-light">
+											<img
+												src="https://img.icons8.com/color/16/000000/google-logo.png"
+											/>
+											Registrase con google
+										</button>
+									</div>
+									<div class="field-wrap field-custom">
+										¿Ya tienes una Cuenta?
+										<a href="#login" id="login">Iniciar sesión</a>
+									</div>
+								</form>
+							</div>
+							<div id="tab_recovery_password">
+								<div class="content-image-logo">
+									<img
+										class="image-logo"
+										src="https://raw.githubusercontent.com/martinnegro/Psitesis/main/client/src/assets/Logo.png"
+									/>
+								</div>
+								<h1>Recuperación de contraseña</h1>
+								<form onsubmit="return false;" method="post">
+									<div class="field-wrap">
+										<label for="name">Correo:</label>
+										<input
+											type="text"
+											class="form-control"
+											id="email3"
+											autocomplete="off"
+										/>
+									</div>
+									<div class="d-grid field-custom">
+										<button
+											type="submit"
+											id="btn-recover-password"
+											class="btn btn-primary"
+										>
+											Recuperar
+										</button>
+									</div>
+									<div class="field-wrap field-custom">
+										¿No nesecitas recuperar tu contraseña?
+										<a href="#login" id="login2">Iniciar sesión</a>
+									</div>
+									<div class="field-wrap field-custom">
+										¿No tienes una Cuenta?
+										<a href="#signup" id="signup2">Registrarse</a>
+									</div>
+								</form>
+							</div>
+							<div class="captcha-container form-group"></div>
+							<div
+								id="error-message"
+								class="alert alert-danger custom-alert"
+							></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="https://cdn.auth0.com/js/auth0/9.16/auth0.min.js"></script>
+		<script src="https://cdn.auth0.com/js/polyfills/1.0/object-assign.min.js"></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+			crossorigin="anonymous"
+		></script>
+		<script>
+			window.addEventListener('load', function () {
+				var config = JSON.parse(
+					decodeURIComponent(escape(window.atob('@@config@@')))
+				);
+
+				var leeway = config.internalOptions.leeway;
+				if (leeway) {
+					var convertedLeeway = parseInt(leeway);
+
+					if (!isNaN(convertedLeeway)) {
+						config.internalOptions.leeway = convertedLeeway;
+					}
+				}
+
+				var params = Object.assign(
+					{
+						overrides: {
+							__tenant: config.auth0Tenant,
+							__token_issuer: config.authorizationServer.issuer,
+						},
+						domain: config.auth0Domain,
+						clientID: config.clientID,
+						redirectUri: config.callbackURL,
+						responseType: config.extraParams.response_type,
+						audience: config.extraParams.audience,
+						scope: config.extraParams.scope,
+					},
+					config.internalOptions
+				);
+
+				var webAuth = new auth0.WebAuth(params);
+				var databaseConnection = 'Username-Password-Authentication';
+				var captcha = webAuth.renderCaptcha(
+					document.querySelector('.captcha-container')
+				);
+
+				function login(e) {
+					e.preventDefault();
+					console.log('console: intento de login con email');
+					$('error-message').hide();
+					var button = this;
+					var username = document.getElementById('username').value;
+					var password = document.getElementById('password').value;
+					button.disabled = true;
+					webAuth.login(
+						{
+							realm: databaseConnection,
+							username: username,
+							password: password,
+							captcha: captcha.getValue(),
+						},
+						function (err) {
+							if (err) displayError(err);
+							button.disabled = false;
+						}
+					);
+				}
+
+				function signup(e) {
+					e.preventDefault();
+					console.log('console: intento de registro con email');
+					$('#error-message').hide();
+					var button = this;
+					var username = document.getElementById('username2').value;
+					var email = document.getElementById('email2').value;
+					var password = document.getElementById('password2').value;
+					button.disabled = true;
+					webAuth.redirect.signupAndLogin(
+						{
+							connection: databaseConnection,
+							username: username,
+							email: email,
+							password: password,
+							captcha: captcha.getValue(),
+						},
+						function (err) {
+							if (err) displayError(err);
+							button.disabled = false;
+						}
+					);
+				}
+
+				function loginWithGoogle() {
+					$('#error-message').hide();
+					webAuth.authorize(
+						{
+							connection: 'google-oauth2',
+						},
+						function (err) {
+							if (err) displayError(err);
+						}
+					);
+				}
+
+				function resetPassword(e) {
+					e.preventDefault();
+					var email = document.getElementById('email3').value;
+					if (email === '') {
+						displayError({ code: 'not email' });
+						return;
+					}
+					webAuth.changePassword(
+						{
+							connection: databaseConnection,
+							email: email,
+						},
+						function (err, resp) {
+							if (err) {
+								displayError({ code: err.message });
+							} else {
+								displayError({ code: 'recovery send' });
+							}
+						}
+					);
+				}
+
+				function displayError(err) {
+					captcha.reload();
+					var errorMessage = $('#error-message');
+					if (err.code) {
+						if (err.code === 'invalid_user_password') {
+							errorMessage.html('Contraseña incorrecta!');
+						} else if (err.code === 'not email') {
+							errorMessage.html('Ingrese un correo!');
+						} else if (err.code === 'recovery send') {
+							errorMessage.html(
+								'Advertencia: Te acabamos de enviar un correo para reiniciar tu constaseña!'
+							);
+						} else if (err.code === 'too_many_attempts') {
+							errorMessage.html(
+								'Demasiados intentos fallidos. espera unos momentos!'
+							);
+						} else if (err.code.includes('error in email')) {
+							errorMessage.html('correo no valido!');
+						} else if (err.code.includes('invalid_signup')) {
+							errorMessage.html('Correo en uso!');
+						} else if (err.code === 'invalid_password') {
+							var password = document.getElementById('password2').value;
+							console.log(password);
+							if (!/^(?=.*?[0-9])/.test(password)) {
+								errorMessage.html(
+									'La contraseña debe tener por lo menos un numero!'
+								);
+							} else if (!/(?=.*?[A-Z])/.test(password)) {
+								errorMessage.html(
+									'La contraseña debe tener por lo menos una mayuscula!'
+								);
+							} else if (!/(?=.*?[a-z])/.test(password)) {
+								errorMessage.html(
+									'La contraseña debe tener por lo menos una minuscula!'
+								);
+							} else if (password.length < 8) {
+								errorMessage.html(
+									'La contraseña debe tener por lo 8 caracteres!'
+								);
+							} else {
+								errorMessage.html('La contraseña no es valida!');
+							}
+						} else {
+							errorMessage.html('Error desconocido');
+						}
+					} else {
+						errorMessage.html('Error desconocido');
+					}
+					$('#error-message').show();
+					setTimeout(function () {
+						$('#error-message').hide();
+					}, 4000);
+				}
+
+				document.getElementById('btn-login').addEventListener('click', login);
+				document.getElementById('btn-signup').addEventListener('click', signup);
+				document
+					.getElementById('btn-recover-password')
+					.addEventListener('click', resetPassword);
+
+				document
+					.getElementById('btn-google')
+					.addEventListener('click', loginWithGoogle);
+				document
+					.getElementById('btn-google2')
+					.addEventListener('click', loginWithGoogle);
+			});
+		</script>
+		<script>
+			function showLogin() {
+				$('#tab_signup').hide();
+				$('#tab_recovery_password').hide();
+				$('#tab_login').show();
+			}
+
+			function showSignup() {
+				$('#tab_signup').show();
+				$('#tab_recovery_password').hide();
+				$('#tab_login').hide();
+			}
+
+			function showRecoveryPassword() {
+				$('#tab_signup').hide();
+				$('#tab_recovery_password').show();
+				$('#tab_login').hide();
+			}
+
+			$('#login').on('click', function (e) {
+				e.preventDefault();
+				showLogin();
+			});
+			$('#login2').on('click', function (e) {
+				e.preventDefault();
+				showLogin();
+			});
+			$('#signup').on('click', function (e) {
+				e.preventDefault();
+				showSignup();
+			});
+			$('#signup2').on('click', function (e) {
+				e.preventDefault();
+				showSignup();
+			});
+			$('#recovery-password').on('click', function (e) {
+				e.preventDefault();
+				showRecoveryPassword();
+			});
+			$('#tab_signup').hide();
+			$('#tab_recovery_password').hide();
+			$('#error-message').hide();
+		</script>
+	</body>
+</html>
