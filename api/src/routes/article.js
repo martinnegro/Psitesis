@@ -55,8 +55,7 @@ router.post(
   
   aux.then(async () => {
      await createdArticle.setTags(tags);
-     await createdArticle.addSubcategory(sub_cat_id)
-     await createdArticle.addCategory(id_subcat)
+     
      return res.status(201).send(createdArticle);
   });
 
