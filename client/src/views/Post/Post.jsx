@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  createPost,
-  editPost,
   getArticleDetail,
   clearDetail,
+} from '../../redux/actions/actionsArticles'
+import {
+  createPost,
+  editPost,
+  
   getAllCatSub,
 } from "../../redux/actions/actions";
 import Nav from "../../components/Nav/Nav";
@@ -70,7 +73,7 @@ const useStyles = makeStyles({
 function Post() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const articlesDetail = useSelector((state) => state.rootReducer.articlesDetail); 
+  const articlesDetail = useSelector((state) => state.articlesReducer.articlesDetail); 
   const user_id = useSelector((state) => state.rootReducer.user_id);
   const user_roles = useSelector((state) => state.rootReducer.user_roles);
 

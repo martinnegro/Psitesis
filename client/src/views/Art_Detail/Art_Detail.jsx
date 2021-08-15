@@ -6,6 +6,9 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   getArticleDetail,
   clearDetail,
+} from '../../redux/actions/actionsArticles'
+import {
+
   getAllUsers,
   deletePost,
   getAllCatSub,
@@ -86,7 +89,7 @@ const Art_Detail = () => {
   const { getAccessTokenSilently } = useAuth0();
 
   const dispatch = useDispatch();
-  const articlesDetail = useSelector((state) => state.rootReducer.articlesDetail); // Nueva forma de acceder al estado por combineReducer
+  const articlesDetail = useSelector((state) => state.articlesReducer.articlesDetail); // Nueva forma de acceder al estado por combineReducer
   const users = useSelector((state) => state.rootReducer.users); // Nueva forma de acceder al estado por combineReducer
   const user_id = useSelector((state) => state.rootReducer.user_id); // Nueva forma de acceder al estado por combineReducer
 	const user_roles = useSelector((state) => state.rootReducer.user_roles);
