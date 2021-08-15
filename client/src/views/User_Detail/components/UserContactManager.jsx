@@ -33,8 +33,8 @@ const UserContactManager = ({ user }) => {
 	const dispatch = useDispatch();
 	const userMetadata = useSelector((state) => state.metadataReducer.metadata);
 
-	const user_roles = useSelector((state) => state.rootReducer.user_roles);
-	const user_id = useSelector((state) => state.rootReducer.user_id);
+	const user_roles = useSelector((state) => state.usersReducer.user_roles);
+	const user_id = useSelector((state) => state.usersReducer.user_id);
 
 	useEffect(() => {
 		const constGetUserMetadata = async () => {
@@ -123,7 +123,7 @@ const UserContactManager = ({ user }) => {
 					</TableRow>
 				))}
 			</Table>
-			{user_id === user.user_id || user_roles.includes('admin') ? (
+			{user_id === user.user_id || user_roles?.includes('admin') ? (
 				<Table>
 					{isCreating ? (
 						<TableRow>

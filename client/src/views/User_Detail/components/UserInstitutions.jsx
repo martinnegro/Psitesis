@@ -37,8 +37,8 @@ function UserInstitutions({user}) {
     const [ wantAddInst, setWantAddInst ] = useState(false);
     const [ selectedInst, setSelectedInst ] = useState('-1');
 
-    const user_roles = useSelector((state) => state.rootReducer.user_roles);
-    const user_id    = useSelector((state) => state.rootReducer.user_id);
+    const user_roles = useSelector((state) => state.usersReducer.user_roles);
+    const user_id    = useSelector((state) => state.usersReducer.user_id);
 
     useEffect(()=>{
         if (availableInst.length < 1) dispatch(getInstitutions());
@@ -96,7 +96,7 @@ function UserInstitutions({user}) {
                      </TableCell>
                     <TableCell className={classes.tableCell}>{i.inst_descriptions}</TableCell>
                         {
-                        user_id === user.user_id || user_roles.includes('admin') ?
+                        user_id === user.user_id || user_roles?.includes('admin') ?
                         <TableCell className={classes.tableCell}>
                             <IconButton className={classes.iconButton}>
                                 <DeleteForeverIcon onClick={()=>handleDelete(i.inst_id)}/>
@@ -106,8 +106,8 @@ function UserInstitutions({user}) {
                 </TableRow>
             )) }
             </Table>
-            {
-                user_id === user.user_id || user_roles.includes('admin') ?
+            {   
+                user_id === user.user_id || user_roles?.includes('admin') ?
             <Box className={classes.newInst}>
                 <FormControl /*className={classes.formControl}*/>
                     <InputLabel id="demo-simple-select-helper-label">Instituciones</InputLabel>

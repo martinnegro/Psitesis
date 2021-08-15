@@ -4,11 +4,13 @@ import {
     GET_ONE_INSTITUTION,
     CREAT_NEW_INSITUTION,
     DELETE_INSTITUTION,
+    GET_INSTITUTION_BIO
 } from '../actions/actionsInstitutions';
 
 const initialState = {
     isFetching: true,
-    institutions: []
+    institutions: [],
+    institutionBio: [],
 }
 
 export default function institutionsReducer (state = initialState, { type, payload }) {
@@ -40,6 +42,11 @@ export default function institutionsReducer (state = initialState, { type, paylo
                 ...state,
                 institutions: aux.filter(i => i.inst_id !== payload)
             }
+        case GET_INSTITUTION_BIO:
+            return {
+                ...state,
+                institutionBio: payload,
+            };
         default:
             return state;
     }

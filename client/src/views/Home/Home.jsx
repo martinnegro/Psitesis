@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 
 import SearchIcon from '@material-ui/icons/Search';
-import { getAllArticle, getArticleTag, orderArticles } from "../../redux/actions/actions";
+import { getAllArticle, orderArticles, getArticleTag } from "../../redux/actions/actionsArticles";
 import { Link } from "react-router-dom";
 
 
@@ -49,8 +49,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
   const history = useHistory();
   const classes = useStyles();
-  const articles = useSelector((state) => state.rootReducer.articles); // Nueva forma de acceder al estado por combineReducer
-  const orderedArticles = useSelector((state) => state.rootReducer.orderedArticles)
+  const articles = useSelector((state) => state.articlesReducer.articles); // Nueva forma de acceder al estado por combineReducer
+  const orderedArticles = useSelector((state) => state.articlesReducer.orderedArticles)
   const { user } = useAuth0();
   const dispatch = useDispatch();
 
