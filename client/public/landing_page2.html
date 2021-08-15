@@ -52,7 +52,8 @@
 				text-align: center;
 				color: #fff;
 				font-size: 32px;
-				font-weight: bold;
+				font-weight: bold;				
+				padding-bottom: 60px;
 			}
 
 			.btn:focus,
@@ -225,7 +226,6 @@
 			}
 
 			.btn-primary,
-			.btn-primary:hover,
 			.btn-primary:active,
 			.btn-primary:visited,
 			.btn-primary:focus {
@@ -237,10 +237,14 @@
 				font-size: 12px;
 				border-radius: 8px;
 				height: 40px;
+				font-weight: bold;
+			}
+			.btn-primary:hover {
+				color: #4484e9 !important;
+				border-color: #4484e9 !important;
 			}
 
 			.btn-light,
-			.btn-light:hover,
 			.btn-light:active,
 			.btn-light:visited,
 			.btn-light:focus {
@@ -251,13 +255,24 @@
 				font-size: 12px;
 				border-radius: 8px;
 				height: 40px;
+				font-weight: bold;
+			}
+			
+			.btn-light:hover {
+				color: #4484e9 !important;
+				border-color: #4484e9 !important;
 			}
 
 			.btn-google-img {
 				height: 24px;
 			}
 
-			.separator-line {
+			.content-separator-line {				
+				padding-top: 30px;
+				padding-bottom: 0px;
+			}
+
+			.separator-line {			
 				display: block;
 				border-top: 2px solid #fff;
 				height: 2px;
@@ -366,12 +381,14 @@
 										>
 											<img
 												class="btn-google-img"
-												src="https://developers.google.com/identity/images/g-logo.png"
+												src="https://img.icons8.com/fluency/48/000000/google-logo.png"
 											/>
 											ingresar con google
 										</button>
+									</div>									
+									<div class="content-separator-line">
+										<hr class="separator-line" />
 									</div>
-									<hr class="separator-line" />
 									<div class="field-wrap field-custom2">
 										¿Primera ves en Psitesis?
 										<a href="#signup" id="signup">Crear una cuenta</a>
@@ -438,12 +455,14 @@
 										<button type="button" id="btn-google" class="btn btn-light">
 											<img
 												class="btn-google-img"
-												src="https://developers.google.com/identity/images/g-logo.png"
+												src="https://img.icons8.com/fluency/48/000000/google-logo.png"
 											/>
 											Registrase con google
 										</button>
 									</div>
-									<hr class="separator-line" />
+									<div class="content-separator-line">
+										<hr class="separator-line" />
+									</div>
 									<div class="field-wrap field-custom2">
 										¿Ya tienes una Cuenta en Psitesis?
 										<a href="#login" id="login">Iniciar sesión</a>
@@ -477,7 +496,9 @@
 											Recuperar
 										</button>
 									</div>
-									<hr class="separator-line" />
+									<div class="content-separator-line">
+										<hr class="separator-line" />
+									</div>
 									<div class="field-wrap field-custom2">
 										¿No nesecitas recuperar tu contraseña?
 										<a href="#login" id="login2">Iniciar sesión</a>
