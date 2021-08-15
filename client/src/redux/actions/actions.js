@@ -386,19 +386,6 @@ export const getSubCategory = (id) => {
   };
 };
 
-export const getInstitutions = () => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.get(`${REACT_APP_URL_API}/institutions`);
-      dispatch({
-        type: GET_INSTITUTIONS,
-        payload: response.data,
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-};
 
 export const getInstitutionBio = (id) => {
   return async (dispatch) => {

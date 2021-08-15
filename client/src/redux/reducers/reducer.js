@@ -92,11 +92,6 @@ function rootReducer(state = initialState, action) {
         ...state,
         usersByRoles: action.payload,
       };
-    case GET_INSTITUTIONS:
-      return {
-        ...state,
-        institutions: action.payload,
-      };
     case GET_INSTITUTION_BIO:
       return {
         ...state,

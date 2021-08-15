@@ -2,7 +2,7 @@
 import React from "react";
 import Container from "@material-ui/core/Container";
 import { useEffect,useState } from "react";
-import {getInstitutions } from "../../redux/actions/actions";
+import {getInstitutions } from "../../redux/actions/actionsInstitutions";
 import { useDispatch, useSelector } from "react-redux";
 import BiosContainer from "../../components/Bios/BiosContainer";
 import Institutions from '../../components/Institutions/Institutions'
@@ -98,7 +98,7 @@ export default function Colaborators(){
     
     const dispatch = useDispatch();
     const usersByRoles = useSelector((state) => state.rootReducer.usersByRoles)
-    const institutions = useSelector((state) => state.rootReducer.institutions)
+    const institutions = useSelector((state) => state.institutionsReducer.institutions)
    
 useEffect(()=>{
   getUsersByRoles('rol_mALahPQjTe8Re7vf',"admin")
