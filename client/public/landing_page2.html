@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!-- Bootstrap CSS -->
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+			crossorigin="anonymous"
+		/>
+		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+		<style>
+			#root {
+				position: relative;
+				height: 100%;
+				width: 100%;
+			}
+
+			body {
+				font-family: 'Roboto', sans-serif;
+				background-color: #fcfcff;
+				font-size: 14px;
+				line-height: 24px;
+				height: 100%;
+				width: 100%;
+				position: relative;
+			}
+
+			.bg-left {
+				background: #ddd;
+				left: 0;
+				top: 0;
+				bottom: 0;
+				position: absolute;
+				width: 60%;
+			}
+			.bg-right {
+				right: 0;
+				top: 0;
+				bottom: 0;
+				background: #800080;
+				position: absolute;
+				width: 40%;
+			}
+
+			h1 {
+				font-family: 'Roboto', sans-serif;
+				padding: 12px;
+				text-align: center;
+				color: #fff;
+				font-size: 32px;
+				font-weight: bold;
+			}
+
+			.btn:focus,
+			.btn:active:focus,
+			.btn.active:focus {
+				box-shadow: none !important;
+			}
+
+			textarea:focus,
+			textarea.form-control:focus,
+			input.form-control:focus,
+			input[type='text']:focus,
+			input[type='password']:focus,
+			input[type='email']:focus,
+			input[type='number']:focus,
+			[type='text'].form-control:focus,
+			[type='password'].form-control:focus,
+			[type='email'].form-control:focus,
+			[type='tel'].form-control:focus,
+			[contenteditable].form-control:focus {
+				background-color: #800080;
+				box-shadow: inset 0 -1px 0 #ddd;
+				border-color: #fff;
+				color: #fff;
+			}
+			input.form-control {
+				font-family: 'Roboto', sans-serif;
+				background-color: #800080;
+				border-color: #fff;
+				border-radius: 5px;
+				color: #fff;
+			}
+
+			input[type='text']::placeholder,
+			input[type='password']::placeholder,
+			input[type='email']::placeholder,
+			input[type='number']::placeholder,
+			[type='text'].form-control::placeholder,
+			[type='password'].form-control::placeholder,
+			[type='email'].form-control::placeholder,
+			[type='tel'].form-control::placeholder,
+			input::-ms-input-placeholder,
+			input:-ms-input-placeholder,
+			input::placeholder {
+				font-family: 'Roboto', sans-serif;
+				color: #fff !important;
+				opacity: 1;
+				font-size: 16px;
+				font-weight: bold;
+			}
+			::-webkit-input-placeholder {
+				/* WebKit, Blink, Edge */
+				color: #fff;
+			}
+			:-moz-placeholder {
+				/* Mozilla Firefox 4 to 18 */
+				color: #fff;
+				opacity: 1;
+			}
+			::-moz-placeholder {
+				/* Mozilla Firefox 19+ */
+				color: #fff;
+				opacity: 1;
+			}
+			:-ms-input-placeholder {
+				/* Internet Explorer 10-11 */
+				color: #fff;
+			}
+			::-ms-input-placeholder {
+				/* Microsoft Edge */
+				color: #fff;
+			}
+			::placeholder {
+				/* Most modern browsers support this now. */
+				color: #fff;
+			}
+
+			.custom-alert {
+				padding-top: 6px;
+				padding-bottom: 6px;
+				text-align: center;
+			}
+
+			.container {
+				height: 100%;
+				width: 100%;
+			}
+
+			.row {
+				height: 100vh;
+			}
+
+			.field-custom {
+				padding-top: 6px;
+				padding-bottom: 6px;
+			}
+
+			.field-custom {
+				padding-top: 6px;
+				padding-bottom: 6px;
+			}
+
+			.field-custom2 {
+				padding-top: 6px;
+				padding-bottom: 6px;
+				padding-left: 50px;
+				padding-right: 50px;
+				font-family: 'Roboto', sans-serif;
+				color: #fff;
+				font-size: 12px;
+			}
+
+			.my-carousel {
+				position: relative;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+
+			.my-carousel-image {
+				border-radius: 10px;
+				display: block;
+				max-width: 100%;
+				height: auto;
+				margin: 0 auto;
+			}
+
+			.content-image-logo {
+				margin: 20px;
+				border-radius: 50%;
+				display: block;
+				margin-left: auto;
+				margin-right: auto;
+				margin-top: auto;
+				margin-bottom: auto;
+				height: 200px;
+				width: 200px;
+				background-color: #800080;
+			}
+
+			.image-logo {
+				height: 160px;
+				width: 160px;
+				position: relative;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+
+			.content-tab-form {
+				right: 0;
+				background-color: #800080;
+				padding: 20px;
+			}
+
+			.tab-form {
+				padding: 50px;
+				position: relative;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+
+			.content-landing-page {
+				padding: 50px;
+			}
+
+			.landing-page {
+				padding: 50px;
+			}
+
+			.btn-primary,
+			.btn-primary:hover,
+			.btn-primary:active,
+			.btn-primary:visited,
+			.btn-primary:focus {
+				background-color: #031927 !important;
+				border-color: #031927 !important;
+				color: #fff !important;
+				font-family: 'Roboto', sans-serif;
+				text-transform: uppercase;
+				font-size: 12px;
+				border-radius: 8px;
+				height: 40px;
+			}
+
+			.btn-light,
+			.btn-light:hover,
+			.btn-light:active,
+			.btn-light:visited,
+			.btn-light:focus {
+				border-color: #fff !important;
+				color: #000 !important;
+				font-family: 'Roboto', sans-serif;
+				text-transform: uppercase;
+				font-size: 12px;
+				border-radius: 8px;
+				height: 40px;
+			}
+
+			.btn-google-img {
+				height: 24px;
+			}
+
+			.separator-line {
+				display: block;
+				border-top: 2px solid #fff;
+				height: 2px;
+				color: #fff !important;
+			}
+		</style>
+		<title>Psitesis</title>
+	</head>
+	<body>
+		<div id="root">
+			<div class="container-fluid">
+				<div class="row">
+					<div
+						class="col-md-6 col-lg-8 col-sm-6 caption-top content-landing-page"
+					>
+						<div
+							id="carouselExampleCaptions"
+							class="carousel slide my-carousel"
+							data-bs-ride="carousel"
+						>
+							<div class="carousel-inner">
+								<div class="carousel-item active">
+									<img
+										class="my-carousel-image"
+										src="https://i.postimg.cc/vTXptyJP/Onboarding-1.png"
+										alt="img1"
+									/>
+								</div>
+								<div class="carousel-item">
+									<img
+										class="my-carousel-image"
+										src="https://i.postimg.cc/593dV5Xw/Onboarding-2.png"
+										alt="img2"
+									/>
+								</div>
+							</div>
+							<button
+								class="carousel-control-prev"
+								type="button"
+								data-bs-target="#carouselExampleCaptions"
+								data-bs-slide="prev"
+							>
+								<span
+									class="carousel-control-prev-icon"
+									aria-hidden="true"
+								></span>
+								<span class="visually-hidden"></span>
+							</button>
+							<button
+								class="carousel-control-next"
+								type="button"
+								data-bs-target="#carouselExampleCaptions"
+								data-bs-slide="next"
+							>
+								<span
+									class="carousel-control-next-icon"
+									aria-hidden="true"
+								></span>
+								<span class="visually-hidden"></span>
+							</button>
+						</div>
+					</div>
+					<div class="col-md-6 content-tab-form col-lg-4 col-sm-6">
+						<div class="tab-form">
+							<div id="tab_login">
+								<div class="content-image-logo">
+									<img
+										class="image-logo"
+										src="https://raw.githubusercontent.com/martinnegro/Psitesis/main/client/src/assets/Logo.png"
+									/>
+								</div>
+								<h1>Psitesis</h1>
+								<form onsubmit="return false;" method="post">
+									<div class="field-wrap field-custom">
+										<input
+											type="text"
+											class="form-control"
+											id="email"
+											autocomplete="off"
+											placeholder="Correo electrónico"
+										/>
+									</div>
+									<div class="field-wrap field-custom">
+										<input
+											type="password"
+											class="form-control"
+											id="password"
+											autocomplete="off"
+											placeholder="Contraseña"
+										/>
+									</div>
+									<div class="d-grid field-custom">
+										<button
+											type="submit"
+											id="btn-login"
+											class="btn btn-primary"
+										>
+											ingresar
+										</button>
+									</div>
+									<div class="d-grid field-custom">
+										<button
+											type="button"
+											id="btn-google2"
+											class="btn btn-light"
+										>
+											<img
+												class="btn-google-img"
+												src="https://developers.google.com/identity/images/g-logo.png"
+											/>
+											ingresar con google
+										</button>
+									</div>
+									<hr class="separator-line" />
+									<div class="field-wrap field-custom2">
+										¿Primera ves en Psitesis?
+										<a href="#signup" id="signup">Crear una cuenta</a>
+									</div>
+									<div class="field-wrap field-custom2">
+										¿Olvidaste Tu contraseña?
+										<a href="#recovery-password" id="recovery-password"
+											>Recuperar mi contraseña!</a
+										>
+									</div>
+								</form>
+							</div>
+							<div id="tab_signup">
+								<div class="content-image-logo">
+									<img
+										class="image-logo"
+										src="https://raw.githubusercontent.com/martinnegro/Psitesis/main/client/src/assets/Logo.png"
+									/>
+								</div>
+								<h1>
+									Registrate para utilizar todas las funcionalidades de Psitesis
+								</h1>
+								<form onsubmit="return false;" method="post">
+									<div class="field-wrap field-custom">
+										<input
+											type="text"
+											class="form-control"
+											id="username2"
+											value=""
+											autocomplete="off"
+											placeholder="Usuario"
+										/>
+									</div>
+									<div class="field-wrap field-custom">
+										<input
+											type="email"
+											class="form-control"
+											id="email2"
+											value=""
+											autocomplete="off"
+											placeholder="Correo electrónico"
+										/>
+									</div>
+									<div class="field-wrap field-custom">
+										<input
+											type="password"
+											class="form-control"
+											id="password2"
+											value=""
+											autocomplete="off"
+											placeholder="Contraseña"
+										/>
+									</div>
+									<div class="d-grid field-custom">
+										<button
+											type="submit"
+											id="btn-signup"
+											class="btn btn-primary"
+										>
+											Registrarse
+										</button>
+									</div>
+									<div class="d-grid field-custom">
+										<button type="button" id="btn-google" class="btn btn-light">
+											<img
+												class="btn-google-img"
+												src="https://developers.google.com/identity/images/g-logo.png"
+											/>
+											Registrase con google
+										</button>
+									</div>
+									<hr class="separator-line" />
+									<div class="field-wrap field-custom2">
+										¿Ya tienes una Cuenta en Psitesis?
+										<a href="#login" id="login">Iniciar sesión</a>
+									</div>
+								</form>
+							</div>
+							<div id="tab_recovery_password">
+								<div class="content-image-logo">
+									<img
+										class="image-logo"
+										src="https://raw.githubusercontent.com/martinnegro/Psitesis/main/client/src/assets/Logo.png"
+									/>
+								</div>
+								<h1>Recuperación de contraseña</h1>
+								<form onsubmit="return false;" method="post">
+									<div class="field-wrap field-custom">
+										<input
+											type="text"
+											class="form-control"
+											id="email3"
+											autocomplete="off"
+											placeholder="Correo electrónico"
+										/>
+									</div>
+									<div class="d-grid field-custom">
+										<button
+											type="submit"
+											id="btn-recover-password"
+											class="btn btn-primary"
+										>
+											Recuperar
+										</button>
+									</div>
+									<hr class="separator-line" />
+									<div class="field-wrap field-custom2">
+										¿No nesecitas recuperar tu contraseña?
+										<a href="#login" id="login2">Iniciar sesión</a>
+									</div>
+									<div class="field-wrap field-custom2">
+										¿Primera ves en Psitesis?
+										<a href="#signup" id="signup2">Crear una cuenta</a>
+									</div>
+								</form>
+							</div>
+							<div class="captcha-container form-group"></div>
+							<div
+								id="error-message"
+								class="alert alert-danger custom-alert"
+							></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="https://cdn.auth0.com/js/auth0/9.16/auth0.min.js"></script>
+		<script src="https://cdn.auth0.com/js/polyfills/1.0/object-assign.min.js"></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+			crossorigin="anonymous"
+		></script>
+		<script>
+			window.addEventListener('load', function () {
+				var config = JSON.parse(
+					decodeURIComponent(escape(window.atob('@@config@@')))
+				);
+
+				var leeway = config.internalOptions.leeway;
+				if (leeway) {
+					var convertedLeeway = parseInt(leeway);
+
+					if (!isNaN(convertedLeeway)) {
+						config.internalOptions.leeway = convertedLeeway;
+					}
+				}
+
+				var params = Object.assign(
+					{
+						overrides: {
+							__tenant: config.auth0Tenant,
+							__token_issuer: config.authorizationServer.issuer,
+						},
+						domain: config.auth0Domain,
+						clientID: config.clientID,
+						redirectUri: config.callbackURL,
+						responseType: config.extraParams.response_type,
+						audience: config.extraParams.audience,
+						scope: config.extraParams.scope,
+					},
+					config.internalOptions
+				);
+
+				var webAuth = new auth0.WebAuth(params);
+				var databaseConnection = 'Username-Password-Authentication';
+				var captcha = webAuth.renderCaptcha(
+					document.querySelector('.captcha-container')
+				);
+
+				function login(e) {
+					e.preventDefault();
+					$('error-message').hide();
+					var button = this;
+					var email = document.getElementById('email').value;
+					var password = document.getElementById('password').value;
+					button.disabled = true;
+					webAuth.login(
+						{
+							realm: databaseConnection,
+							email: email,
+							password: password,
+							captcha: captcha.getValue(),
+						},
+						function (err) {
+							if (err) displayError(err);
+							button.disabled = false;
+						}
+					);
+				}
+
+				function signup(e) {
+					e.preventDefault();
+					$('#error-message').hide();
+					var button = this;
+					var username = document.getElementById('username2').value;
+					var email = document.getElementById('email2').value;
+					var password = document.getElementById('password2').value;
+					button.disabled = true;
+					webAuth.redirect.signupAndLogin(
+						{
+							connection: databaseConnection,
+							username: username,
+							email: email,
+							password: password,
+							captcha: captcha.getValue(),
+						},
+						function (err) {
+							if (err) displayError(err);
+							button.disabled = false;
+						}
+					);
+				}
+
+				function loginWithGoogle() {
+					$('#error-message').hide();
+					webAuth.authorize(
+						{
+							connection: 'google-oauth2',
+						},
+						function (err) {
+							if (err) displayError(err);
+						}
+					);
+				}
+
+				function resetPassword(e) {
+					e.preventDefault();
+					var email = document.getElementById('email3').value;
+					if (email === '') {
+						displayError({ code: 'not email' });
+						return;
+					}
+					webAuth.changePassword(
+						{
+							connection: databaseConnection,
+							email: email,
+						},
+						function (err, resp) {
+							if (err) {
+								displayError({ code: err.message });
+							} else {
+								displayError({ code: 'recovery send' });
+							}
+						}
+					);
+				}
+
+				function displayError(err) {
+					captcha.reload();
+					var errorMessage = $('#error-message');
+					if (err.code) {
+						if (err.code === 'invalid_user_password') {
+							errorMessage.html('Contraseña incorrecta!');
+						} else if (err.code === 'not email') {
+							errorMessage.html('Ingrese un correo!');
+						} else if (err.code === 'recovery send') {
+							errorMessage.html(
+								'Advertencia: Te acabamos de enviar un correo para reiniciar tu constaseña!'
+							);
+						} else if (err.code === 'too_many_attempts') {
+							errorMessage.html(
+								'Demasiados intentos fallidos. espera unos momentos!'
+							);
+						} else if (err.code.includes('error in email')) {
+							errorMessage.html('correo no valido!');
+						} else if (err.code.includes('invalid_signup')) {
+							errorMessage.html('Correo en uso!');
+						} else if (err.code === 'invalid_password') {
+							var password = document.getElementById('password2').value;
+							console.log(password);
+							if (!/^(?=.*?[0-9])/.test(password)) {
+								errorMessage.html(
+									'La contraseña debe tener por lo menos un numero!'
+								);
+							} else if (!/(?=.*?[A-Z])/.test(password)) {
+								errorMessage.html(
+									'La contraseña debe tener por lo menos una mayuscula!'
+								);
+							} else if (!/(?=.*?[a-z])/.test(password)) {
+								errorMessage.html(
+									'La contraseña debe tener por lo menos una minuscula!'
+								);
+							} else if (password.length < 8) {
+								errorMessage.html(
+									'La contraseña debe tener por lo 8 caracteres!'
+								);
+							} else {
+								errorMessage.html('La contraseña no es valida!');
+							}
+						} else {
+							errorMessage.html('Error desconocido');
+						}
+					} else {
+						errorMessage.html('Error desconocido');
+					}
+					$('#error-message').show();
+					setTimeout(function () {
+						$('#error-message').hide();
+					}, 4000);
+				}
+
+				document.getElementById('btn-login').addEventListener('click', login);
+				document.getElementById('btn-signup').addEventListener('click', signup);
+				document
+					.getElementById('btn-recover-password')
+					.addEventListener('click', resetPassword);
+
+				document
+					.getElementById('btn-google')
+					.addEventListener('click', loginWithGoogle);
+				document
+					.getElementById('btn-google2')
+					.addEventListener('click', loginWithGoogle);
+			});
+		</script>
+		<script>
+			function showLogin() {
+				$('#tab_signup').hide();
+				$('#tab_recovery_password').hide();
+				$('#tab_login').show();
+			}
+
+			function showSignup() {
+				$('#tab_signup').show();
+				$('#tab_recovery_password').hide();
+				$('#tab_login').hide();
+			}
+
+			function showRecoveryPassword() {
+				$('#tab_signup').hide();
+				$('#tab_recovery_password').show();
+				$('#tab_login').hide();
+			}
+
+			$('#login').on('click', function (e) {
+				e.preventDefault();
+				showLogin();
+			});
+			$('#login2').on('click', function (e) {
+				e.preventDefault();
+				showLogin();
+			});
+			$('#signup').on('click', function (e) {
+				e.preventDefault();
+				showSignup();
+			});
+			$('#signup2').on('click', function (e) {
+				e.preventDefault();
+				showSignup();
+			});
+			$('#recovery-password').on('click', function (e) {
+				e.preventDefault();
+				showRecoveryPassword();
+			});
+			$('#tab_signup').hide();
+			$('#tab_recovery_password').hide();
+			$('#error-message').hide();
+		</script>
+	</body>
+</html>
