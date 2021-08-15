@@ -63,8 +63,8 @@ User.hasMany(Network);
 Network.belongsTo(User);
 
 // 1 a N Usuario ----- Articulo
-User.hasMany(Article, { as: "articles" });
-Article.belongsTo(User, { foreignKey: "user_id" });
+User.hasMany(Article, { foreignKey: "user_id", targetKey: 'user_id' });
+Article.belongsTo(User);
 
 //#### Reemplazada la relacion inst - articulo por inst - user
 Institution.belongsToMany(User, { through: "userinstitution" });

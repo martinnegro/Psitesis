@@ -31,8 +31,8 @@ router.post("/", async (req, res, next) => {
         {
           model: Institution,
           through: { attributes: [] },
-        },
-      ],
+        }
+      ]
     });
 
     if (result) {
@@ -146,16 +146,13 @@ router.get("/:user_id_A0", async (req, res, next) => {
           through: {
             attributes: [],
           },
-        },
+          
+        },{
+          model: Article
+        }
       ],
     });
-    
-    const articles = await Article.findAll({ where: { user_id: user.user_id} });
-    console.log('**************\n',articles)
-    const cleanArticlesData = articles.map(a => { return a.dataValues })
-    const response = {...user.dataValues, articles: cleanArticlesData}
-    console.log('**************************\n',response)
-    res.json(response);
+    res.json(user.dataValues);
   } catch(err) { next(err) };
 });
 
