@@ -14,8 +14,6 @@ export const GET_ALL_CAT_SUB = "GET_ALL_CAT_SUB";
 export const GET_CATEGORY = "GET_CATEGORY";
 export const GET_SUB_CATEGORY = "GET_SUB_CATEGORY";
 export const GET_USERS_BY_ROLES = "GET_USERS_BY_ROLES";
-export const GET_INSTITUTIONS = "GET_INSTITUTIONS";
-export const GET_INSTITUTION_BIO = "GET_INSTITUTION_BIO";
 export const GET_ADMINS = "GET_ADMINS";
 
 export const getAllArticle = () => {
@@ -386,16 +384,3 @@ export const getSubCategory = (id) => {
   };
 };
 
-
-export const getInstitutionBio = (id) => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.get(
-        `${REACT_APP_URL_API}/institutions/${id}`
-      );
-      dispatch({ type: GET_INSTITUTION_BIO, payload: response.data });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-};
