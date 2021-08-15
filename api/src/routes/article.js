@@ -88,11 +88,11 @@ router.get("/:art_id", (req, res, next) => {
     next(err);
   } else {
     Article.findByPk(art_id, {
-      include: {model: Subcategory}
+      include: [{ model: Subcategory }]
     })
       .then((finded) => {
-        console.log(finded);
         finded.increment("art_views");
+        console.log('FINDED:',finded.dataValues)
         res.json(finded.dataValues);
       })
       .catch((err) => next(err));
