@@ -97,7 +97,7 @@ function TabPanel(props) {
 export default function Colaborators(){
     
     const dispatch = useDispatch();
-    const usersByRoles = useSelector((state) => state.rootReducer.usersByRoles)
+    const usersByRoles = useSelector((state) => state.usersReducer.usersByRoles)
     const institutions = useSelector((state) => state.institutionsReducer.institutions)
    
 useEffect(()=>{

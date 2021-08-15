@@ -74,8 +74,8 @@ function Post() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const articlesDetail = useSelector((state) => state.articlesReducer.articlesDetail); 
-  const user_id = useSelector((state) => state.rootReducer.user_id);
-  const user_roles = useSelector((state) => state.rootReducer.user_roles);
+  const user_id = useSelector((state) => state.usersReducer.user_id);
+  const user_roles = useSelector((state) => state.usersReducer.user_roles);
 
   const classes = useStyles();
   const { user, getAccessTokenSilently } = useAuth0();

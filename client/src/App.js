@@ -13,7 +13,7 @@ import Colaborators from "./views/Colaborators/Colaborators";
 import PostOk from "./views/postOk/PostOk.jsx";
 import InstitutionBio from "./components/InstitutionBio/InstitutionBio";
 import { ProtectedRoute } from "./components";
-import { findOrCreateUser as findOrCreateUserAction } from "./redux/actions/actions";
+import { findOrCreateUser as findOrCreateUserAction } from "./redux/actions/usersActions";
 import { useDispatch } from "react-redux";
 import GuiaDeTesis from './views/Guia de Tesis/GuiaDeTesis';
 

@@ -104,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Nav() {
-	const user_roles = useSelector((state) => state.rootReducer.user_roles); // Nueva forma de acceder al estado por combineReducer
+	const user_roles = useSelector((state) => state.usersReducer.user_roles); // Nueva forma de acceder al estado por combineReducer
 	const { isAuthenticated, user, logout } = useAuth0();
 
 	const handleLogout = () => {
@@ -213,7 +213,7 @@ export default function Nav() {
 				</ListItem> */}
 
 				<Divider />
-				{user_roles.includes('admin') ? (
+				{user_roles?.includes('admin') ? (
 					<>
 					<ListItem button onClick={() => history.push('/post')}>
 						<ListItemIcon>
