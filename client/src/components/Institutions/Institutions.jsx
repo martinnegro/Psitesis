@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Institutions({id,instName,imageProfile,bio}){
     const classes = useStyles();
     return(
-        <Link to = {`/institution/${id}`}  color = "inherit">
+        <Link style={{ textDecoration: 'none',color: 'black'   }} to = {`/institution/${id}`}  color = "inherit">
         <Container className = {classes.container2} width={20}  >
  <div className = {classes.root}>
 <Avatar variant="square" src = {imageProfile || user} className={classes.square}>  </Avatar>
