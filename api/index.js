@@ -22,12 +22,8 @@ const { v4: uuidv4 } = require("uuid");
 require("dotenv").config();
 const {
   conn,
-  Category,
-  Subcategory,
-  Institution,
-  User,
-  Article,
-  Tag,
+  Category, Subcategory, Institution, User, Article, Tag,
+  Topic, Subtopic, Forumpost, Comment
 } = require("./src/db.js");
 
 const { createData } = require("./preloadData.js");
@@ -60,5 +56,16 @@ conn.sync({ force: true }).then(() => {
     await art[2].addTag([tags[2].tag_id]);
     console.log("**** ARTICULOS CREADOS");
 
+    const topics = await Topic.bulkCreate(importedData.pdTopics);
+    console.log('**** TEMAS FORO CREADOS');
+
+    const subTopics = await Subtopic.bulkCreate(importedData.pdSubtopic);
+    console.log('**** SUBTEMAS CREADOS');
+
+    const posts = await Forumpost.bulkCreate(importedData.pdPost);
+    console.log('**** POSTEOS CREADOS');
+
+    const comments = await Comment.bulkCreate(importedData.pdComments);
+    console.log('**** COMENTARIOS CREADOS')
   });
 });
