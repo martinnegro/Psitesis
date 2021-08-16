@@ -30,6 +30,7 @@ import BookOutlinedIcon from '@material-ui/icons/BookOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import SettingsIcon from '@material-ui/icons/Settings';
+import ForumTwoToneIcon from '@material-ui/icons/ForumTwoTone';
 
 import userAvatar from '../../assets/user.jpg';
 import logo from '../../assets/Logo.png';
@@ -199,18 +200,18 @@ export default function Nav() {
 					</ListItemIcon>
 					<ListItemText>Guía de Tesis</ListItemText>
 				</ListItem>
+				<ListItem button onClick={() => history.push('/forum')}>
+					<ListItemIcon>
+						<ForumTwoToneIcon />
+					</ListItemIcon>
+					<ListItemText>Foro</ListItemText>
+				</ListItem>
 				<ListItem button onClick={() => history.push('/colaborators')}>
 					<ListItemIcon>
 						<PeopleAltTwoToneIcon />
 					</ListItemIcon>
 					<ListItemText>Colaboradores</ListItemText>
 				</ListItem>
-				{/* <ListItem button onClick={() => history.push('/colaborators')}>
-					<ListItemIcon>
-						<PeopleAltTwoToneIcon />
-					</ListItemIcon>
-					<ListItemText>Colaboradores</ListItemText>
-				</ListItem> */}
 
 				<Divider />
 				{user_roles?.includes('admin') ? (
