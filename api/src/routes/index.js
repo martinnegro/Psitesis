@@ -10,6 +10,7 @@ const search = require("./searchHome");
 const subCategories = require("./subCategories");
 const metadata = require("./metadata");
 const topics = require("./topics");
+const forumposts = require('./forumposts')
 const router = Router();
 
 // Configurar los routers
@@ -24,4 +25,5 @@ router.use("/subcategories", subCategories);
 router.use("/metadata", metadata);
 router.use("/search", search);
 router.use("/topics", topics);
+router.use('/forumposts',forumposts)
 module.exports = router;
