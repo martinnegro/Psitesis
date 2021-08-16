@@ -6,7 +6,7 @@ const { DATABASE_URL } = process.env;
 
 const sequelize = new Sequelize(
   DATABASE_URL,
-  /*   {
+     /*{
     logging: false,
     native: false,
   }*/
@@ -78,14 +78,14 @@ Forumpost.belongsTo(Subtopic, { foreignKey: 'sub_topic_id' });
 User.hasMany(Forumpost, { foreignKey: 'user_id' });
 Forumpost.belongsTo(User, { foreignKey: 'user_id' });
 
-Forumpost.hasMany(Comment, { foreignKey: 'comment_id' });
-Comment.belongsTo(Forumpost, { foreignKey: 'comment_id' });
+Forumpost.hasMany(Comment, { foreignKey: 'post_id' });
+Comment.belongsTo(Forumpost, { foreignKey: 'post_id' });
 
 User.hasMany(Comment, { foreignKey: 'user_id' });
 Comment.belongsTo(User, { foreignKey: 'user_id' });
 
-Comment.hasMany(Comment, { foreignKey: 'response_to_comment_id' });
-Comment.belongsTo(Comment, { foreignKey: 'response_to_comment_id' })
+Comment.hasMany(Comment, { foreignKey: 'response_to_comment_id', as: 'child_comment' });
+Comment.belongsTo(Comment, { foreignKey: 'response_to_comment_id', as: 'parent_comment' });
 
 
 module.exports = {

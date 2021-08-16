@@ -7,7 +7,7 @@ module.exports = (sequelize) => {
 			allowNull: false,
 			primaryKey: true,
 		},
-		topic_id: {
+		topic_name: {
 			type: DataTypes.STRING,
 		},
 	});
