@@ -185,7 +185,7 @@ const Art_Detail = () => {
           <div className={s.perfil}>
             <div>
               <Typography variant="body2">
-                Sección: {articlesDetail?.Subcategories[0]?.sub_cat_name}
+                Sección: {articlesDetail?.subcategory?.sub_cat_name}
               </Typography>
             </div>
             <div className={s.perfil2}>

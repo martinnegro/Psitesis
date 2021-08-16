@@ -9,7 +9,7 @@ const sequelize = new Sequelize(
   /*   {
     logging: false,
     native: false,
-  } */
+  }*/ 
   {
     dialect: "postgres",
     protocol: "postgres",
@@ -48,19 +48,11 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Article, Institution, Rol, Network, User, Category, Subcategory, Tag } =
+const { Article, Institution, Network, User, Category, Subcategory, Tag } =
   sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
-//rol tiene muchos usuarios, se le añade el id de rol en la tabla user
-//1 a N usuario --- rol
-// Rol.hasMany(User);
-User.belongsTo(Rol, { targetKey: "rol_id", foreignKey: "rol_id" });
-
-// N a N red ----- usuario
-User.hasMany(Network);
-Network.belongsTo(User);
 
 // 1 a N Usuario ----- Articulo
 User.hasMany(Article, { foreignKey: "user_id" });
@@ -70,28 +62,14 @@ Article.belongsTo(User, { foreignKey: "user_id" });
 Institution.belongsToMany(User, { through: "userinstitution" });
 User.belongsToMany(Institution, { through: "userinstitution" });
 
-//1 a N institucion ------redes
-Institution.hasMany(Network);
-Network.belongsTo(Institution);
-
 //1 a N categoria------sub-categoria
 
-Category.hasMany(Subcategory);
-Subcategory.belongsTo(Category, { targetKey: "cat_id", foreignKey: "cat_id" });
+Category.hasMany(Subcategory, { foreignKey: "cat_id" });
+Subcategory.belongsTo(Category, { foreignKey: "cat_id" });
 
 // 1 a N Categoria-----Articulo
-
-Subcategory.belongsToMany(Article, { through: "subcategoryarticle" });
-Article.belongsToMany(Subcategory, { through: "subcategoryarticle" });
-
-Category.belongsToMany(Article, { through: "categoryarticle" });
-Article.belongsToMany(Category, { through: "categoryarticle" });
-
-// Subcategory.hasMany(Article);
-// Article.belongsTo(Subcategory, {
-//   targetKey: "sub_cat_id",
-//   foreignKey: "sub_cat_id",
-// });
+Subcategory.hasMany(Article, { foreignKey: 'sub_cat_id' });
+Article.belongsTo(Subcategory, { foreignKey: 'sub_cat_id' });
 
 // N a N Tag-------Articulo
 

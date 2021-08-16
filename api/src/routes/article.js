@@ -55,8 +55,7 @@ router.post(
   
   aux.then(async () => {
      await createdArticle.setTags(tags);
-     await createdArticle.addSubcategory(sub_cat_id)
-     await createdArticle.addCategory(id_subcat)
+     
      return res.status(201).send(createdArticle);
   });
 
@@ -88,11 +87,11 @@ router.get("/:art_id", (req, res, next) => {
     next(err);
   } else {
     Article.findByPk(art_id, {
-      include: {model: Subcategory}
+      include: [{ model: Subcategory }]
     })
       .then((finded) => {
-        console.log(finded);
         finded.increment("art_views");
+        console.log('FINDED:',finded.dataValues)
         res.json(finded.dataValues);
       })
       .catch((err) => next(err));

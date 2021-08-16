@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  sequelize.define("Subcategory", {
+  sequelize.define("subcategory", {
     sub_cat_id: {
       type: DataTypes.UUID,
       allowNull: false,
