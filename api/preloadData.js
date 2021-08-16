@@ -211,7 +211,7 @@ async function createData() {
       comment_contents: 'Respuesta 1',
       comment_date: '',
       comment_state: true,
-      post_id: pdPost[4].post_id,
+      post_id: pdPost[5].post_id,
       user_id: mappedusersA0[0].user_id,
       response_to_comment_id: oneCommentId,
     },{
@@ -219,7 +219,7 @@ async function createData() {
       comment_contents: 'Respuesta 2',
       comment_date: '',
       comment_state: true,
-      post_id: pdPost[4].post_id,
+      post_id: pdPost[5].post_id,
       user_id: mappedusersA0[2].user_id,
       response_to_comment_id: oneCommentId,
     },{
@@ -227,7 +227,7 @@ async function createData() {
       comment_contents: 'Comentario 2',
       comment_date: '',
       comment_state: true,
-      post_id: pdPost[4].post_id,
+      post_id: pdPost[5].post_id,
       user_id: mappedusersA0[5].user_id
     }]
 
