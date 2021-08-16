@@ -9,7 +9,7 @@ const sequelize = new Sequelize(
   /*   {
     logging: false,
     native: false,
-  }*/ 
+  }*/
   {
     dialect: "postgres",
     protocol: "postgres",
@@ -48,33 +48,45 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Article, Institution, Network, User, Category, Subcategory, Tag } =
-  sequelize.models;
+const { 
+  Article, Institution, User, Category, Subcategory, Tag,
+  Topic, Subtopic, Forumpost, Comment
+} = sequelize.models;
 
-// Aca vendrian las relaciones
-// Product.hasMany(Reviews);
-
-// 1 a N Usuario ----- Articulo
 User.hasMany(Article, { foreignKey: "user_id" });
 Article.belongsTo(User, { foreignKey: "user_id" });
 
-//#### Reemplazada la relacion inst - articulo por inst - user
 Institution.belongsToMany(User, { through: "userinstitution" });
 User.belongsToMany(Institution, { through: "userinstitution" });
-
-//1 a N categoria------sub-categoria
 
 Category.hasMany(Subcategory, { foreignKey: "cat_id" });
 Subcategory.belongsTo(Category, { foreignKey: "cat_id" });
 
-// 1 a N Categoria-----Articulo
 Subcategory.hasMany(Article, { foreignKey: 'sub_cat_id' });
 Article.belongsTo(Subcategory, { foreignKey: 'sub_cat_id' });
 
-// N a N Tag-------Articulo
-
 Article.belongsToMany(Tag, { through: "article_tag" });
 Tag.belongsToMany(Article, { through: "article_tag" });
+
+// RELACIONES DE FORO
+Topic.hasMany(Subtopic, { foreignKey: 'topic_id' });
+Subtopic.belongsTo(Topic, { foreignKey: 'topic_id' });
+
+Subtopic.hasMany(Forumpost, { foreignKey: 'sub_topic_id' });
+Forumpost.belongsTo(Subtopic, { foreignKey: 'sub_topic_id' });
+
+User.hasMany(Forumpost, { foreignKey: 'user_id' });
+Forumpost.belongsTo(User, { foreignKey: 'user_id' });
+
+Forumpost.hasMany(Comment, { foreignKey: 'comment_id' });
+Comment.belongsTo(Forumpost, { foreignKey: 'comment_id' });
+
+User.hasMany(Comment, { foreignKey: 'user_id' });
+Comment.belongsTo(User, { foreignKey: 'user_id' });
+
+Comment.hasMany(Comment, { foreignKey: 'response_to_comment_id' });
+Comment.belongsTo(Comment, { foreignKey: 'response_to_comment_id' })
+
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

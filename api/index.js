@@ -38,7 +38,8 @@ conn.sync({ force: true }).then(() => {
     console.log("%s listening at 3001");
     const importedData = await createData()
     const tags = await Tag.bulkCreate(importedData.pdTags);
-   
+    console.log("**** TAGS CREADOS");
+
     const categories = await Category.bulkCreate(importedData.pdCategories);
     console.log("**** CATEGORÍAS CREADAS");
 
