@@ -8,7 +8,9 @@ import Container from "@material-ui/core/Container";
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Topics from '../../components/ForumComponents/Topics/Topics';
+import TopicCard from '../../components/ForumComponents/TopicCard/TopicCard';
+import { getTopicsAndSubTopics } from '../../redux/actions/forumActions';
+import { useDispatch,useSelector } from "react-redux"
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -98,7 +100,7 @@ const handleChange = (event, newValue) => {
             </Tabs>
           </AppBar>
           <TabPanel value={value} index={0}>
-              <Topics name = "Topic name example"></Topics>
+              <TopicCard name = "Topic name example"></TopicCard>
        
       </TabPanel>
       <TabPanel value={value} index={1}>

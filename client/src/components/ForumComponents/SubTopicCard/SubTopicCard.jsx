@@ -2,7 +2,7 @@ import React from 'react'
 import Typography from '@material-ui/core/Typography';
 import { Container } from '@material-ui/core';
 
-const SubTopics = ({name,description}) =>{
+const SubTopicCard = ({name,description}) =>{
 
     return(
 <Container>
@@ -14,4 +14,4 @@ const SubTopics = ({name,description}) =>{
 
 }
 
-export default SubTopics
+export default SubTopicCard
