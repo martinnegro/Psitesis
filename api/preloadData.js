@@ -231,6 +231,7 @@ async function createData() {
       user_id: mappedusersA0[5].user_id
     }]
 
+
     return {
         pdArts,
         pdCategories,
