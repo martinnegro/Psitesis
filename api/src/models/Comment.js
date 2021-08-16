@@ -16,10 +16,6 @@ module.exports = (sequelize) => {
         type: DataTypes.TEXT,
         allowNull: false,
       },
-      comment_title: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
       comment_date: {
         type: DataTypes.STRING,
       },
