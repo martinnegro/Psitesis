@@ -53,6 +53,14 @@ router.put('/thread_status/:post_id', async (req, res, next) => {
     } catch(err) { next(err) }
 });
 
+router.delete('/delete/:post_id', async (req, res, next) => {
+    const { post_id } = req.params;
+    try {
+        const post = await Forumpost.findByPk(post_id);
+        await post.destroy();
+        res.json({ message: 'Deleted' }) 
+    } catch(err) { next(err) }
+});
 
 
 module.exports = router;

@@ -2,10 +2,12 @@ import { Container, Typography, Box, Avatar, Input, makeStyles, IconButton, Text
 import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Nav from '../../components/Nav/Nav'
 import CommentCard from '../Forum/components/CommentCard';
+import ConfirmDeleteAlert from './components/ConfirmDeleteAlert';
 import axios from 'axios';
 
 const { REACT_APP_URL_API } = process.env
@@ -15,6 +17,10 @@ const useStyle = makeStyles({
         margin: "150px auto 0 auto",
         width: "1000px"
 
+    },
+    buttonGroup: {
+        display: "flex",
+        justifyContent: "center"
     },
     header: {
         display: "flex",
@@ -33,8 +39,7 @@ const useStyle = makeStyles({
         height: "3rem"
     },
     textField: {
-        width: "100%",
-        
+        width: "100%"
     }
 });
 
@@ -44,7 +49,8 @@ function Forum_Post() {
     const classes = useStyle()
     
     const [ editing, setEditing ] = useState({isEditing: false});
-    const [ previous, setPrevious ] = useState()
+    const [ previous, setPrevious ] = useState();
+    const [ openAlertDelete, setOpenAlertDelete ] = useState(false);
 
     useEffect(async()=>{
         fetchPostData();
@@ -56,6 +62,7 @@ function Forum_Post() {
             data = fetchedPost.data
             console.log(data);
         }
+        if (!data) return 
         setPost(data);
         setEditing({ 
             isEditing: false,
@@ -108,15 +115,28 @@ function Forum_Post() {
         }
     };
 
- 
-   return (
+    // LOGICA PARA BORRAR POST Y MANEJAR ALERTAS
+    const handleWantDelete = () => {}
+    
+    const handleDeletePost = async () => {
+        try {
+            const response = await axios.delete(`${REACT_APP_URL_API}/forumposts/delete/${post.post_id}`);
+            fetchPostData();
+        } catch(err) {
+            alert('No delete')
+        }
+    };
+
+    
+
+    return (
         <Container>
             <Nav></Nav>
             {
                 post ?  
                 
                 <Container className={classes.root}>
-                    <Box>
+                    <Box className={classes.buttonGroup}>
                         {
                             editing.isEditing ? 
                             <>
@@ -136,10 +156,16 @@ function Forum_Post() {
                         {
                             post.post_open ? 
                                 'Cerrar Thread'
-                           :
+                            :
                                 'Abrir Thread'
                         }
                         </Button>
+                        <IconButton color="secondary" onClick={handleWantDelete}>
+                            <DeleteForeverIcon />
+                        </IconButton>
+                        <ConfirmDeleteAlert 
+
+                        />
                     </Box>
                     <Box className={classes.header}>
                         {
