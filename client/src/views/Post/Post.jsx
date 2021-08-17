@@ -66,6 +66,13 @@ const useStyles = makeStyles({
     padding: theme.spacing(2, 4, 3),
     maxWidth: "80%",
   },
+  paper2: {
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid purple",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    maxWidth: "10%",
+  },
 });
 
 function Post() {
@@ -156,18 +163,16 @@ function Post() {
       dispatch(editPost(data, token));
       setBody("");
       setTitulo("");
+      setTextModal('editado')
       setOpen2(true);
-      setTimeout(handleClose2, 0);
-      //history.push("/post_exitoso/Editado");
+      setTimeout(handleClose2, 1000);
     } else {
       dispatch(createPost(data, token));
       setBody("");
       setTitulo("");
+      setTextModal('creado')
       setOpen2(true);
-      setTimeout(handleClose2, 0);
-      //history.push("/home");
-      //handleOpen()
-      //window.location.reload();
+      setTimeout(handleClose2, 1000);
     }
   };
 
@@ -176,7 +181,6 @@ function Post() {
       dispatch(getArticleDetail(id));
     }
     return () => dispatch(clearDetail());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -211,6 +215,9 @@ function Post() {
     setOpen2(false);
     history.push("/home");
   };
+
+  //Texto Modal
+  const [textModal, setTextModal]= useState('')
 
   return (
     <div>
@@ -358,9 +365,6 @@ function Post() {
             </Button>
           </div>
           <div>
-            {/* <button type="button" onClick={handleOpen2}>
-        algo
-      </button> */}
             <Modal
               aria-labelledby="transition-modal-title"
               aria-describedby="transition-modal-description"
@@ -374,8 +378,8 @@ function Post() {
               }}
             >
               <Fade in={open2}>
-                <div className={classes.paper}>
-                  <p id="transition-modal-description">Poseteo creado</p>
+                <div className={classes.paper2}>
+                  <p id="transition-modal-description">Artículo {textModal}</p>
                 </div>
               </Fade>
             </Modal>

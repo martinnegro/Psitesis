@@ -66,6 +66,13 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 4, 3),
     width: "80%",
   },
+  paper2: {
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid purple",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    maxWidth: "10%",
+  },
 }));
 
 const theme = createTheme({
@@ -170,8 +177,9 @@ const Art_Detail = () => {
 
   const handleConfirm = () => {
     deletePostHandler();
+    setTextModal('eliminado')
     setOpen2(true);
-    setTimeout(handleClose2, 0);
+    setTimeout(handleClose2, 1000);
   };
 
   //Modal
@@ -185,6 +193,9 @@ const Art_Detail = () => {
     setOpen2(false);
     history.push("/home");
   };
+
+  //Texto Modal
+  const [textModal, setTextModal]= useState('')
 
 
   return (
@@ -294,8 +305,8 @@ const Art_Detail = () => {
               }}
             >
               <Fade in={open2}>
-                <div className={classes.paper}>
-                  <p id="transition-modal-description">Poseteo creado</p>
+                <div className={classes.paper2}>
+                  <p id="transition-modal-description">Articulo {textModal}</p>
                 </div>
               </Fade>
             </Modal>
