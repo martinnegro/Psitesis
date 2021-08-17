@@ -8,7 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllUsers } from '../../redux/actions/actions';
+//import { getAllUsers } from '../../redux/actions/actions';
 import { purple, lime, grey } from '@material-ui/core/colors';
 
 
@@ -22,6 +22,7 @@ const useStyles = makeStyles({
         flexDirection: 'row',
         margin: '10px',
         maxHeight: '205px',
+        borderRadius: '3%'
     },
     bullet: {
       display: 'inline-block',
@@ -30,6 +31,8 @@ const useStyles = makeStyles({
     },
     title: {
       fontSize: 16,
+      textTransform: 'uppercase',
+      color: '#031927',
     },
     pos: {
       marginBottom: 12,
@@ -41,10 +44,14 @@ const useStyles = makeStyles({
       backgroundColor: 'white'
     },
     content: {
-      color: lime[800]
+      color: lime[800],
+      color: '#93827F',
     },
     text2: {
-      color: lime[700]
+      color: lime[800],
+      color: '#93827F',
+      textTransform: 'uppercase',
+      fontSize: 10,
     }
   });
 
@@ -56,8 +63,10 @@ const useStyles = makeStyles({
       //borderColor: lime[600],
       fontSize: '10px',
      backgroundColor: lime[600],
+     backgroundColor: '#031927',
       '&:hover': {
         backgroundColor: lime[800],
+        backgroundColor: '#010b12',
       },
      },
   }))(Button);
