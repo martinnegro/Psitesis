@@ -33,6 +33,11 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
+//MOdal
+import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
+
 
 
 
@@ -64,6 +69,13 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     width: "80%",
+  },
+  paper2: {
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid purple",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    maxWidth: "10%",
   },
 }));
 
@@ -169,8 +181,25 @@ const Art_Detail = () => {
 
   const handleConfirm = () => {
     deletePostHandler();
-    history.push('/post_exitoso/Eliminado');
+    setTextModal('eliminado')
+    setOpen2(true);
+    setTimeout(handleClose2, 1000);
   };
+
+  //Modal
+  const [open2, setOpen2] = React.useState(false);
+
+  // const handleOpen2 = () => {
+  //   setOpen2(true);
+  // };
+
+  const handleClose2 = () => {
+    setOpen2(false);
+    history.push("/home");
+  };
+
+  //Texto Modal
+  const [textModal, setTextModal]= useState('')
 
 
   return (
@@ -263,6 +292,29 @@ const Art_Detail = () => {
           <div></div>
         </div>
       )}
+      <div>
+            {/* <button type="button" onClick={handleOpen2}>
+        algo
+      </button> */}
+            <Modal
+              aria-labelledby="transition-modal-title"
+              aria-describedby="transition-modal-description"
+              className={classes.modal}
+              open={open2}
+              onClose={handleClose2}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+              }}
+            >
+              <Fade in={open2}>
+                <div className={classes.paper2}>
+                  <p id="transition-modal-description">Articulo {textModal}</p>
+                </div>
+              </Fade>
+            </Modal>
+          </div>
       </ThemeProvider>
     </Container>
   );
