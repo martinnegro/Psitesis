@@ -22,14 +22,8 @@ const { v4: uuidv4 } = require("uuid");
 require("dotenv").config();
 const {
   conn,
-  Rol,
-  Category,
-  Subcategory,
-  Institution,
-  User,
-  Article,
-  Tag,
-  article_tag,
+  Category, Subcategory, Institution, User, Article, Tag,
+  Topic, Subtopic, Forumpost, Comment
 } = require("./src/db.js");
 
 const { createData } = require("./preloadData.js");
@@ -40,17 +34,7 @@ conn.sync({ force: true }).then(() => {
     console.log("%s listening at 3001");
     const importedData = await createData()
     const tags = await Tag.bulkCreate(importedData.pdTags);
-    console.log("**** ROLES CREADOS");
-    // article_tag.bulkCreate([
-    //   {articleArtId: uuid.v4(), articletagTagId: 1}
-    // ])
-    Rol.bulkCreate([
-      { rol_id: 1, rol_name: "admin" },
-      { rol_id: 2, rol_name: "colab" },
-      { rol_id: 3, rol_name: "basic" },
-    ]).then(() => {
-      console.log("**** ROLES CREADOS");
-    });
+    console.log("**** TAGS CREADOS");
 
     const categories = await Category.bulkCreate(importedData.pdCategories);
     console.log("**** CATEGORÍAS CREADAS");
@@ -72,5 +56,16 @@ conn.sync({ force: true }).then(() => {
     await art[2].addTag([tags[2].tag_id]);
     console.log("**** ARTICULOS CREADOS");
 
+    const topics = await Topic.bulkCreate(importedData.pdTopics);
+    console.log('**** TEMAS FORO CREADOS');
+
+    const subTopics = await Subtopic.bulkCreate(importedData.pdSubtopic);
+    console.log('**** SUBTEMAS CREADOS');
+
+    const posts = await Forumpost.bulkCreate(importedData.pdPost);
+    console.log('**** POSTEOS CREADOS');
+
+    const comments = await Comment.bulkCreate(importedData.pdComments);
+    console.log('**** COMENTARIOS CREADOS')
   });
 });

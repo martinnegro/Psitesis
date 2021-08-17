@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { getInstitutionBio } from '../../redux/actions/actions'
+import { getInstitutionBio } from '../../redux/actions/actionsInstitutions'
 import CardPost from '../Card/CardHome'
 import { useDispatch,useSelector } from "react-redux"
 import Nav from '../Nav/Nav'
@@ -52,47 +52,49 @@ const useStyles = makeStyles((theme) => ({
 
 export default function InstitutionBio(props){
     const classes = useStyles();
-    const institutionBio = useSelector((state) => state.rootReducer.institutionBio)
+    const institutionBio = useSelector((state) => state.institutionsReducer.institutionBio)
     const dispatch = useDispatch();
+    
     useEffect(()=>{
         dispatch(getInstitutionBio(props.match.params.id));
     },[])
-    const {articles,institution} = institutionBio
-   return(
-       <div>
-           <div className={classes.offset}></div>
-           <Nav />
-           <Container className={classes.Home}>
-             <Avatar variant="square" src = {institution?.inst_logo || user}  className={classes.square}></Avatar>
-           <Typography variant="h2" color="initial">
-           {institution?.inst_name}
-          </Typography>
-          <Divider/>
-          <Typography variant="h4" color="initial">
-          {/* Bio */}
-          </Typography>
-          <Typography variant="p" color="initial">
-          
-         {institution?.inst_descriptions}
-          
-          </Typography>
-          <Divider/>
-           {institution ? <div>
-            
+    
+    return(
+      <>
+      { institutionBio ?
+      <div>
+        <div className={classes.offset}></div>
+          <Nav />
+            <Container className={classes.Home}>
+              <Avatar variant="square" src = {institutionBio.institution?.inst_logo || user}  className={classes.square}></Avatar>
+            <Typography variant="h2" color="initial">
+              {institutionBio.institution?.inst_name}
+            </Typography>
+            <Divider />
             <Typography variant="h4" color="initial">
-            Los autores de esta institucion escribieron:
-          </Typography>
-            <Container style={{ display: "flex", flexWrap: "wrap",  marginTop: "20px" }}>
-            {articles ? articles[0]?.map((article)=>{
-                return(
-                    <CardPost key = {article.art_id} title = {article.art_title} body = {article.art_contents} id = {article.user_id} articleId = {article.art_id} articleAbstract = {article.art_abstract}></CardPost>
-                )
-            }) : null}
-            </Container>
-           </div>
+              {/* Bio */}
+            </Typography>
+            <Typography variant="p" color="initial">
+              {institutionBio.institution?.inst_descriptions}
+            </Typography>
+            <Divider />
+              {institutionBio.institution ? 
+            <div>
+              <Typography variant="h4" color="initial">
+                Los autores de esta institucion escribieron:
+              </Typography>
+              <Container style={{ display: "flex", flexWrap: "wrap",  marginTop: "20px" }}>
+                {institutionBio.articles ? institutionBio.articles[0]?.map((article)=>{
+                    return(
+                        <CardPost key = {article.art_id} title = {article.art_title} body = {article.art_contents} id = {article.user_id} articleId = {article.art_id} articleAbstract = {article.art_abstract}></CardPost>
+                    )
+                }) : null}
+              </Container>
+            </div>
            : null}
-           
-</Container>
-       </div>
+          </Container>
+        </div>
+        : <div>CARGANDO</div> }
+       </>
    )
 }

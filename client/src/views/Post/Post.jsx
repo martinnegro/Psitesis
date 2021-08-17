@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  createPost,
-  editPost,
   getArticleDetail,
   clearDetail,
+} from '../../redux/actions/actionsArticles'
+import {
+  createPost,
+  editPost,
+  
   getAllCatSub,
 } from "../../redux/actions/actions";
 import Nav from "../../components/Nav/Nav";
@@ -66,14 +69,22 @@ const useStyles = makeStyles({
     padding: theme.spacing(2, 4, 3),
     maxWidth: "80%",
   },
+  paper2: {
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid purple",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    maxWidth: "10%",
+  },
 });
 
 function Post() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const articlesDetail = useSelector((state) => state.rootReducer.articlesDetail); 
-  const user_id = useSelector((state) => state.rootReducer.user_id);
-  const user_roles = useSelector((state) => state.rootReducer.user_roles);
+  const articlesDetail = useSelector((state) => state.articlesReducer.articlesDetail); 
+  const user_id = useSelector((state) => state.usersReducer.user_id);
+  const user_roles = useSelector((state) => state.usersReducer.user_roles);
+
 
   const classes = useStyles();
   const { user, getAccessTokenSilently } = useAuth0();
@@ -125,9 +136,9 @@ function Post() {
   const handleInputCat = (e) => {
     let index = e.target.selectedIndex;
     let option = e.target.options[index].value;
-    console.log('option: ',option)
-    setCategoria(option.split('/')[0])
-    setSubcategoria(option.split('/')[1]);
+    console.log("option: ", option);
+    setCategoria(option.split("/")[0]);
+    setSubcategoria(option.split("/")[1]);
   };
 
   const handleSubmitBody = async (e) => {
@@ -145,7 +156,7 @@ function Post() {
       art_id: id ? articlesDetail.art_id : null,
     };
 
-    console.log('data: ',data)
+    console.log("data: ", data);
 
     // action createPost or editPost
     const token = await getAccessTokenSilently();
@@ -154,14 +165,16 @@ function Post() {
       dispatch(editPost(data, token));
       setBody("");
       setTitulo("");
-      history.push("/post_exitoso/Editado");
+      setTextModal('editado')
+      setOpen2(true);
+      setTimeout(handleClose2, 1000);
     } else {
       dispatch(createPost(data, token));
       setBody("");
       setTitulo("");
-      history.push("/post_exitoso/Creado");
-      //handleOpen()
-      //window.location.reload();
+      setTextModal('creado')
+      setOpen2(true);
+      setTimeout(handleClose2, 1000);
     }
   };
 
@@ -170,7 +183,6 @@ function Post() {
       dispatch(getArticleDetail(id));
     }
     return () => dispatch(clearDetail());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -188,17 +200,28 @@ function Post() {
         setEnablePost(true);
       }
     }
-  }, [articlesDetail, history, user_id, user_roles,id]);
+  }, [articlesDetail, history, user_id, user_roles, id]);
 
   useEffect(() => {
     dispatch(getAllCatSub());
   }, []);
 
-  console.log(history.goBack)
-  console.log(history)
+  //Modal
+  const [open2, setOpen2] = React.useState(false);
+
+  // const handleOpen2 = () => {
+  //   setOpen2(true);
+  // };
+
+  const handleClose2 = () => {
+    setOpen2(false);
+    history.push("/home");
+  };
+
+  //Texto Modal
+  const [textModal, setTextModal]= useState('')
 
   return (
-    
     <div>
       <Nav />
       <ThemeProvider theme={theme}>
@@ -215,7 +238,7 @@ function Post() {
               type="text"
               value={titulo}
               onChange={handleInput}
-			  required
+              required
             />
             <FormControl>
               <InputLabel htmlFor="grouped-native-select">Categoria</InputLabel>
@@ -224,7 +247,7 @@ function Post() {
                 defaultValue=""
                 id="grouped-native-select"
                 onChange={handleInputCat}
-				required
+                required
               >
                 <option aria-label="None" value="" />
                 <Selectores />
@@ -251,9 +274,9 @@ function Post() {
               inputProps={{
                 maxLength: 120,
               }}
-			  required
-        rows={3}
-            multiline
+              required
+              rows={3}
+              multiline
             />
           </div>
           <br />
@@ -283,7 +306,7 @@ function Post() {
               type="text"
               value={tags}
               onChange={handleInputTags}
-			  required
+              required
             />
           </div>
           <br />
@@ -342,6 +365,26 @@ function Post() {
               {console.log(id)}
               {id ? "EDITAR POST" : "POSTEAR"}
             </Button>
+          </div>
+          <div>
+            <Modal
+              aria-labelledby="transition-modal-title"
+              aria-describedby="transition-modal-description"
+              className={classes.modal}
+              open={open2}
+              onClose={handleClose2}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+              }}
+            >
+              <Fade in={open2}>
+                <div className={classes.paper2}>
+                  <p id="transition-modal-description">Artículo {textModal}</p>
+                </div>
+              </Fade>
+            </Modal>
           </div>
         </header>
       </ThemeProvider>

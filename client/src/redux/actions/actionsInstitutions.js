@@ -7,6 +7,7 @@ export const CREAT_NEW_INSITUTION = 'CREAT_NEW_INSITUTION';
 export const UPDATE_INSTITUTION  = 'UPDATE_INSTITUTION';
 export const GET_ONE_INSTITUTION = 'GET_ONE_INSTITUTION';
 export const DELETE_INSTITUTION  = 'DELETE_INSTITUTION';
+export const GET_INSTITUTION_BIO = "GET_INSTITUTION_BIO";
 
 export function isFetching() {
     return {
@@ -52,3 +53,16 @@ export function deleteInstitution(inst_id) {
     }
 }
 
+export const getInstitutionBio = (id) => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get(
+          `${REACT_APP_URL_API}/institutions/${id}`
+        );
+        dispatch({ type: GET_INSTITUTION_BIO, payload: response.data });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  };
+  

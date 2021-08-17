@@ -12,6 +12,7 @@ import { getAllUsers } from '../../redux/actions/actions';
 import { purple, lime, grey } from '@material-ui/core/colors';
 
 
+import { getAllUsers } from '../../redux/actions/usersActions';
 
 const useStyles = makeStyles({
     root: {
@@ -64,7 +65,7 @@ const useStyles = makeStyles({
 export default function CardPost (props) {
 
     const dispatch = useDispatch()
-    const users = useSelector(state => state.rootReducer.users) // Nueva forma de acceder al estado por combineReducer
+    const users = useSelector(state => state.usersReducer.users) // Nueva forma de acceder al estado por combineReducer
     const history = useHistory()
     const [idUser, setIdUser] = useState([])
 

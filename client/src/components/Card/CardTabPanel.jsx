@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllUsers } from '../../redux/actions/actions';
+import { getAllUsers } from '../../redux/actions/usersActions';
 
 const useStyles = makeStyles({
   root: {
@@ -40,7 +40,7 @@ const useStyles = makeStyles({
 export default function CardTabPanel (props) {
 
   const { title, abstract, date, body, id, userId } = props;
-  const users = useSelector(state => state.rootReducer.users)
+  const users = useSelector(state => state.usersReducer.users)
   const [idUser, setIdUser] = useState([])
   const dispatch = useDispatch()
 

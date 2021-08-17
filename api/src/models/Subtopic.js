@@ -1,16 +1,16 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  sequelize.define("subcategory", {
-    sub_cat_id: {
+  sequelize.define("subtopic", {
+    sub_topic_id: {
       type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
     },
-    sub_cat_name:{
+    sub_topic_name:{
         type: DataTypes.STRING,
     },
-    sub_cat_description:{
+    sub_topic_description:{
         type: DataTypes.STRING,
     }
   });
