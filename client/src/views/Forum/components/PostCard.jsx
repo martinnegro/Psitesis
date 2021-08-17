@@ -28,6 +28,7 @@ const useStyle = makeStyles({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
+        justifyContent: "space-between"
     },
     avatar: {
         margin: "0 5px 0 5px",
@@ -63,6 +64,9 @@ function PostCard({ post }) {
                         <span>Creado por</span>
                         <Avatar className={classes.avatar} alt={post.user.user_name} src={post.user.user_img_profile}/>
                         <span>{post.user.user_name}</span>
+                    </Typography>
+                    <Typography color="textSecondary">
+                        Comentarios {post.comments.length}
                     </Typography>
                 </Box>
             </CardContent>
