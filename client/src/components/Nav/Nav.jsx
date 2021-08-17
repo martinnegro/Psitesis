@@ -102,6 +102,16 @@ const useStyles = makeStyles((theme) => ({
 	logoMax: {
 		flexGrow: 1,
 	},
+	ocult: {
+		"@media (max-width: 600px)": {
+		  display: "none",
+		},
+	  },
+	  rootmenu: {
+		width: 600,
+		marginTop: "100%",
+		bottom: "0",
+	  },
 }));
 
 export default function Nav() {
@@ -144,6 +154,7 @@ export default function Nav() {
 						onClick={handleDrawerOpen}
 						edge="start"
 						className={clsx(classes.menuButton, { [classes.hide]: open })}
+						className={classes.ocult}
 					>
 						<MenuIcon />
 					</IconButton>
@@ -176,6 +187,7 @@ export default function Nav() {
 						[classes.drawerClose]: !open,
 					}),
 				}}
+				className={classes.ocult}
 			>
 				<div className={classes.toolbar}>
 					<IconButton onClick={handleDrawerClose}>
