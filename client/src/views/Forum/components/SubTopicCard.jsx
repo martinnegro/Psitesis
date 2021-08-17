@@ -13,6 +13,9 @@ const useStyle = makeStyles({
     secondary:{
         fontSize: "1rem",
         padding: "20px"
+    },
+    container: {
+        paddingLeft: "7rem"
     }
 });
 
