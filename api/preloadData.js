@@ -174,8 +174,8 @@ async function createData() {
       user_id: mappedusersA0[2].user_id
     },{
       post_id: uuidv4(),
-      post_contents: 'Alguien investigando sobre Autismo?',
-      post_title: '',
+      post_contents: '',
+      post_title: 'Alguien investigando sobre Autismo?',
       post_date: '03/02/21',
       post_state: true,
       sub_topic_id: pdSubtopic[0].sub_topic_id,
@@ -230,6 +230,7 @@ async function createData() {
       post_id: pdPost[5].post_id,
       user_id: mappedusersA0[5].user_id
     }]
+
 
     return {
         pdArts,

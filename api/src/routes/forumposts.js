@@ -1,7 +1,13 @@
 const { Router } = require("express");
 const router = Router();
 const { v4: uuidv4 } = require("uuid");
+const sequelize = require('sequelize');
 const { Forumpost, Comment } = require('../db');
+
+router.get('/', async (req, res, next) => {
+    const result = await Forumpost.findAll();
+    res.json(result)
+});
 
 router.get('/:post_id', async (req, res, next) => {
     const { post_id } = req.params;
