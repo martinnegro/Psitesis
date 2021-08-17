@@ -15,6 +15,12 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import { useHistory } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
+//submenu
+import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+
+
 const useStyles = makeStyles((theme) => ({
   appBar: {
     top: "auto",
@@ -48,6 +54,18 @@ export default function NavBottom() {
     });
   };
 
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -73,7 +91,7 @@ export default function NavBottom() {
           >
             <AddCircleOutlineIcon />
           </IconButton>
-   
+
           <IconButton
             edge="end"
             color="inherit"
@@ -98,8 +116,29 @@ export default function NavBottom() {
           <IconButton edge="end" color="inherit" onClick={handleLogout}>
             <ExitToAppIcon />
           </IconButton>
+
+          <Button
+            aria-controls="simple-menu"
+            aria-haspopup="true"
+            onClick={handleClick}
+          >
+            aqui
+          </Button>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleClose}>Profile</MenuItem>
+            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={handleClose}>Logout</MenuItem>
+          </Menu>
+
         </Toolbar>
       </AppBar>
     </React.Fragment>
   );
+
 }
