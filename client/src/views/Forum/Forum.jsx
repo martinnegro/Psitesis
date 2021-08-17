@@ -123,13 +123,11 @@ const useStyles = makeStyles((theme) => ({
                   <TopicCard id = {topic.topic_id} name = {topic.topic_name}></TopicCard>
                   {topic.subtopics.map((subtopic)=>{
                     return(
-                      <SubTopicCard name = {subtopic.sub_topic_name} description = {subtopic.sub_topic_description}></SubTopicCard>
+                      <SubTopicCard id = {subtopic.sub_topic_id} name = {subtopic.sub_topic_name} description = {subtopic.sub_topic_description}></SubTopicCard>
                     )
                   })}
                   </div>
-                  
                 )
-              
               }): <div>Cargando</div>}
             </Container>
               
