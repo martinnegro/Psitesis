@@ -9,6 +9,7 @@ const { REACT_APP_URL_API } = process.env
 const useStyle = makeStyles({
     root: {
         margin: "150px auto 0 auto",
+        width: "1000px"
 
     },
     header: {
@@ -16,15 +17,16 @@ const useStyle = makeStyles({
         alignItems: "end",
         justifyContent: "space-evenly"
     },
-    autor: {
+    info: {
+        margin: "10px 0 10px 0",
         display: "flex",
         alignItems: "center",
         justifyContent: "start"
     },
     avatar: {
         margin: "0 5px 0 5px",
-        width: "2rem",
-        height: "2rem"
+        width: "3rem",
+        height: "3rem"
     }
 });
 
@@ -54,11 +56,20 @@ function Forum_Post() {
                             en {post.subtopic.topic.topic_name.toUpperCase()} / {post.subtopic.sub_topic_name.toUpperCase()}
                         </Typography>
                     </Box>
-                    <Box >
+                    <Box className={classes.info}>
                         <Avatar className={classes.avatar} alt={post.user.user_name} src={post.user.user_img_profile}/>
-                        <Typography className={classes.autor} color="textSecondary">
-                            <span>Creado por </span>
-                            <span> {post.user.user_name}</span>
+                        <Box>
+                            <Typography color="textSecondary">
+                                {post.post_date}
+                            </Typography>
+                            <Typography color="textSecondary">
+                                Por {post.user.user_name}
+                            </Typography>
+                        </Box>
+                    </Box>
+                    <Box>
+                        <Typography>
+                            {post.post_contents}
                         </Typography>
                     </Box>
                 </Container>
