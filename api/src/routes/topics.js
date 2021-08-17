@@ -9,15 +9,4 @@ router.get("/", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.get("/:subtopics", (req, res, next) => {
-  const { subtopics } = req.params;
-  if (subtopics) {
-    return Topic.findAll({
-      include: [{ model: Subtopic }],
-    })
-      .then((response) => res.json(response))
-      .catch((err) => next(err));
-  }
-});
-
 module.exports = router;

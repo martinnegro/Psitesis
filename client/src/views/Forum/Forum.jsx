@@ -8,7 +8,8 @@ import Container from "@material-ui/core/Container";
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import TopicCard from '../../components/ForumComponents/TopicCard/TopicCard';
+import TopicCard from './components/TopicCard';
+import SubTopicCard from './components/SubTopicCard';
 import { getForumHomeInfo } from '../../redux/actions/forumActions';
 import { useDispatch,useSelector } from "react-redux"
 import PostCard from './components/PostCard';
@@ -79,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
  const Forum = () =>{
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
-    const topicAndSubtopics = useSelector(state => state.forumReducer.topicAndSubtopics)
+    const topicsAndSubtopics = useSelector(state => state.forumReducer.topicsAndSubtopics)
     const last20Post = useSelector(state => state.forumReducer.last20Post)
     const dispatch = useDispatch();
 
@@ -115,7 +116,23 @@ const useStyles = makeStyles((theme) => ({
             </Tabs>
           </AppBar>
           <TabPanel value={value} index={0}>
-              <TopicCard name = "Topic name example"></TopicCard>
+            <Container>
+              {topicsAndSubtopics ? topicsAndSubtopics.map((topic)=>{
+                return(
+                  <div>
+                  <TopicCard id = {topic.topic_id} name = {topic.topic_name}></TopicCard>
+                  {topic.subtopics.map((subtopic)=>{
+                    return(
+                      <SubTopicCard name = {subtopic.sub_topic_name} description = {subtopic.sub_topic_description}></SubTopicCard>
+                    )
+                  })}
+                  </div>
+                  
+                )
+              
+              }): <div>Cargando</div>}
+            </Container>
+              
           </TabPanel>
           <TabPanel value={value} index={1} >
             <Container className={classes.lastMssg}>
