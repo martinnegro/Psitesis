@@ -34,12 +34,10 @@ const useStyles = makeStyles((theme) => ({
   },
   container:{
       display: "flex",
-      color: "red",
       flexDirection : "row",
   },
   container2:{
       display: "flex",
-      
   },
   rounded: {
     color: '#fff',
@@ -48,10 +46,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function BiosContainer({id,userName,biography,imgProfile}){
     const classes = useStyles();
-    const preventDefault = (event) => event.preventDefault();
-    
     return(
-            <Link to = {`/user/${id}`} /* onClick = {preventDefault} */ color = "inherit">
+      <Container>
+            <Link to = {`/user/${id}`} style={{ textDecoration: 'none',color: 'black'   }}>
                 <Container className = {classes.container2} width={20}  >
                  <div className = {classes.root}>
             <Avatar variant="square" src = {imgProfile} className={classes.square}>  </Avatar>
@@ -60,10 +57,11 @@ export default function BiosContainer({id,userName,biography,imgProfile}){
                 <h3>{userName}</h3>
                 <h3>Bio</h3>
                 {biography}
-                <Divider style = {{width: "300px"}} />
+                <Divider style = {{width: "250px"}} />
                 </div>
                 </Container>
-                </Link>              
+                </Link>   
+                </Container>           
     )
 }
 

@@ -30,6 +30,7 @@ import BookOutlinedIcon from '@material-ui/icons/BookOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import SettingsIcon from '@material-ui/icons/Settings';
+import ForumTwoToneIcon from '@material-ui/icons/ForumTwoTone';
 
 import userAvatar from '../../assets/user.jpg';
 import logo from '../../assets/Logo.png';
@@ -104,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Nav() {
-	const user_roles = useSelector((state) => state.rootReducer.user_roles); // Nueva forma de acceder al estado por combineReducer
+	const user_roles = useSelector((state) => state.usersReducer.user_roles); // Nueva forma de acceder al estado por combineReducer
 	const { isAuthenticated, user, logout } = useAuth0();
 
 	const handleLogout = () => {
@@ -199,21 +200,21 @@ export default function Nav() {
 					</ListItemIcon>
 					<ListItemText>Guía de Tesis</ListItemText>
 				</ListItem>
+				<ListItem button onClick={() => history.push('/forum')}>
+					<ListItemIcon>
+						<ForumTwoToneIcon />
+					</ListItemIcon>
+					<ListItemText>Foro</ListItemText>
+				</ListItem>
 				<ListItem button onClick={() => history.push('/colaborators')}>
 					<ListItemIcon>
 						<PeopleAltTwoToneIcon />
 					</ListItemIcon>
 					<ListItemText>Colaboradores</ListItemText>
 				</ListItem>
-				{/* <ListItem button onClick={() => history.push('/colaborators')}>
-					<ListItemIcon>
-						<PeopleAltTwoToneIcon />
-					</ListItemIcon>
-					<ListItemText>Colaboradores</ListItemText>
-				</ListItem> */}
 
 				<Divider />
-				{user_roles.includes('admin') ? (
+				{user_roles?.includes('admin') ? (
 					<>
 					<ListItem button onClick={() => history.push('/post')}>
 						<ListItemIcon>

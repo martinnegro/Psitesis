@@ -6,7 +6,11 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   getArticleDetail,
   clearDetail,
-  getAllUsers,
+} from '../../redux/actions/actionsArticles';
+import {
+  getAllUsers
+} from '../../redux/actions/usersActions';
+import {
   deletePost,
   getAllCatSub,
 } from "../../redux/actions/actions";
@@ -98,10 +102,10 @@ const Art_Detail = () => {
   const { getAccessTokenSilently } = useAuth0();
 
   const dispatch = useDispatch();
-  const articlesDetail = useSelector((state) => state.rootReducer.articlesDetail); // Nueva forma de acceder al estado por combineReducer
-  const users = useSelector((state) => state.rootReducer.users); // Nueva forma de acceder al estado por combineReducer
-  const user_id = useSelector((state) => state.rootReducer.user_id); // Nueva forma de acceder al estado por combineReducer
-	const user_roles = useSelector((state) => state.rootReducer.user_roles);
+  const articlesDetail = useSelector((state) => state.articlesReducer.articlesDetail); // Nueva forma de acceder al estado por combineReducer
+  const users = useSelector((state) => state.usersReducer.users); // Nueva forma de acceder al estado por combineReducer
+  const user_id = useSelector((state) => state.usersReducer.user_id); // Nueva forma de acceder al estado por combineReducer
+	const user_roles = useSelector((state) => state.usersReducer.user_roles);
   const [idUser, setIdUser] = useState([]);
   const subcategories = useSelector((state) => state.rootReducer.cat_sub?.sub_cats);
   // const [section, setSection] = useState([]);
@@ -210,7 +214,7 @@ const Art_Detail = () => {
           <div className={s.perfil}>
             <div>
               <Typography variant="body2">
-                Sección: {articlesDetail?.Subcategories[0]?.sub_cat_name}
+                Sección: {articlesDetail?.subcategory?.sub_cat_name}
               </Typography>
             </div>
             <div className={s.perfil2}>

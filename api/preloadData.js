@@ -120,6 +120,118 @@ async function createData() {
         }
     ];
 
+    const pdTopics = [{
+      topic_id: uuidv4(),
+      topic_name: 'General'
+    },{
+      topic_id: uuidv4(),
+      topic_name: 'Investigación'
+    },{
+      topic_id: uuidv4(),
+      topic_name: 'Normas APA'
+    }];
+
+    const pdSubtopic = [{
+      sub_topic_id: uuidv4(),
+      sub_topic_name: 'Dudas Generales',
+      sub_topic_description: 'Todas las consultas que no entren en las otras secciones',
+      topic_id: pdTopics[0].topic_id
+    },{
+      sub_topic_id: uuidv4(),
+      sub_topic_name: 'Noticias',
+      sub_topic_description: 'Últimas novedades del campo académico en psicología',
+      topic_id: pdTopics[0].topic_id
+    },{
+      sub_topic_id: uuidv4(),
+      sub_topic_name: 'Elección de tema',
+      sub_topic_description: 'Cómo elegir y delimitar tu tema de tesis',
+      topic_id: pdTopics[1].topic_id
+    }];
+
+    const pdPost = [{
+      post_id: uuidv4(),
+      post_contents: '',
+      post_title: 'Duda con el diseño experimental',
+      post_date: '03/02/21',
+      post_state: true,
+      sub_topic_id: pdSubtopic[0].sub_topic_id,
+      user_id: mappedusersA0[0].user_id
+    },{
+      post_id: uuidv4(),
+      post_contents: '',
+      post_title: 'Ricón de vago como fuente',
+      post_date: '03/02/21',
+      post_state: true,
+      sub_topic_id: pdSubtopic[0].sub_topic_id,
+      user_id: mappedusersA0[1].user_id
+    },{
+      post_id: uuidv4(),
+      post_contents: '',
+      post_title: 'Ayuda con mi proyecto de tesis',
+      post_date: '03/02/21',
+      post_state: true,
+      sub_topic_id: pdSubtopic[0].sub_topic_id,
+      user_id: mappedusersA0[2].user_id
+    },{
+      post_id: uuidv4(),
+      post_contents: '',
+      post_title: 'Alguien investigando sobre Autismo?',
+      post_date: '03/02/21',
+      post_state: true,
+      sub_topic_id: pdSubtopic[0].sub_topic_id,
+      user_id: mappedusersA0[3].user_id
+    },{
+      post_id: uuidv4(),
+      post_contents: 'Hola a todos, estoy teniendo problemas para enfocar mi tesis. Trato de pensar temas pero mi tutor me dice que son inabarcables para los propositos de la tesis que piden en la facu. Quiero investigar sobre la depresión en situaciones de encierro como la del COVID 19 ¿Cómo podría recortarlo?',
+      post_title: 'Como recortar mi tema de tesis',
+      post_date: '25/08/20',
+      post_state: true,
+      sub_topic_id: pdSubtopic[2].sub_topic_id,
+      user_id: mappedusersA0[4].user_id
+    },{
+      post_id: uuidv4(),
+      post_contents: 'Encontre un artículo muy interesante que revisa la teoria freudiana comparandola con la teoria de la depresión de Beck, el problema es que está subida en elrincondelvago.com y queria saber si la podía usar igual ya que es muy interesante y no encontre otro lugar donde hablaran sobre el tema.',
+      post_title: 'Ricón de vago como fuente',
+      post_date: '03/02/21',
+      post_state: true,
+      sub_topic_id: pdSubtopic[0].sub_topic_id,
+      user_id: mappedusersA0[3].user_id
+    }]
+
+    const oneCommentId = uuidv4();
+    const pdComments = [{
+      comment_id: oneCommentId,
+      comment_contents: 'Hola. Creo que no es una fuente valida, pero igualmente la podes usar como inspiración para buscar papers sobre el tema.',
+      comment_date: '',
+      comment_state: true,
+      post_id: pdPost[5].post_id,
+      user_id: mappedusersA0[2].user_id
+    },{
+      comment_id: uuidv4(),
+      comment_contents: 'Respuesta 1',
+      comment_date: '',
+      comment_state: true,
+      post_id: pdPost[5].post_id,
+      user_id: mappedusersA0[0].user_id,
+      response_to_comment_id: oneCommentId,
+    },{
+      comment_id: uuidv4(),
+      comment_contents: 'Respuesta 2',
+      comment_date: '',
+      comment_state: true,
+      post_id: pdPost[5].post_id,
+      user_id: mappedusersA0[2].user_id,
+      response_to_comment_id: oneCommentId,
+    },{
+      comment_id: uuidv4(),
+      comment_contents: 'Comentario 2',
+      comment_date: '',
+      comment_state: true,
+      post_id: pdPost[5].post_id,
+      user_id: mappedusersA0[5].user_id
+    }]
+
+
     return {
         pdArts,
         pdCategories,
@@ -127,7 +239,11 @@ async function createData() {
         pdRoles,
         pdSubcategories,
         pdTags,
-        mappedusersA0
+        mappedusersA0,
+        pdTopics,
+        pdSubtopic,
+        pdPost,
+        pdComments
     }
 }
 

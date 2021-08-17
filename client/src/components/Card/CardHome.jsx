@@ -8,7 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllUsers } from '../../redux/actions/actions';
+import { getAllUsers } from '../../redux/actions/usersActions';
 
 const useStyles = makeStyles({
     root: {
@@ -41,7 +41,7 @@ const useStyles = makeStyles({
 export default function CardPost (props) {
 
     const dispatch = useDispatch()
-    const users = useSelector(state => state.rootReducer.users) // Nueva forma de acceder al estado por combineReducer
+    const users = useSelector(state => state.usersReducer.users) // Nueva forma de acceder al estado por combineReducer
     const history = useHistory()
     const [idUser, setIdUser] = useState([])
 
