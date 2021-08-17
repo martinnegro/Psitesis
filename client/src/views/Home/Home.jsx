@@ -17,6 +17,9 @@ import SearchIcon from '@material-ui/icons/Search';
 import { getAllArticle, orderArticles, getArticleTag } from "../../redux/actions/actionsArticles";
 import { Link } from "react-router-dom";
 
+//Menu Bottom
+import NavBottom from "../../components/NavBottom/NavBottom";
+
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
@@ -43,6 +46,21 @@ const useStyles = makeStyles((theme) => ({
   },
   iconButton: {
     padding: 10,
+  },
+  contCard: {
+    display: "flex",
+    flexWrap: "wrap",
+    marginTop: "20px",
+    "@media (max-width: 601px)": {
+      flexDirection: "column",
+    },
+  },
+  tipoh2: {
+    "@media (max-width: 601px)": {
+      marginTop: 0,
+      fontSize: "1.75rem",
+      marginBottom: "10px",
+    },
   },
 }));
 
@@ -100,7 +118,8 @@ export default function Home() {
           <Typography
             variant="h2"
             align="center"
-            style={{ marginBottom: "20px" }}
+            //style={{ marginBottom: "20px" }}
+            className={classes.tipoh2}
           >
             Bienvenidos
           </Typography>
@@ -154,7 +173,7 @@ export default function Home() {
 
     
         <Container
-          style={{ display: "flex", flexWrap: "wrap",  marginTop: "20px" }}
+          className={classes.contCard}
         >
           {orderedArticles?.length > 0
             ? orderedArticles
@@ -187,8 +206,11 @@ export default function Home() {
             </div>
               </div>}
         </Container>
-
-
+        <br />
+        <br />
+        <br />
+        <br />
+        <NavBottom />
       </Container>
       {/* <Container>
                 <Container>
