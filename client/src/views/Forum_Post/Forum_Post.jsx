@@ -5,6 +5,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Nav from '../../components/Nav/Nav'
+import CommentCard from '../Forum/components/CommentCard';
 import axios from 'axios';
 
 const { REACT_APP_URL_API } = process.env
@@ -102,7 +103,8 @@ function Forum_Post() {
         <Container>
             <Nav></Nav>
             {
-                post ?            
+                post ?  
+                
                 <Container className={classes.root}>
                     <Box>
                         {
@@ -179,8 +181,18 @@ function Forum_Post() {
                         }
                     </Box>
                 </Container>
+                
                 : <div className={classes.root}>CARGANDO</div>
             }
+            
+            <Container>
+            {post ? post.comments.map((comment)=>{
+                return(
+                    <CommentCard id = {comment.comment_id} content = {comment.comment_contents} date = {comment.comment_date} userName = {comment.user.user_name} image = {comment.user.user_img_profile} userId = {comment.user.user_id_A0} ></CommentCard>
+                )
+            }) : <div className={classes.root}>CARGANDO</div> } 
+            
+            </Container>
         </Container>
     )
 }
