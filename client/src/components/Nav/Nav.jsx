@@ -177,7 +177,7 @@ export default function Nav() {
 
 			<Drawer
 				variant="permanent"
-				className={clsx(classes.drawer, {
+				className={clsx(classes.drawer, classes.ocult, {
 					[classes.drawerOpen]: open,
 					[classes.drawerClose]: !open,
 				})}
@@ -187,7 +187,7 @@ export default function Nav() {
 						[classes.drawerClose]: !open,
 					}),
 				}}
-				className={classes.ocult}
+				
 			>
 				<div className={classes.toolbar}>
 					<IconButton onClick={handleDrawerClose}>
