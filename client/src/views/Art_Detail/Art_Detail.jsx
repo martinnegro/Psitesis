@@ -181,6 +181,7 @@ const Art_Detail = () => {
 
   const handleConfirm = () => {
     deletePostHandler();
+    setOpen(false);
     setTextModal('eliminado')
     setOpen2(true);
     setTimeout(handleClose2, 1000);
