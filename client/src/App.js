@@ -17,6 +17,7 @@ import { findOrCreateUser as findOrCreateUserAction } from "./redux/actions/user
 import { useDispatch } from "react-redux";
 import GuiaDeTesis from "./views/Guia de Tesis/GuiaDeTesis";
 import Forum from "./views/Forum/Forum";
+import Forum_Post from "./views/Forum_Post/Forum_Post";
 const App = () => {
   const { isLoading, user, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
@@ -60,6 +61,7 @@ const App = () => {
         <ProtectedRoute path="/home" exact component={Home} />
         <ProtectedRoute path="/guiadetesis" exact component={GuiaDeTesis} />
         <ProtectedRoute path="/forum" exact component={Forum} />
+        <ProtectedRoute path="/forum/post/:post_id" exact component={Forum_Post} />
         <ProtectedRoute>
           <Route exact path="/colaborators" component={Colaborators}></Route>
         </ProtectedRoute>
