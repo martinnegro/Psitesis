@@ -4,7 +4,7 @@ import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import Nav from '../../components/Nav/Nav'
 import CommentCard from '../Forum/components/CommentCard';
 import ConfirmDeleteAlert from './components/ConfirmDeleteAlert';
@@ -44,13 +44,14 @@ const useStyle = makeStyles({
 });
 
 function Forum_Post() {
-    const { post_id } = useParams();
-    const [ post, setPost ] = useState();
     const classes = useStyle()
-    
+    const { post_id } = useParams();
+    const history = useHistory();
+    const [ post, setPost ] = useState();
     const [ editing, setEditing ] = useState({isEditing: false});
     const [ previous, setPrevious ] = useState();
     const [ openAlertDelete, setOpenAlertDelete ] = useState(false);
+    const [ okDelete, setOkDelete ] = useState(false)
 
     useEffect(async()=>{
         fetchPostData();
@@ -116,18 +117,16 @@ function Forum_Post() {
     };
 
     // LOGICA PARA BORRAR POST Y MANEJAR ALERTAS
-    const handleWantDelete = () => {}
-    
-    const handleDeletePost = async () => {
+    const handleConfirmDeletePost = async () => {
         try {
             const response = await axios.delete(`${REACT_APP_URL_API}/forumposts/delete/${post.post_id}`);
-            fetchPostData();
+            setOpenAlertDelete(false);
+            setOkDelete(true);
+            setTimeout(()=>{history.push('/forum')},3000)
         } catch(err) {
             alert('No delete')
         }
     };
-
-    
 
     return (
         <Container>
@@ -160,12 +159,17 @@ function Forum_Post() {
                                 'Abrir Thread'
                         }
                         </Button>
-                        <IconButton color="secondary" onClick={handleWantDelete}>
+                        <IconButton color="secondary" onClick={() => setOpenAlertDelete(true)}>
                             <DeleteForeverIcon />
                         </IconButton>
                         <ConfirmDeleteAlert 
-
+                            open={openAlertDelete}
+                            openOkDelete={okDelete}
+                            handleConfirm={handleConfirmDeletePost}
+                            handleCancel={() => setOpenAlertDelete(false)}
+                            post_title={post.post_title}
                         />
+                        
                     </Box>
                     <Box className={classes.header}>
                         {

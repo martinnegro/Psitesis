@@ -7,31 +7,42 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-export default function ConfirmDeleteAlert({ open, handleClose, inst, inst_id, handleConfirm }) {
+export default function ConfirmDeleteAlert({ open, handleCancel, handleConfirm, openOkDelete }) {
+    const [okDelete, setOkDelete] = useState(false)
+
     
     return (
       <div>
         <Dialog
           open={open}
-          onClose={handleClose}
+          onClose={handleCancel}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">¿Quieres borrar {inst}?</DialogTitle>
+          <DialogTitle id="alert-dialog-title">¿Quieres borrar el Post?</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Si confirmas, la institución es borrada y no se puede recuperar.
-              Puedes agregarla y volver a asociar los usuarios correspondientes.
+              Si confirmas, el post es borrado y no se puede recuperar.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={()=>handleConfirm(inst_id)} color="primary">
+            <Button onClick={handleConfirm} color="primary">
               SÍ
             </Button>
-            <Button onClick={() => handleClose(inst_id)} color="primary" autoFocus>
+            <Button onClick={handleCancel} color="primary" autoFocus>
               NO
             </Button>
           </DialogActions>
+        </Dialog>
+        <Dialog
+          open={openOkDelete}
+        >
+            <DialogTitle id="alert-dialog-title">Post Borrado</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+              Redirigiendo al foro...
+              </DialogContentText>
+            </DialogContent>
         </Dialog>
       </div>
     );
