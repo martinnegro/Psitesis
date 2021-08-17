@@ -18,7 +18,7 @@ router.get('/', async (req, res, next) => {
           include: [
             {model: Subtopic},
             {model: User},
-            {model: Comment,attribute: [sequelize.fn('count', sequelize.col('user_id'))]}
+            {model: Comment, /*attributes: [sequelize.fn('count', sequelize.col('user_id'))]*/}
           ],
           limit: 20,
           order: [['createdAt','DESC']]
