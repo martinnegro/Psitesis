@@ -31,6 +31,9 @@ module.exports = (sequelize) => {
       },
       post_likes: {
           type: DataTypes.INTEGER,
+      },
+      post_edited: {
+          type: DataTypes.BOOLEAN
       }
     }
   );
