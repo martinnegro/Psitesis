@@ -187,7 +187,6 @@ export default function Nav() {
 						[classes.drawerClose]: !open,
 					}),
 				}}
-				
 			>
 				<div className={classes.toolbar}>
 					<IconButton onClick={handleDrawerClose}>

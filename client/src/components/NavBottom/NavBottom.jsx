@@ -14,10 +14,12 @@ import SettingsIcon from "@material-ui/icons/Settings";
 
 import { useHistory } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+
 //submenu
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -52,6 +54,7 @@ export default function NavBottom() {
     });
   };
 
+
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -61,6 +64,7 @@ export default function NavBottom() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
 
   return (
     <React.Fragment>
@@ -112,6 +116,7 @@ export default function NavBottom() {
           <IconButton edge="end" color="inherit" onClick={handleLogout}>
             <ExitToAppIcon />
           </IconButton>
+
           <Button
             aria-controls="simple-menu"
             aria-haspopup="true"
@@ -130,8 +135,10 @@ export default function NavBottom() {
             <MenuItem onClick={handleClose}>My account</MenuItem>
             <MenuItem onClick={handleClose}>Logout</MenuItem>
           </Menu>
+
         </Toolbar>
       </AppBar>
     </React.Fragment>
   );
+
 }
