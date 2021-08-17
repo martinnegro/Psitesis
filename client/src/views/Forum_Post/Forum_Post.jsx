@@ -46,15 +46,19 @@ function Forum_Post() {
     const [ previous, setPrevious ] = useState()
 
     useEffect(async()=>{
+        fetchPostData();
+    },[]);
+
+    const fetchPostData = async () => {
         const fetchedPost = await axios.get(`${REACT_APP_URL_API}/forumposts/${post_id}`);
         console.log(fetchedPost.data)
         setPost(fetchedPost.data);
         setEditing(state => { return { 
-            ...state,
+            isEditing: false,
             post_contents: fetchedPost.data.post_contents,
-            post_title: fetchedPost.data.post_title
+            post_title: fetchedPost.data.post_title,
          }})
-    },[]);
+    };
     
     // LOGICA PARA EDITAR TÍTULO y CONTENIDO
     const handleWantEdit = () => {
@@ -75,24 +79,18 @@ function Forum_Post() {
         setEditing({
             isEditing: false,
             post_title: previous.post_title,
-            post_contents: previous.post_contents
+            post_contents: previous.post_contents,
         });
         setPrevious({});
     };
     const handleConfirmEditing = async () => {
         try {
-        const response = await axios.put(`${REACT_APP_URL_API}/forumposts/edit/${post.post_id}`,editing);
-        alert(response.data.message);
-        const state = editing;
-        setEditing({...state, isEditing: false})
+            const response = await axios.put(`${REACT_APP_URL_API}/forumposts/edit/${post.post_id}`,editing);
+            alert(response.data.message);
+            fetchPostData();
         } catch(err) { 
             alert('No update')
-            setEditing({
-                isEditing: false,
-                post_title: previous.post_title,
-                post_contents: previous.post_contents
-            });
-            setPrevious({});
+            handleCancelEditing();
         }
     };
  
@@ -136,6 +134,11 @@ function Forum_Post() {
                             en {post.subtopic.topic.topic_name.toUpperCase()} / {post.subtopic.sub_topic_name.toUpperCase()}
                         </Typography>
                     </Box>
+                    {
+                        post.post_edited ?
+                        <Typography color="textSecondary">(EDITADO)</Typography>
+                        : <></>
+                    }
                     <Box className={classes.info}>
                         <Avatar className={classes.avatar} alt={post.user.user_name} src={post.user.user_img_profile}/>
                         <Box>

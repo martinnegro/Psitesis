@@ -36,9 +36,10 @@ router.put('/edit/:post_id', async (req, res, next) => {
     const post = await Forumpost.findByPk(post_id);
     post.post_contents = post_contents;
     post.post_title = post_title;
+    post.post_edited = true;
     await post.save();
 
-    res.json({ message: 'Updated' })
+    res.json(post)
     } catch(err) { next(err) }
 
 });
