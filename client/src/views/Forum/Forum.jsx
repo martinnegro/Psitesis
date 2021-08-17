@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.background.paper,
       justifyContent: 'center'
     },
+    tab:{
+      backgroundColor: "#031927"
+    },
     offset: theme.mixins.toolbar,
     title:{
         marginTop: '20px',
@@ -28,9 +31,12 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         color: 'white'
     },
+    tabsText:{
+      color: "#93827F" 
+    },
     tabs:{
       "& .MuiTabs-flexContainer":{
-        justifyContent:'space-around'
+        justifyContent:'space-around',
       }
     },
     lastMssg: {
@@ -100,7 +106,7 @@ const useStyles = makeStyles((theme) => ({
             <Typography variant='h2' >Foro</Typography>
         </Container>
         <div className={classes.root}>
-          <AppBar position="static" color="default" >
+          <AppBar className = {classes.tab} position="static" color="default" >
             <Tabs
               value={value}
               onChange={handleChange}
@@ -111,8 +117,8 @@ const useStyles = makeStyles((theme) => ({
               aria-label="scrollable auto tabs example"
               className={classes.tabs}
             >
-              <Tab label="INICIO" {...a11yProps(0)} />
-          <Tab label="ULTIMOS MENSAJES" {...a11yProps(1)} />
+              <Tab className = {classes.tabsText} label="INICIO" {...a11yProps(0)} />
+          <Tab className = {classes.tabsText} label="ULTIMOS MENSAJES" {...a11yProps(1)} />
             </Tabs>
           </AppBar>
           <TabPanel value={value} index={0}>
