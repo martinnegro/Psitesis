@@ -44,6 +44,13 @@ router.put('/edit/:post_id', async (req, res, next) => {
 
 });
 
+router.put('/thread_status/:post_id', async (req, res, next) => {
+    const { post_id } = req.params;
+    try {
+        
+    } catch(err) {}
+});
+
 
 
 module.exports = router;

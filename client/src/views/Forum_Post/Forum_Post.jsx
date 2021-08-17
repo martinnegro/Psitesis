@@ -1,4 +1,4 @@
-import { Container, Typography, Box, Avatar, Input, makeStyles, IconButton, TextField } from '@material-ui/core';
+import { Container, Typography, Box, Avatar, Input, makeStyles, IconButton, TextField, Button } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
@@ -53,11 +53,11 @@ function Forum_Post() {
         const fetchedPost = await axios.get(`${REACT_APP_URL_API}/forumposts/${post_id}`);
         console.log(fetchedPost.data)
         setPost(fetchedPost.data);
-        setEditing(state => { return { 
+        setEditing({ 
             isEditing: false,
             post_contents: fetchedPost.data.post_contents,
             post_title: fetchedPost.data.post_title,
-         }})
+         })
     };
     
     // LOGICA PARA EDITAR TÍTULO y CONTENIDO
@@ -93,6 +93,10 @@ function Forum_Post() {
             handleCancelEditing();
         }
     };
+
+    // LOGICA PARA ABRIR Y CERRAR THREAD
+
+
  
    return (
         <Container>
@@ -116,6 +120,14 @@ function Forum_Post() {
                                 <EditIcon/>
                             </IconButton>
                         }
+                        <Button>
+                        {
+                            post.post_open ? 
+                                'Cerrar Thread'
+                           :
+                                'Abrir Thread'
+                        }
+                        </Button>
                     </Box>
                     <Box className={classes.header}>
                         {
