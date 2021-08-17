@@ -31,7 +31,13 @@ const useStyles = makeStyles((theme) => ({
       "& .MuiTabs-flexContainer":{
         justifyContent:'space-around'
       }
-    }
+    },
+    lastMssg: {
+      width: "100%",
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "center"
+    }  
   }));
 
 
@@ -111,12 +117,14 @@ const useStyles = makeStyles((theme) => ({
           <TabPanel value={value} index={0}>
               <TopicCard name = "Topic name example"></TopicCard>
           </TabPanel>
-          <TabPanel value={value} index={1}>
+          <TabPanel value={value} index={1} >
+            <Container className={classes.lastMssg}>
             {
               last20Post ?
               last20Post.map(p => <PostCard post={p}/>) : 
               <div>CARGANDO</div>
             }
+            </Container>
           </TabPanel>
         </div>
       </Container>
