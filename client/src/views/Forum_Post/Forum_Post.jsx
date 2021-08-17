@@ -50,14 +50,17 @@ function Forum_Post() {
         fetchPostData();
     },[]);
 
-    const fetchPostData = async () => {
-        const fetchedPost = await axios.get(`${REACT_APP_URL_API}/forumposts/${post_id}`);
-        console.log(fetchedPost.data)
-        setPost(fetchedPost.data);
+    const fetchPostData = async (data) => {
+        if (!data){
+            const fetchedPost = await axios.get(`${REACT_APP_URL_API}/forumposts/${post_id}`);
+            data = fetchedPost.data
+            console.log(data);
+        }
+        setPost(data);
         setEditing({ 
             isEditing: false,
-            post_contents: fetchedPost.data.post_contents,
-            post_title: fetchedPost.data.post_title,
+            post_contents: data.post_contents,
+            post_title: data.post_title,
          })
     };
     
@@ -96,7 +99,14 @@ function Forum_Post() {
     };
 
     // LOGICA PARA ABRIR Y CERRAR THREAD
-
+    const handleStatusThread = async () => {
+        try {
+            const response = await axios.put(`${REACT_APP_URL_API}/forumposts/thread_status/${post.post_id}`);
+            fetchPostData();
+        } catch(err) {
+            alert('No update')
+        }
+    };
 
  
    return (
@@ -122,7 +132,7 @@ function Forum_Post() {
                                 <EditIcon/>
                             </IconButton>
                         }
-                        <Button>
+                        <Button onClick={handleStatusThread}>
                         {
                             post.post_open ? 
                                 'Cerrar Thread'
@@ -180,6 +190,12 @@ function Forum_Post() {
                             </Typography>
                         }
                     </Box>
+                    {   
+                        post.post_open ? <></> :
+                        <Typography color="textSecondary">
+                            La sección de comentarios ha sido cerrada.
+                        </Typography>
+                    }
                 </Container>
                 
                 : <div className={classes.root}>CARGANDO</div>

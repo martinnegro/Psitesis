@@ -33,13 +33,12 @@ router.put('/edit/:post_id', async (req, res, next) => {
     const { post_id } = req.params;
     const { post_title, post_contents } = req.body;
     try {
-    const post = await Forumpost.findByPk(post_id);
-    post.post_contents = post_contents;
-    post.post_title = post_title;
-    post.post_edited = true;
-    await post.save();
-
-    res.json(post)
+        const post = await Forumpost.findByPk(post_id);
+        post.post_contents = post_contents;
+        post.post_title = post_title;
+        post.post_edited = true;
+        await post.save();
+        res.json(post)
     } catch(err) { next(err) }
 
 });
@@ -47,8 +46,11 @@ router.put('/edit/:post_id', async (req, res, next) => {
 router.put('/thread_status/:post_id', async (req, res, next) => {
     const { post_id } = req.params;
     try {
-        
-    } catch(err) {}
+        const post = await Forumpost.findByPk(post_id);
+        post.post_open = !post.post_open;
+        await post.save();
+        res.json(post) 
+    } catch(err) { next(err) }
 });
 
 
