@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 const { v4: uuidv4 } = require("uuid");
-const { Topic, Subtopic } = require("../db");
+const { Topic, Subtopic, Forumpost } = require("../db");
 
 router.get("/", (req, res, next) => {
   return Topic.findAll()

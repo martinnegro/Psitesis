@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Nav from "../../components/Nav/Nav";
 import { makeStyles,createTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -9,8 +9,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TopicCard from '../../components/ForumComponents/TopicCard/TopicCard';
-import { getTopicsAndSubTopics } from '../../redux/actions/forumActions';
+import { getForumHomeInfo } from '../../redux/actions/forumActions';
 import { useDispatch,useSelector } from "react-redux"
+import PostCard from './components/PostCard';
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -70,20 +71,28 @@ const useStyles = makeStyles((theme) => ({
   }
 
  const Forum = () =>{
-
     const classes = useStyles();
-const [value, setValue] = React.useState(0);
-const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+    const [value, setValue] = React.useState(0);
+    const topicAndSubtopics = useSelector(state => state.forumReducer.topicAndSubtopics)
+    const last20Post = useSelector(state => state.forumReducer.last20Post)
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+      dispatch(getForumHomeInfo());
+    }, [dispatch])
+    
+    const handleChange = (event, newValue) => {
+      setValue(newValue);
+    };
+    
     return (
         <Container>
              <div className={classes.offset}></div>
-      <Nav/>
-          <Container className={classes.title}>
-              <Typography variant='h2' >Foro</Typography>
-          </Container>
-          <div className={classes.root}>
+        <Nav/>
+        <Container className={classes.title}>
+            <Typography variant='h2' >Foro</Typography>
+        </Container>
+        <div className={classes.root}>
           <AppBar position="static" color="default" >
             <Tabs
               value={value}
@@ -101,13 +110,16 @@ const handleChange = (event, newValue) => {
           </AppBar>
           <TabPanel value={value} index={0}>
               <TopicCard name = "Topic name example"></TopicCard>
-       
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-      
-      </TabPanel>
-      </div>
-        </Container>
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            {
+              last20Post ?
+              last20Post.map(p => <PostCard post={p}/>) : 
+              <div>CARGANDO</div>
+            }
+          </TabPanel>
+        </div>
+      </Container>
     )
 }
 
