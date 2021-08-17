@@ -13,6 +13,27 @@ import SubTopicCard from './components/SubTopicCard';
 import { getForumHomeInfo } from '../../redux/actions/forumActions';
 import { useDispatch,useSelector } from "react-redux"
 import PostCard from './components/PostCard';
+import { ThemeProvider } from "@material-ui/core/styles";
+import { grey } from '@material-ui/core/colors';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: grey[50],
+      light: "#ffc4ff",
+      dark: "#9c64a6",
+      contrastText: "#fff",
+    },
+    secondary: {
+      main: grey[500],
+      light: "#ffc4ff",
+      dark: "#9c64a6",
+      contrastText: "#fff",
+    },
+  },
+});
+
+
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -32,12 +53,18 @@ const useStyles = makeStyles((theme) => ({
         color: 'white'
     },
     tabsText:{
-      color: "#93827F" 
+      color: "#93827F",
+      '&:focus': {
+        color: 'white',
+      }
     },
     tabs:{
       "& .MuiTabs-flexContainer":{
         justifyContent:'space-around',
-      }
+      },
+      '&:focus': {
+        color: 'white',
+      }, 
     },
     lastMssg: {
       width: "100%",
@@ -100,6 +127,7 @@ const useStyles = makeStyles((theme) => ({
     
     return (
         <Container>
+          <ThemeProvider theme={theme}>
              <div className={classes.offset}></div>
         <Nav/>
         <Container className={classes.title}>
@@ -117,8 +145,14 @@ const useStyles = makeStyles((theme) => ({
               aria-label="scrollable auto tabs example"
               className={classes.tabs}
             >
-              <Tab className = {classes.tabsText} label="INICIO" {...a11yProps(0)} />
-          <Tab className = {classes.tabsText} label="ULTIMOS MENSAJES" {...a11yProps(1)} />
+              <Tab 
+                className = {classes.tabsText} 
+                label="INICIO" {...a11yProps(0)} 
+                />
+              <Tab 
+                className = {classes.tabsText} 
+                label="ULTIMOS MENSAJES" {...a11yProps(1)} 
+                />
             </Tabs>
           </AppBar>
           <TabPanel value={value} index={0}>
@@ -148,6 +182,7 @@ const useStyles = makeStyles((theme) => ({
             </Container>
           </TabPanel>
         </div>
+        </ThemeProvider>
       </Container>
     )
 }
