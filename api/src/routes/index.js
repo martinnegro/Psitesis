@@ -12,7 +12,9 @@ const metadata = require("./metadata");
 const topics = require("./topics");
 const forumposts = require('./forumposts');
 const forum_home = require('./forum_home')
+const subtopics = require('./subTopics')
 const router = Router();
+
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
@@ -28,4 +30,5 @@ router.use("/search", search);
 router.use("/topics", topics);
 router.use('/forumposts',forumposts)
 router.use('/forum_home',forum_home);
+router.use('/subtopics', subtopics);
 module.exports = router;
