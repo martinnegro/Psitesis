@@ -10,3 +10,12 @@ export function sendVerificationEmail(user) {
     .then((response) => response)
     .catch((err) => console.log(err));
 }
+
+export const postComment = async (obj) => {
+  try {
+    const response = await axios.post(`${REACT_APP_URL_API}/`, obj);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};

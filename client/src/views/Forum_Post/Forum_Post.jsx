@@ -1,11 +1,13 @@
-import { Container, Typography, Box, Avatar, Input, makeStyles, IconButton, TextField } from '@material-ui/core';
+import { Container, Typography, Box, Avatar, Input, makeStyles, IconButton, TextField,Button } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
+import ReplyIcon from '@material-ui/icons/Reply';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Nav from '../../components/Nav/Nav'
 import CommentCard from '../Forum/components/CommentCard';
+import Comment from '../Forum/components/Comment';
 import axios from 'axios';
 
 const { REACT_APP_URL_API } = process.env
@@ -35,12 +37,19 @@ const useStyle = makeStyles({
     textField: {
         width: "100%",
         
+    },
+    commentIcon :{
+        width: "40px",
+        display: "flex",
+        justifyContent: "right",
+        
     }
 });
 
 function Forum_Post() {
     const { post_id } = useParams();
     const [ post, setPost ] = useState();
+    const [commentComponent,setCommentComponent] = useState(false);
     const classes = useStyle()
     
     const [ editing, setEditing ] = useState({isEditing: false});
@@ -94,6 +103,13 @@ function Forum_Post() {
             handleCancelEditing();
         }
     };
+
+    // HANDLE COMMENT COMPONENT
+
+    const handleCommentComponent = () =>{
+        commentComponent ? setCommentComponent(false) : setCommentComponent(true) 
+        
+    }
  
    return (
         <Container>
@@ -180,6 +196,11 @@ function Forum_Post() {
                 )
             }) : <div className={classes.root}>CARGANDO</div> } 
             
+            </Container>
+            {commentComponent ? <Comment/> : null}
+            <Container className = {classes.commentIcon}>
+                <Button onClick = {handleCommentComponent}><ReplyIcon/></Button>
+                {console.log(commentComponent)}
             </Container>
         </Container>
     )
