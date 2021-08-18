@@ -37,6 +37,8 @@ import { useTheme } from '@material-ui/core/styles';
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
+//Menucito
+import NavBottom from "../../components/NavBottom/NavBottom";
 
 
 
@@ -76,6 +78,21 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     maxWidth: "10%",
+  },
+  Home: {
+    margin: theme.spacing(1),
+    marginTop: '15px',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  tipoh2: {
+    "@media (max-width: 601px)": {
+      marginTop: 15,
+      fontSize: "1.75rem",
+      marginBottom: 10,
+    },
   },
 }));
 
@@ -205,11 +222,10 @@ const Art_Detail = () => {
 
   return (
     <Container>
-       <ThemeProvider theme={theme}>
-
-       
+       <ThemeProvider theme={theme}>       
       <div className={classes.offset}></div>
       <Nav />
+      <Container className={classes.Home}>
       {articlesDetail !== undefined ? (
         <Container className={classes.Home}>
           <div className={s.perfil}>
@@ -269,11 +285,9 @@ const Art_Detail = () => {
               }} onClick={editArticle}>
                 Editar
               </Button>
-           </div>  : null}
-
-         
+           </div>  : null}         
           
-          <Typography variant="h2" color="initial">
+          <Typography variant="h2" color="initial" className={classes.tipoh2}>
             {articlesDetail.art_title}
           </Typography>
           <br/>
@@ -316,7 +330,13 @@ const Art_Detail = () => {
               </Fade>
             </Modal>
           </div>
+          </Container>
       </ThemeProvider>
+      <br />
+      <br />
+      <br />
+      <br />
+      <NavBottom />
     </Container>
   );
 };
