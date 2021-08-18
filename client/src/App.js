@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Landing from './components/Landing/Landing';
@@ -13,6 +14,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import GuiaDeTesis from './views/Guia de Tesis/GuiaDeTesis';
 import Forum from './views/Forum/Forum';
 import Forum_Post from "./views/Forum_Post/Forum_Post";
+import GetForumSubTopic from "./views/GetForumSubtopic/GetForumSubtopic";
 
 const App = () => {
 	return (

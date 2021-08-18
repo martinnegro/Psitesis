@@ -2,7 +2,9 @@ const { Router } = require("express");
 const router = Router();
 const { v4: uuidv4 } = require("uuid");
 const sequelize = require('sequelize');
+
 const { Forumpost, Comment, User, Subtopic, Topic } = require('../db');
+
 
 router.get('/', async (req, res, next) => {
     const result = await Forumpost.findAll();

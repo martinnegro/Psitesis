@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react";
 import Nav from "../../components/Nav/Nav";
-import { makeStyles,createTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import PropTypes from 'prop-types';
+import { makeStyles, createTheme } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import PropTypes from "prop-types";
 import Container from "@material-ui/core/Container";
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -35,11 +35,29 @@ const theme = createTheme({
 
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-      flexGrow: 1,
-      width: '100%',
-      backgroundColor: theme.palette.background.paper,
-      justifyContent: 'center'
+  root: {
+    flexGrow: 1,
+    width: "100%",
+    backgroundColor: theme.palette.background.paper,
+    justifyContent: "center",
+  },
+  tab: {
+    backgroundColor: "#031927",
+  },
+  offset: theme.mixins.toolbar,
+  title: {
+    marginTop: "20px",
+    backgroundColor: "purple",
+    width: "100%",
+    textAlign: "center",
+    color: "white",
+  },
+  tabsText: {
+    color: "#93827F",
+  },
+  tabs: {
+    "& .MuiTabs-flexContainer": {
+      justifyContent: "space-around",
     },
     tab:{
       backgroundColor: "#031927"
@@ -74,48 +92,52 @@ const useStyles = makeStyles((theme) => ({
     }  
   }));
 
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
 
-  function TabPanel(props) {
-    const { children, value, index, ...other } = props;
-  
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-        styles = {{display: "flex"}}
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+      styles={{ display: "flex" }}
+    >
+      {value === index && <Box p={3}>{children}</Box>}
+    </div>
+  );
+}
 
-      >
-        {value === index && (
-          <Box p={3}>
-           {children}
-          </Box>
-        )}
-      </div>
-    );
-  }
-  
-  TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
+}
 
-  function a11yProps(index) {
-    return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
-    };
-  }
+const Forum = () => {
+  const classes = useStyles();
+  const [value, setValue] = React.useState(0);
+  const topicsAndSubtopics = useSelector(
+    (state) => state.forumReducer.topicsAndSubtopics
+  );
+  const last20Post = useSelector((state) => state.forumReducer.last20Post);
+  const dispatch = useDispatch();
 
- const Forum = () =>{
-    const classes = useStyles();
-    const [value, setValue] = React.useState(0);
-    const topicsAndSubtopics = useSelector(state => state.forumReducer.topicsAndSubtopics)
-    const last20Post = useSelector(state => state.forumReducer.last20Post)
-    const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getForumHomeInfo());
+  }, [dispatch]);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
     useEffect(() => {
       dispatch(getForumHomeInfo());
@@ -159,25 +181,36 @@ const useStyles = makeStyles((theme) => ({
             <Container>
               {topicsAndSubtopics ? topicsAndSubtopics.map((topic)=>{
                 return(
+
                   <div>
-                  <TopicCard id = {topic.topic_id} name = {topic.topic_name}></TopicCard>
-                  {topic.subtopics.map((subtopic)=>{
-                    return(
-                      <SubTopicCard id = {subtopic.sub_topic_id} name = {subtopic.sub_topic_name} description = {subtopic.sub_topic_description}></SubTopicCard>
-                    )
-                  })}
+                    <TopicCard
+                      id={topic.topic_id}
+                      name={topic.topic_name}
+                    ></TopicCard>
+                    {topic.subtopics.map((subtopic) => {
+                      return (
+                        <SubTopicCard
+                          id={subtopic.sub_topic_id}
+                          name={subtopic.sub_topic_name}
+                          description={subtopic.sub_topic_description}
+                        ></SubTopicCard>
+                      );
+                    })}
                   </div>
-                )
-              }): <div>Cargando</div>}
-            </Container>
-              
-          </TabPanel>
-          <TabPanel value={value} index={1} >
-            <Container className={classes.lastMssg}>
-            {
-              last20Post ?
-              last20Post.map(p => <PostCard post={p}/>) : 
+                );
+              })
+            ) : (
+              <div>Cargando</div>
+            )}
+          </Container>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <Container className={classes.lastMssg}>
+            {last20Post ? (
+              last20Post.map((p) => <PostCard post={p} />)
+            ) : (
               <div>CARGANDO</div>
+
             }
             </Container>
           </TabPanel>
@@ -187,4 +220,5 @@ const useStyles = makeStyles((theme) => ({
     )
 }
 
-export default Forum
+
+export default Forum;
