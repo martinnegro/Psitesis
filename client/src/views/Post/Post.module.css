@@ -12,7 +12,14 @@
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-evenly;
+    margin-top: 10px;
 }
+@media (max-width: 600px) {
+    .botones {
+      display: flex;
+      flex-direction: column;
+    }
+  }
 
 .input_titulo {
     border: none;
@@ -22,4 +29,5 @@
 .input_titulo:focus {
     outline: none;
 }
+
 

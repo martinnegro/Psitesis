@@ -1,8 +1,9 @@
 
 const { Router } = require("express");
 const router = Router();
+const sequelize = require('sequelize')
 const { v4: uuidv4 } = require("uuid");
-const { Topic, Subtopic, Forumpost, User } = require("../db");
+const { Topic, Subtopic, Forumpost, User, Comment } = require("../db");
 
 router.get('/', async (req, res, next) => {
     try {
@@ -14,7 +15,11 @@ router.get('/', async (req, res, next) => {
         });
         
         const last20Post = await Forumpost.findAll({
-          include: [{model: Subtopic},{model: User}],
+          include: [
+            {model: Subtopic},
+            {model: User},
+            {model: Comment, /*attributes: [sequelize.fn('count', sequelize.col('user_id'))]*/}
+          ],
           limit: 20,
           order: [['createdAt','DESC']]
         })
