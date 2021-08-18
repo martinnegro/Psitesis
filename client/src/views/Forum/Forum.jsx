@@ -89,8 +89,8 @@ const useStyles = makeStyles((theme) => ({
       display: "flex",
       flexWrap: "wrap",
       justifyContent: "center"
-    }  
-  }));
+    },  
+  }}));
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -143,9 +143,7 @@ const Forum = () => {
       dispatch(getForumHomeInfo());
     }, [dispatch])
     
-    const handleChange = (event, newValue) => {
-      setValue(newValue);
-    };
+  
     
     return (
         <Container>
@@ -181,7 +179,6 @@ const Forum = () => {
             <Container>
               {topicsAndSubtopics ? topicsAndSubtopics.map((topic)=>{
                 return(
-
                   <div>
                     <TopicCard
                       id={topic.topic_id}
@@ -199,7 +196,7 @@ const Forum = () => {
                   </div>
                 );
               })
-            ) : (
+             : (
               <div>Cargando</div>
             )}
           </Container>
@@ -208,9 +205,8 @@ const Forum = () => {
           <Container className={classes.lastMssg}>
             {last20Post ? (
               last20Post.map((p) => <PostCard post={p} />)
-            ) : (
+            ) : 
               <div>CARGANDO</div>
-
             }
             </Container>
           </TabPanel>

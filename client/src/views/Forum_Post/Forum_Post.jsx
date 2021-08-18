@@ -125,9 +125,6 @@ function Forum_Post() {
         console.log(commentComponent)
     }
 
-    
-
-  
 
    return (
         <Container>
