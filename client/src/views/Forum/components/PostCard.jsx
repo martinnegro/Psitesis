@@ -28,6 +28,11 @@ const useStyle = makeStyles({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
+        justifyContent: "space-between"
+    },
+    user: {
+        display: "flex",
+        alignItems: "center"
     },
     avatar: {
         margin: "0 5px 0 5px",
@@ -59,10 +64,13 @@ function PostCard({ post }) {
                     </Link>
                 </Box>
                 <Box className={classes.footer} color="textSecondary">
-                    <Typography className={classes.footer} color="textSecondary">
+                    <Typography className={classes.user} color="textSecondary">
                         <span>Creado por</span>
                         <Avatar className={classes.avatar} alt={post.user.user_name} src={post.user.user_img_profile}/>
                         <span>{post.user.user_name}</span>
+                    </Typography>
+                    <Typography color="textSecondary">
+                        Comentarios {post.comments.length}
                     </Typography>
                 </Box>
             </CardContent>

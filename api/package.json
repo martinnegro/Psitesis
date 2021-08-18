@@ -19,6 +19,7 @@
     "express": "^4.17.1",
     "express-jwt": "^6.0.0",
     "express-jwt-authz": "^2.4.1",
+    "flatted": "^3.2.2",
     "ioredis": "^4.19.2",
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^2.0.4",
