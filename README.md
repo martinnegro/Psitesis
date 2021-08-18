@@ -29,6 +29,8 @@ Dentro encontrarán las siguientes secciones:
 - `REACT_APP_AUTH0_AUDIENCE=`
 - `REACT_APP_URL_API=`
 - `REACT_APP_HOST=`
+- `REACT_APP_AUTH0_TENANT`
+
 
 #### En api:
 - `DATABASE_URL=postgres://user:password@server:port/database`
