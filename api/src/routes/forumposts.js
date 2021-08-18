@@ -38,6 +38,7 @@ router.put('/edit/:post_id', async (req, res, next) => {
         post.post_title = post_title;
         post.post_edited = true;
         await post.save();
+        
         res.json(post)
     } catch(err) { next(err) }
 

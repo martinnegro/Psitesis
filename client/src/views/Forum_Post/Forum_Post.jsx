@@ -49,6 +49,7 @@ function Forum_Post() {
     const history = useHistory();
     const [ post, setPost ] = useState();
     const [ editing, setEditing ] = useState({isEditing: false});
+    const [ okEdit, setOkEdit ] = useState(false)
     const [ previous, setPrevious ] = useState();
     const [ openAlertDelete, setOpenAlertDelete ] = useState(false);
     const [ okDelete, setOkDelete ] = useState(false)
@@ -98,10 +99,10 @@ function Forum_Post() {
     const handleConfirmEditing = async () => {
         try {
             const response = await axios.put(`${REACT_APP_URL_API}/forumposts/edit/${post.post_id}`,editing);
-            alert(response.data.message);
+            alert(response.message);
             fetchPostData();
         } catch(err) { 
-            alert('No update')
+            alert(err.message)
             handleCancelEditing();
         }
     };
@@ -112,7 +113,7 @@ function Forum_Post() {
             const response = await axios.put(`${REACT_APP_URL_API}/forumposts/thread_status/${post.post_id}`);
             fetchPostData();
         } catch(err) {
-            alert('No update')
+            alert(err.message)
         }
     };
 
