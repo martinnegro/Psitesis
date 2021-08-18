@@ -83,14 +83,15 @@ const useStyles = makeStyles((theme) => ({
       '&:focus': {
         color: 'white',
       }, 
-    },
-    lastMssg: {
-      width: "100%",
-      display: "flex",
-      flexWrap: "wrap",
-      justifyContent: "center"
     },  
-  }}));
+  },
+  lastMssg: {
+    width: "100%",
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center"
+  }
+}));
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
