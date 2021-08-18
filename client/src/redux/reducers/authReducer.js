@@ -14,7 +14,7 @@ const userEmpy = {
 };
 const initialState = {
 	user: user ? user : null,
-	access_token: access_token ? access_token : userEmpy,
+	access_token: access_token ? access_token : null,
 	isAuthenticated: user && access_token ? true : false,
 	isLoading: false,
 	error: null

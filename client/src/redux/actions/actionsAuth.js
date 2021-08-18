@@ -15,7 +15,6 @@ const {
 	REACT_APP_URL_API,
 	REACT_APP_HOST,
 	REACT_APP_AUTH0_TENANT,
-	REACT_APP_AUTH0_CLIENT_SECRET,
 } = process.env;
 
 const databaseConnection = 'Username-Password-Authentication';
@@ -41,32 +40,16 @@ export const ReactAuth0 = new auth0.WebAuth(configAuth0);
 export const LoginWithEmailPassword = (email, password) => {
 	return async (dispatch) => {
 		try {
-			const options = {
-				method: 'POST',
-				url: `https://${REACT_APP_AUTH0_DOMAIN}/oauth/token`,
-				headers: { 'content-type': 'application/x-www-form-urlencoded' },
-				data: {
-					grant_type: 'password',
-					username: email,
-					password: password,
-					audience: REACT_APP_AUTH0_AUDIENCE,
-					scope: 'openid profile email',
-					client_id: REACT_APP_AUTH0_CLIENT_ID,
-					client_secret: REACT_APP_AUTH0_CLIENT_SECRET,
-				},
-			};
-			const response = await axios.request(options);
-			console.log(response.data);
-			/*ReactAuth0.login(
+			ReactAuth0.redirect.loginWithCredentials(
 				{
-					connection: databaseConnection,
+					connection: 'Username-Password-Authentication',
 					email: email,
 					password: password,
 				},
 				(err) => {
 					if (err) dispatch(setError(err));
 				}
-			);*/
+			);
 		} catch (error) {
 			console.log(error);
 		}
@@ -107,6 +90,19 @@ export const loginWithGoogle = () => {
 	};
 };
 
+export const loginWithFacebook = () => {
+	return async (dispatch) => {
+		ReactAuth0.authorize(
+			{
+				connection: 'facebook',
+				redirectUri: `${REACT_APP_HOST}`,
+			},
+			(error) => {
+				console.log(error);
+			}
+		);
+	};
+};
 export const loginWithAccessToken = (accessToken) => {
 	return async (dispatch) => {
 		try {
@@ -136,6 +132,7 @@ export const loginWithAccessToken = (accessToken) => {
 		}
 	};
 };
+
 
 export const checkAuth = () => {
 	return async (dispatch) => {

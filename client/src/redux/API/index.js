@@ -11,5 +11,8 @@ API.interceptors.request.use((req) => {
 	return req;
 });
 
+//peticiones ruta auth
 export const checkAuth = () => API.get(`/auth/check_token`);
 export const sendVerificationEmail = () => API.get(`/auth/send_verify_email`);
+export const getArticles = () => API.get(`/auth/send_verify_email`);
+

@@ -4,8 +4,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
 	loginWithGoogle,
 	RegisterWithEmailPassword,
-	LoginWithEmailPassword
+	LoginWithEmailPassword,
+	loginWithFacebook,
 } from '../../redux/actions/actionsAuth';
+import Carousel from './CarouselSlide';
 import { makeStyles } from '@material-ui/core/styles';
 import {
 	Button,
@@ -15,7 +17,6 @@ import {
 	Box,
 	Paper,
 } from '@material-ui/core';
-
 import Logo from './../../assets/Logo.png';
 
 const useStyles = makeStyles((theme) => ({
@@ -160,11 +161,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Landing = () => {
+const Landing = (props) => {
 	const { isAuthenticated, error } = useSelector((state) => state.authReducer);
 	const dispatch = useDispatch();
 	const classes = useStyles();
 	const [stateAuth, setStateAuth] = useState('Login');
+
 	const [inputLogin, setInputLogin] = useState({
 		email: '',
 		password: '',
@@ -215,16 +217,8 @@ const Landing = () => {
 
 	const handleOnSubmitLogin = (e) => {
 		e.preventDefault();
-		if (
-			inputLogin.email !== '' &&
-			inputLogin.password !== ''
-		) {
-			dispatch(
-				LoginWithEmailPassword(
-					inputLogin.email,
-					inputLogin.password
-				)
-			);
+		if (inputLogin.email !== '' && inputLogin.password !== '') {
+			dispatch(LoginWithEmailPassword(inputLogin.email, inputLogin.password));
 		}
 	};
 	const handleOnSubmitRegister = (e) => {
@@ -245,12 +239,16 @@ const Landing = () => {
 	};
 	const handleOnSubmitRecoveryPassword = (e) => {
 		e.preventDefault();
-		//login(inputLogin.email, inputLogin.password);
 	};
 
 	const handlerLoginWithGoogle = (e) => {
 		e.preventDefault();
 		dispatch(loginWithGoogle());
+	};
+
+	const handlerLoginWithFacebook = (e) => {
+		e.preventDefault();
+		dispatch(loginWithFacebook());
 	};
 
 	useEffect(() => {
@@ -266,7 +264,7 @@ const Landing = () => {
 			<Grid container spacing={0}>
 				<Grid item xs={12} sm={6} lg={7} xl={8}>
 					<Paper className={classes.left}>
-						<div>component</div>
+						<Carousel />
 					</Paper>
 				</Grid>
 				<Grid item xs={12} sm={6} lg={5} xl={4}>
@@ -278,51 +276,60 @@ const Landing = () => {
 										<img className={classes.img} src={Logo} alt="logo" />
 										<Typography className={classes.h1}>Psitesis</Typography>
 									</div>
-									<TextField
-										label="Correo electrónico"
-										name="email"
-										value={inputLogin.email}
-										className={classes.textField}
-										helperText="Some important text"
-										InputProps={{
-											className: classes.input,
-										}}
-										InputLabelProps={{
-											className: classes.input,
-										}}
-										onChange={handleOnChangeLogin}
-										margin="dense"
-										variant="outlined"
-									/>
-									<TextField
-										label="Contraseña"
-										name="password"
-										type="password"
-										value={inputLogin.password}
-										className={classes.textField}
-										helperText="Some important text"
-										InputProps={{
-											className: classes.input,
-										}}
-										InputLabelProps={{
-											className: classes.input,
-										}}
-										onChange={handleOnChangeLogin}
-										margin="dense"
-										variant="outlined"
-									/>
-									<Button
-										className={classes.button_login}
-										onClick={handleOnSubmitLogin}
-									>
-										ingresar
-									</Button>
-									<Button
-										className={classes.button_login_with_google}
-										onClick={handlerLoginWithGoogle}
-									>
-										ingresar con google
-									</Button>
+									<Box>
+										<TextField
+											label="Correo electrónico"
+											name="email"
+											value={inputLogin.email}
+											className={classes.textField}
+											helperText="Some important text"
+											InputProps={{
+												className: classes.input,
+											}}
+											InputLabelProps={{
+												className: classes.input,
+											}}
+											onChange={handleOnChangeLogin}
+											margin="dense"
+											variant="outlined"
+										/>
+									</Box>
+									<Box>
+										<TextField
+											label="Contraseña"
+											name="password"
+											type="password"
+											value={inputLogin.password}
+											className={classes.textField}
+											helperText="Some important text"
+											InputProps={{
+												className: classes.input,
+											}}
+											InputLabelProps={{
+												className: classes.input,
+											}}
+											onChange={handleOnChangeLogin}
+											margin="dense"
+											variant="outlined"
+										/>
+									</Box>
+
+									<Box>
+										<Button
+											className={classes.button_login}
+											onClick={handleOnSubmitLogin}
+										>
+											ingresar
+										</Button>
+									</Box>
+									<Box>
+										<Button
+											className={classes.button_login_with_google}
+											onClick={handlerLoginWithGoogle}
+										>
+											ingresar con google
+										</Button>
+									</Box>
 									<div className={classes.content_separator_line}>
 										<hr className={classes.separator_line} />
 									</div>
@@ -355,34 +362,40 @@ const Landing = () => {
 											Recuperación de contraseña
 										</Typography>
 									</div>
-									<TextField
-										label="Correo electrónico"
-										name="email"
-										value={inputRecoveryPassword.email}
-										className={classes.textField}
-										helperText="Some important text"
-										InputProps={{
-											className: classes.input,
-										}}
-										InputLabelProps={{
-											className: classes.input,
-										}}
-										onChange={handleOnChangeRecoveryPassword}
-										margin="dense"
-										variant="outlined"
-									/>
-									<Button
-										className={classes.button_login}
-										onClick={handleOnSubmitRecoveryPassword}
-									>
-										recuperar
-									</Button>
-									<Button
-										className={classes.button_login_with_google}
-										onClick={handlerLoginWithGoogle}
-									>
-										ingresar con google
-									</Button>
+									<Box>
+										<TextField
+											label="Correo electrónico"
+											name="email"
+											value={inputRecoveryPassword.email}
+											className={classes.textField}
+											helperText="Some important text"
+											InputProps={{
+												className: classes.input,
+											}}
+											InputLabelProps={{
+												className: classes.input,
+											}}
+											onChange={handleOnChangeRecoveryPassword}
+											margin="dense"
+											variant="outlined"
+										/>
+									</Box>
+									<Box>
+										<Button
+											className={classes.button_login}
+											onClick={handleOnSubmitRecoveryPassword}
+										>
+											recuperar
+										</Button>
+									</Box>
+									<Box>
+										<Button
+											className={classes.button_login_with_google}
+											onClick={handlerLoginWithGoogle}
+										>
+											ingresar con google
+										</Button>
+									</Box>
 									<div className={classes.content_separator_line}>
 										<hr className={classes.separator_line} />
 									</div>
@@ -409,67 +422,77 @@ const Landing = () => {
 										<img className={classes.img} src={Logo} alt="logo" />
 										<Typography className={classes.h1}>Psitesis</Typography>
 									</div>
-									<TextField
-										label="Correo electrónico"
-										name="email"
-										value={inputRegister.email}
-										className={classes.textField}
-										helperText="Some important text"
-										InputProps={{
-											className: classes.input,
-										}}
-										InputLabelProps={{
-											className: classes.input,
-										}}
-										onChange={handleOnChangeRegister}
-										margin="dense"
-										variant="outlined"
-									/>
-									<TextField
-										label="Usuario"
-										name="username"
-										value={inputRegister.username}
-										className={classes.textField}
-										helperText="Some important text"
-										InputProps={{
-											className: classes.input,
-										}}
-										InputLabelProps={{
-											className: classes.input,
-										}}
-										onChange={handleOnChangeRegister}
-										margin="dense"
-										variant="outlined"
-									/>
-									<TextField
-										label="Contraseña"
-										name="password"
-										type="password"
-										value={inputRegister.password}
-										className={classes.textField}
-										helperText="Some important text"
-										InputProps={{
-											className: classes.input,
-										}}
-										InputLabelProps={{
-											className: classes.input,
-										}}
-										onChange={handleOnChangeRegister}
-										margin="dense"
-										variant="outlined"
-									/>
-									<Button
-										className={classes.button_login}
-										onClick={handleOnSubmitRegister}
-									>
-										registrase
-									</Button>
-									<Button
-										className={classes.button_login_with_google}
-										onClick={handlerLoginWithGoogle}
-									>
-										registrar con google
-									</Button>
+									<Box>
+										<TextField
+											label="Correo electrónico"
+											name="email"
+											value={inputRegister.email}
+											className={classes.textField}
+											helperText="Some important text"
+											InputProps={{
+												className: classes.input,
+											}}
+											InputLabelProps={{
+												className: classes.input,
+											}}
+											onChange={handleOnChangeRegister}
+											margin="dense"
+											variant="outlined"
+										/>
+									</Box>
+									<Box>
+										<TextField
+											label="Usuario"
+											name="username"
+											value={inputRegister.username}
+											className={classes.textField}
+											helperText="Some important text"
+											InputProps={{
+												className: classes.input,
+											}}
+											InputLabelProps={{
+												className: classes.input,
+											}}
+											onChange={handleOnChangeRegister}
+											margin="dense"
+											variant="outlined"
+										/>
+									</Box>
+									<Box>
+										<TextField
+											label="Contraseña"
+											name="password"
+											type="password"
+											value={inputRegister.password}
+											className={classes.textField}
+											helperText="Some important text"
+											InputProps={{
+												className: classes.input,
+											}}
+											InputLabelProps={{
+												className: classes.input,
+											}}
+											onChange={handleOnChangeRegister}
+											margin="dense"
+											variant="outlined"
+										/>
+									</Box>
+									<Box>
+										<Button
+											className={classes.button_login}
+											onClick={handleOnSubmitRegister}
+										>
+											registrase
+										</Button>
+									</Box>
+									<Box>
+										<Button
+											className={classes.button_login_with_google}
+											onClick={handlerLoginWithGoogle}
+										>
+											registrar con google
+										</Button>
+									</Box>
 									<div className={classes.content_separator_line}>
 										<hr className={classes.separator_line} />
 									</div>

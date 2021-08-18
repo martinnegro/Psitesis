@@ -1,9 +1,6 @@
 const { Router } = require('express');
-const {
-	management,
-	authorizeAccessToken,
-} = require('../auth/index');
-const { User } = require("../db");
+const { management, authorizeAccessToken } = require('../auth/index');
+const { User } = require('../db');
 const { v4: uuidv4 } = require('uuid');
 const { organizeRoles } = require('./../utils');
 const router = Router();
@@ -26,6 +23,19 @@ router.get('/check_token', authorizeAccessToken, async (req, res, next) => {
 				user_email: userAuth0.email,
 				user_img_profile: userAuth0.picture,
 			});
+			//setea el rol al usuario nuevo
+			const rolesAuth0 = await management.getRoles();
+			var idRoleBasic = [];
+			for (let i in rolesAuth0) {
+				if ((rolesAuth0[i].name = 'basic')) {
+					idRoleBasic.push(rolesAuth0[i].id);
+				}
+			}
+			await management.assignRolestoUser(
+				{ id: req.user.sub },
+				{ roles: idRoleBasic }
+			);
+			//--------------------------
 			res.json({
 				message: 'verified token',
 				user: { ...userAuth0, roles: [] },
