@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -35,7 +34,8 @@ import ForumTwoToneIcon from '@material-ui/icons/ForumTwoTone';
 import userAvatar from '../../assets/user.jpg';
 import logo from '../../assets/Logo.png';
 import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { logOut } from './../../redux/actions/actionsAuth';
 
 const drawerWidth = 270;
 
@@ -103,25 +103,23 @@ const useStyles = makeStyles((theme) => ({
 		flexGrow: 1,
 	},
 	ocult: {
-		"@media (max-width: 600px)": {
-		  display: "none",
+		'@media (max-width: 600px)': {
+			display: 'none',
 		},
-	  },
-	  rootmenu: {
+	},
+	rootmenu: {
 		width: 600,
-		marginTop: "100%",
-		bottom: "0",
-	  },
+		marginTop: '100%',
+		bottom: '0',
+	},
 }));
 
 export default function Nav() {
-	const user_roles = useSelector((state) => state.usersReducer.user_roles); // Nueva forma de acceder al estado por combineReducer
-	const { isAuthenticated, user, logout } = useAuth0();
+	const { isAuthenticated, user } = useSelector((state) => state.authReducer); // Nueva forma de acceder al estado por combineReducer
+	const dispatch = useDispatch();
 
 	const handleLogout = () => {
-		logout({
-			returnTo: window.location.origin,
-		});
+		dispatch(logOut());
 	};
 
 	const history = useHistory();
@@ -159,16 +157,16 @@ export default function Nav() {
 						<MenuIcon />
 					</IconButton>
 					<div className={classes.logoMax}>
-					<Link to={`/user/${user.user_sub}`}>
-						<Avatar variant="square" src={logo} className={classes.square} />
-					</Link>
+						<Link to={`/user/${user?.user_id}`}>
+							<Avatar variant="square" src={logo} className={classes.square} />
+						</Link>
 					</div>
 					{isAuthenticated ? (
-						<Link to={`/user/${user.sub}`}>
-							<Avatar alt="User" src={user.picture} />
+						<Link to={`/user/${user?.user_id}`}>
+							<Avatar alt="User" src={user?.picture} />
 						</Link>
 					) : (
-						<Link to={`/user/${user.user_sub}`}>
+						<Link to={`/user/${user?.user_id}`}>
 							<Avatar alt="User" src={userAvatar} />
 						</Link>
 					)}
@@ -198,7 +196,7 @@ export default function Nav() {
 					</IconButton>
 				</div>
 				<Divider />
-				
+
 				<ListItem button onClick={() => history.push('/home')}>
 					<ListItemIcon>
 						<HomeOutlinedIcon />
@@ -225,20 +223,20 @@ export default function Nav() {
 				</ListItem>
 
 				<Divider />
-				{user_roles?.includes('admin') ? (
+				{user?.roles?.includes('admin') ? (
 					<>
-					<ListItem button onClick={() => history.push('/post')}>
-						<ListItemIcon>
-							<AddCircleOutlineIcon />
-						</ListItemIcon>
-						<ListItemText>Agregar post</ListItemText>
-					</ListItem>
-					<ListItem button onClick={() => history.push('/adminpanel')}>
-						<ListItemIcon>
-							<SettingsIcon />
-						</ListItemIcon>
-						<ListItemText>Panel de Administrador</ListItemText>
-					</ListItem>
+						<ListItem button onClick={() => history.push('/post')}>
+							<ListItemIcon>
+								<AddCircleOutlineIcon />
+							</ListItemIcon>
+							<ListItemText>Agregar post</ListItemText>
+						</ListItem>
+						<ListItem button onClick={() => history.push('/adminpanel')}>
+							<ListItemIcon>
+								<SettingsIcon />
+							</ListItemIcon>
+							<ListItemText>Panel de Administrador</ListItemText>
+						</ListItem>
 					</>
 				) : null}
 				<Divider />

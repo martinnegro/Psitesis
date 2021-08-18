@@ -6,6 +6,7 @@ const { Op } = require("sequelize");
 const { management } = require("../auth/index");
 const { axios } = require("axios");
 
+//se crea el usuario en la ruta auth cuando se autentifica, no lo borre porque no se alguien utiliza esta ruta
 router.post("/", async (req, res, next) => {
   const {
     user_id_A0,
@@ -155,7 +156,7 @@ router.get("/:user_id_A0", async (req, res, next) => {
     res.json(user.dataValues);
   } catch(err) { next(err) };
 });
-
+/*
 router.post("/verifyemail", async (req, res) => {
   try {
     const user = req.body;
@@ -164,7 +165,7 @@ router.post("/verifyemail", async (req, res) => {
   } catch (err) {
     next(err);
   }
-});
+});*/
 
 router.put('/add_inst',async (req, res, next) => {
   const { user_id_A0, inst_id } = req.query;
