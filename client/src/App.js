@@ -18,7 +18,7 @@ import { useDispatch } from "react-redux";
 import GuiaDeTesis from "./views/Guia de Tesis/GuiaDeTesis";
 import Forum from "./views/Forum/Forum";
 import GetForumSubTopic from "./views/GetForumSubtopic/GetForumSubtopic";
-import ForumPostInfo from "./components/ForumPostInfo/ForumPostInfo";
+
 const App = () => {
   const { isLoading, user, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
@@ -63,7 +63,6 @@ const App = () => {
         <ProtectedRoute path="/guiadetesis" exact component={GuiaDeTesis} />
         <ProtectedRoute path="/forum" exact component={Forum} />
         <ProtectedRoute path="/forum/subtopic/:id" exact component={GetForumSubTopic}/>
-        <ProtectedRoute path="/forum/post/:id" exact component={ForumPostInfo}/>
         <ProtectedRoute>
           <Route exact path="/colaborators" component={Colaborators}></Route>
         </ProtectedRoute>

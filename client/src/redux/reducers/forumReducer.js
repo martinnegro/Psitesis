@@ -1,6 +1,5 @@
 import {
   GET_FORUM_HOME_INFO,
-  GET_FORUM_SUBTOPIC,
 
 } from "../actions/forumActions";
 

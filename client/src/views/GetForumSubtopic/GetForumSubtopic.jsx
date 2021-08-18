@@ -3,6 +3,8 @@ import {useParams} from 'react-router'
 import {useDispatch, useSelector} from 'react-redux'
 import { useEffect } from 'react'
 import PostCard from '../Forum/components/PostCard'
+import Nav from '../../components/Nav/Nav'
+import styles from './GetForumSubtopic.module.css'
 export default function GetForumSubTopic(){
     const dispatch = useDispatch()
     const {id} = useParams()
@@ -15,9 +17,10 @@ export default function GetForumSubTopic(){
   
     return(
         <div>
+            <Nav/>
             {forum?.length > 0?
             forum?.map((f)=>(
-                <PostCard post={f}/> 
+                <PostCard post={f} /> 
            )):<div>Sin Posts </div>    
         }
         </div>
