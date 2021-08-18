@@ -13,8 +13,11 @@ export function sendVerificationEmail(user) {
 
 export const postComment = async (obj) => {
   try {
-    const response = await axios.post(`${REACT_APP_URL_API}/`, obj);
-    return response;
+    const response = await axios.post(
+      `${REACT_APP_URL_API}/forum_comments`,
+      obj
+    );
+    return response.data;
   } catch (error) {
     console.error(error);
   }

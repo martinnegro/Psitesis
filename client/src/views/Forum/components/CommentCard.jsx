@@ -65,7 +65,7 @@ const useStyle = makeStyles({
 
 });
 
-const CommentCard = ({id,date,likes,views,userName,image,content,userId}) =>{
+const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCommentComponent}) =>{
     const classes = useStyle();
     return(
         <Container className = {classes.root} >
@@ -87,7 +87,11 @@ const CommentCard = ({id,date,likes,views,userName,image,content,userId}) =>{
                         </Box>
                         <Box className = {classes.contentContainer}>
                         <Typography>
-                            {content}
+                        <span
+              dangerouslySetInnerHTML={{
+                __html: `${content}`,
+              }}
+            />
                         </Typography>
                     </Box>
 
@@ -107,7 +111,7 @@ const CommentCard = ({id,date,likes,views,userName,image,content,userId}) =>{
                             </Box>
                             <Box className = {classes.iconContainer}>
                             <Typography color="textSecondary">
-                                 <ReplyTwoToneIcon/> <Button>Responder</Button>
+                                 <ReplyTwoToneIcon/> <Button onClick =  {() => handleCommentComponent(id)}>Responder</Button>
                             </Typography>
                             </Box>
                             </Box>

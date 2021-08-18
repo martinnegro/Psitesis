@@ -13,8 +13,8 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
-  try {
+router.post("/", (req, res, next) => {
+  /*  try {
     const { comment_contents, post_id, user_id, response_to_comment_id } =
       req.body;
     const id = uuidv4();
@@ -25,10 +25,22 @@ router.post("/", async (req, res, next) => {
       user_id,
       response_to_comment_id,
     });
-    return res.json(newComment);
+    return res.status(201).send(newComment);
   } catch (err) {
     next(err);
-  }
+  } */
+  const { comment_contents, post_id, user_id, response_to_comment_id } =
+    req.body;
+  const id = uuidv4();
+  return Comment.create({
+    comment_id: id,
+    comment_contents,
+    post_id,
+    user_id,
+    response_to_comment_id,
+  })
+    .then((result) => res.json(result))
+    .catch((err) => next(err));
 });
 
 module.exports = router;

@@ -43,6 +43,14 @@ const useStyle = makeStyles({
         display: "flex",
         justifyContent: "right",
         
+    },
+    hide:{
+        display:"none"
+    },
+    replyButton:{
+        fontSize:"80px",
+        color: "#ff99bb"
+
     }
 });
 
@@ -51,17 +59,16 @@ function Forum_Post() {
     const [ post, setPost ] = useState();
     const [commentComponent,setCommentComponent] = useState(false);
     const classes = useStyle()
-    
+    const [responseToComentId,setResponseToComentId] = useState(null) 
     const [ editing, setEditing ] = useState({isEditing: false});
     const [ previous, setPrevious ] = useState()
-
+    
     useEffect(async()=>{
         fetchPostData();
     },[]);
 
     const fetchPostData = async () => {
         const fetchedPost = await axios.get(`${REACT_APP_URL_API}/forumposts/${post_id}`);
-        console.log(fetchedPost.data)
         setPost(fetchedPost.data);
         setEditing(state => { return { 
             isEditing: false,
@@ -106,11 +113,22 @@ function Forum_Post() {
 
     // HANDLE COMMENT COMPONENT
 
-    const handleCommentComponent = () =>{
-        commentComponent ? setCommentComponent(false) : setCommentComponent(true) 
-        
+    const handleCommentComponent = (response_to_comment_id) =>{
+        commentComponent ? setCommentComponent(false) : setCommentComponent(true)
+        if (response_to_comment_id){
+            setResponseToComentId(response_to_comment_id)
+        }
     }
- 
+
+    const handleCancellComment = () =>{
+        setCommentComponent(false)
+        console.log(commentComponent)
+    }
+
+    
+
+  
+
    return (
         <Container>
             <Nav></Nav>
@@ -192,16 +210,18 @@ function Forum_Post() {
             <Container>
             {post ? post.comments.map((comment)=>{
                 return(
-                    <CommentCard id = {comment.comment_id} content = {comment.comment_contents} date = {comment.comment_date} userName = {comment.user.user_name} image = {comment.user.user_img_profile} userId = {comment.user.user_id_A0} ></CommentCard>
+                    <CommentCard key = {comment.comment_id}  id = {comment.comment_id} content = {comment.comment_contents} date = {comment.comment_date} userName = {comment.user.user_name} image = {comment.user.user_img_profile} userId = {comment.user.user_id_A0} handleCommentComponent = {handleCommentComponent} ></CommentCard>
                 )
             }) : <div className={classes.root}>CARGANDO</div> } 
             
             </Container>
-            {commentComponent ? <Comment/> : null}
+            {commentComponent ? <Comment response_to_comment_id = {responseToComentId} fetchPostData = {fetchPostData} handleCancellComment = {handleCancellComment} /> : null}
             <Container className = {classes.commentIcon}>
-                <Button onClick = {handleCommentComponent}><ReplyIcon/></Button>
-                {console.log(commentComponent)}
+                
+                <Button className = {commentComponent ? classes.hide : null} onClick = {handleCommentComponent}   ><ReplyIcon className = {classes.replyButton}/></Button>
+                
             </Container>
+            
         </Container>
     )
 }
