@@ -5,15 +5,35 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
 import Container from "@material-ui/core/Container";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import TopicCard from "./components/TopicCard";
-import SubTopicCard from "./components/SubTopicCard";
-import { getForumHomeInfo } from "../../redux/actions/forumActions";
-import { useDispatch, useSelector } from "react-redux";
-import PostCard from "./components/PostCard";
-import { Link } from "react-router-dom";
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import TopicCard from './components/TopicCard';
+import SubTopicCard from './components/SubTopicCard';
+import { getForumHomeInfo } from '../../redux/actions/forumActions';
+import { useDispatch,useSelector } from "react-redux"
+import PostCard from './components/PostCard';
+import { ThemeProvider } from "@material-ui/core/styles";
+import { grey } from '@material-ui/core/colors';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: grey[50],
+      light: "#ffc4ff",
+      dark: "#9c64a6",
+      contrastText: "#fff",
+    },
+    secondary: {
+      main: grey[500],
+      light: "#ffc4ff",
+      dark: "#9c64a6",
+      contrastText: "#fff",
+    },
+  },
+});
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -39,14 +59,38 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiTabs-flexContainer": {
       justifyContent: "space-around",
     },
-  },
-  lastMssg: {
-    width: "100%",
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "center",
-  },
-}));
+    tab:{
+      backgroundColor: "#031927"
+    },
+    offset: theme.mixins.toolbar,
+    title:{
+        marginTop: '20px',
+        backgroundColor: 'purple',
+        width: '100%',
+        textAlign: 'center',
+        color: 'white'
+    },
+    tabsText:{
+      color: "#93827F",
+      '&:focus': {
+        color: 'white',
+      }
+    },
+    tabs:{
+      "& .MuiTabs-flexContainer":{
+        justifyContent:'space-around',
+      },
+      '&:focus': {
+        color: 'white',
+      }, 
+    },
+    lastMssg: {
+      width: "100%",
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "center"
+    }  
+  }));
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -95,42 +139,49 @@ const Forum = () => {
     setValue(newValue);
   };
 
-  return (
-    <Container>
-      <div className={classes.offset}></div>
-      <Nav />
-      <Container className={classes.title}>
-        <Typography variant="h2">Foro</Typography>
-      </Container>
-      <div className={classes.root}>
-        <AppBar className={classes.tab} position="static" color="default">
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            indicatorColor="primary"
-            textColor="primary"
-            variant="scrollable"
-            scrollButtons="auto"
-            aria-label="scrollable auto tabs example"
-            className={classes.tabs}
-          >
-            <Tab
-              className={classes.tabsText}
-              label="INICIO"
-              {...a11yProps(0)}
-            />
-            <Tab
-              className={classes.tabsText}
-              label="ULTIMOS MENSAJES"
-              {...a11yProps(1)}
-            />
-          </Tabs>
-        </AppBar>
-        <TabPanel value={value} index={0}>
-          <Container>
-            {topicsAndSubtopics ? (
-              topicsAndSubtopics.map((topic) => {
-                return (
+    useEffect(() => {
+      dispatch(getForumHomeInfo());
+    }, [dispatch])
+    
+    const handleChange = (event, newValue) => {
+      setValue(newValue);
+    };
+    
+    return (
+        <Container>
+          <ThemeProvider theme={theme}>
+             <div className={classes.offset}></div>
+        <Nav/>
+        <Container className={classes.title}>
+            <Typography variant='h2' >Foro</Typography>
+        </Container>
+        <div className={classes.root}>
+          <AppBar className = {classes.tab} position="static" color="default" >
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              indicatorColor="primary"
+              textColor="primary"
+              variant="scrollable"
+              scrollButtons="auto"
+              aria-label="scrollable auto tabs example"
+              className={classes.tabs}
+            >
+              <Tab 
+                className = {classes.tabsText} 
+                label="INICIO" {...a11yProps(0)} 
+                />
+              <Tab 
+                className = {classes.tabsText} 
+                label="ULTIMOS MENSAJES" {...a11yProps(1)} 
+                />
+            </Tabs>
+          </AppBar>
+          <TabPanel value={value} index={0}>
+            <Container>
+              {topicsAndSubtopics ? topicsAndSubtopics.map((topic)=>{
+                return(
+
                   <div>
                     <TopicCard
                       id={topic.topic_id}
@@ -159,12 +210,15 @@ const Forum = () => {
               last20Post.map((p) => <PostCard post={p} />)
             ) : (
               <div>CARGANDO</div>
-            )}
-          </Container>
-        </TabPanel>
-      </div>
-    </Container>
-  );
-};
+
+            }
+            </Container>
+          </TabPanel>
+        </div>
+        </ThemeProvider>
+      </Container>
+    )
+}
+
 
 export default Forum;

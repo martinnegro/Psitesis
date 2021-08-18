@@ -22,7 +22,10 @@ const useStyles = makeStyles({
         flexDirection: 'row',
         margin: '10px',
         maxHeight: '205px',
-        borderRadius: '3%'
+        borderRadius: '3%',
+        "@media (max-width: 601px)": {
+          width: '100%',
+        },
     },
     bullet: {
       display: 'inline-block',

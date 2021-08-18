@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import authReducer from "./authReducer";
 import rootReducer from "./reducer";
 import institutionsReducer from "./institutionsReducer";
 import usersReducer from "./usersReducer";
@@ -8,6 +9,7 @@ import forumReducer from "./forumReducer";
 
 // combina todos los reducer
 export default combineReducers({
+  authReducer,
   metadataReducer,
   rootReducer,
   institutionsReducer,
