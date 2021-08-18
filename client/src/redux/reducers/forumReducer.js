@@ -7,7 +7,7 @@ import {
 const initialState = {
   topicsAndSubtopics: [],
   last20Post: [],
-  forumSubtopics:[],
+  forumSubtopics: null,
  
 };
 
