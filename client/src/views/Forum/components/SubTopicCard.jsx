@@ -21,13 +21,13 @@ const useStyle = makeStyles({
 
 const SubTopicCard = ({id,name,description}) =>{
     const classes = useStyle();
-
+    
     return(
 <Container className = {classes.container}>
-    <Link className={classes.link} to = {`/forum/subtopic/${id}`}>
-<Typography className = {classes.title} variant='h3' color="textPrimary" >{name}</Typography>
-<Typography className = {classes.secondary} variant='h4' color = "textSecondary" >{description}</Typography>
-</Link>
+    <Link className={classes.link} to={`/forum/subtopic/${id}`}>
+        <Typography className = {classes.title} variant='h3' color="textPrimary" >{name}</Typography>
+        <Typography className = {classes.secondary} variant='h4' color = "textSecondary" >{description}</Typography>
+    </Link>
 <Divider></Divider>
 
 </Container>
