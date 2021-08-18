@@ -1,30 +1,30 @@
-import React, { useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import { Link } from "react-router-dom";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import MenuIcon from "@material-ui/icons/Menu";
-import Avatar from "@material-ui/core/Avatar";
-import Drawer from "@material-ui/core/Drawer";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import MenuIcon from '@material-ui/icons/Menu';
+import Avatar from '@material-ui/core/Avatar';
+import Drawer from '@material-ui/core/Drawer';
 
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import PeopleAltTwoToneIcon from "@material-ui/icons/PeopleAltTwoTone";
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import PeopleAltTwoToneIcon from '@material-ui/icons/PeopleAltTwoTone';
 
-import Divider from "@material-ui/core/Divider";
+import Divider from '@material-ui/core/Divider';
 
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 
-import { makeStyles, useTheme, Typography } from "@material-ui/core";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import clsx from "clsx";
+import { makeStyles, useTheme } from '@material-ui/core';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import clsx from 'clsx';
 
-import IconButton from "@material-ui/core/IconButton";
-import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
-import BookOutlinedIcon from "@material-ui/icons/BookOutlined";
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
+import BookOutlinedIcon from '@material-ui/icons/BookOutlined';
 // import ForumIcon from '@material-ui/icons/Forum';
 // import PeopleOutlineOutlinedIcon from '@material-ui/icons/PeopleOutlineOutlined';
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -32,11 +32,11 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import SettingsIcon from "@material-ui/icons/Settings";
 import ForumTwoToneIcon from "@material-ui/icons/ForumTwoTone";
 
-import userAvatar from "../../assets/user.jpg";
 import logo from "../../assets/Logo.png";
 import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
-
+import userAvatar from '../../assets/user.jpg';
+import { useSelector, useDispatch } from 'react-redux';
+import { logOut } from './../../redux/actions/actionsAuth';
 //Submenu
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
@@ -136,14 +136,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Nav() {
-  const user_roles = useSelector((state) => state.usersReducer.user_roles); // Nueva forma de acceder al estado por combineReducer
-  const { isAuthenticated, user, logout } = useAuth0();
+	const { isAuthenticated, user } = useSelector((state) => state.authReducer); // Nueva forma de acceder al estado por combineReducer
+	const dispatch = useDispatch();
 
-  const handleLogout = () => {
-    logout({
-      returnTo: window.location.origin,
-    });
-  };
+	const handleLogout = () => {
+		dispatch(logOut());
+	};
 
   const history = useHistory();
 
@@ -190,17 +188,17 @@ export default function Nav() {
             <MenuIcon />
           </IconButton>
           <div className={classes.logoMax}>
-            <Link to={`/user/${user.user_sub}`}>
+            <Link to={`/user/${user?.user_id}`}>
               <Avatar variant="square" src={logo} className={classes.square} />
             </Link>
           </div>
 
           {isAuthenticated ? (
-            <Link to={`/user/${user.sub}`}>
+            <Link to={`/user/${user?.user_id}`}>
               <Avatar alt="User" src={user.picture} />
             </Link>
           ) : (
-            <Link to={`/user/${user.user_sub}`}>
+            <Link to={`/user/${user?.user_id}`}>
               <Avatar alt="User" src={userAvatar} />
             </Link>
           )}
@@ -307,7 +305,7 @@ export default function Nav() {
         </ListItem>
 
         <Divider />
-        {user_roles?.includes("admin") ? (
+        {user?.roles?.includes('admin') ? (
           <>
             <ListItem button onClick={() => history.push("/post")}>
               <ListItemIcon>

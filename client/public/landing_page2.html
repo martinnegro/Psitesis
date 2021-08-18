@@ -52,7 +52,7 @@
 				text-align: center;
 				color: #fff;
 				font-size: 32px;
-				font-weight: bold;				
+				font-weight: bold;
 				padding-bottom: 60px;
 			}
 
@@ -257,7 +257,7 @@
 				height: 40px;
 				font-weight: bold;
 			}
-			
+
 			.btn-light:hover {
 				color: #4484e9 !important;
 				border-color: #4484e9 !important;
@@ -267,12 +267,12 @@
 				height: 24px;
 			}
 
-			.content-separator-line {				
+			.content-separator-line {
 				padding-top: 30px;
 				padding-bottom: 0px;
 			}
 
-			.separator-line {			
+			.separator-line {
 				display: block;
 				border-top: 2px solid #fff;
 				height: 2px;
@@ -385,7 +385,7 @@
 											/>
 											ingresar con google
 										</button>
-									</div>									
+									</div>
 									<div class="content-separator-line">
 										<hr class="separator-line" />
 									</div>
@@ -556,7 +556,7 @@
 					},
 					config.internalOptions
 				);
-
+				console.log(params);
 				var webAuth = new auth0.WebAuth(params);
 				var databaseConnection = 'Username-Password-Authentication';
 				var captcha = webAuth.renderCaptcha(

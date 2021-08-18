@@ -1,16 +1,29 @@
-import { Route } from "react-router-dom";
-import { withAuthenticationRequired } from "@auth0/auth0-react";
-import { useAuth0 } from "@auth0/auth0-react";
-import Home from "../../views/Home/Home";
-import VerifyEmail from "../VerifyEmail";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Route } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
+import VerifyEmail from '../VerifyEmail';
 
-const ProtectedRoute = ({ component, ...args }) => {
-  const { user } = useAuth0();
-  return user?.email_verified ? (
-    <Route component={withAuthenticationRequired(component)} {...args} />
-  ) : (
-    <VerifyEmail />
-  );
+const ProtectedRoute = ({ component: Component, ...restOfProps }) => {
+	const { user, isAuthenticated } = useSelector(
+		(state) => state.authReducer
+	);
+	return (
+		<Route
+			{...restOfProps}
+			render={(props) =>
+				isAuthenticated ? (
+					user.email_verified ? (
+						<Component {...props} />
+					) : (
+						<VerifyEmail {...props} />
+					)
+				) : (
+					<Redirect to="/" />
+				)
+			}
+		/>
+	);
 };
 
 export default ProtectedRoute;
