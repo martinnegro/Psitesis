@@ -1,5 +1,6 @@
 import {
-  GET_FORUM_HOME_INFO,
+  GET_FORUM_HOME_INFO, 
+  GET_FORUM_SUBTOPIC
 
 } from "../actions/forumActions";
 
@@ -18,7 +19,11 @@ export default function forumReducer(state = initialState, { type, payload }) {
         topicsAndSubtopics: payload.topicsAndSub,
         last20Post: payload.last20Post,
       };
-
+      case GET_FORUM_SUBTOPIC:
+        return{
+          ...state,
+          forumSubtopics: payload
+        }
     default:
       return state;
   }

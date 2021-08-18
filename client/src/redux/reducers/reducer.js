@@ -37,11 +37,7 @@ function rootReducer(state = initialState, action) {
           [action.payload.id]: action.payload.data
         } 
       }
-      case GET_FORUM_SUBTOPIC:
-        return{
-          ...state,
-          forumSubtopics: action.payload
-        }
+      
     default:
       return state;
   }

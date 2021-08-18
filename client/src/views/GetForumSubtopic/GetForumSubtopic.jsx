@@ -8,9 +8,9 @@ import styles from './GetForumSubtopic.module.css'
 export default function GetForumSubTopic(){
     const dispatch = useDispatch()
     const {id} = useParams()
-    const forum = useSelector((state) => state.rootReducer.forumSubtopics)
-    console.log(forum)
+    const forum = useSelector((state) => state.forumReducer.forumSubtopics)
     
+    console.log(forum)
     useEffect(() => {
         dispatch(getForumSubtopic(id))
     },[dispatch, id])
@@ -18,11 +18,12 @@ export default function GetForumSubTopic(){
     return(
         <div>
             <Nav/>
-            {forum?.length > 0?
-            forum?.map((f)=>(
-                <PostCard post={f} /> 
-           )):<div>Sin Posts </div>    
-        }
+            {
+                forum?.length > 0?
+                forum?.map((f)=>(
+                    <PostCard post={f} /> 
+                )):<div>Sin Posts </div>    
+            }
         </div>
     )
 }
