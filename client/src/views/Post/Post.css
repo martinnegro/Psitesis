@@ -1,19 +1,29 @@
 .ql-editor {
-    min-height: 150px;
-  }
-  
-  hr {
-    width: 100%;
-  }
+  min-height: 150px;
+}
+.ql-toolbar.ql-snow + .ql-container.ql-snow {
+  min-width: 100%;
+}
 
+hr {
+  width: 80%;
+}
+
+.ql-toolbar.ql-snow {
+display: flex;
+flex-direction: row;
+justify-content: flex-start;
+border: none;
+border-bottom: 1px solid black;
+}
+
+@media (max-width: 600px) {
 .ql-toolbar.ql-snow {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  border: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  border: solid 1px grey;
   border-bottom: 1px solid black;
 }
-
-.ql-toolbar.ql-snow .ql-formats{
-  margin-right: 5px;
 }

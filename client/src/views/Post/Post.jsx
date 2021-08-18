@@ -31,6 +31,9 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import Selectores from "../../components/Select/Select";
+//menucito
+import NavBottom from "../../components/NavBottom/NavBottom";
+import Container from "@material-ui/core/Container"; 
 
 const theme = createTheme({
   palette: {
@@ -50,6 +53,7 @@ const theme = createTheme({
 });
 
 const useStyles = makeStyles({
+  offset: theme.mixins.toolbar,
   root: {
     color: "#ffffff",
     backgroundColor: purple[500],
@@ -75,6 +79,27 @@ const useStyles = makeStyles({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     maxWidth: "10%",
+  },
+  Home: {
+    marginTop: theme.spacing(5),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  tipoh2: {
+    "@media (max-width: 601px)": {
+      marginTop: 0,
+      fontSize: "1.75rem",
+      marginBottom: "10px",
+    },
+  },
+  anchoInput: {
+    marginTop: 20,
+    width: "50vw",
+    "@media (max-width: 601px)": {
+      width: "80vw",
+    },
   },
 });
 
@@ -223,10 +248,12 @@ function Post() {
 
   return (
     <div>
+      <div className={classes.offset}></div>
       <Nav />
       <ThemeProvider theme={theme}>
-        <header className={`${style.contenedor_editor} ${style.centrado}`}>
-          <Typography variant="h2" color="initial">
+        {/* <header className={`${style.contenedor_editor} ${style.centrado}`}> */}
+        <Container className={classes.Home}>
+          <Typography variant="h2" color="initial" className={classes.tipoh2}>
             NUEVO POST ARTICULO
           </Typography>
           <br />
@@ -240,6 +267,7 @@ function Post() {
               onChange={handleInput}
               required
             />
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
             <FormControl>
               <InputLabel htmlFor="grouped-native-select">Categoria</InputLabel>
               <Select
@@ -254,7 +282,7 @@ function Post() {
               </Select>
             </FormControl>
           </div>
-          <div>
+          <br />
             <TextField
               id="outlined-full-width"
               label="Reseña"
@@ -278,7 +306,6 @@ function Post() {
               rows={3}
               multiline
             />
-          </div>
           <br />
           <br />
           <ReactQuill
@@ -293,7 +320,6 @@ function Post() {
             <TextField
               id="outlined-full-width"
               label="Tags"
-              style={{ marginTop: 20 }}
               placeholder="Placeholder"
               helperText="Ingresa tags separados por coma ','"
               fullWidth
@@ -306,6 +332,7 @@ function Post() {
               type="text"
               value={tags}
               onChange={handleInputTags}
+              className={classes.anchoInput}
               required
             />
           </div>
@@ -324,6 +351,7 @@ function Post() {
             >
               VISTA PREVIA
             </Button>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
             <div>
               <Modal
                 aria-labelledby="transition-modal-title"
@@ -386,8 +414,14 @@ function Post() {
               </Fade>
             </Modal>
           </div>
-        </header>
+          </Container>
+        {/* </header>         */}
       </ThemeProvider>
+      <br />
+      <br />
+      <br />
+      <br />
+      <NavBottom />
     </div>
   );
 }
