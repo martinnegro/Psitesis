@@ -2,7 +2,7 @@ const { Router } = require("express");
 const router = Router();
 const { v4: uuidv4 } = require("uuid");
 const sequelize = require('sequelize');
-const { Forumpost, Comment } = require('../db');
+const { Forumpost, Comment, User } = require('../db');
 
 router.get('/', async (req, res, next) => {
     const result = await Forumpost.findAll();
@@ -14,7 +14,7 @@ router.get('/:post_id', async (req, res, next) => {
     
     try {
     const result = await Forumpost.findByPk(post_id,{
-        include: [{ model: Comment }]
+        include: [{ model: Comment } ,{model: User}]
     });
     res.json(result);
     } catch(err) { next(err) } 

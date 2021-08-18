@@ -36,7 +36,7 @@ const useStyle = makeStyles({
     }
 
 });
-function PostCard({ post }) {
+function PostCard( {post} ) {
     const classes = useStyle();
     
     return (

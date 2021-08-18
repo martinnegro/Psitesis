@@ -1,15 +1,16 @@
 import {
-
   GET_ALL_CAT_SUB,
   GET_CATEGORY,
   GET_SUB_CATEGORY,
-
 } from "../actions/actions";
+
+import {GET_FORUM_SUBTOPIC} from '../actions/forumActions'
 
 const initialState = {
   cat_sub: {},
   category: {},
   subCategory:{},
+  forumSubtopics:{}
 };
 
 function rootReducer(state = initialState, action) {
@@ -36,6 +37,11 @@ function rootReducer(state = initialState, action) {
           [action.payload.id]: action.payload.data
         } 
       }
+      case GET_FORUM_SUBTOPIC:
+        return{
+          ...state,
+          forumSubtopics: action.payload
+        }
     default:
       return state;
   }
