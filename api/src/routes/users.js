@@ -80,12 +80,11 @@ router.post('/', async (req, res, next) => {
 	}
 });
 
-router.post('/get_role', async (req, res, next) => {
-	const { user_id_A0 } = req.body;
+router.get('/get_roles', async (req, res, next) => {
+	
 	try {
-		const role = await management.getUserRoles({ id: user_id_A0 });
 		const roles = await management.roles.getAll();
-		res.json({ role, roles });
+		res.json({ roles });
 	} catch (err) {
 		next(err);
 	}

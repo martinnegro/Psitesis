@@ -94,6 +94,7 @@ export default function AdminUsers() {
   const users = useSelector(state => state.usersReducer.users)
   const [page, setPage] = React.useState(0);
   const [usersPerPage, setUsersPerPage] = React.useState(5);
+  const [ roles, setRoles ] = React.useState([]);
 
   const emptyusers = usersPerPage - Math.min(usersPerPage, users.length - page * usersPerPage);
 
@@ -128,7 +129,7 @@ export default function AdminUsers() {
                 {row.user_name}
               </TableCell>
               <TableCell /*style={{ width: 160 }}*/ align="right">
-                
+                {row.user_rol_id}
               </TableCell>
             </TableRow>
           ))}
