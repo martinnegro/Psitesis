@@ -67,11 +67,17 @@ router.get("/", (req, res, next) => {
   if (orderBy && order) {
     return Article.findAll({
       order: [[orderBy, order]],
+      include:[{ model: Subcategory}]
     })
       .then((articlesOrdered) => res.json(articlesOrdered))
       .catch((err) => next(err));
   }
-  Article.findAll()
+  Article.findAll({
+    include:[{ model: Subcategory,
+      attributes:['sub_cat_id'],
+    include: [{model: Category,
+    attributes:['cat_id']}]}]
+  })
     .then((articlesFound) => {
       return res.json(articlesFound);
     })
@@ -134,6 +140,25 @@ router.delete("/:art_id", authorizeAccessToken, async (req, res, next) => {
     res.status(404).json({
       message: `ID recieved: ${art_id} but dont exist article with ID!`,
     });
+  }
+});
+
+router.get("/sinseccion/hola", async (req, res, next) => {
+  try {
+    let articleWithoutCategory = await Article.findAll( {
+      include:[{ model: Subcategory,
+        include: [{model: Category}]}],
+      where: [{ subcategory: { category : null }}]
+    })
+  
+    let articleWithoutSubcategory = await Article.findAll({ 
+      include:[{ model: Subcategory}],
+      where: [{ subcategory : null }]
+    })
+   
+    return res.json({articleWithoutCategory, articleWithoutSubcategory} )
+  } catch (e){
+    next(e)
   }
 });
 

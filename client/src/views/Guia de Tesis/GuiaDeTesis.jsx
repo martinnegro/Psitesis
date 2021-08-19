@@ -172,9 +172,9 @@ export default function GuiaDeTesis() {
                       categories?.length > 0 ?
                       categories.map(c => (
                         <Tab label={c.cat_name} key={c.cat_id} id={c.cat_id} {...a11yProps(c.cat_id)} />
-                      )): null
+                      ))  : null
                   }
-                      <Tab label='Sin Sección' key={'Sin Sección'} id={'Sin Sección'} {...a11yProps('Sin Sección')} />
+                   <Tab label={'Sin Sección'} key={'Sin Sección'} id={'Sin Sección'} {...a11yProps('Sin Sección')} />
                   </Tabs>
                 </AppBar>
                 {
@@ -204,7 +204,6 @@ export default function GuiaDeTesis() {
                               id={a.art_id}
                               userId={a.user_id}/>
                             )) : <Typography variant="h6" color="initial">No hay resultados para su búsqueda</Typography>
-                            
                           }
                       </Container>
                       <Container>
@@ -227,12 +226,24 @@ export default function GuiaDeTesis() {
                 {
                     categories?.length > 0 ?
                     categories.map((c, i) => (
-                        <TabPanel value={value} id={c.cat_id} index={i}/>
+                        <TabPanel value={value} id={c.cat_id} index={i} sinSeccion={false}/>
                     )): null
                 }
-                <TabPanel value={5} id={'Sin Sección'} index={5}/>
+                <TabPanel value={categories?.length} index={categories?.length} sinSeccion={true}/>
+              
             </div>
         </Container> 
     )
 }
 
+/*
+Problema:  No puedo cargar contenido en la pestaña de 'Sin Seccion' creandola desde el Front
+  probe: 
+    -Poniendo un value y un index igual diferentes a los otros pero carga en toda las pestañas
+    -Poniendole un componente diferente en la guia de Tesis pero es el mismo resultado
+
+Soluciones: 
+  -Que halla una categoria cargada que se llame 'Sin Seccion' y una Subcategoria 'Articulos sin Seccion' ya desde el back
+    problema: Tendría que aparecer primero o ultimo para que quede prensentable.
+  -Cuando se elimina la subcategoria, ¿Hay forma de colocarle a los articulos la subcategoria 'Sin Seccion'?
+*/
