@@ -162,7 +162,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Landing = (props) => {
-	const { isAuthenticated, error } = useSelector((state) => state.authReducer);
+	const { isAuthenticated } = useSelector((state) => state.authReducer);
 	const dispatch = useDispatch();
 	const classes = useStyles();
 	const [stateAuth, setStateAuth] = useState('Login');
@@ -250,10 +250,6 @@ const Landing = (props) => {
 		e.preventDefault();
 		dispatch(loginWithFacebook());
 	};
-
-	useEffect(() => {
-		console.log(error);
-	}, [error]);
 
 	if (isAuthenticated) {
 		return <Redirect to="/home" />;
