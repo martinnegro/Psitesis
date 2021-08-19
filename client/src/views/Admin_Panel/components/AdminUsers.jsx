@@ -207,7 +207,7 @@ export default function AdminUsers() {
                 <Avatar alt={row.user_name} src={row.user_img_profile}/>
               </TableCell>
                 <TableCell /*style={{ width: 160 }}*/ align="left">
-              <Link to={`/user/${row.user_id}`} style={{ textDecoration: "none" }}>
+              <Link to={`/user/${row.user_id_A0}`} style={{ textDecoration: "none" }}>
                   {row.user_name}
               </Link>
                 </TableCell>  
