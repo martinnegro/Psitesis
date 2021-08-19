@@ -168,7 +168,7 @@ function Post() {
 
   const handleSubmitBody = async (e) => {
     e.preventDefault();
-
+    
     let data = {
       art_contents: body,
       art_title: titulo,

@@ -220,7 +220,7 @@ export default function Nav() {
                 open={Boolean(anchorEl2)}
                 onClose={handleClose2}
               >
-                <MenuItem>
+                {/* <MenuItem>
                   <IconButton
                     color="inherit"
                     aria-label="add"
@@ -231,7 +231,38 @@ export default function Nav() {
                       CLOSE
                     </Typography>
                   </IconButton>
-                </MenuItem>
+                </MenuItem> */}
+
+              {user?.roles?.includes("admin") ||
+              user?.roles?.includes("superadmin") ? (
+              <>
+              <MenuItem>
+                <IconButton
+                  color="inherit"
+                  aria-label="add"
+                  onClick={() => history.push("/post")}
+                >
+                  <AddCircleOutlineIcon  fontSize='10px' />&nbsp;
+                  <Typography variant="subtitle2" color="initial" style={{fontSize: '8px', textTransform: 'uppercase'}}>
+                    ADD POST
+                  </Typography>
+                </IconButton>
+              </MenuItem>
+              <MenuItem>
+                <IconButton
+                  edge="end"
+                  color="inherit"
+                  onClick={() => history.push("/adminpanel")}
+                >
+                  <SettingsIcon fontSize='10px' />&nbsp;
+                  <Typography variant="subtitle2" color="initial" style={{fontSize: '8px', textTransform: 'uppercase'}}>
+                    PANEL ADMIN
+                  </Typography>
+                </IconButton>
+              </MenuItem>
+              </>
+              ): null }   
+
                 <MenuItem>
                   <IconButton
                     edge="end"
@@ -262,15 +293,15 @@ export default function Nav() {
             </Link>
           )}
 
-          <div className={classes.ocultReverse}>
-            <Button
+          {/*<div className={classes.ocultReverse}>
+             <Button
               aria-controls="simple-menu"
               aria-haspopup="true"
               onClick={handleClick}
             >
               <MenuIcon style={{ color: '#ffffff' }} />
-            </Button>
-            <Menu
+            </Button> */}
+            {/* <Menu
               id="simple-menu"
               anchorEl={anchorEl}
               keepMounted
@@ -313,8 +344,8 @@ export default function Nav() {
                   </Typography>
                 </IconButton>
               </MenuItem>
-            </Menu>
-          </div>
+            </Menu> 
+          </div>*/}
         </Toolbar>
       </AppBar>
 
@@ -365,8 +396,8 @@ export default function Nav() {
           </ListItemIcon>
           <ListItemText>Colaboradores</ListItemText>
         </ListItem>
-        <Divider />
-        {user?.roles?.includes("admin") ||
+         <Divider />
+        {/*{user?.roles?.includes("admin") ||
         user?.roles?.includes("superadmin") ? (
           <>
             <ListItem button onClick={() => history.push("/post")}>
@@ -380,10 +411,10 @@ export default function Nav() {
                 <SettingsIcon />
               </ListItemIcon>
               <ListItemText>Panel de Administrador</ListItemText>
-            </ListItem>
+            </ListItem> 
           </>
         ) : null}
-        <Divider />
+        <Divider />*/}
       </Drawer>
     </div>
   );
