@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -29,6 +30,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { getAllUsers } from '../../../redux/actions/usersActions'
 import { changeUserRole } from '../../../redux/API'; 
+
+import './AdminUsers.css'
 const { REACT_APP_URL_API } = process.env;
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -103,25 +106,28 @@ const useStyles2 = makeStyles({
 
 export default function AdminUsers() {
   const classes = useStyles2();
-  const users = useSelector(state => state.usersReducer.users)
+  const usersNoFilter = useSelector(state => state.usersReducer.users)
   const [ page, setPage ] = React.useState(0);
   const [usersPerPage, setUsersPerPage] = React.useState(5);
   const [ roles, setRoles ] = React.useState([]);
   const [ wantChangeRole, setWantChangeRol ] = React.useState({});
   const [ selects, setSelects ] = React.useState({});
   const [ input, setInput ] = React.useState('');
-  const [ filteredUsers, setFilteredUsers ] = React.useState([]);
+  const [ users, setUsers ] = React.useState([]);
   const dispatch = useDispatch();
 
   const emptyusers = usersPerPage - Math.min(usersPerPage, users.length - page * usersPerPage);
 
   useEffect(()=>{
-    const 
-  },[input])
+    if (input.length > 0) {
+      const auxFilter = usersNoFilter.filter(u => u.user_name.toLowerCase().includes(input.toLowerCase()));
+      setUsers(auxFilter)
+    } else setUsers(usersNoFilter)
+  },[input,usersNoFilter])
 
   useEffect(()=>{
     dispatch(getAllUsers())
-  },[]);
+  },[dispatch]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -141,7 +147,6 @@ export default function AdminUsers() {
         const aux = {};
         const aux2 = {};
         users.forEach(u => {aux[u.user_id] = false; aux2[u.user_id] = u.user_rol_id })
-        console.log(aux2)
         setWantChangeRol(aux);
         setSelects(aux2)
       }
@@ -179,6 +184,7 @@ export default function AdminUsers() {
     <Container>
     <form>
       <TextField id="outlined-basic" label="Filtrar por nombre" variant="outlined"
+        margin="dense"
         value={input}
         onChange={(e) => setInput(e.target.value)}
       />
@@ -200,9 +206,11 @@ export default function AdminUsers() {
               <TableCell component="th" scope="row">
                 <Avatar alt={row.user_name} src={row.user_img_profile}/>
               </TableCell>
-              <TableCell /*style={{ width: 160 }}*/ align="left">
-                {row.user_name}
-              </TableCell>  
+                <TableCell /*style={{ width: 160 }}*/ align="left">
+              <Link to={`/user/${row.user_id}`} style={{ textDecoration: "none" }}>
+                  {row.user_name}
+              </Link>
+                </TableCell>  
               <TableCell /*style={{ width: 160 }}*/ align="left">
                 {getRoleName(row.user_rol_id)}
               </TableCell>
