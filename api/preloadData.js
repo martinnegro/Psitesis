@@ -168,7 +168,8 @@ async function createData() {
       post_state: true,
       sub_topic_id: pdSubtopic[0].sub_topic_id,
       user_id: mappedusersA0[0].user_id,
-      post_edited: false
+      post_edited: false,
+      post_open: true
     },{
       post_id: uuidv4(),
       post_contents: '',
@@ -177,7 +178,8 @@ async function createData() {
       post_state: true,
       sub_topic_id: pdSubtopic[0].sub_topic_id,
       user_id: mappedusersA0[1].user_id,
-      post_edited: false
+      post_edited: false,
+      post_open: true
     },{
       post_id: uuidv4(),
       post_contents: '',
@@ -186,7 +188,8 @@ async function createData() {
       post_state: true,
       sub_topic_id: pdSubtopic[0].sub_topic_id,
       user_id: mappedusersA0[2].user_id,
-      post_edited: false
+      post_edited: false,
+      post_open: true
     },{
       post_id: uuidv4(),
       post_contents: '',
@@ -195,7 +198,8 @@ async function createData() {
       post_state: true,
       sub_topic_id: pdSubtopic[0].sub_topic_id,
       user_id: mappedusersA0[3].user_id,
-      post_edited: false
+      post_edited: false,
+      post_open: true
     },{
       post_id: uuidv4(),
       post_contents: 'Hola a todos, estoy teniendo problemas para enfocar mi tesis. Trato de pensar temas pero mi tutor me dice que son inabarcables para los propositos de la tesis que piden en la facu. Quiero investigar sobre la depresión en situaciones de encierro como la del COVID 19 ¿Cómo podría recortarlo?',
@@ -204,7 +208,8 @@ async function createData() {
       post_state: true,
       sub_topic_id: pdSubtopic[2].sub_topic_id,
       user_id: mappedusersA0[4].user_id,
-      post_edited: false
+      post_edited: false,
+      post_open: true
     },{
       post_id: uuidv4(),
       post_contents: 'Encontre un artículo muy interesante que revisa la teoria freudiana comparandola con la teoria de la depresión de Beck, el problema es que está subida en elrincondelvago.com y queria saber si la podía usar igual ya que es muy interesante y no encontre otro lugar donde hablaran sobre el tema.',
@@ -213,7 +218,8 @@ async function createData() {
       post_state: true,
       sub_topic_id: pdSubtopic[0].sub_topic_id,
       user_id: mappedusersA0[3].user_id,
-      post_edited: false
+      post_edited: false,
+      post_open: true
     }]
 
     const oneCommentId = uuidv4();
