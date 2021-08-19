@@ -45,12 +45,13 @@ const Comment = ({response_to_comment_id,fetchPostData,handleCancellComment}) =>
     }
 
     function handleOnChange(e){
-        setCommentInf({
-            ...commentInf,
-            response_to_comment_id,
-            comment_contents : e,
-        })
-        
+        if (commentInf.response_to_comment_id){
+            setCommentInf({
+                ...commentInf,
+                /* response_to_comment_id, */
+                comment_contents : e,
+            })
+        }
     }
     return(
         <Container>
