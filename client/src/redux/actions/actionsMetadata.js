@@ -12,7 +12,7 @@ export const getUserMetadata = (id) => {
 				response?.data?.message === 'successful' &&
 				response?.data?.metadata !== null
 			) {
-				dispatch(setMetadata);
+				dispatch(setMetadata(response.data.metadata));
 			}
 		} catch (error) {
 			console.error(error);

@@ -109,7 +109,7 @@ router.put('/change_role', async (req, res, next) => {
 });
 
 router.get('/', authorizeAccessToken, async (req, res, next) => {
-	try {
+	try {    
 		const { rol } = req.query;
 		let params = {
 			id: rol,
