@@ -34,7 +34,7 @@ export const deleteCategory = (id) => API.delete(`/categories/${id}`)
 export const createNewCategory = (newCategory) => API.post(`/categories`,newCategory)
 export const setCategory = (data) => API.put(`/categories`,data);
 // ruta subcategories
-export const getSubCategory = (id) => API.get(`/categories/${id}`)
+export const getSubCategory = (id) => API.get(`/Subcategory/category/${id}`)
 export const setSubCategory = (data) => API.put(`/subcategories`,data);
 export const deleteSubCategory = (id) => API.delete(`/subcategories/${id}`);
 export const createNewSubCategory = (newSubCategory) => API.post(`/subcategories`,newSubCategory);
