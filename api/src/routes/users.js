@@ -80,15 +80,14 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.post("/get_role", async (req, res, next) => {
-  const { user_id_A0 } = req.body;
-  try {
-    const role = await management.getUserRoles({ id: user_id_A0 });
-    const roles = await management.roles.getAll();
-    res.json({ role, roles });
-  } catch (err) {
-    next(err);
-  }
+router.get('/get_roles', async (req, res, next) => {
+	
+	try {
+		const roles = await management.roles.getAll();
+		res.json(roles);
+	} catch (err) {
+		next(err);
+	}
 });
 
 router.put("/change_role", async (req, res, next) => {
@@ -97,15 +96,21 @@ router.put("/change_role", async (req, res, next) => {
   var paramsDel = { id: idUser };
   var dataDel = { roles: [oldRoleId] };
 
-  await management.users.removeRoles(paramsDel, dataDel, (err) => {
-    err && next(err);
-  });
+	try {
+	await management.users.removeRoles(paramsDel, dataDel, (err) => {
+		err && next(err);
+	});
 
-  const paramsAssign = { id: idUser };
-  const dataAssign = { roles: [newRolId] };
-  await management.assignRolestoUser(paramsAssign, dataAssign, (err) => {
-    err ? next(err) : res.json({ message: "Role change succesful." });
-  });
+	const paramsAssign = { id: idUser };
+	const dataAssign = { roles: [newRolId] };
+	await management.assignRolestoUser(paramsAssign, dataAssign);
+	const user = await User.findOne({where: { user_id_A0: idUser }});
+	user.user_rol_id = newRolId;
+	await user.save();
+
+	res.json({ message: 'Updated' });
+	} catch (err) { next(err) }
+
 });
 
 router.get("/", authorizeAccessToken, async (req, res, next) => {
