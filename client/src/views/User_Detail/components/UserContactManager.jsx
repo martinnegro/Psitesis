@@ -24,20 +24,20 @@ import {
 	clearUserMetadata,
 } from '../../../redux/actions/actionsMetadata';
 
-const UserContactManager = ({ userDetail }) => {
+const UserContactManager = ({ user }) => {
 	const [isCreating, setIsCreating] = useState(false);
 	const [open, setOpen] = useState({});
 	const [newLink, setNewLink] = useState('');
-	const { user } = useSelector((state) => state.authReducer);
-	const { userMetadata } = useSelector((state) => state.metadataReducer);
+	const myUser = useSelector((state) => state.authReducer.user);
+	const metadata = useSelector((state) => state.metadataReducer.metadata);
 	const dispatch = useDispatch();
-	console.log(userDetail);
+
 	useEffect(() => {
-		if (userDetail?.user_id_A0) {
-			dispatch(getUserMetadata(userDetail.user_id_A0));
+		if (user?.user_id_A0) {
+			dispatch(getUserMetadata(user.user_id_A0));
 		}
 		return () => dispatch(clearUserMetadata());
-	}, [dispatch, user?.user_id_A0, userDetail?.user_id_A0]);
+	}, [dispatch, user]);
 
 	const handleOnChangeNewLink = (e) => {
 		setNewLink(e.target.value);
@@ -50,8 +50,8 @@ const UserContactManager = ({ userDetail }) => {
 
 	const confirmNewLink = async (newLink) => {
 		if (newLink !== '') {
-			if (userMetadata?.metadata?.links) {
-				if (!userMetadata?.metadata?.links?.includes(newLink)) {
+			if (metadata?.links) {
+				if (!metadata?.links?.includes(newLink)) {
 					dispatch(createNewLinkInMetadata(newLink, user.user_id_A0));
 				}
 			} else {
@@ -85,7 +85,7 @@ const UserContactManager = ({ userDetail }) => {
 		<Box>
 			<Box style={{ color: '#861C55', fontSize: '30px' }}>Contacto</Box>
 			<Table>
-				{userMetadata?.metadata?.links?.map((link) => (
+				{metadata?.links?.map((link) => (
 					<TableRow>
 						<TableCell>
 							<CustomIcon link={link} height={'42px'} width={'42px'} />
@@ -95,9 +95,9 @@ const UserContactManager = ({ userDetail }) => {
 								{link}
 							</Link>
 						</TableCell>
-						{userDetail?.user_id_A0 === user?.user_id_A0 ||
-						user?.roles?.includes('admin') ||
-						user?.roles?.includes('superadmin') ? (
+						{user?.user_id_A0 === myUser?.user_id_A0 ||
+						myUser?.roles?.includes('admin') ||
+						myUser?.roles?.includes('superadmin') ? (
 							<TableCell>
 								<IconButton>
 									<DeleteForeverIcon
@@ -118,9 +118,9 @@ const UserContactManager = ({ userDetail }) => {
 					</TableRow>
 				))}
 			</Table>
-			{userDetail.user_id_A0 === user.user_id_A0 ||
-			user?.roles?.includes('admin') ||
-			user?.roles?.includes('superadmin') ? (
+			{myUser.user_id_A0 === user.user_id_A0 ||
+			myUser?.roles?.includes('admin') ||
+			myUser?.roles?.includes('superadmin') ? (
 				<Table>
 					{isCreating ? (
 						<TableRow>

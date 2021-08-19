@@ -49,7 +49,7 @@ function User_Detail(props) {
 								src={userDetail.user_img_profile}
 								className={classes.avatar}
 							/>
-							{/*<UserContactManager user={userDetail} />*/}
+							<UserContactManager user={userDetail} />
 						</Paper>
 						<UserInstitutions user={userDetail} />
 						<UserArticles user={userDetail} />

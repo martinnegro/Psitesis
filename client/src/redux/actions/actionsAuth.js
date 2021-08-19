@@ -14,15 +14,15 @@ const {
 	REACT_APP_AUTH0_AUDIENCE,
 	REACT_APP_URL_API,
 	REACT_APP_HOST,
-	REACT_APP_AUTH0_TENANT,
+	//REACT_APP_AUTH0_TENANT,
 } = process.env;
 
 const databaseConnection = 'Username-Password-Authentication';
 const configAuth0 = {
-	overrides: {
+	/*overrides: {
 		__tenant: REACT_APP_AUTH0_TENANT,
 		__token_issuer: `https://${REACT_APP_AUTH0_DOMAIN}`,
-	},
+	},*/
 	domain: REACT_APP_AUTH0_DOMAIN,
 	clientID: REACT_APP_AUTH0_CLIENT_ID,
 	redirectUri: `${REACT_APP_HOST}`,
@@ -35,15 +35,17 @@ const configAuth0 = {
 	code_challenge_method: 'S256',
 };
 
+const ReactAuth0 = new auth0.WebAuth(configAuth0);
+
 export const LoginWithEmailPassword = (email, password) => {
 	return async (dispatch) => {
 		try {
-			const ReactAuth0 = new auth0.WebAuth(configAuth0);
 			ReactAuth0.redirect.loginWithCredentials(
 				{
 					connection: 'Username-Password-Authentication',
 					email: email,
 					password: password,
+					scope: 'openid profile email',
 				},
 				(err) => {
 					if (err) dispatch(setError(err));
@@ -58,7 +60,6 @@ export const LoginWithEmailPassword = (email, password) => {
 export const RegisterWithEmailPassword = (email, username, password) => {
 	return async (dispatch) => {
 		try {
-			const ReactAuth0 = new auth0.WebAuth(configAuth0);
 			ReactAuth0.redirect.signupAndLogin(
 				{
 					connection: databaseConnection,
@@ -78,7 +79,6 @@ export const RegisterWithEmailPassword = (email, username, password) => {
 
 export const loginWithGoogle = () => {
 	return async (dispatch) => {
-		const ReactAuth0 = new auth0.WebAuth(configAuth0);
 		ReactAuth0.authorize(
 			{
 				connection: 'google-oauth2',
@@ -93,7 +93,6 @@ export const loginWithGoogle = () => {
 
 export const loginWithFacebook = () => {
 	return async (dispatch) => {
-		const ReactAuth0 = new auth0.WebAuth(configAuth0);
 		ReactAuth0.authorize(
 			{
 				connection: 'facebook',
@@ -168,6 +167,7 @@ export const sendVerificationEmail = () => {
 };
 
 export const logOut = () => {
+	console.log("test");
 	return (dispatch) => {
 		dispatch(setUser(null));
 		dispatch(setAccessToken(null));

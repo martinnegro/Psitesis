@@ -22,6 +22,8 @@ export const getUserDetail = (id) => API.get(`/users/${id}`);
 export const getUsersByRoles = (rol) => API.get(`/users?rol=${rol}`);
 
 //peticiones ruta metadata
-export const getUserMetadata = (id) => API.get(`/metadata?=${id}`);
+export const getUserMetadata = (id) => API.get(`/metadata?id=${id}`);
+export const createNewLinkInMetadata = (data) => API.post('/metadata', data);
+export const deleteLinkInMetadata = (data) => API.delete('/metadata', data);
 
 
