@@ -11,13 +11,23 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import DoneIcon from '@material-ui/icons/Done';
+import CloseIcon from '@material-ui/icons/Close';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import { TableHead } from '@material-ui/core';
-import { useSelector } from 'react-redux';
-
+import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
+import { getAllUsers } from '../../../redux/actions/usersActions'
+const { REACT_APP_URL_API } = process.env;
 const useStyles1 = makeStyles((theme) => ({
   root: {
     flexShrink: 0,
@@ -95,6 +105,9 @@ export default function AdminUsers() {
   const [page, setPage] = React.useState(0);
   const [usersPerPage, setUsersPerPage] = React.useState(5);
   const [ roles, setRoles ] = React.useState([]);
+  const [ wantChangeRole, setWantChangeRol ] = React.useState({});
+  const [ selects, setSelects ] = React.useState({});
+  const dispatch = useDispatch();
 
   const emptyusers = usersPerPage - Math.min(usersPerPage, users.length - page * usersPerPage);
 
@@ -108,8 +121,46 @@ export default function AdminUsers() {
   };
 
   useEffect(async ()=>{
-        
+    const response = await axios.get(`${REACT_APP_URL_API}/users/get_roles`);
+    setRoles(response.data)
   },[])
+  useEffect(()=>{
+      if(users.length > 0 ){
+        const aux = {};
+        const aux2 = {};
+        users.forEach(u => {aux[u.user_id] = false; aux2[u.user_id] = u.user_rol_id })
+        console.log(aux2)
+        setWantChangeRol(aux);
+        setSelects(aux2)
+      }
+  },[users]);
+
+  const getRoleName = (id) => {
+    if (roles.length > 0){
+        const aux = roles.find(r => r.id === id)
+        return aux.name
+    }
+  }
+
+  const onWantChangeRol = (user_id) => {
+    setWantChangeRol({
+        ...wantChangeRole,
+        [user_id]: true
+    })
+  }
+  const cancelWantChange = (user_id) => {
+    setWantChangeRol({
+        ...wantChangeRole,
+        [user_id]: false
+    })
+  };
+
+  const confirmChangeRole = async (idUser, oldRoleId, newRolId) => {
+    try {
+    const response = await axios.put(`${REACT_APP_URL_API}/users/change_role`,{idUser, oldRoleId, newRolId});
+    dispatch(getAllUsers())
+    } catch(err) { alert('No update') }
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -131,9 +182,40 @@ export default function AdminUsers() {
               </TableCell>
               <TableCell /*style={{ width: 160 }}*/ align="left">
                 {row.user_name}
+              </TableCell>  
+              <TableCell /*style={{ width: 160 }}*/ align="left">
+                {getRoleName(row.user_rol_id)}
               </TableCell>
-              <TableCell /*style={{ width: 160 }}*/ align="right">
-                {row.user_rol_id}
+              <TableCell>
+                {
+                    !wantChangeRole[row.user_id] ?
+                    <Button onClick={()=>onWantChangeRol(row.user_id)}>CAMBIAR</Button> :
+                    <>
+                    <FormControl className={classes.formControl}>
+                      <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={selects[row.user_id]}
+                        onChange={(e)=>setSelects({...selects,[row.user_id]: e.target.value})}
+                      >
+                          {
+                          roles.map(r => <MenuItem value={r.id}>{r.name}</MenuItem>)
+                          }   
+                      </Select>
+                    </FormControl>
+                    {
+                        selects[row.user_id] === row.user_rol_id ? <></> :
+                        <IconButton onClick={()=>confirmChangeRole(row.user_id,row.user_rol_id,selects[row.user_id])}>
+                            <DoneIcon />
+                        </IconButton>   
+
+                    }
+                    <IconButton onClick={()=>cancelWantChange(row.user_id)}>
+                        <CloseIcon/>
+                        </IconButton>
+                    </>
+                }
               </TableCell>
             </TableRow>
           ))}
