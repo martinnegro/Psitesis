@@ -1,16 +1,14 @@
 import { 
     GET_ALL_USERS, 
     IS_FETCHING_USERS,
-    SET_USER_ID,
-    SET_USER_ROLES,
+    SET_USER_DETAIL,
     GET_USERS_BY_ROLES,
 } from "../actions/usersActions";
 
 const initialState = {
+    userDetail: null,
     users: [],
     isFetching: false,
-    user_id: undefined,
-    user_roles: [],
     usersByRoles: [],
 }
 
@@ -27,22 +25,16 @@ export default function usersReducer(state = initialState, { type, payload }) {
                 users: payload,
                 isFetching: false
             };
-        case SET_USER_ID:
+        case SET_USER_DETAIL:
             return {
                 ...state,
-                user_id: payload,
-            };
-        case SET_USER_ROLES:
-            return {
-                ...state,
-                user_roles: payload,
+                userDetail: payload,
             };
         case GET_USERS_BY_ROLES:
             return {
                 ...state,
                 usersByRoles: payload,
             };
-
         default:
             return state;
     }

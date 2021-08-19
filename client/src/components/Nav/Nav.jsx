@@ -305,7 +305,7 @@ export default function Nav() {
         </ListItem>
 
         <Divider />
-        {user?.roles?.includes('admin') ? (
+        {user?.roles?.includes('admin') || user?.roles?.includes('superadmin') ? (
           <>
             <ListItem button onClick={() => history.push("/post")}>
               <ListItemIcon>
