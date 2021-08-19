@@ -111,14 +111,10 @@ const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCo
                             </Typography>
                             </Box>
                             <Box className = {classes.iconContainer}>
-                            <Typography color="textSecondary">
-                                
-                            <Button> <FormatQuoteTwoToneIcon/> Citar</Button>
-                            </Typography>
                             </Box>
                             <Box className = {classes.iconContainer}>
                             <Typography color="textSecondary">
-                            <Button onClick =  {() => handleCommentComponent(id)}> <ReplyTwoToneIcon/> Responder</Button>
+                            <Button onClick =  {(e) => handleCommentComponent(e,id)}> <ReplyTwoToneIcon/> Responder</Button>
                             </Typography>
                             </Box>
                             </Box>

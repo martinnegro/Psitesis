@@ -174,7 +174,7 @@ function Forum_Post() {
 
     // HANDLE COMMENT COMPONENT
 
-    const handleCommentComponent = (response_to_comment_id) =>{
+    const handleCommentComponent = (_e,response_to_comment_id) =>{
         commentComponent ? setCommentComponent(false) : setCommentComponent(true)
         if (response_to_comment_id){
             setCommentComponent(true)
@@ -312,7 +312,7 @@ function Forum_Post() {
             {commentComponent ? <Comment response_to_comment_id = {responseToComentId} fetchPostData = {fetchPostData} handleCancellComment = {handleCancellComment} /> : null}
             <Container className = {classes.commentIcon}>
                 
-                <Button className = {commentComponent ? classes.hide : null} onClick = {handleCommentComponent}   ><ReplyIcon className = {classes.replyButton}/></Button>
+                <Button className = {commentComponent ? classes.hide : null} onClick = {(e) => handleCommentComponent(e,null)}   ><ReplyIcon className = {classes.replyButton}/></Button>
                 
             </Container>
             
