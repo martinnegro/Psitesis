@@ -32,6 +32,7 @@ router.post("/", (req, res, next) => {
   const { comment_contents, post_id, user_id, response_to_comment_id } =
     req.body;
   const id = uuidv4();
+  console.log("response comment id", response_to_comment_id);
   return Comment.create({
     comment_id: id,
     comment_contents,

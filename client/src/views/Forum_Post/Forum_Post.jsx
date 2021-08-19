@@ -11,6 +11,7 @@ import Nav from '../../components/Nav/Nav'
 import CommentCard from '../Forum/components/CommentCard';
 import ConfirmDeleteAlert from './components/ConfirmDeleteAlert';
 import Comment from '../Forum/components/Comment';
+import QuoteCard from '../Forum/components/QuoteCard';
 import {getUserDetail} from "../../redux/actions/usersActions";
 import axios from 'axios';
 
@@ -136,6 +137,19 @@ function Forum_Post() {
         }
     };
 
+    // FIND RESPONDING TO USER NAME
+
+    const respondingToUser = (postId,arr) =>{
+        const postFound = arr.find(post => post.comment_id === postId)
+        const user = postFound.user.user_name
+        return user
+    }
+
+    const respondingToComment = (postId,arr) =>{
+        const postFound = arr.find(post => post.comment_id === postId)
+        const postContent = postFound.comment_contents;
+        return postContent
+    }
     // LOGICA PARA ABRIR Y CERRAR THREAD
     const handleStatusThread = async () => {
         try {
@@ -160,22 +174,23 @@ function Forum_Post() {
 
     // HANDLE COMMENT COMPONENT
 
-    const handleCommentComponent = (response_to_comment_id) =>{
+    const handleCommentComponent = (_e,response_to_comment_id) =>{
         commentComponent ? setCommentComponent(false) : setCommentComponent(true)
         if (response_to_comment_id){
+            setCommentComponent(true)
             setResponseToComentId(response_to_comment_id)
+            console.log(responseToComentId)
         }
     }
 
     const handleCancellComment = () =>{
         setCommentComponent(false)
-        console.log(commentComponent)
     }
 
 
    return (
         <Container>
-            {console.log(post)}
+            {console.log(post?.comments)}
             <Nav></Nav>
             {
                 post ?  
@@ -277,12 +292,18 @@ function Forum_Post() {
                 : <div className={classes.root}>CARGANDO</div>
             }
             
+
+            {/* --------- COMMENTS ----------*/}
             <Container>
             {post ? post.comments?.map((comment)=>{
                 return(
                     <div>
-                        {console.log(comment)}
-                    <CommentCard key = {comment.comment_id}  id = {comment.comment_id} content = {comment.comment_contents} date = {comment.comment_date}  userName = {comment.user.user_name} image = {comment.user.user_img_profile}   userId = {comment.user.user_id_A0}  handleCommentComponent = {handleCommentComponent} ></CommentCard>
+                        <Container>
+                        {comment.response_to_comment_id ? <QuoteCard  userName = {respondingToUser(comment.response_to_comment_id,post.comments)} commentContent = {respondingToComment(comment.response_to_comment_id,post.comments)} commentId = {comment.response_to_comment_id}></QuoteCard> : null}
+                        </Container>
+                    <CommentCard
+                     key = {comment.comment_id}  id = {comment.comment_id} content = {comment.comment_contents} date = {comment.comment_date}  userName = {comment.user.user_name} image = {comment.user.user_img_profile}   userId = {comment.user.user_id_A0}  handleCommentComponent = {handleCommentComponent} response_to_comment_id = {responseToComentId}
+                    ></CommentCard>
                     </div>
                 )
             }) : <div className={classes.root}>CARGANDO</div> } 
@@ -291,7 +312,7 @@ function Forum_Post() {
             {commentComponent ? <Comment response_to_comment_id = {responseToComentId} fetchPostData = {fetchPostData} handleCancellComment = {handleCancellComment} /> : null}
             <Container className = {classes.commentIcon}>
                 
-                <Button className = {commentComponent ? classes.hide : null} onClick = {handleCommentComponent}   ><ReplyIcon className = {classes.replyButton}/></Button>
+                <Button className = {commentComponent ? classes.hide : null} onClick = {(e) => handleCommentComponent(e,null)}   ><ReplyIcon className = {classes.replyButton}/></Button>
                 
             </Container>
             
