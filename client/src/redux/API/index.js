@@ -27,4 +27,17 @@ export const getUserMetadata = (id) => API.get(`/metadata?id=${id}`);
 export const createNewLinkInMetadata = (data) => API.post('/metadata', data);
 export const deleteLinkInMetadata = (data) => API.delete('/metadata', data);
 
+// ruta categories
+export const deleteCategory = (id) => API.delete(`/categories/${id}`)
+export const createNewCategory = (newCategory) => API.post(`/categories`,newCategory)
+export const setCategory = (data) => API.put(`/categories`,data);
+// ruta subcategories
+export const setSubCategory = (data) => API.put(`/subcategories`,data);
+export const deleteSubCategory = (id) => API.delete(`/subcategories/${id}`);
+export const createNewSubCategory = (newSubCategory) => API.post(`/subcategories`,newSubCategory);
 
+
+
+
+// ruta para articles
+export const getArticleWhithoutSectionAuth = () => API.get(`/article/sinseccion/hola`)
