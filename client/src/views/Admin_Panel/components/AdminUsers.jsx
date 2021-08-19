@@ -8,6 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
@@ -27,6 +28,7 @@ import { TableHead } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { getAllUsers } from '../../../redux/actions/usersActions'
+import { changeUserRole } from '../../../redux/API'; 
 const { REACT_APP_URL_API } = process.env;
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -102,14 +104,19 @@ const useStyles2 = makeStyles({
 export default function AdminUsers() {
   const classes = useStyles2();
   const users = useSelector(state => state.usersReducer.users)
-  const [page, setPage] = React.useState(0);
+  const [ page, setPage ] = React.useState(0);
   const [usersPerPage, setUsersPerPage] = React.useState(5);
   const [ roles, setRoles ] = React.useState([]);
   const [ wantChangeRole, setWantChangeRol ] = React.useState({});
   const [ selects, setSelects ] = React.useState({});
+  const [ input, setInput ] = React.useState({});
   const dispatch = useDispatch();
 
   const emptyusers = usersPerPage - Math.min(usersPerPage, users.length - page * usersPerPage);
+
+  useEffect(()=>{
+    dispatch(getAllUsers())
+  },[]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -157,12 +164,16 @@ export default function AdminUsers() {
 
   const confirmChangeRole = async (idUser, oldRoleId, newRolId) => {
     try {
-    const response = await axios.put(`${REACT_APP_URL_API}/users/change_role`,{idUser, oldRoleId, newRolId});
+    const response = await changeUserRole(idUser, oldRoleId, newRolId);
     dispatch(getAllUsers())
     } catch(err) { alert('No update') }
   };
 
   return (
+    <>
+    <form>
+      <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+    </form>
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="custom pagination table">
         <TableHead>
@@ -206,7 +217,7 @@ export default function AdminUsers() {
                     </FormControl>
                     {
                         selects[row.user_id] === row.user_rol_id ? <></> :
-                        <IconButton onClick={()=>confirmChangeRole(row.user_id,row.user_rol_id,selects[row.user_id])}>
+                        <IconButton onClick={()=>confirmChangeRole(row.user_id_A0,row.user_rol_id,selects[row.user_id])}>
                             <DoneIcon />
                         </IconButton>   
 
@@ -246,6 +257,7 @@ export default function AdminUsers() {
         </TableFooter>
       </Table>
     </TableContainer>
+    </>
   );
 }
 

@@ -96,15 +96,21 @@ router.put('/change_role', async (req, res, next) => {
 	var paramsDel = { id: idUser };
 	var dataDel = { roles: [oldRoleId] };
 
+	try {
 	await management.users.removeRoles(paramsDel, dataDel, (err) => {
 		err && next(err);
 	});
 
 	const paramsAssign = { id: idUser };
 	const dataAssign = { roles: [newRolId] };
-	await management.assignRolestoUser(paramsAssign, dataAssign, (err) => {
-		err ? next(err) : res.json({ message: 'Role change succesful.' });
-	});
+	await management.assignRolestoUser(paramsAssign, dataAssign);
+	const user = await User.findOne({where: { user_id_A0: idUser }});
+	user.user_rol_id = newRolId;
+	await user.save();
+
+	res.json({ message: 'Updated' });
+	} catch (err) { next(err) }
+
 });
 
 router.get('/', authorizeAccessToken, async (req, res, next) => {
