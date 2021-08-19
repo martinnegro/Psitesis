@@ -1,206 +1,181 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { getAllUsers } from '../../../redux/actions/usersActions';
-// import s from './AdminUser.module.css'
-import './AdminUser.module.css'
-import { Link } from 'react-router-dom';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableFooter from '@material-ui/core/TableFooter';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
+import FirstPageIcon from '@material-ui/icons/FirstPage';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import LastPageIcon from '@material-ui/icons/LastPage';
+import { TableHead } from '@material-ui/core';
 
-import { TextField, Button, Box, IconButton, Avatar, makeStyles, Paper, Collapse } from '@material-ui/core'
-import { Radio, RadioGroup, FormControl, FormControlLabel, FormLabel } from '@material-ui/core'
-import Zoom from '@material-ui/core/Zoom';
-import CloseIcon from '@material-ui/icons/Close';
-import DoneIcon from '@material-ui/icons/Done';
+const useStyles1 = makeStyles((theme) => ({
+  root: {
+    flexShrink: 0,
+    marginLeft: theme.spacing(2.5),
+  },
+}));
 
-const { REACT_APP_URL_API } = process.env;
+function TablePaginationActions(props) {
+  const classes = useStyles1();
+  const theme = useTheme();
+  const { count, page, rowsPerPage, onPageChange } = props;
 
-const useStyle = makeStyles({
-    paper: {
-        height: '165px',
-        padding: '20px',
-        display: 'flex',
-        alignItems: 'center',
-        
-    },
-    avatar: {
-        width: '60px',
-        height: '60px',
-    },
-    name: {
-        fontSize: '1.1rem',
-        textAlign: 'center',
-        margin: '0 20px 0 20px',
-        padding: '2px',
-        width: '180px',
-    },
-    role: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    paperForm: {
-        margin: "5px",
-        position: "relative"
-    },
-    form: {
-        margin: "10px 10px 0 10px"
-    },
-    radioGroup: {
-        margin: "10px 0 0 0"
-    },
-    radio: {
-            height: "1.55rem"
-    },
-    iconButton: {
-        padding: "0",
-        margin: "10px 0 10px 0"
-    }
-})
+  const handleFirstPageButtonClick = (event) => {
+    onPageChange(event, 0);
+  };
 
+  const handleBackButtonClick = (event) => {
+    onPageChange(event, page - 1);
+  };
 
-function AdminUsers() {
-    const classes = useStyle()
-    const users = useSelector(state => state.usersReducer.users);
-    const dispatch = useDispatch()
-    const [ input, setInput ] = useState('')
-    const [ filteredUsers, setFilteredUsers ] = useState([]);
-    const initSelectUser = { selected: false };
-    const [  selectedUser, setSelectedUser  ] = useState(initSelectUser);
-    const [  wantChangeRole, setWantChangeRole ] = useState(false);
-    const [ radioRole, setRadioRole ] = useState(false);
-    useEffect(()=>{
-        dispatch(getAllUsers())
-    },[dispatch])
-     
-    const onSearch = (e) => {
-        setInput(e.target.value)
-    };
+  const handleNextButtonClick = (event) => {
+    onPageChange(event, page + 1);
+  };
 
-    // Busqueda de users
-    useEffect(()=>{
-        if (users.length > 0){
-            if (input.length > 0) {
-            const newFiltered = users.filter(u => u.user_name.toLowerCase().includes(input.toLowerCase()))
-            setFilteredUsers(newFiltered)
-            } else setFilteredUsers([])
-        }
-    },[input])
+  const handleLastPageButtonClick = (event) => {
+    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+  };
 
-    const onSelect = async (user_id_A0) => {
-        const response = await axios.post(`${REACT_APP_URL_API}/users/get_role`,{ user_id_A0 });
-        const user = filteredUsers.find(u => u.user_id_A0 === user_id_A0)
-        let role = response.data.role[0];
-        const roles = response.data.roles
-        if (!role) role = { id: 'rol_RXyaFjSO2qcD4KNG', name: 'basic' }
-        setSelectedUser({
-            selected: true,
-            role,
-            roles,
-            ...user,
-        });
-        setWantChangeRole(false);
-        
-    }
-    const onClose = () => {
-        setSelectedUser({ selected: false })
-    }
-
-    const handleWantChangeRole = (id) => {
-        setWantChangeRole(true);
-        setRadioRole(id);
-    };
-    const onRadioChange = (e, rolId) => {
-        setRadioRole(e.target.value);
-    };
-    const confirmChangeRole = async (idUser, oldRoleId, newRolId) => {
-        const response = await axios.put(`${REACT_APP_URL_API}/users/change_role`,{ idUser, oldRoleId, newRolId });
-        alert(response.data.message);
-        setWantChangeRole(false);
-        onSelect(idUser)
-    }   
-
-    return (
-        <div /*className={s.container}*/>
-            <form>
-                <TextField id="user_name" label="Buscar usuarios" variant="outlined" size="small" 
-                    value={input}
-                    onChange={onSearch}
-                />
-            </form>
-            <div /*className={s.usersContainer}*/>
-                {
-                    filteredUsers.map(u => (
-                        <Zoom in={true}>
-                        <Box m={1} width="25%">
-                            <Button
-                                onClick={()=>onSelect(u.user_id_A0)}
-                                key={u.user_id_A0 || u.user_id} 
-                                variant="contained"
-                                disableElevation  
-                                >
-                                    {u.user_name}
-                            </Button>
-                        </Box>
-                        </Zoom>
-                    ))
-                }
-            </div>
-            {
-                selectedUser.selected &&
-                <Paper className={classes.paper} >
-                    <Avatar alt={selectedUser.user_name} src={selectedUser.user_img_profile} className={classes.avatar}/>
-                    <Link to={`/user/${selectedUser.user_id_A0}`}>
-                        <Button variant="outlined" className={classes.name}>{selectedUser.user_name}</Button>
-                    </Link>
-                    <Box className={classes.role}>
-                        <Box>                                
-                            <Box ml={2}>Rol: {selectedUser.role.name}</Box>
-                            <Button disabled={wantChangeRole} variant="outlined" onClick={() => handleWantChangeRole(selectedUser.role.id)}>Cambiar Rol</Button>
-                        </Box> 
-                        <Collapse in={wantChangeRole} className={classes.collapse}> 
-                            <Paper className={classes.paperForm}>
-                            <FormControl className={classes.form} component="fieldset" >
-                                <FormLabel component="legend">Elija el rol y confirme el cambio</FormLabel>
-                                <RadioGroup  className={classes.radioGroup} value={radioRole} onChange={(e) => onRadioChange(e)}>
-                                    {selectedUser.roles.map(r => (
-                                        <FormControlLabel 
-                                            className={classes.radio} 
-                                            key={r.id} 
-                                            value={r.id} control={<Radio size="small"/>} 
-                                            label={r.name} 
-                                        />
-                                    ))}
-                                </RadioGroup>
-                                <Box margin="0 0 0 30px">
-                                    <IconButton 
-                                        className={classes.iconButton}
-                                        onClick={() => setWantChangeRole(false)}
-                                    >
-                                        <CloseIcon/>
-                                    </IconButton>  
-                                    {
-                                        radioRole !== selectedUser.role.id ?
-                                        <>
-                                            <IconButton 
-                                                className={classes.iconButton}
-                                                onClick={() => confirmChangeRole(selectedUser.user_id_A0, selectedUser.role.id, radioRole)}
-                                            >
-                                                <DoneIcon/>
-                                            </IconButton>  
-                                        </> : <></>
-                                    }
-                                </Box>        
-                            </FormControl>
-                            </Paper>
-                        </Collapse>
-                    </Box>
-                    <IconButton color="secondary" onClick={onClose}>
-                        <CloseIcon color="default"/>
-                    </IconButton>
-                </Paper>
-            }
-        </div>
-    )
+  return (
+    <div className={classes.root}>
+      <IconButton
+        onClick={handleFirstPageButtonClick}
+        disabled={page === 0}
+        aria-label="first page"
+      >
+        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+      </IconButton>
+      <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
+        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+      </IconButton>
+      <IconButton
+        onClick={handleNextButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="next page"
+      >
+        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+      </IconButton>
+      <IconButton
+        onClick={handleLastPageButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="last page"
+      >
+        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+      </IconButton>
+    </div>
+  );
 }
 
-export default AdminUsers
+TablePaginationActions.propTypes = {
+  count: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+};
+
+function createData(name, calories, fat) {
+  return { name, calories, fat };
+}
+
+const rows = [
+  createData('Cupcake', 305, 3.7),
+  createData('Donut', 452, 25.0),
+  createData('Eclair', 262, 16.0),
+  createData('Frozen yoghurt', 159, 6.0),
+  createData('Gingerbread', 356, 16.0),
+  createData('Honeycomb', 408, 3.2),
+  createData('Ice cream sandwich', 237, 9.0),
+  createData('Jelly Bean', 375, 0.0),
+  createData('KitKat', 518, 26.0),
+  createData('Lollipop', 392, 0.2),
+  createData('Marshmallow', 318, 0),
+  createData('Nougat', 360, 19.0),
+  createData('Oreo', 437, 18.0),
+].sort((a, b) => (a.calories < b.calories ? -1 : 1));
+
+const useStyles2 = makeStyles({
+  table: {
+    minWidth: 500,
+  },
+});
+
+export default function AdminUsers() {
+  const classes = useStyles2();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  return (
+    <TableContainer component={Paper}>
+      <Table className={classes.table} aria-label="custom pagination table">
+        <TableHead>
+            <TableCell>Foto</TableCell>
+            <TableCell>Nombre</TableCell>
+            <TableCell>Rol</TableCell>
+            <TableCell></TableCell>
+        </TableHead>
+        <TableBody>
+          {(rowsPerPage > 0
+            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : rows
+          ).map((row) => (
+            <TableRow key={row.name}>
+              <TableCell component="th" scope="row">
+                {row.name}
+              </TableCell>
+              <TableCell style={{ width: 160 }} align="right">
+                {row.calories}
+              </TableCell>
+              <TableCell style={{ width: 160 }} align="right">
+                {row.fat}
+              </TableCell>
+            </TableRow>
+          ))}
+
+          {emptyRows > 0 && (
+            <TableRow style={{ height: 53 * emptyRows }}>
+              <TableCell colSpan={6} />
+            </TableRow>
+          )}
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+              colSpan={3}
+              count={rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              SelectProps={{
+                inputProps: { 'aria-label': 'rows per page' },
+                native: true,
+              }}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              ActionsComponent={TablePaginationActions}
+            />
+          </TableRow>
+        </TableFooter>
+      </Table>
+    </TableContainer>
+  );
+}
+
