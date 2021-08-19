@@ -84,7 +84,7 @@ router.get('/get_roles', async (req, res, next) => {
 	
 	try {
 		const roles = await management.roles.getAll();
-		res.json({ roles });
+		res.json(roles);
 	} catch (err) {
 		next(err);
 	}

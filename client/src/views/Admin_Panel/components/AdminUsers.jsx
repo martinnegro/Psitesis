@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -106,6 +106,10 @@ export default function AdminUsers() {
     setUsersPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  useEffect(async ()=>{
+        
+  },[])
 
   return (
     <TableContainer component={Paper}>
