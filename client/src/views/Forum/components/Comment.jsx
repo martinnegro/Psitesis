@@ -8,6 +8,7 @@ import ReplyIcon from '@material-ui/icons/Reply';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { useSelector } from "react-redux";
 import ReactQuill from "react-quill";
+import { spacing } from '@material-ui/system';
 
 const useStyle = makeStyles({
     disableButton : {
@@ -54,7 +55,6 @@ const Comment = ({response_to_comment_id,fetchPostData,handleCancellComment}) =>
     }
     return(
         <Container>
-            <h3>Comment component</h3>
             
             {
             /* <form type = "submit" 
@@ -70,6 +70,7 @@ const Comment = ({response_to_comment_id,fetchPostData,handleCancellComment}) =>
             onChange={handleOnChange}
             value={commentInf.comment_contents}
             name = "comment_contents"
+            m = {50}
           />
           <Button onClick={handleCancellComment}><CancelOutlinedIcon/></Button>
           {commentInf.comment_contents !== "" ? <Button  type = "submit" onClick = {handleSubmit} >

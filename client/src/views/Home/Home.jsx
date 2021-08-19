@@ -14,7 +14,7 @@ import {
 
 import SearchIcon from '@material-ui/icons/Search';
 import { getAllArticle, orderArticles, getArticleTag } from "../../redux/actions/actionsArticles";
-import {getUserDetail,clearUserDetail } from "../../redux/actions/usersActions";
+import {getUserDetail} from "../../redux/actions/usersActions";
 import { Link } from "react-router-dom";
 
 //Menu Bottom
@@ -89,7 +89,6 @@ export default function Home() {
 		if (userId) {
 			dispatch(getUserDetail(userId));
 		}
-		
 	}, [dispatch, userId]);
 
   // const [ search, setSearch ] = useState('')
