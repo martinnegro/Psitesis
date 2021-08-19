@@ -1,4 +1,5 @@
 import axios from "axios";
+import { deleteCategoryAuth } from "../API";
 
 const { REACT_APP_URL_API } = process.env;
 
@@ -73,12 +74,7 @@ export const deleteCategory = (id, token) => async (dispatch) => {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
-    const response = await axios.delete(
-      `${REACT_APP_URL_API}/categories/${id}`,
-      {
-        headers,
-      }
-    );
+    const response = await deleteCategoryAuth(id);
     if (response.data) {
       dispatch({
         type: GET_ALL_CAT_SUB,

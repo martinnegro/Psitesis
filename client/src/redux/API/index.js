@@ -27,3 +27,5 @@ export const createNewLinkInMetadata = (data) => API.post('/metadata', data);
 export const deleteLinkInMetadata = (data) => API.delete('/metadata', data);
 
 
+// ruta categories
+export const deleteCategoryAuth = (id) => API.delete(`/categories/${id}`)

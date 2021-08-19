@@ -146,17 +146,17 @@ router.delete("/:art_id", authorizeAccessToken, async (req, res, next) => {
 router.get("/sinseccion/hola", async (req, res, next) => {
   try {
     let articleWithoutCategory = await Article.findAll( {
-      include:[{ model: Subcategory,
-        include: [{model: Category}]}],
-      where: [{ subcategory: { category : null }}]
+      where: { 
+        sub_cat_id: null
+      }
     })
   
-    let articleWithoutSubcategory = await Article.findAll({ 
-      include:[{ model: Subcategory}],
-      where: [{ subcategory : null }]
-    })
+    // let articleWithoutSubcategory = await Article.findAll({ 
+    //   include:[{ model: Subcategory}],
+    //   where: [{ subcategory : null }]
+    // })
    
-    return res.json({articleWithoutCategory, articleWithoutSubcategory} )
+    return res.json({articleWithoutCategory, /*articleWithoutSubcategory*/} )
   } catch (e){
     next(e)
   }
