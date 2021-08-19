@@ -69,13 +69,14 @@ const useStyle = makeStyles({
 
 });
 
-const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCommentComponent}) =>{
+const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCommentComponent,response_to_comment_id}) =>{
     const classes = useStyle();
     return(
         <Container className = {classes.root} >
             <Link className = {classes.links} to = {`/user/${userId}`}>
             <Box className={classes.user} >
-                        <Avatar className={classes.avatar} alt={userName} src={image}/>
+                
+                        <Avatar className={classes.avatar} alt={userName} src={image}/> 
                         <div>
                         <Typography color="textSecondary">
                                 {date}
@@ -84,7 +85,10 @@ const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCo
                             <span> {userName}</span>
                         </Typography>
                         </div>
+                        
                     </Box>
+                    
+                        {console.log(response_to_comment_id)}
                     </Link>
                     <Box>
                            
@@ -123,7 +127,6 @@ const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCo
                             </Box>
                             <Divider/>
         </Container>
-        
     )
 }
 

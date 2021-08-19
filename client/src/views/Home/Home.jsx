@@ -75,7 +75,6 @@ export default function Home() {
   const userId = useSelector((state) => state.authReducer.user.user_id)
   const dispatch = useDispatch();
 
-  console.log(userId)
 
   useEffect(() => {
     dispatch(getAllArticle());
