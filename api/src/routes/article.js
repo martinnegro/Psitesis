@@ -156,7 +156,7 @@ router.get("/sinseccion/hola", async (req, res, next) => {
     //   where: [{ subcategory : null }]
     // })
    
-    return res.json({articleWithoutCategory, /*articleWithoutSubcategory*/} )
+    return res.json(articleWithoutCategory /*articleWithoutSubcategory*/ )
   } catch (e){
     next(e)
   }
