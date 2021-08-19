@@ -1,37 +1,31 @@
 import axios from 'axios';
+import * as API from '../API';
 const { REACT_APP_URL_API } = process.env;
 
 export const SET_METADATA = 'SET_METADATA';
-export const CLEAR_METADATA = 'CLEAR_METADATA';
 
-
-export const getUserMetadata = (id, token) => {
+export const getUserMetadata = (id) => {
 	return async (dispatch) => {
 		try {
-			const headers = {
-				Authorization: `Bearer ${token}`,
-			};
-			const params = {
-				id: id,
-			};
-			const response = await axios.get(`${REACT_APP_URL_API}/metadata`, {
-				params,
-				headers,
-			});
-			if (response.status === 200) {
-				if (response.data.metadata && response.data.metadata !== null) {
-					dispatch({
-						type: SET_METADATA,
-						payload: response.data,
-					});
-				}
-			} else {
-				console.log('No se encontrar el user');
+			const response = await API.getUserMetadata(id);
+			if (
+				response?.data?.message === 'successful' &&
+				response?.data?.metadata !== null
+			) {
+				dispatch(setMetadata);
 			}
 		} catch (error) {
 			console.error(error);
 		}
 	};
+};
+
+export const setMetadata = (metadata) => {
+	return { type: SET_METADATA, payload: metadata };
+};
+
+export const clearUserMetadata = () => {
+	return { type: SET_METADATA, payload: null };
 };
 
 export const createNewLinkInMetadata = (newLink, user_id_A0, token) => {
@@ -87,19 +81,6 @@ export const deleteLinkInMetadata = (link, user_id_A0, token) => {
 			} else {
 				console.log('No se encontrar el user');
 			}
-		} catch (error) {
-			console.error(error);
-		}
-	};
-};
-
-export const clearUserMetadata = () => {
-	return async (dispatch) => {
-		try {
-			dispatch({
-				type: CLEAR_METADATA,
-				payload: undefined,
-			});
 		} catch (error) {
 			console.error(error);
 		}

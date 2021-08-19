@@ -11,7 +11,6 @@ import {
 } from '@material-ui/core';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import { useAuth0 } from '@auth0/auth0-react';
 import CustomIcon from './CustomIcon';
 import { purple, red, green } from '@material-ui/core/colors';
 import DoneIcon from '@material-ui/icons/Done';
@@ -25,25 +24,20 @@ import {
 	clearUserMetadata,
 } from '../../../redux/actions/actionsMetadata';
 
-const UserContactManager = ({ user }) => {
-	const { getAccessTokenSilently } = useAuth0();
+const UserContactManager = ({ userDetail }) => {
 	const [isCreating, setIsCreating] = useState(false);
 	const [open, setOpen] = useState({});
 	const [newLink, setNewLink] = useState('');
+	const { user } = useSelector((state) => state.authReducer);
+	const { userMetadata } = useSelector((state) => state.metadataReducer);
 	const dispatch = useDispatch();
-	const userMetadata = useSelector((state) => state.metadataReducer.metadata);
-
-	const user_roles = useSelector((state) => state.usersReducer.user_roles);
-	const user_id = useSelector((state) => state.usersReducer.user_id);
-
+	console.log(userDetail);
 	useEffect(() => {
-		const constGetUserMetadata = async () => {
-			const token = await getAccessTokenSilently();
-			dispatch(getUserMetadata(user.user_id_A0, token));
-		};
-		constGetUserMetadata();
+		if (userDetail?.user_id_A0) {
+			dispatch(getUserMetadata(userDetail.user_id_A0));
+		}
 		return () => dispatch(clearUserMetadata());
-	}, [dispatch, getAccessTokenSilently, user.user_id_A0]);
+	}, [dispatch, user?.user_id_A0, userDetail?.user_id_A0]);
 
 	const handleOnChangeNewLink = (e) => {
 		setNewLink(e.target.value);
@@ -58,12 +52,10 @@ const UserContactManager = ({ user }) => {
 		if (newLink !== '') {
 			if (userMetadata?.metadata?.links) {
 				if (!userMetadata?.metadata?.links?.includes(newLink)) {
-					const token = await getAccessTokenSilently();
-					dispatch(createNewLinkInMetadata(newLink, user.user_id_A0, token));
+					dispatch(createNewLinkInMetadata(newLink, user.user_id_A0));
 				}
 			} else {
-				const token = await getAccessTokenSilently();
-				dispatch(createNewLinkInMetadata(newLink, user.user_id_A0, token));
+				dispatch(createNewLinkInMetadata(newLink, user.user_id_A0));
 			}
 		}
 		setIsCreating(false);
@@ -86,8 +78,7 @@ const UserContactManager = ({ user }) => {
 
 	const handleConfirm = async (link) => {
 		setOpen(false);
-		const token = await getAccessTokenSilently();
-		dispatch(deleteLinkInMetadata(link, user.user_id_A0, token));
+		dispatch(deleteLinkInMetadata(link, user.user_id_A0));
 	};
 
 	return (
@@ -104,26 +95,32 @@ const UserContactManager = ({ user }) => {
 								{link}
 							</Link>
 						</TableCell>
-						<TableCell>
-							<IconButton>
-								<DeleteForeverIcon
-									onClick={() => {
-										handleClickOpen(link);
-									}}
-									style={{ color: purple[500] }}
-								/>
-								<ConfirmDeleteContact
-									open={open[link]}
-									handleClose={handleClose}
-									handleConfirm={handleConfirm}
-									link={link}
-								/>
-							</IconButton>
-						</TableCell>
+						{userDetail?.user_id_A0 === user?.user_id_A0 ||
+						user?.roles?.includes('admin') ||
+						user?.roles?.includes('superadmin') ? (
+							<TableCell>
+								<IconButton>
+									<DeleteForeverIcon
+										onClick={() => {
+											handleClickOpen(link);
+										}}
+										style={{ color: purple[500] }}
+									/>
+									<ConfirmDeleteContact
+										open={open[link]}
+										handleClose={handleClose}
+										handleConfirm={handleConfirm}
+										link={link}
+									/>
+								</IconButton>
+							</TableCell>
+						) : null}
 					</TableRow>
 				))}
 			</Table>
-			{user_id === user.user_id || user_roles?.includes('admin') ? (
+			{userDetail.user_id_A0 === user.user_id_A0 ||
+			user?.roles?.includes('admin') ||
+			user?.roles?.includes('superadmin') ? (
 				<Table>
 					{isCreating ? (
 						<TableRow>
