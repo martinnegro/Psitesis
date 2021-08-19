@@ -1,5 +1,5 @@
 import axios from "axios";
-import { deleteCategoryAuth } from "../API";
+import { createNewCategoryAuth, deleteCategoryAuth } from "../API";
 
 const { REACT_APP_URL_API } = process.env;
 
@@ -116,13 +116,7 @@ export const createNewCategory = (newCategory, token) => async (dispatch) => {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
-    const response = await axios.post(
-      `${REACT_APP_URL_API}/categories`,
-      newCategory,
-      {
-        headers,
-      }
-    );
+    const response = await createNewCategoryAuth(newCategory);
     if (response.data) {
       dispatch({
         type: GET_ALL_CAT_SUB,

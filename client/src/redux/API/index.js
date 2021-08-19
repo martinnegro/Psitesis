@@ -29,3 +29,7 @@ export const deleteLinkInMetadata = (data) => API.delete('/metadata', data);
 
 // ruta categories
 export const deleteCategoryAuth = (id) => API.delete(`/categories/${id}`)
+export const createNewCategoryAuth = (newCategory) => API.post(`/categories`,newCategory)
+
+// ruta para articles
+export const getArticleWhithoutSectionAuth = () => API.get(`/article/sinseccion/hola`)
