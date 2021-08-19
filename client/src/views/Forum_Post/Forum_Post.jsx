@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Nav from '../../components/Nav/Nav'
 import CommentCard from '../Forum/components/CommentCard';
 import Comment from '../Forum/components/Comment';
+import QuoteCard from '../Forum/components/QuoteCard';
 import {getUserDetail} from "../../redux/actions/usersActions";
 import axios from 'axios';
 
@@ -238,8 +239,7 @@ function Forum_Post() {
                 return(
                     <div>
                         <Container>
-                        {comment.response_to_comment_id ? <h3>{respondingToUser(comment.response_to_comment_id,post.comments) } comento </h3> : null}
-                        {comment.response_to_comment_id ? <h3>{respondingToComment(comment.response_to_comment_id,post.comments)}</h3> : null}
+                        {comment.response_to_comment_id ? <QuoteCard  userName = {respondingToUser(comment.response_to_comment_id,post.comments)} commentContent = {respondingToComment(comment.response_to_comment_id,post.comments)} commentId = {comment.response_to_comment_id}></QuoteCard> : null}
                         </Container>
                     <CommentCard
                      key = {comment.comment_id}  id = {comment.comment_id} content = {comment.comment_contents} date = {comment.comment_date}  userName = {comment.user.user_name} image = {comment.user.user_img_profile}   userId = {comment.user.user_id_A0}  handleCommentComponent = {handleCommentComponent} response_to_comment_id = {responseToComentId}

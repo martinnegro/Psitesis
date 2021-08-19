@@ -65,8 +65,6 @@ const useStyle = makeStyles({
     buttonContainer:{
        height: "2px"
     }
-    
-
 });
 
 const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCommentComponent,response_to_comment_id}) =>{
