@@ -24,7 +24,7 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
 import LastPageIcon from '@material-ui/icons/LastPage';
-import { TableHead } from '@material-ui/core';
+import { Container, TableHead } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { getAllUsers } from '../../../redux/actions/usersActions'
@@ -109,10 +109,15 @@ export default function AdminUsers() {
   const [ roles, setRoles ] = React.useState([]);
   const [ wantChangeRole, setWantChangeRol ] = React.useState({});
   const [ selects, setSelects ] = React.useState({});
-  const [ input, setInput ] = React.useState({});
+  const [ input, setInput ] = React.useState('');
+  const [ filteredUsers, setFilteredUsers ] = React.useState([]);
   const dispatch = useDispatch();
 
   const emptyusers = usersPerPage - Math.min(usersPerPage, users.length - page * usersPerPage);
+
+  useEffect(()=>{
+    const 
+  },[input])
 
   useEffect(()=>{
     dispatch(getAllUsers())
@@ -169,10 +174,14 @@ export default function AdminUsers() {
     } catch(err) { alert('No update') }
   };
 
+
   return (
-    <>
+    <Container>
     <form>
-      <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+      <TextField id="outlined-basic" label="Filtrar por nombre" variant="outlined"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+      />
     </form>
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="custom pagination table">
@@ -257,7 +266,7 @@ export default function AdminUsers() {
         </TableFooter>
       </Table>
     </TableContainer>
-    </>
+    </Container>
   );
 }
 
