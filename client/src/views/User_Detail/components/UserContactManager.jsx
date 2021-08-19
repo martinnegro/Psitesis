@@ -11,7 +11,6 @@ import {
 } from '@material-ui/core';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import { useAuth0 } from '@auth0/auth0-react';
 import CustomIcon from './CustomIcon';
 import { purple, red, green } from '@material-ui/core/colors';
 import DoneIcon from '@material-ui/icons/Done';
@@ -26,24 +25,19 @@ import {
 } from '../../../redux/actions/actionsMetadata';
 
 const UserContactManager = ({ user }) => {
-	const { getAccessTokenSilently } = useAuth0();
 	const [isCreating, setIsCreating] = useState(false);
 	const [open, setOpen] = useState({});
 	const [newLink, setNewLink] = useState('');
+	const myUser = useSelector((state) => state.authReducer.user);
+	const metadata = useSelector((state) => state.metadataReducer.metadata);
 	const dispatch = useDispatch();
-	const userMetadata = useSelector((state) => state.metadataReducer.metadata);
-
-	const user_roles = useSelector((state) => state.usersReducer.user_roles);
-	const user_id = useSelector((state) => state.usersReducer.user_id);
 
 	useEffect(() => {
-		const constGetUserMetadata = async () => {
-			const token = await getAccessTokenSilently();
-			dispatch(getUserMetadata(user.user_id_A0, token));
-		};
-		constGetUserMetadata();
+		if (user?.user_id_A0) {
+			dispatch(getUserMetadata(user.user_id_A0));
+		}
 		return () => dispatch(clearUserMetadata());
-	}, [dispatch, getAccessTokenSilently, user.user_id_A0]);
+	}, [dispatch, user]);
 
 	const handleOnChangeNewLink = (e) => {
 		setNewLink(e.target.value);
@@ -56,14 +50,12 @@ const UserContactManager = ({ user }) => {
 
 	const confirmNewLink = async (newLink) => {
 		if (newLink !== '') {
-			if (userMetadata?.metadata?.links) {
-				if (!userMetadata?.metadata?.links?.includes(newLink)) {
-					const token = await getAccessTokenSilently();
-					dispatch(createNewLinkInMetadata(newLink, user.user_id_A0, token));
+			if (metadata?.links) {
+				if (!metadata?.links?.includes(newLink)) {
+					dispatch(createNewLinkInMetadata(newLink, user.user_id_A0));
 				}
 			} else {
-				const token = await getAccessTokenSilently();
-				dispatch(createNewLinkInMetadata(newLink, user.user_id_A0, token));
+				dispatch(createNewLinkInMetadata(newLink, user.user_id_A0));
 			}
 		}
 		setIsCreating(false);
@@ -86,15 +78,14 @@ const UserContactManager = ({ user }) => {
 
 	const handleConfirm = async (link) => {
 		setOpen(false);
-		const token = await getAccessTokenSilently();
-		dispatch(deleteLinkInMetadata(link, user.user_id_A0, token));
+		dispatch(deleteLinkInMetadata(link, user.user_id_A0));
 	};
 
 	return (
 		<Box>
 			<Box style={{ color: '#861C55', fontSize: '30px' }}>Contacto</Box>
 			<Table>
-				{userMetadata?.metadata?.links?.map((link) => (
+				{metadata?.links?.map((link) => (
 					<TableRow>
 						<TableCell>
 							<CustomIcon link={link} height={'42px'} width={'42px'} />
@@ -104,26 +95,32 @@ const UserContactManager = ({ user }) => {
 								{link}
 							</Link>
 						</TableCell>
-						<TableCell>
-							<IconButton>
-								<DeleteForeverIcon
-									onClick={() => {
-										handleClickOpen(link);
-									}}
-									style={{ color: purple[500] }}
-								/>
-								<ConfirmDeleteContact
-									open={open[link]}
-									handleClose={handleClose}
-									handleConfirm={handleConfirm}
-									link={link}
-								/>
-							</IconButton>
-						</TableCell>
+						{user?.user_id_A0 === myUser?.user_id_A0 ||
+						myUser?.roles?.includes('admin') ||
+						myUser?.roles?.includes('superadmin') ? (
+							<TableCell>
+								<IconButton>
+									<DeleteForeverIcon
+										onClick={() => {
+											handleClickOpen(link);
+										}}
+										style={{ color: purple[500] }}
+									/>
+									<ConfirmDeleteContact
+										open={open[link]}
+										handleClose={handleClose}
+										handleConfirm={handleConfirm}
+										link={link}
+									/>
+								</IconButton>
+							</TableCell>
+						) : null}
 					</TableRow>
 				))}
 			</Table>
-			{user_id === user.user_id || user_roles?.includes('admin') ? (
+			{myUser.user_id_A0 === user.user_id_A0 ||
+			myUser?.roles?.includes('admin') ||
+			myUser?.roles?.includes('superadmin') ? (
 				<Table>
 					{isCreating ? (
 						<TableRow>

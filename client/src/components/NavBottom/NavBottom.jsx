@@ -15,6 +15,14 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import { useHistory } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
+//submenu
+import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import MenuIcon from "@material-ui/icons/Menu";
+import ForumTwoToneIcon from '@material-ui/icons/ForumTwoTone';
+import Typography from '@material-ui/core/Typography'
+
 const useStyles = makeStyles((theme) => ({
   appBar: {
     top: "auto",
@@ -37,6 +45,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
 export default function NavBottom() {
   const classes = useStyles();
   const history = useHistory();
@@ -48,6 +58,16 @@ export default function NavBottom() {
     });
   };
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -57,47 +77,50 @@ export default function NavBottom() {
         className={`${classes.appBar} ${classes.ocult}`}
         style={{ backgroundColor: "purple" }}
       >
-        <Toolbar className={classes.tool}>
+        <Toolbar className={classes.tool}>     
           <IconButton
             edge="start"
             color="inherit"
             aria-label="open drawer"
             onClick={() => history.push("/home")}
-          >
-            <HomeOutlinedIcon />
+          ><div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+            <HomeOutlinedIcon fontSize='10px' />
+            <Typography color="initial" style={{fontSize: '8px', textTransform: 'uppercase'}}>Home</Typography>
+            </div>
           </IconButton>
-          <IconButton
-            color="inherit"
-            aria-label="add"
-            onClick={() => history.push("/post")}
-          >
-            <AddCircleOutlineIcon />
-          </IconButton>
-   
+
           <IconButton
             edge="end"
             color="inherit"
             onClick={() => history.push("/guiadetesis")}
           >
-            <BookOutlinedIcon />
+            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+            <BookOutlinedIcon fontSize='10px' />
+            <Typography color="initial" style={{fontSize: '8px', textTransform: 'uppercase'}}>Guia de tesis</Typography>
+            </div>
           </IconButton>
           <IconButton
             edge="end"
             color="inherit"
-            onClick={() => history.push("/adminpanel")}
+            onClick={() => history.push('/forum')}
           >
-            <SettingsIcon />
+            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+            <ForumTwoToneIcon fontSize='10px' />
+            <Typography color="initial" style={{fontSize: '8px', textTransform: 'uppercase'}}>Foro</Typography>
+          </div>
           </IconButton>
+          
           <IconButton
-            edge="end"
-            color="inherit"
-            onClick={() => history.push("/colaborators")}
-          >
-            <PeopleAltTwoToneIcon />
-          </IconButton>
-          <IconButton edge="end" color="inherit" onClick={handleLogout}>
-            <ExitToAppIcon />
-          </IconButton>
+                edge="end"
+                color="inherit"
+                onClick={() => history.push("/colaborators")}
+                
+              >
+                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                  <PeopleAltTwoToneIcon  fontSize='10px' />
+                <Typography color="initial" style={{fontSize: '8px', textTransform: 'uppercase'}}>colaboradores</Typography>
+                </div>                
+              </IconButton>
         </Toolbar>
       </AppBar>
     </React.Fragment>

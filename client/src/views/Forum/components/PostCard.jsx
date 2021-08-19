@@ -41,7 +41,7 @@ const useStyle = makeStyles({
     }
 
 });
-function PostCard({ post }) {
+function PostCard( {post} ) {
     const classes = useStyle();
     
     return (
@@ -51,14 +51,17 @@ function PostCard({ post }) {
                     <Typography  color="textSecondary" gutterBottom>
                         {post.post_date}
                     </Typography>
-                    <Typography color="textSecondary">
-                        EN {post.subtopic.sub_topic_name.toUpperCase()}
-                    </Typography>
+                    {
+                        post.subtopic ?
+                        <Typography color="textSecondary">
+                            EN {post.subtopic.sub_topic_name.toUpperCase()}
+                        </Typography> :
+                        <></>
+                    }
                 </Box>
                 <Box>
                     <Link to={`/forum/post/${post.post_id}`} className={classes.link}>
                     <Typography className={classes.title} color="textPrimary">
-                        
                         {post.post_title}
                     </Typography>
                     </Link>

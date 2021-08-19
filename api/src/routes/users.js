@@ -3,9 +3,10 @@ const router = Router();
 const { v4: uuidv4 } = require("uuid");
 const { User, Institution, Rol, Article } = require("../db");
 const { Op } = require("sequelize");
-const { management } = require("../auth/index");
+const { management, authorizeAccessToken } = require("../auth/index");
 const { axios } = require("axios");
 
+//se crea el usuario en la ruta auth cuando se autentifica, no lo borre porque no se alguien utiliza esta ruta
 router.post("/", async (req, res, next) => {
   const {
     user_id_A0,
@@ -31,8 +32,8 @@ router.post("/", async (req, res, next) => {
         {
           model: Institution,
           through: { attributes: [] },
-        }
-      ]
+        },
+      ],
     });
 
     if (result) {
@@ -79,15 +80,14 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.post("/get_role", async (req, res, next) => {
-  const { user_id_A0 } = req.body;
-  try {
-    const role = await management.getUserRoles({ id: user_id_A0 });
-    const roles = await management.roles.getAll();
-    res.json({ role, roles });
-  } catch (err) {
-    next(err);
-  }
+router.get('/get_roles', async (req, res, next) => {
+	
+	try {
+		const roles = await management.roles.getAll();
+		res.json(roles);
+	} catch (err) {
+		next(err);
+	}
 });
 
 router.put("/change_role", async (req, res, next) => {
@@ -96,18 +96,24 @@ router.put("/change_role", async (req, res, next) => {
   var paramsDel = { id: idUser };
   var dataDel = { roles: [oldRoleId] };
 
-  await management.users.removeRoles(paramsDel, dataDel, (err) => {
-    err && next(err);
-  });
+	try {
+	await management.users.removeRoles(paramsDel, dataDel, (err) => {
+		err && next(err);
+	});
 
-  const paramsAssign = { id: idUser };
-  const dataAssign = { roles: [newRolId] };
-  await management.assignRolestoUser(paramsAssign, dataAssign, (err) => {
-    err ? next(err) : res.json({ message: "Role change succesful." });
-  });
+	const paramsAssign = { id: idUser };
+	const dataAssign = { roles: [newRolId] };
+	await management.assignRolestoUser(paramsAssign, dataAssign);
+	const user = await User.findOne({where: { user_id_A0: idUser }});
+	user.user_rol_id = newRolId;
+	await user.save();
+
+	res.json({ message: 'Updated' });
+	} catch (err) { next(err) }
+
 });
 
-router.get("/", async (req, res, next) => {
+router.get("/", authorizeAccessToken, async (req, res, next) => {
   try {
     const { rol } = req.query;
     let params = {
@@ -134,11 +140,10 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:user_id_A0", async (req, res, next) => {
+router.get("/:user_id_A0", authorizeAccessToken, async (req, res, next) => {
   const { user_id_A0 } = req.params;
-  
   try {
-    const user = await User.findOne({ 
+    const user = await User.findOne({
       where: { user_id_A0 },
       include: [
         {
@@ -146,16 +151,18 @@ router.get("/:user_id_A0", async (req, res, next) => {
           through: {
             attributes: [],
           },
-          
-        },{
-          model: Article
-        }
+        },
+        {
+          model: Article,
+        },
       ],
     });
-    res.json(user.dataValues);
-  } catch(err) { next(err) };
+    res.json({ message: "successful", user: user.dataValues });
+  } catch (err) {
+    next(err);
+  }
 });
-
+/*
 router.post("/verifyemail", async (req, res) => {
   try {
     const user = req.body;
@@ -164,12 +171,12 @@ router.post("/verifyemail", async (req, res) => {
   } catch (err) {
     next(err);
   }
-});
+});*/
 
-router.put('/add_inst',async (req, res, next) => {
+router.put("/add_inst", async (req, res, next) => {
   const { user_id_A0, inst_id } = req.query;
-  try{
-    const user = await User.findOne({ 
+  try {
+    const user = await User.findOne({
       where: { user_id_A0 },
       include: [
         {
@@ -182,18 +189,18 @@ router.put('/add_inst',async (req, res, next) => {
     });
     await user.addInstitution(inst_id);
     const newSetUserInst = user.dataValues.institutions;
-    const newInst = await Institution.findOne({where: {inst_id}})
-    res.json([...newSetUserInst,newInst.dataValues]);
-  } catch(err) { 
-    err.message = 'No se pudo agregar la Institución.'  
-    next(err) 
+    const newInst = await Institution.findOne({ where: { inst_id } });
+    res.json([...newSetUserInst, newInst.dataValues]);
+  } catch (err) {
+    err.message = "No se pudo agregar la Institución.";
+    next(err);
   }
 });
 
-router.delete('/delete_inst', async (req, res, next) => {
+router.delete("/delete_inst", async (req, res, next) => {
   const { user_id_A0, inst_id } = req.query;
   try {
-    const user = await User.findOne({ 
+    const user = await User.findOne({
       where: { user_id_A0 },
       include: [
         {
@@ -204,15 +211,16 @@ router.delete('/delete_inst', async (req, res, next) => {
         },
       ],
     });
-    const newSetUserInst = user.dataValues.institutions.filter(i => i.inst_id !== inst_id)
-    const newSetIds = newSetUserInst.map(i => i.inst_id)
+    const newSetUserInst = user.dataValues.institutions.filter(
+      (i) => i.inst_id !== inst_id
+    );
+    const newSetIds = newSetUserInst.map((i) => i.inst_id);
     await user.setInstitutions(newSetIds);
     res.json(newSetUserInst);
-  } catch(err) { 
-    err.message = 'No se pudo borrar la Institución';
-    next(err) };
-  
+  } catch (err) {
+    err.message = "No se pudo borrar la Institución";
+    next(err);
+  }
 });
-
 
 module.exports = router;

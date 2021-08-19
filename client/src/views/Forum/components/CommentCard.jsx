@@ -51,7 +51,7 @@ const useStyle = makeStyles({
         margin: "20px"
     },
     iconContainer:{
-        margin: "10px"
+        margin: "10px",
 
     },
     contentContainer : {
@@ -61,11 +61,15 @@ const useStyle = makeStyles({
         color: "inherit",
         styles: "none",
         textDecoration: "none"
+    },
+    buttonContainer:{
+       height: "2px"
     }
+    
 
 });
 
-const CommentCard = ({id,date,likes,views,userName,image,content,userId}) =>{
+const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCommentComponent}) =>{
     const classes = useStyle();
     return(
         <Container className = {classes.root} >
@@ -87,27 +91,33 @@ const CommentCard = ({id,date,likes,views,userName,image,content,userId}) =>{
                         </Box>
                         <Box className = {classes.contentContainer}>
                         <Typography>
-                            {content}
+                        <span
+              dangerouslySetInnerHTML={{
+                __html: `${content}`,
+              }}
+            />
                         </Typography>
                     </Box>
 
                     <Box className = {classes.iconsContainer}>
                     <Box className = {classes.iconContainer}>
-                    <Typography color="textSecondary">
+                    <Typography /* color="textSecondary" */>
                         
-                                <ReportTwoToneIcon/> <Button> Reportar </Button>
+                        
+                    <Button className = {classes.button}> <ReportTwoToneIcon  /> Reportar </Button>
+                    
                                 
                             </Typography>
                             </Box>
                             <Box className = {classes.iconContainer}>
                             <Typography color="textSecondary">
                                 
-                                 <FormatQuoteTwoToneIcon/> <Button>Citar</Button>
+                            <Button> <FormatQuoteTwoToneIcon/> Citar</Button>
                             </Typography>
                             </Box>
                             <Box className = {classes.iconContainer}>
                             <Typography color="textSecondary">
-                                 <ReplyTwoToneIcon/> <Button>Responder</Button>
+                            <Button onClick =  {() => handleCommentComponent(id)}> <ReplyTwoToneIcon/> Responder</Button>
                             </Typography>
                             </Box>
                             </Box>

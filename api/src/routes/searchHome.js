@@ -11,15 +11,15 @@ router.get("/", async (req, res) => {
     if (search) {
       const article = await Tag.findAll({
         include: { model: Article },
-        where: { tag_name: { [Op.iLike]: `${search}` } },
+        where: { tag_name: { [Op.iLike]: `%${search}%` } },
       });
       if (article.length === 0) {
         const artTitle = await Article.findAll({
-          where: { art_title: { [Op.iLike]: `${search}%` } },
+          where: { art_title: { [Op.iLike]: `%${search}%` } },
         });
         if (artTitle.length === 0) {
           const autor = await User.findAll({
-            where: { user_name: { [Op.iLike]: `${search}%` } },
+            where: { user_name: { [Op.iLike]: `%${search}%` } },
           });
           if (autor.length === 0) {
             res.json({ message: "Articulo no encontrado" });
