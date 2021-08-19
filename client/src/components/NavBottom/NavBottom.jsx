@@ -119,56 +119,8 @@ export default function NavBottom() {
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                   <PeopleAltTwoToneIcon  fontSize='10px' />
                 <Typography color="initial" style={{fontSize: '8px', textTransform: 'uppercase'}}>colaboradores</Typography>
-                </div>
-                
+                </div>                
               </IconButton>
-           {/*<Button
-            aria-controls="simple-menu"
-            aria-haspopup="true"
-            onClick={handleClick}
-          >
-            <MenuIcon />
-          </Button>
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <MenuItem>
-            <IconButton
-            color="inherit"
-            aria-label="add"
-            onClick={() => history.push("/post")}
-          >
-            <AddCircleOutlineIcon />
-          </IconButton>
-            </MenuItem>
-            <MenuItem>
-              <IconButton edge="end" color="inherit" onClick={handleLogout}>
-                <ExitToAppIcon /> Exit
-              </IconButton>
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <IconButton
-                edge="end"
-                color="inherit"
-                onClick={() => history.push("/colaborators")}
-              >
-                <PeopleAltTwoToneIcon />
-              </IconButton>
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <IconButton
-                edge="end"
-                color="inherit"
-                onClick={() => history.push("/adminpanel")}
-              >
-                <SettingsIcon />
-              </IconButton>
-            </MenuItem>
-          </Menu> */}
         </Toolbar>
       </AppBar>
     </React.Fragment>

@@ -3,12 +3,14 @@ import {
   GET_ARTICLE_DETAIL,
   ORDER_ARTICLES,
   GET_ARTICLE_TAG,
+  GET_ARTICLE_WITHOUT_SECTION,
 } from "../actions/actionsArticles";
 
 const initialState = {
   articles: [],
   articlesDetail: undefined,
   orderedArticles: [],
+  ArticleWithoutSection:[],
 };
 
 export default function articlesReducer(
@@ -36,6 +38,11 @@ export default function articlesReducer(
         ...state,
         orderedArticles: payload,
       };
+    case GET_ARTICLE_WITHOUT_SECTION:
+      return{
+        ...state,
+        ArticleWithoutSection: payload
+      }
     default:
       return state;
   }
