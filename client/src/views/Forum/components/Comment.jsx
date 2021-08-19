@@ -34,8 +34,6 @@ const Comment = ({response_to_comment_id,fetchPostData,handleCancellComment}) =>
     
     async function handleSubmit(e){
         e.preventDefault();
-        
-        console.log("posteando comment")
          await postComment(commentInf)
          setCommentInf({
             comment_contents : "" 
@@ -45,10 +43,19 @@ const Comment = ({response_to_comment_id,fetchPostData,handleCancellComment}) =>
     }
 
     function handleOnChange(e){
-        if (commentInf.response_to_comment_id){
+        console.log(commentInf.response_to_comment_id)
+        
+        if (commentInf.response_to_comment_id === "sdsd"){
             setCommentInf({
                 ...commentInf,
-                /* response_to_comment_id, */
+                 /* response_to_comment_id,  */
+                comment_contents : e,
+            })
+        }
+        else{
+            setCommentInf({
+                ...commentInf,
+                response_to_comment_id,  
                 comment_contents : e,
             })
         }
