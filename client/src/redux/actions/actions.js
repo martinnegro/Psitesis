@@ -1,7 +1,4 @@
-import axios from 'axios';
 import * as API from '../API';
-
-const { REACT_APP_URL_API } = process.env;
 
 export const GET_ALL_CATEGORIES = 'GET ALL CATEGORIES';
 export const GET_ALL_CAT_SUB = 'GET_ALL_CAT_SUB';
@@ -120,60 +117,52 @@ export const createNewSubCategory = (newSubCategory) => {
 	};
 };
 
-export const createPost = (newPost, token) => async (dispatch) => {
-	try {
-		const headers = {
-			Authorization: `Bearer ${token}`,
-		};
-		await axios.post(`${REACT_APP_URL_API}/article`, newPost, { headers });
-	} catch (err) {
-		console.log(err);
-		return;
-	}
+export const createPost = (newPost) => {
+	return async (dispatch) => {
+		try {
+			await API.createPost(newPost);
+		} catch (err) {
+			console.log(err);
+			return;
+		}
+	};
 };
 
-export const editPost = (editPost, token) => async (dispatch) => {
-	try {
-		const headers = {
-			Authorization: `Bearer ${token}`,
-		};
-		await axios.put(
-			`${REACT_APP_URL_API}/article/${editPost.art_id}`,
-			editPost,
-			{
-				headers,
-			}
-		);
-	} catch (err) {
-		console.log(err);
-		return;
-	}
+export const editPost = (editPost) => {
+	return async (dispatch) => {
+		try {
+			await API.editPost(editPost);
+		} catch (err) {
+			console.log(err);
+			return;
+		}
+	};
 };
 
-export const deletePost = (art_id, token) => async (dispatch) => {
-	try {
-		const headers = {
-			Authorization: `Bearer ${token}`,
-		};
-		await axios.delete(`${REACT_APP_URL_API}/article/${art_id}`, {
-			headers,
-		});
-	} catch (err) {
-		console.log(err);
-		return;
-	}
+export const deletePost = (art_id) => {
+	return async (dispatch) => {
+		try {
+			await API.deletePost(art_id);
+		} catch (err) {
+			console.log(err);
+			return;
+		}
+	};
 };
 
 export const getAllCatSub = () => {
 	return async (dispatch) => {
 		try {
-			const response = await axios(`${REACT_APP_URL_API}/categories`);
-			dispatch({
-				type: GET_ALL_CAT_SUB,
-				payload: response.data,
-			});
-		} catch (error) {
-			console.error(error);
+			const response = await API.getAllCatSub();
+			if (response.data) {
+				dispatch({
+					type: GET_ALL_CAT_SUB,
+					payload: response.data,
+				});
+			}
+		} catch (err) {
+			console.log(err);
+			return;
 		}
 	};
 };
@@ -181,16 +170,19 @@ export const getAllCatSub = () => {
 export const getCategory = (id) => {
 	return async (dispatch) => {
 		try {
-			const response = await axios(`${REACT_APP_URL_API}/categories/${id}`);
-			dispatch({
-				type: GET_CATEGORY,
-				payload: {
-					data: response.data,
-					id,
-				},
-			});
-		} catch (error) {
-			console.error(error);
+			const response = await API.getCategory(id);
+			if (response.data) {
+				dispatch({
+					type: GET_CATEGORY,
+					payload: {
+						data: response.data,
+						id,
+					},
+				});
+			}
+		} catch (err) {
+			console.log(err);
+			return;
 		}
 	};
 };
@@ -198,19 +190,20 @@ export const getCategory = (id) => {
 export const getSubCategory = (id) => {
 	return async (dispatch) => {
 		try {
-			const response = await axios(
-				`${REACT_APP_URL_API}/subcategory/category/${id}`
-			);
-			console.log('response: ', response.data);
-			dispatch({
-				type: GET_SUB_CATEGORY,
-				payload: {
-					data: response.data,
-					id,
-				},
-			});
-		} catch (error) {
-			console.error(error);
+			const response = await API.getSubCategory(id);
+			if (response.data) {
+				dispatch({
+					type: GET_SUB_CATEGORY,
+					payload: {
+						data: response.data,
+						id,
+					},
+				});
+			}
+		} catch (err) {
+			console.log(err);
+			return;
 		}
 	};
 };
+
