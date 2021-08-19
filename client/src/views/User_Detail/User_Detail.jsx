@@ -8,6 +8,7 @@ import UserContact from './components/UserContact';
 import UserArticles from './components/UserArticles';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUserDetail, clearUserDetail } from './../../redux/actions/usersActions';
+import { useTheme } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
