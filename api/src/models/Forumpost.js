@@ -26,7 +26,7 @@ module.exports = (sequelize) => {
       post_views: {
         type: DataTypes.INTEGER,
       },
-      post_state: {
+      post_open: {
         type: DataTypes.BOOLEAN,
       },
       post_likes: {
