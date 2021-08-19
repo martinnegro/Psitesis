@@ -35,11 +35,10 @@ const configAuth0 = {
 	code_challenge_method: 'S256',
 };
 
-export const ReactAuth0 = new auth0.WebAuth(configAuth0);
-
 export const LoginWithEmailPassword = (email, password) => {
 	return async (dispatch) => {
 		try {
+			const ReactAuth0 = new auth0.WebAuth(configAuth0);
 			ReactAuth0.redirect.loginWithCredentials(
 				{
 					connection: 'Username-Password-Authentication',
@@ -59,6 +58,7 @@ export const LoginWithEmailPassword = (email, password) => {
 export const RegisterWithEmailPassword = (email, username, password) => {
 	return async (dispatch) => {
 		try {
+			const ReactAuth0 = new auth0.WebAuth(configAuth0);
 			ReactAuth0.redirect.signupAndLogin(
 				{
 					connection: databaseConnection,
@@ -78,6 +78,7 @@ export const RegisterWithEmailPassword = (email, username, password) => {
 
 export const loginWithGoogle = () => {
 	return async (dispatch) => {
+		const ReactAuth0 = new auth0.WebAuth(configAuth0);
 		ReactAuth0.authorize(
 			{
 				connection: 'google-oauth2',
@@ -92,6 +93,7 @@ export const loginWithGoogle = () => {
 
 export const loginWithFacebook = () => {
 	return async (dispatch) => {
+		const ReactAuth0 = new auth0.WebAuth(configAuth0);
 		ReactAuth0.authorize(
 			{
 				connection: 'facebook',

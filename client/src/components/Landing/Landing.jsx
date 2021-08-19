@@ -251,10 +251,6 @@ const Landing = (props) => {
 		dispatch(loginWithFacebook());
 	};
 
-	useEffect(() => {
-		console.log(error);
-	}, [error]);
-
 	if (isAuthenticated) {
 		return <Redirect to="/home" />;
 	}
