@@ -26,6 +26,7 @@ export const changeUserRole = (idUser, oldRoleId, newRolId) => API.put(`/users/c
 export const getUserMetadata = (id) => API.get(`/metadata?id=${id}`);
 export const createNewLinkInMetadata = (data) => API.post('/metadata', data);
 export const deleteLinkInMetadata = (data) => API.delete('/metadata', data);
+export const updateLinkInMetadata = (data) => API.put(`/metadata`,data);
 
 // ruta categories
 export const getAllCatSub = () => API.get(`/categories`)
