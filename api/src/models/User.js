@@ -32,6 +32,9 @@ module.exports = (sequelize) => {
         biography:{
             type: DataTypes.STRING
         },
+        user_rol_id:{
+            type: DataTypes.STRING
+        }
         // soc_net_id:{
         //     type: DataTypes.STRING,
         //     allowNull: false,
