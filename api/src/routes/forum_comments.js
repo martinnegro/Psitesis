@@ -13,8 +13,8 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post("/", (req, res, next) => {
-  /*  try {
+router.post("/", async (req, res, next) => {
+  try {
     const { comment_contents, post_id, user_id, response_to_comment_id } =
       req.body;
     const id = uuidv4();
@@ -28,20 +28,19 @@ router.post("/", (req, res, next) => {
     return res.status(201).send(newComment);
   } catch (err) {
     next(err);
-  } */
-  const { comment_contents, post_id, user_id, response_to_comment_id } =
-    req.body;
-  const id = uuidv4();
-  console.log("response comment id", response_to_comment_id);
-  return Comment.create({
-    comment_id: id,
-    comment_contents,
-    post_id,
-    user_id,
-    response_to_comment_id,
-  })
-    .then((result) => res.json(result))
-    .catch((err) => next(err));
+  }
+});
+
+router.put("/edit/:comment_id", async (req, res, next) => {
+  try {
+    const { comment_id } = req.params;
+    const { comment_contents } = req.body;
+    const comment = await Comment.findByPk(comment_id);
+    comment.comment_contents = comment_contents;
+    await comment.save();
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = router;

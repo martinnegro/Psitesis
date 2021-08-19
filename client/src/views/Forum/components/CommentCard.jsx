@@ -1,9 +1,11 @@
-import React from "react"
+import {React,useState} from "react"
 import { Link } from 'react-router-dom'
 import { Card, CardContent, Avatar, Typography, makeStyles, Box,Container,Divider,Button } from '@material-ui/core'
 import ReportTwoToneIcon from '@material-ui/icons/ReportTwoTone';
-import FormatQuoteTwoToneIcon from '@material-ui/icons/FormatQuoteTwoTone';
+import EditIcon from '@material-ui/icons/Edit';
 import ReplyTwoToneIcon from '@material-ui/icons/ReplyTwoTone';
+import { useDispatch, useSelector } from "react-redux";
+import EditComment from "./EditComment";
 
 const useStyle = makeStyles({
     root: {
@@ -69,11 +71,15 @@ const useStyle = makeStyles({
 
 const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCommentComponent,response_to_comment_id}) =>{
     const classes = useStyle();
+    const loggedUserId =  useSelector((state) => state.authReducer.user.user_id)
+    const [edit,setEdit] = useState(false)
+    const handleEdit = () => {
+        setEdit(true)
+    }
     return(
         <Container className = {classes.root} >
             <Link className = {classes.links} to = {`/user/${userId}`}>
             <Box className={classes.user} >
-                
                         <Avatar className={classes.avatar} alt={userName} src={image}/> 
                         <div>
                         <Typography color="textSecondary">
@@ -82,11 +88,8 @@ const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCo
                         <Typography className={classes.autor} color="textSecondary">
                             <span> {userName}</span>
                         </Typography>
-                        </div>
-                        
+                        </div> 
                     </Box>
-                    
-                        {console.log(response_to_comment_id)}
                     </Link>
                     <Box>
                         </Box>
@@ -102,19 +105,20 @@ const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCo
 
                     <Box className = {classes.iconsContainer}>
                     <Box className = {classes.iconContainer}>
-                    <Typography /* color="textSecondary" */>
-                        
-                        
-                    <Button className = {classes.button}> <ReportTwoToneIcon  /> Reportar </Button>
-                    
-                                
+                    <Typography>
+                    <Button className = {classes.button}> <ReportTwoToneIcon  /> Reportar </Button>         
                             </Typography>
-                            </Box>
-                            <Box className = {classes.iconContainer}>
                             </Box>
                             <Box className = {classes.iconContainer}>
                             <Typography color="textSecondary">
                             <Button onClick =  {(e) => handleCommentComponent(e,id)}> <ReplyTwoToneIcon/> Responder</Button>
+                            </Typography>
+                            </Box>
+                            <Box className = {classes.iconContainer}>
+                            <Typography color="textSecondary">
+                                {loggedUserId == userId ? <Button onClick = {handleEdit}> <EditIcon/> Editar</Button> : null}
+                                {edit ? <EditComment></EditComment> : null}
+                                
                             </Typography>
                             </Box>
                             </Box>
