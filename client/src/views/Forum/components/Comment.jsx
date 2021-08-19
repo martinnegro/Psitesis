@@ -5,8 +5,10 @@ import { postComment } from "../../../utils/auth"
 import { useParams, useHistory } from 'react-router-dom'
 import { makeStyles, Container,Button} from "@material-ui/core";
 import ReplyIcon from '@material-ui/icons/Reply';
+import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { useSelector } from "react-redux";
 import ReactQuill from "react-quill";
+import { spacing } from '@material-ui/system';
 
 const useStyle = makeStyles({
     disableButton : {
@@ -21,7 +23,7 @@ const useStyle = makeStyles({
 const Comment = ({response_to_comment_id,fetchPostData,handleCancellComment}) =>{
     let history = useHistory();
     const classes = useStyle()
-    const userId = useSelector((state) => state.usersReducer.user_id); 
+    const userId = useSelector((state) => state.usersReducer.userDetail.user_id); 
     const { post_id } = useParams();
 
     const [commentInf,setCommentInf] = useState({
@@ -53,7 +55,6 @@ const Comment = ({response_to_comment_id,fetchPostData,handleCancellComment}) =>
     }
     return(
         <Container>
-            <h3>Comment component</h3>
             
             {
             /* <form type = "submit" 
@@ -69,14 +70,12 @@ const Comment = ({response_to_comment_id,fetchPostData,handleCancellComment}) =>
             onChange={handleOnChange}
             value={commentInf.comment_contents}
             name = "comment_contents"
+            m = {50}
           />
-           <Button className = {commentInf.comment_contents === "" ? classes.disableButton : null} type = "submit" onClick = {handleSubmit} >
-            <ReplyIcon/> </Button>
-            <button button onClick={handleCancellComment}>Cancel</button>
-            
+          <Button onClick={handleCancellComment}><CancelOutlinedIcon/></Button>
+          {commentInf.comment_contents !== "" ? <Button  type = "submit" onClick = {handleSubmit} >
+            <ReplyIcon/> </Button> : <Button disabled> <ReplyIcon/></Button> }
             </Container>
-            
-        
     )
 }
 

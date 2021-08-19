@@ -46,16 +46,16 @@ router.delete(
 			const { id } = req.params;
 			if (id) {
 				const targetCategory = await Category.findByPk(id);
+				const subCategories = await Subcategory.findAll({where: { cat_id: targetCategory.cat_id }});
 				if (targetCategory) {
+					if (subCategories.length > 0 ) subCategories.forEach(async sb => await sb.destroy());
 					await targetCategory.destroy();
 				}
-			}
+			}		
 			const cats = await Category.findAll();
 			const sub_cats = await Subcategory.findAll();
 			res.json({ cats, sub_cats });
-		} catch (err) {
-			next(err);
-		}
+		} catch (err) { next(err); }
 	}
 );
 

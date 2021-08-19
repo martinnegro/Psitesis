@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Nav from "../../components/Nav/Nav";
-import { useAuth0 } from "@auth0/auth0-react";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
@@ -116,13 +115,10 @@ const theme = createTheme({
 const Art_Detail = () => {
   const { id } = useParams();
 
-  const { getAccessTokenSilently } = useAuth0();
-
   const dispatch = useDispatch();
   const articlesDetail = useSelector((state) => state.articlesReducer.articlesDetail); // Nueva forma de acceder al estado por combineReducer
-  const users = useSelector((state) => state.usersReducer.users); // Nueva forma de acceder al estado por combineReducer
-  const user_id = useSelector((state) => state.usersReducer.user_id); // Nueva forma de acceder al estado por combineReducer
-	const user_roles = useSelector((state) => state.usersReducer.user_roles);
+  const user = useSelector((state) => state.authReducer.user); // Nueva forma de acceder al estado por combineReducer
+  const users = useSelector((state) => state.usersReducer.users);
   const [idUser, setIdUser] = useState([]);
   const subcategories = useSelector((state) => state.rootReducer.cat_sub?.sub_cats);
   // const [section, setSection] = useState([]);
@@ -163,20 +159,17 @@ const Art_Detail = () => {
   // }, [articlesDetail?.Subcategories, subcategories]);
 
 	useEffect(() => {
-		if (articlesDetail && user_id && user_roles) {
-			if (articlesDetail.user_id !== user_id) {
-				if (user_roles.includes('admin')) {
+		if (articlesDetail && user) {      
+			if (articlesDetail.user_id === user.user_id || user.roles.includes('admin') || user.roles.includes('superadmin')) {
 					setEnablePost(true);
-				}
 			} else {
         setEnablePost(true);
       }
 		}
-	}, [articlesDetail, history, user_id, user_roles]);
+	}, [articlesDetail, history, user]);
 
   const deletePostHandler = async () => {  
-    const token = await getAccessTokenSilently();  
-    dispatch(deletePost(id, token))
+    dispatch(deletePost(id))
   }
 
   const editArticle = () => {
