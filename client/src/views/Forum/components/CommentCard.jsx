@@ -89,7 +89,6 @@ const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCo
                         {console.log(response_to_comment_id)}
                     </Link>
                     <Box>
-                           
                         </Box>
                         <Box className = {classes.contentContainer}>
                         <Typography>

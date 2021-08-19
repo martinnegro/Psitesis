@@ -21,8 +21,6 @@ const useStyle = makeStyles({
 })
 
 const Comment = ({response_to_comment_id,fetchPostData,handleCancellComment}) =>{
-    let history = useHistory();
-    const classes = useStyle()
     const userId = useSelector((state) => state.usersReducer.userDetail.user_id); 
     const { post_id } = useParams();
 
@@ -36,10 +34,12 @@ const Comment = ({response_to_comment_id,fetchPostData,handleCancellComment}) =>
     
     async function handleSubmit(e){
         e.preventDefault();
-        setCommentInf({
+        
+        console.log("posteando comment")
+         await postComment(commentInf)
+         setCommentInf({
             comment_contents : "" 
         })
-         await postComment(commentInf)
          await fetchPostData();
          handleCancellComment();
     }
