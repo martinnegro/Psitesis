@@ -1,19 +1,13 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import { Container, Box, Avatar, Paper } from "@material-ui/core";
-import Nav from "../../components/Nav/Nav";
-import UserInstitutions from "./components/UserInstitutions";
-import UserContactManager from "./components/UserContactManager";
-import UserArticles from "./components/UserArticles";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  getUserDetail,
-  clearUserDetail,
-} from "./../../redux/actions/usersActions";
-import NavBottom from "../../components/NavBottom/NavBottom";
-import { ThemeProvider } from "@material-ui/core/styles";
-import { useTheme } from "@material-ui/core/styles";
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import { Container, Box, Avatar, Paper } from '@material-ui/core';
+import Nav from '../../components/Nav/Nav';
+import UserInstitutions from './components/UserInstitutions';
+import UserContact from './components/UserContact';
+import UserArticles from './components/UserArticles';
+import { useSelector, useDispatch } from 'react-redux';
+import { getUserDetail, clearUserDetail } from './../../redux/actions/usersActions';
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
@@ -74,44 +68,29 @@ function User_Detail(props) {
     return () => dispatch(clearUserDetail());
   }, [dispatch, user_id_A0]);
 
-  return (
-    <Container>
-      <ThemeProvider theme={theme}>
-        <div className={classes.offset}></div>
-        <Nav></Nav>
-        <Container className={classes.Home} className={classes.boxTop}>
-          {/* <Box mt={12} ml={10} > */}
-            {userDetail ? (
-              <>
-			<Container className={classes.Home}>
-                {/* <Box> */}				
-                  <Paper className={classes.head}>
-                    <Avatar
-                      alt={userDetail.user_name}
-                      src={userDetail.user_img_profile}
-                      className={classes.avatar}
-                    />
-                    <UserContactManager user={userDetail} className={classes.contactBox}/>
-                  </Paper>
-                  <UserInstitutions user={userDetail} />
-                  <UserArticles user={userDetail} />
-				  
-                {/* </Box> */}
-               </Container>
-			</>
-            ) : (
-              <div>CARGANDO</div>
-            )}
-          {/* </Box> */}
-          <br />
-          <br />
-          <br />
-          <br />
-          <NavBottom />
-        </Container>
-      </ThemeProvider>
-    </Container>
-  );
+	return (
+		<Container>
+			<Nav></Nav>
+			<Box mt={12} ml={10}>
+				{userDetail ? (
+					<Box>
+						<Paper className={classes.head}>
+							<Avatar
+								alt={userDetail.user_name}
+								src={userDetail.user_img_profile}
+								className={classes.avatar}
+							/>
+						<UserContact user={userDetail} />
+						</Paper>
+						<UserInstitutions user={userDetail} />
+						<UserArticles user={userDetail} />
+					</Box>
+				) : (
+					<div>CARGANDO</div>
+				)}
+			</Box>
+		</Container>
+	);
 }
 
 export default User_Detail;

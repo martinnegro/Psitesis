@@ -6,6 +6,32 @@ const {
 	checkAdminPermission,
 } = require('../auth/index');
 
+router.put('/', authorizeAccessToken, async (req, res, next) => {
+	try {
+		const { user_id_A0, base, url } = req.body;
+		if (!user_id_A0 || !base || !url) {
+			return res.json({ message: 'Bad request', metadata: null });
+		}
+		const user = await management.getUser({
+			id: user_id_A0,
+		});
+		if (!user) {
+			return res.json({ message: 'Bad request', metadata: null });
+		}
+		let auxMetadata = user.user_metadata;
+		const indexLink = auxMetadata.links.indexOf(base);
+		auxMetadata.links.splice(indexLink, 1);
+		auxMetadata.links.push(url);
+		const response = await management.updateUserMetadata(
+			{ id: user_id_A0 },
+			auxMetadata
+		);
+		res.json({ message: 'successful', metadata: response.user_metadata });
+	} catch (err) {
+		next(err);
+	}
+});
+
 router.get('/', authorizeAccessToken, async (req, res, next) => {
 	try {
 		const { id } = req.query;
