@@ -70,6 +70,7 @@ function Forum_Post() {
     const fetchPostData = async () => {
         const fetchedPost = await axios.get(`${REACT_APP_URL_API}/forumposts/${post_id}`);
         setPost(fetchedPost.data);
+        
         setEditing(state => { return { 
             isEditing: false,
             post_contents: fetchedPost.data.post_contents,
@@ -128,6 +129,7 @@ function Forum_Post() {
 
    return (
         <Container>
+            {console.log(post)}
             <Nav></Nav>
             {
                 post ?  
@@ -205,9 +207,12 @@ function Forum_Post() {
             }
             
             <Container>
-            {post ? post.comments.map((comment)=>{
+            {post ? post.comments?.map((comment)=>{
                 return(
-                    <CommentCard key = {comment.comment_id}  id = {comment.comment_id} content = {comment.comment_contents} date = {comment.comment_date} userName = {comment.user.user_name} image = {comment.user.user_img_profile} userId = {comment.user.user_id_A0} handleCommentComponent = {handleCommentComponent} ></CommentCard>
+                    <div>
+                        {console.log(comment)}
+                    <CommentCard key = {comment.comment_id}  id = {comment.comment_id} content = {comment.comment_contents} date = {comment.comment_date}  userName = {comment.user.user_name} image = {comment.user.user_img_profile}   userId = {comment.user.user_id_A0}  handleCommentComponent = {handleCommentComponent} ></CommentCard>
+                    </div>
                 )
             }) : <div className={classes.root}>CARGANDO</div> } 
             
