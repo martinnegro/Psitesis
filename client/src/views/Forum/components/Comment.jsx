@@ -36,7 +36,7 @@ const Comment = ({response_to_comment_id,fetchPostData,handleCancellComment}) =>
          setCommentInf({
              ...commentInf,
             comment_contents : "",
-            response_to_comment_id : undefined
+            response_to_comment_id : null
         })
         await postComment(commentInf)
          await fetchPostData();

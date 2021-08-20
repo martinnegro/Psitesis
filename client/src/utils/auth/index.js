@@ -22,3 +22,14 @@ export const postComment = async (obj) => {
     console.error(error);
   }
 };
+
+export const editComment = async (id, obj) => {
+  try {
+    const response = await axios.put(
+      `${REACT_APP_URL_API}/forum_comments/edit/${id},${obj}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
