@@ -12,7 +12,8 @@ import CommentCard from '../Forum/components/CommentCard';
 import ConfirmDeleteAlert from './components/ConfirmDeleteAlert';
 import Comment from '../Forum/components/Comment';
 import QuoteCard from '../Forum/components/QuoteCard';
-import {getUserDetail} from "../../redux/actions/usersActions";
+import { getUserDetail } from "../../redux/actions/usersActions";
+import { highlightPost } from '../../redux/API';
 import axios from 'axios';
 
 const { REACT_APP_URL_API } = process.env
@@ -182,10 +183,17 @@ function Forum_Post() {
             console.log(responseToComentId)
         }
     }
-
     const handleCancellComment = () =>{
         setCommentComponent(false)
     }
+
+    // HANDLE HIGHLIGHT POST
+    const handleHighlightPost = async () => {
+        try {
+        await highlightPost(post_id);
+        fetchPostData();
+        } catch (err) { alert('No update!') }
+    };
 
 
    return (
@@ -218,6 +226,14 @@ function Forum_Post() {
                                 'Cerrar Thread'
                             :
                                 'Abrir Thread'
+                        }
+                        </Button>
+                        <Button onClick={handleHighlightPost}>
+                        {
+                            post.post_highlight ? 
+                                'Eliminar Destacado'
+                            :
+                                'Destacar Post'
                         }
                         </Button>
                         <IconButton color="secondary" onClick={() => setOpenAlertDelete(true)}>
@@ -303,7 +319,7 @@ function Forum_Post() {
                         {comment.response_to_comment_id ? <QuoteCard  userName = {respondingToUser(comment.response_to_comment_id,post.comments)} commentContent = {respondingToComment(comment.response_to_comment_id,post.comments)} commentId = {comment.response_to_comment_id}></QuoteCard> : null}
                         </Container>
                     <CommentCard
-                     key = {comment.comment_id}  id = {comment.comment_id} content = {comment.comment_contents} date = {comment.comment_date}  userName = {comment.user.user_name} image = {comment.user.user_img_profile}   userId = {comment.user.user_id_A0}  handleCommentComponent = {handleCommentComponent} response_to_comment_id = {responseToComentId}
+                     key = {comment.comment_id} postisOpen = {post.post_open}  id = {comment.comment_id} content = {comment.comment_contents} date = {comment.comment_date}  userName = {comment.user.user_name} image = {comment.user.user_img_profile}   userId = {comment.user.user_id_A0}  handleCommentComponent = {handleCommentComponent} response_to_comment_id = {responseToComentId}
                     ></CommentCard>
                     </div>
                 )
@@ -312,11 +328,8 @@ function Forum_Post() {
             </Container>
             {commentComponent ? <Comment response_to_comment_id = {responseToComentId} fetchPostData = {fetchPostData} handleCancellComment = {handleCancellComment} /> : null}
             <Container className = {classes.commentIcon}>
-                
-                <Button className = {commentComponent ? classes.hide : null} onClick = {(e) => handleCommentComponent(e,null)}   ><ReplyIcon className = {classes.replyButton}/></Button>
-                
-            </Container>
-            
+                {post?.post_open ? <Button className = {commentComponent ? classes.hide : null} onClick = {(e) => handleCommentComponent(e,null)}><ReplyIcon className = {classes.replyButton}/></Button> : null}
+            </Container> 
         </Container>
     )
 }

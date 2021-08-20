@@ -221,16 +221,16 @@ const Art_Detail = () => {
       <Container className={classes.Home}>
       {articlesDetail !== undefined ? (
         <Container className={classes.Home}>
-          <div className={s.perfil}>
+          <div className={s.perfil} style={{fontSize: 10}}>
             <div>
-              <Typography variant="body2">
+              <Typography variant="p" >
                 Sección: {articlesDetail?.subcategory?.sub_cat_name}
               </Typography>
             </div>
-            <div className={s.perfil2}>
-              <Typography variant="body2">{idUser[0]?.user_name}</Typography>
+            <div className={s.perfil2} >
+              <Typography variant="p">{idUser[0]?.user_name}</Typography>
               &nbsp;
-              <Typography variant="body2">el {articlesDetail?.art_date}</Typography>
+              <Typography variant="p">el {articlesDetail?.art_date}</Typography>
             </div>
           </div>
 {enablePost ? <div className={s.btns}>

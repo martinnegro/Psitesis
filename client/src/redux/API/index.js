@@ -45,8 +45,13 @@ export const createPost = (data) => API.post(`/article`, data);
 export const editPost = (editPost) => API.put(`/article/${editPost.art_id}`,editPost);
 export const deletePost = (art_id) => API.delete(`/article/${art_id}`);
 
+
 //post foro
 export const createPostForum = (data) => API.post(`/forumposts/create`, data);
+
+// RUTA /forumposts
+export const highlightPost = (post_id) => API.put(`/forumposts/highlight_post/${post_id}`);
+
 
 
 

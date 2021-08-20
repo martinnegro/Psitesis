@@ -1,5 +1,5 @@
 import { Container, Divider, Typography } from '@material-ui/core';
-import React from 'react'; 
+import React, { useEffect } from 'react'; 
 import ReactPaginate from 'react-paginate';
 import style from "../../views/Home/Home.module.css";
 import Card2 from '../Card/CardTabPanel';
@@ -7,6 +7,7 @@ import Card2 from '../Card/CardTabPanel';
 export default function Subcategoria (props) {
 
     const { articles,  id , name } = props;
+    const [ prueba, setPrueba ] = React.useState([])
     
     const [pageNumber, setPageNumber] = React.useState(0);
     const postsByPage = 2;
@@ -15,6 +16,11 @@ export default function Subcategoria (props) {
     const changePage = ({ selected }) => {
       setPageNumber(selected);
     };
+
+    useEffect(()=> {
+        const aux = articles.filter(a => a.sub_cat_id !== null)
+        setPrueba(aux)
+    },[articles])
 
     return (
         <Container key={id}>
@@ -29,8 +35,8 @@ export default function Subcategoria (props) {
             justifyContent:'space-between',
             flexWrap: 'wrap'}}>
                 {
-                    articles.length > 0 
-                    ? articles 
+                    prueba.length > 0 
+                    ? prueba 
                     ?.slice(pagesVisited, pagesVisited + postsByPage)
                     ?.map(a => (
                         <Card2

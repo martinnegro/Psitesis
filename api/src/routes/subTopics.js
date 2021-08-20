@@ -25,7 +25,8 @@ router.get("/:id", async (req, res) => {
           model: Topic,
           attributes: ['topic_name']
         }
-      ]
+      ],
+      order: [['createdAt','DESC']]
     })
     res.json(query[0]);
 });
