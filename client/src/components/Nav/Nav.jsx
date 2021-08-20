@@ -259,7 +259,7 @@ export default function Nav() {
                             textTransform: "uppercase",
                           }}
                         >
-                          ADD POST
+                          CREAR ARTICULO
                         </Typography>
                       </span>
                     </MenuItem>
@@ -285,7 +285,7 @@ export default function Nav() {
                             textTransform: "uppercase",
                           }}
                         >
-                          PANEL ADMIN
+                          PANEL DE ADMINISTRADOR
                         </Typography>
                       </span>
                     </MenuItem>
@@ -336,7 +336,7 @@ export default function Nav() {
                       color="initial"
                       style={{ fontSize: "12px", textTransform: "uppercase" }}
                     >
-                      LOGOUT
+                      CERRAR SESION
                     </Typography>
                   </span>
                 </MenuItem>
@@ -431,7 +431,7 @@ export default function Nav() {
           <ListItemIcon>
             <HomeOutlinedIcon />
           </ListItemIcon>
-          <ListItemText style={{textTransform: 'uppercase'}}>Home</ListItemText>
+          <ListItemText style={{textTransform: 'uppercase'}}>Inicio</ListItemText>
         </ListItem>
         <ListItem button onClick={() => history.push("/guiadetesis")}>
           <ListItemIcon>
