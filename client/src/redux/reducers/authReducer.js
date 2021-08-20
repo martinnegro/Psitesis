@@ -7,6 +7,7 @@ import {
 } from '../actions/actionsAuth';
 const user = JSON.parse(localStorage.getItem('user'));
 const access_token = localStorage.getItem('access_token');
+console.log("token: ",access_token )
 const userEmpy = {
 	user_id: '',
 	picture: '',

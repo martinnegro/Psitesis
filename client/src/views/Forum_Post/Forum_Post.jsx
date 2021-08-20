@@ -290,6 +290,7 @@ function Forum_Post() {
                                 onChange={handleOnChange}
                                 className={classes.textField}
                                 multiline rows={5}
+                                
                             />
                             :
                             <Typography>

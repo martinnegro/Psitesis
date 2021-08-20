@@ -5,6 +5,7 @@ export const GET_ALL_CAT_SUB = 'GET_ALL_CAT_SUB';
 export const GET_CATEGORY = 'GET_CATEGORY';
 export const GET_SUB_CATEGORY = 'GET_SUB_CATEGORY';
 
+
 //////////////////////////////////////
 export const GET_ADMINS = 'GET_ADMINS';
 
@@ -206,4 +207,16 @@ export const getSubCategory = (id) => {
 		}
 	};
 };
+
+export const createPostForum = (newPost) => {
+	return async (dispatch) => {
+		try {
+			await API.createPostForum(newPost);
+		} catch (err) {
+			console.log(err);
+			return;
+		}
+	};
+};
+
 
