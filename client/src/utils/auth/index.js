@@ -38,7 +38,7 @@ export const editComment = async (id, obj) => {
 export const deleteComment = async (id) => {
   try {
     const response = await axios.delete(
-      `${REACT_APP_URL_API}/forum_comments/edit/${id}`
+      `${REACT_APP_URL_API}/forum_comments/delete/${id}`
     );
     return response.data;
   } catch (error) {

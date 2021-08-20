@@ -83,7 +83,7 @@ const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCo
     }
 
     const handleDelete = async () => {
-        deleteComment(id)
+        await deleteComment(id)
         await fetchPostData()
     }
     
