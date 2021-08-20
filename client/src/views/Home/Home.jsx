@@ -204,7 +204,7 @@ export default function Home() {
               variant="contained"
               size="medium"
               color="purple"
-              onClick={() => history.push('/home')}
+              onClick={() => window.location.reload()}
               classes={{
                 root: classes.root,
                 label: classes.label,
