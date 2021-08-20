@@ -16,7 +16,6 @@ import PostCard from './components/PostCard';
 import { ThemeProvider } from "@material-ui/core/styles";
 import { grey } from '@material-ui/core/colors';
 import {Link} from 'react-router-dom'
-import {  Button } from '@material-ui/core';
 import { purple } from '@material-ui/core/colors';
 import style from './Forum.module.css'
 
@@ -221,11 +220,8 @@ const Forum = () => {
              <div className={classes.offset}></div>
         <Nav/>
         <Container className={classes.title}>
-        <Link to='/forum/crearpost' style={{textDecoration:'none'}}>
-            <Button className={`${classes2.root}`}>Crear Post Foro</Button>
-          </Link>
             <Typography variant='h2' >Foro</Typography>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+      
         </Container>
         <div className={classes.root}>
           <AppBar className = {classes.tab} position="static" color="default" >

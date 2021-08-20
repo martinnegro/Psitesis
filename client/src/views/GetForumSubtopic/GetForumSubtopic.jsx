@@ -3,11 +3,32 @@ import { getForumSubtopic } from '../../redux/actions/forumActions';
 import { useParams } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import { useEffect, useState } from 'react';
-import { Container, Typography, makeStyles } from '@material-ui/core'
+import { Container, Typography, makeStyles, createTheme } from '@material-ui/core'
 import PostCard from '../Forum/components/PostCard'
 import Nav from '../../components/Nav/Nav'
 import styles from './GetForumSubtopic.module.css'
 import { highlightPost } from '../../redux/API';
+import {Link} from 'react-router-dom'
+import {  Button } from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { purple } from '@material-ui/core/colors';
+
+const theme = createTheme({
+	palette: {
+		primary: {
+			main: purple[500],
+			light: '#ffc4ff',
+			dark: '#9c64a6',
+			contrastText: '#fff',
+		},
+		secondary: {
+			main: purple[500],
+			light: '#ffc4ff',
+			dark: '#9c64a6',
+			contrastText: '#fff',
+		},
+	},
+});
 
 const useStyle = makeStyles({
     root: {
@@ -19,6 +40,10 @@ const useStyle = makeStyles({
         width: "100%",
         textAlign: "center",
         color: "white",
+        display: 'flex',
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between"
     },
     subTitle: {
         marginTop: "0",
@@ -30,7 +55,11 @@ const useStyle = makeStyles({
     },
     cardsContainer: {
         width: "100%",
+    },
+    stylebtn:{
+        backgroundColor: "purple"
     }
+
 });
 
 export default function GetForumSubTopic(){
@@ -56,11 +85,17 @@ export default function GetForumSubTopic(){
     return(
         <Container className={classes.root}>
             <Nav/>
+            <ThemeProvider theme={theme}>
+
+            
             {
                 forum ?
                 <>
                     <Container className={classes.title}>
-                        <Typography variant='h3' >FORO / {forum.topic.topic_name} / {forum.sub_topic_name}</Typography>
+                        <Typography variant='h2' >FORO / {forum.topic.topic_name} / {forum.sub_topic_name}</Typography>
+                        <Link to='/forum/crearpost' style={{textDecoration:'none'}}>
+                            <Button variant="contained" size="medium" className={styles.stylebtn} color="primary" >Crear Post Foro</Button>
+                        </Link>
                     </Container>
                     <Container className={classes.subTitle}>
                         <Typography variant='h5' >{forum.sub_topic_description}</Typography>
@@ -74,6 +109,7 @@ export default function GetForumSubTopic(){
                 :
                 <div>Sin Posts </div>
             }
+            </ThemeProvider>
         </Container>
     )
 }
