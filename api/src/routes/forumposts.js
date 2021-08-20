@@ -21,6 +21,7 @@ router.post('/create',authorizeAccessToken, async (req, res, next) => {
             post_contents,
             post_title,
             post_date,
+            post_open: true,
             post_edited: false,
         })
 
