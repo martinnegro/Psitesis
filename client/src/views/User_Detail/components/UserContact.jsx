@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
 	Box,
 	IconButton,
@@ -56,12 +56,12 @@ const UserContactManager = ({ user }) => {
 	const metadata = useSelector((state) => state.metadataReducer.metadata);
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		if (user?.user_id_A0) {
-			dispatch(getUserMetadata(user.user_id_A0));
-		}
-		return () => dispatch(clearUserMetadata());
-	}, [dispatch, user]);
+  useEffect(() => {
+    if (user?.user_id_A0) {
+      dispatch(getUserMetadata(user.user_id_A0));
+    }
+    return () => dispatch(clearUserMetadata());
+  }, [dispatch, user]);
 
 	useEffect(() => {
 		setRows((state) => {
@@ -76,43 +76,43 @@ const UserContactManager = ({ user }) => {
 		setNewLink(e.target.value);
 	};
 
-	const cancelNewLink = () => {
-		setIsCreating(false);
-		setNewLink('');
-	};
+  const cancelNewLink = () => {
+    setIsCreating(false);
+    setNewLink("");
+  };
 
-	const confirmNewLink = async (newLink) => {
-		if (newLink !== '') {
-			if (metadata?.links) {
-				if (!metadata?.links?.includes(newLink)) {
-					dispatch(createNewLinkInMetadata(newLink, user.user_id_A0));
-				}
-			} else {
-				dispatch(createNewLinkInMetadata(newLink, user.user_id_A0));
-			}
-		}
-		setIsCreating(false);
-		setNewLink('');
-	};
+  const confirmNewLink = async (newLink) => {
+    if (newLink !== "") {
+      if (metadata?.links) {
+        if (!metadata?.links?.includes(newLink)) {
+          dispatch(createNewLinkInMetadata(newLink, user.user_id_A0));
+        }
+      } else {
+        dispatch(createNewLinkInMetadata(newLink, user.user_id_A0));
+      }
+    }
+    setIsCreating(false);
+    setNewLink("");
+  };
 
-	const handleClickOpen = (link) => {
-		setOpen({
-			...open,
-			[link]: true,
-		});
-	};
+  const handleClickOpen = (link) => {
+    setOpen({
+      ...open,
+      [link]: true,
+    });
+  };
 
-	const handleClose = (link) => {
-		setOpen({
-			...open,
-			[link]: false,
-		});
-	};
+  const handleClose = (link) => {
+    setOpen({
+      ...open,
+      [link]: false,
+    });
+  };
 
-	const handleConfirm = async (link) => {
-		setOpen(false);
-		dispatch(deleteLinkInMetadata(link, user.user_id_A0));
-	};
+  const handleConfirm = async (link) => {
+    setOpen(false);
+    dispatch(deleteLinkInMetadata(link, user.user_id_A0));
+  };
 
 	const isEmail = (string) => {
 		const Regex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;

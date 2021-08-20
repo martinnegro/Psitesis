@@ -67,7 +67,7 @@ const useStyle = makeStyles({
     }
 });
 
-const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCommentComponent,response_to_comment_id}) =>{
+const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCommentComponent,response_to_comment_id,postisOpen}) =>{
     const classes = useStyle();
     return(
         <Container className = {classes.root} >
@@ -85,8 +85,6 @@ const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCo
                         </div>
                         
                     </Box>
-                    
-                        {console.log(response_to_comment_id)}
                     </Link>
                     <Box>
                         </Box>
@@ -113,9 +111,10 @@ const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCo
                             <Box className = {classes.iconContainer}>
                             </Box>
                             <Box className = {classes.iconContainer}>
-                            <Typography color="textSecondary">
+                                {postisOpen ? <Typography color="textSecondary">
                             <Button onClick =  {(e) => handleCommentComponent(e,id)}> <ReplyTwoToneIcon/> Responder</Button>
-                            </Typography>
+                            </Typography> : null }
+                            
                             </Box>
                             </Box>
                             <Divider/>
