@@ -19,6 +19,9 @@ import {
 } from '@material-ui/core';
 import Logo from './../../assets/Logo.png';
 
+
+//validation
+import { minLengthValidation, emailValidation, passwordValidation } from "../../utils/validations/formValidations";
 const useStyles = makeStyles((theme) => ({
 	root: {
 		'input': {
@@ -166,6 +169,12 @@ const Landing = (props) => {
 	const dispatch = useDispatch();
 	const classes = useStyles();
 	const [stateAuth, setStateAuth] = useState('Login');
+	const [mensajeEmail, setMensajeEmail] = useState('')
+	const [errorEmail, setErrorEmail] = useState(false)
+	const [mensajeUsuario, setMensajeUsuario] = useState('')
+	const [errorUsuario, setErrorUsuario] = useState(false)
+	const [mensajePassword, setMensajePassword] = useState('')
+	const [errorPassword, setErrorPassword] = useState(false)
 
 	const [inputLogin, setInputLogin] = useState({
 		email: '',
@@ -179,6 +188,12 @@ const Landing = (props) => {
 		username: '',
 		password: '',
 	});
+
+	const [formValid, setformValid] = useState({
+		email:false,
+		username: false,
+		password: false,
+	  });
 
 	const showRecoveryPassword = (e) => {
 		e.preventDefault();
@@ -195,6 +210,53 @@ const Landing = (props) => {
 	};
 
 	const handleOnChangeRegister = (e) => {
+		const {name, type} = e.target;
+		const {	email,username,password} = formValid;
+
+		if(type === 'email'){
+			setformValid({
+			  ...formValid,
+			  [name]: emailValidation(e.target)
+			})
+			
+			if(email === true){
+			setErrorEmail(false)
+			setMensajeEmail('Mail valido')
+		  } else{
+			setErrorEmail(true)
+			setMensajeEmail('Ingrese un Mail valido')
+		  }
+		}
+
+		  if(type === 'text'){
+			setformValid({
+			  ...formValid,
+			  [name]: minLengthValidation(e.target,5)
+			})
+
+			if(username === true){
+				setErrorUsuario(false)
+				setMensajeUsuario('username valido')
+			  } else{
+				setErrorUsuario(true)
+				setMensajeUsuario('minimo 6 caracters')
+			  }
+		  }
+
+		  if(type === 'password'){
+			setformValid({
+			  ...formValid,
+			  [name]: passwordValidation(e.target)
+			})
+			if(password === true){
+				setErrorPassword(false)
+				setMensajePassword('password valido')
+			  } else{
+				setErrorPassword(true)
+				setMensajePassword('\n-Al menos 8 caracteres \n-Al menos una letra mayúscula \n-Al menos una letra minucula \n-Al menos un dígito \n-No espacios en blanco')
+			  }
+		  }
+
 		setInputRegister({
 			...inputRegister,
 			[e.target.name]: e.target.value,
@@ -422,9 +484,11 @@ const Landing = (props) => {
 										<TextField
 											label="Correo electrónico"
 											name="email"
+											type="email"
 											value={inputRegister.email}
 											className={classes.textField}
-											helperText="Some important text"
+											helperText={mensajeEmail}
+											error={errorEmail}
 											InputProps={{
 												className: classes.input,
 											}}
@@ -440,9 +504,11 @@ const Landing = (props) => {
 										<TextField
 											label="Usuario"
 											name="username"
+											type="text"
 											value={inputRegister.username}
 											className={classes.textField}
-											helperText="Some important text"
+											helperText={mensajeUsuario}
+											error={errorUsuario}
 											InputProps={{
 												className: classes.input,
 											}}
@@ -461,7 +527,8 @@ const Landing = (props) => {
 											type="password"
 											value={inputRegister.password}
 											className={classes.textField}
-											helperText="Some important text"
+											helperText={mensajePassword}
+											error={errorPassword}
 											InputProps={{
 												className: classes.input,
 											}}

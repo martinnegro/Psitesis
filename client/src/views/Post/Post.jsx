@@ -34,7 +34,8 @@ import Selectores from "../../components/Select/Select";
 //menucito
 import NavBottom from "../../components/NavBottom/NavBottom";
 import Container from "@material-ui/core/Container"; 
-
+//validation
+import { minLengthValidation } from "../../utils/validations/formValidations";
 const theme = createTheme({
   palette: {
     primary: {
@@ -121,6 +122,13 @@ function Post() {
   const [subcategoria, setSubcategoria] = useState("");
   const [categoria, setCategoria] = useState("");
   const [tags, setTags] = useState("");
+  const [formValid, setformValid] = useState({
+    titulo:false,
+    reseña:false,
+    subcategoria:false,
+    categoria:false,
+    tags:false
+  });
 
   //MOdal
   //const classes = useStyles();
@@ -148,59 +156,117 @@ function Post() {
 
   const handleInput = (e) => {
     setTitulo(e.target.value);
+    const {name, type} = e.target;
+
+    if(type === 'text'){
+      setformValid({
+        ...formValid,
+        [name]: minLengthValidation(e.target, 3)
+      })
+    }
   };
 
   const handleInputReseña = (e) => {
     setReseña(e.target.value);
+    const {name, type} = e.target;
+
+    if(type === 'text'){
+      setformValid({
+        ...formValid,
+        [name]: minLengthValidation(e.target, 3)
+      })
+    }
   };
 
   const handleInputTags = (e) => {
     setTags(e.target.value);
+
+    const {name, type} = e.target;
+
+    if(type === 'text'){
+      setformValid({
+        ...formValid,
+        [name]: minLengthValidation(e.target, 3)
+      })
+    }
   };
 
   const handleInputCat = (e) => {
     let index = e.target.selectedIndex;
     let option = e.target.options[index].value;
     console.log("option: ", option);
+
     setCategoria(option.split("/")[0]);
     setSubcategoria(option.split("/")[1]);
+
+
+    const {name, type} = e.target;
+
+    if(type === 'text'){
+      setformValid({
+        ...formValid,
+        [name]: minLengthValidation(e.target, 3)
+      })
+    }
   };
+
+  const inputsValidations = e=>{
+    console.log(e.target);
+  }
 
   const handleSubmitBody = async (e) => {
     e.preventDefault();
 
-    let data = {
-      art_contents: body,
-      art_title: titulo,
-      cat_id: categoria,
-      sub_cat_id: subcategoria,
-      user_id: user.sub,
-      art_abstract: reseña,
-      art_date: date,
-      art_tags: tags.split(",").map((e) => e.trim()),
-      art_id: id ? articlesDetail.art_id : null,
-    };
+    const {titulo,reseña,subcategoria, categoria,tags} = formValid;
 
-    console.log("data: ", data);
+    const tituloVal = titulo;
+    const reseñaVal = reseña;
+    const subcategoriaVal = subcategoria;
+    const categoriaVal = categoria;
+    const tagsVal = tags;
+    
+    if(!tituloVal || !tagsVal) {
+      console.log('todos los campos son obligatorios');
+    }else{
 
-    // action createPost or editPost
-    const token = await getAccessTokenSilently();
-    console.log("token:", token);
-    if (id) {
-      dispatch(editPost(data, token));
-      setBody("");
-      setTitulo("");
-      setTextModal('editado')
-      setOpen2(true);
-      setTimeout(handleClose2, 1000);
-    } else {
-      dispatch(createPost(data, token));
-      setBody("");
-      setTitulo("");
-      setTextModal('creado')
-      setOpen2(true);
-      setTimeout(handleClose2, 1000);
+      let data = {
+        art_contents: body,
+        art_title: titulo,
+        cat_id: categoria,
+        sub_cat_id: subcategoria,
+        user_id: user.sub,
+        art_abstract: reseña,
+        art_date: date,
+        art_tags: tags.split(",").map((e) => e.trim()),
+        art_id: id ? articlesDetail.art_id : null,
+      };
+      console.log("data: ", data);
+  
+      // action createPost or editPost
+      const token = await getAccessTokenSilently();
+      console.log("token:", token);
+      if (id) {
+        dispatch(editPost(data, token));
+        setBody("");
+        setTitulo("");
+        setTextModal('editado')
+        setOpen2(true);
+        setTimeout(handleClose2, 1000);
+      } else {
+        dispatch(createPost(data, token));
+        setBody("");
+        setTitulo("");
+        setTextModal('creado')
+        setOpen2(true);
+        setTimeout(handleClose2, 1000);
+      }
+
     }
+
+
+
+
+
   };
 
   useEffect(() => {
