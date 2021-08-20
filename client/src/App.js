@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import Landing from './components/Landing/Landing';
+import Landing from './views/Landing/Landing';
 import User_Detail from './views/User_Detail/User_Detail';
 import Art_Detail from './views/Art_Detail/Art_Detail';
 import Home from './views/Home/Home.jsx';
