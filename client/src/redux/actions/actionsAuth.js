@@ -198,7 +198,7 @@ export const logOut = () => {
 
 export const clearErrors = () => {
 	return (dispatch) => {
-		dispatch(logOut(setError(null)));
+		dispatch(setError(null));
 	};
 };
 
