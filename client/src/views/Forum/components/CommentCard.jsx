@@ -111,9 +111,9 @@ const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCo
                             <Box className = {classes.iconContainer}>
                             </Box>
                             <Box className = {classes.iconContainer}>
-                                {postisOpen ? <Typography color="textSecondary">
+                                <Typography color="textSecondary">
                             <Button onClick =  {(e) => handleCommentComponent(e,id)}> <ReplyTwoToneIcon/> Responder</Button>
-                            </Typography> : null }
+                            </Typography> 
                             
                             </Box>
                             </Box>

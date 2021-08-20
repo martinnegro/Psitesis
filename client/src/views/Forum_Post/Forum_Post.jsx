@@ -327,9 +327,8 @@ function Forum_Post() {
             </Container>
             {commentComponent ? <Comment response_to_comment_id = {responseToComentId} fetchPostData = {fetchPostData} handleCancellComment = {handleCancellComment} /> : null}
             <Container className = {classes.commentIcon}>
-                <Button className = {commentComponent ? classes.hide : null} onClick = {(e) => handleCommentComponent(e,null)}   ><ReplyIcon className = {classes.replyButton}/></Button>
-            </Container>
-            
+                {post?.post_open ? <Button className = {commentComponent ? classes.hide : null} onClick = {(e) => handleCommentComponent(e,null)}><ReplyIcon className = {classes.replyButton}/></Button> : null}
+            </Container> 
         </Container>
     )
 }
