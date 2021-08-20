@@ -14,7 +14,6 @@ import { editComment } from "../../../utils/auth";
         setComment(e)
     }
 
-  
     const handleSubmit = async () =>{
         try{
            
@@ -30,7 +29,6 @@ import { editComment } from "../../../utils/auth";
         console.log("cancelando la edicion")
         setComment(content)
         console.log("reseteando el content")
-         
     }
     return(
         <Container>

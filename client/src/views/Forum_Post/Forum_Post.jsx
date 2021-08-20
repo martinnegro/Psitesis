@@ -77,6 +77,7 @@ function Forum_Post() {
     const [ okDelete, setOkDelete ] = useState(false);
     const [ commentComponent, setCommentComponent ] = useState(false);
     const [responseToComentId,setResponseToComentId] = useState(null); 
+    const [orderedComments,setOrderedComments] = useState([])
 
     useEffect(async()=>{
         fetchPostData();
@@ -86,15 +87,17 @@ function Forum_Post() {
         if (!data){
             const fetchedPost = await axios.get(`${REACT_APP_URL_API}/forumposts/${post_id}`);
             data = fetchedPost.data
-            console.log(data);
         }
         if (!data) return 
+        const auxComment = data.comments.sort((a,b)=> a.createdAt < b.createdAt ? -1 : 1)
+        setOrderedComments(auxComment)
         setPost(data);
         setEditing({ 
             isEditing: false,
             post_contents: data.post_contents,
             post_title: data.post_title,
          })
+         console.log(data)
     };
     
     useEffect(() => {
@@ -294,7 +297,7 @@ function Forum_Post() {
 
             {/* --------- COMMENTS ----------*/}
             <Container>
-            {post ? post.comments?.map((comment)=>{
+            {post ? orderedComments?.map((comment)=>{
                 return(
                     <div>
                         <Container>

@@ -18,7 +18,7 @@ router.get("/:post_id", async (req, res, next) => {
       include: [
         {
           model: Comment,
-          order: [["createdAt", "DESC"]],
+          order: sequelize.literal("max(createdAt) ASC"),
           include: [{ model: User }],
         },
         {
