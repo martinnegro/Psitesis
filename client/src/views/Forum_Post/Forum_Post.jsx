@@ -71,13 +71,13 @@ function Forum_Post() {
     const history = useHistory();
     const [ post, setPost ] = useState();
     const [ editing, setEditing ] = useState({isEditing: false});
-    const [ okEdit, setOkEdit ] = useState(false)
     const [ previous, setPrevious ] = useState();
     const [ openAlertDelete, setOpenAlertDelete ] = useState(false);
     const [ okDelete, setOkDelete ] = useState(false);
+    const [ commentIdForResponse, setCommentIdForResponse ] = useState();
     const [ commentComponent, setCommentComponent ] = useState(false);
-    const [responseToComentId,setResponseToComentId] = useState(null); 
-    const [orderedComments,setOrderedComments] = useState([])
+    const [ orderedComments,setOrderedComments ] = useState([]);
+
 
     useEffect(async()=>{
         fetchPostData();
@@ -179,11 +179,8 @@ function Forum_Post() {
 
     const handleCommentComponent = (_e,response_to_comment_id) =>{
         commentComponent ? setCommentComponent(false) : setCommentComponent(true)
-        if (response_to_comment_id){
-            setCommentComponent(true)
-            setResponseToComentId(response_to_comment_id)
-            console.log(responseToComentId)
-        }
+        setCommentComponent(true)
+        setCommentIdForResponse(response_to_comment_id);
     }
 
     const handleCancellComment = () =>{
@@ -303,19 +300,37 @@ function Forum_Post() {
                         <Container>
                         {comment.response_to_comment_id ? <QuoteCard  userName = {respondingToUser(comment.response_to_comment_id,post.comments)} commentContent = {respondingToComment(comment.response_to_comment_id,post.comments)} commentId = {comment.response_to_comment_id}></QuoteCard> : null}
                         </Container>
-                    <CommentCard fetchPostData = {fetchPostData}
-                     key = {comment.comment_id}  id = {comment.comment_id} content = {comment.comment_contents} date = {comment.comment_date}  userName = {comment.user.user_name} image = {comment.user.user_img_profile}   userId = {comment.user.user_id_A0}  handleCommentComponent = {handleCommentComponent} response_to_comment_id = {responseToComentId}
+                    <CommentCard 
+                        fetchPostData = {fetchPostData}
+                        key = {comment.comment_id}
+                        id = {comment.comment_id}
+                        content = {comment.comment_contents}
+                        date = {comment.comment_date}
+                        userName = {comment.user.user_name}
+                        image = {comment.user.user_img_profile}
+                        userId = {comment.user.user_id_A0}
+                        handleCommentComponent = {handleCommentComponent}                        
                     ></CommentCard>
                     </div>
                 )
             }) : <div className={classes.root}>CARGANDO</div> } 
             
             </Container>
-            {commentComponent ? <Comment response_to_comment_id = {responseToComentId} fetchPostData = {fetchPostData} handleCancellComment = {handleCancellComment} /> : null}
-            <Container className = {classes.commentIcon}>
-                
-                <Button className = {commentComponent ? classes.hide : null} onClick = {(e) => handleCommentComponent(e,null)}   ><ReplyIcon className = {classes.replyButton}/></Button>
-                
+            {
+                commentComponent ? 
+                <Comment 
+                    fetchPostData = {fetchPostData} 
+                    handleCancellComment = {handleCancellComment} 
+                    response_to_comment_id={commentIdForResponse}
+                /> : null
+            }
+            <Container className = {classes.commentIcon}>    
+                <Button 
+                    className = {commentComponent ? classes.hide : null} 
+                    onClick = {(e) => handleCommentComponent(e,null)}
+                >
+                    <ReplyIcon className = {classes.replyButton}/>
+                </Button>
             </Container>
             
         </Container>

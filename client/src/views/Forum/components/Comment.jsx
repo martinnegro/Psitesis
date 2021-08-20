@@ -33,21 +33,20 @@ const Comment = ({response_to_comment_id,fetchPostData,handleCancellComment}) =>
     async function handleSubmit(e){
         e.preventDefault();
         await postComment(commentInf)
-        console.log(commentInf.response_to_comment_id)
-          setCommentInf({
-             ...commentInf,
-            comment_contents : "",
-            response_to_comment_id : null
+        setCommentInf({
+           ...commentInf,
+          comment_contents : "",
+          response_to_comment_id : null
         })
         
-         await fetchPostData();
-         handleCancellComment();
+        await fetchPostData();
+        handleCancellComment();
     }
 
     function handleOnChange(e){
             setCommentInf({
                 ...commentInf,
-                  response_to_comment_id,  
+                response_to_comment_id,  
                 comment_contents : e,
             })
     }

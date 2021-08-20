@@ -90,27 +90,27 @@ const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCo
     return(
         <Container className = {classes.root} >
             <Link className = {classes.links} to = {`/user/${userId}`}>
-            <Box className={classes.user} >
-                        <Avatar className={classes.avatar} alt={userName} src={image}/> 
-                        <div>
+                <Box className={classes.user} >
+                    <Avatar className={classes.avatar} alt={userName} src={image}/> 
+                    <div>
                         <Typography color="textSecondary">
-                                {date}
-                            </Typography>
+                            {date}
+                        </Typography>
                         <Typography className={classes.autor} color="textSecondary">
                             <span> {userName}</span>
                         </Typography>
-                        </div> 
-                    </Box>
-                    </Link>
+                    </div> 
+                </Box>
+            </Link>
                     <Box>
                         </Box>
                         <Box className = {classes.contentContainer}>
                         <Typography>
                         <span
-              dangerouslySetInnerHTML={{
-                __html: `${content}`,
-              }}
-            />
+                            dangerouslySetInnerHTML={{
+                              __html: `${content}`,
+                            }}
+                        />
                         </Typography>
                     </Box>
 
