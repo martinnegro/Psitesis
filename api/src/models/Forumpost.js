@@ -34,6 +34,9 @@ module.exports = (sequelize) => {
       },
       post_edited: {
           type: DataTypes.BOOLEAN
+      },
+      post_highlight: {
+        type: DataTypes.BOOLEAN
       }
     }
   );

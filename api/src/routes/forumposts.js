@@ -56,6 +56,17 @@ router.put('/thread_status/:post_id', async (req, res, next) => {
     } catch(err) { next(err) }
 });
 
+router.put('/highlight_post/:post_id', async (req, res, next) => {
+    const { post_id } = req.params;
+    try {
+        const post = await Forumpost.findByPk(post_id);
+        post.post_highlight = !post.post_highlight;
+        await post.save();
+        res.json(post) 
+    } catch(err) { next(err) }
+});
+
+
 router.delete('/delete/:post_id', async (req, res, next) => {
     const { post_id } = req.params;
     try {

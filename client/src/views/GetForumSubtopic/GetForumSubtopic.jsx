@@ -1,11 +1,13 @@
+import React from 'react';
 import { getForumSubtopic } from '../../redux/actions/forumActions';
 import { useParams } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Container, Typography, makeStyles } from '@material-ui/core'
 import PostCard from '../Forum/components/PostCard'
 import Nav from '../../components/Nav/Nav'
 import styles from './GetForumSubtopic.module.css'
+import { highlightPost } from '../../redux/API';
 
 const useStyle = makeStyles({
     root: {
@@ -28,8 +30,6 @@ const useStyle = makeStyles({
     },
     cardsContainer: {
         width: "100%",
-        display: "flex",
-        flexWrap: "wrap"
     }
 });
 
@@ -38,9 +38,17 @@ export default function GetForumSubTopic(){
     const dispatch = useDispatch();
     const { sub_topic_id } = useParams();
     const forum = useSelector((state) => state.forumReducer.forumSubtopics);
+    const [ orderedPost, setOrderedPost ] = useState([]);
+    useEffect(()=>{
+        if (forum.forumposts.length > 0) {
+            const highlighted = forum.forumposts.filter(p => p.post_highlight);
+            const unHighlight = forum.forumposts.filter(p => !p.post_highlight);
+            highlighted.sort((a,b) => a.createdAt > b.createdAt ? 1 : -1 );
+            unHighlight.sort((a,b) => a.createdAt > b.createdAt ? 1 : -1 );
+            setOrderedPost([...highlighted,...unHighlight])
+        };
+    },[forum]);
 
-    console.log(sub_topic_id)
-    console.log(forum)
     useEffect(() => {
         dispatch(getForumSubtopic(sub_topic_id))
     },[dispatch, sub_topic_id])
@@ -59,7 +67,7 @@ export default function GetForumSubTopic(){
                     </Container>
                     <Container className={classes.cardsContainer}>
                     {
-                        forum.forumposts.map((f)=>(<PostCard post={f} />))
+                        orderedPost.map((f)=>(<PostCard post={f} />))
                     }
                     </Container>
                 </>
