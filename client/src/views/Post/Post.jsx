@@ -36,6 +36,10 @@ import NavBottom from "../../components/NavBottom/NavBottom";
 import Container from "@material-ui/core/Container"; 
 //validation
 import { minLengthValidation } from "../../utils/validations/formValidations";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -122,6 +126,8 @@ function Post() {
   const [subcategoria, setSubcategoria] = useState("");
   const [categoria, setCategoria] = useState("");
   const [tags, setTags] = useState("");
+
+//validation...
   const [formValid, setformValid] = useState({
     titulo:false,
     reseña:false,
@@ -130,6 +136,12 @@ function Post() {
     tags:false
   });
 
+  const [openSnack, setOpenSnack] = React.useState(false);
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+  //....validation
+  
   //MOdal
   //const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -216,9 +228,7 @@ function Post() {
 
   const handleSubmitBody = async (e) => {
     e.preventDefault();
-
     const {titulo,reseña,subcategoria, categoria,tags} = formValid;
-
     const tituloVal = titulo;
     const reseñaVal = reseña;
     const subcategoriaVal = subcategoria;
@@ -226,7 +236,7 @@ function Post() {
     const tagsVal = tags;
     
     if(!tituloVal || !tagsVal) {
-      console.log('todos los campos son obligatorios');
+      setOpenSnack(true)
     }else{
 
       let data = {
@@ -262,11 +272,14 @@ function Post() {
       }
 
     }
+  };
 
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
 
-
-
-
+    setOpenSnack(false);
   };
 
   useEffect(() => {
@@ -459,6 +472,11 @@ function Post() {
               {console.log(id)}
               {id ? "EDITAR POST" : "POSTEAR"}
             </Button>
+            <Snackbar open={openSnack} autoHideDuration={4000} onClose={handleCloseSnack}>
+        <Alert onClose={handleCloseSnack} severity="error">
+          Debe completar todos los campos!
+        </Alert>
+      </Snackbar>
           </div>
           <div>
             <Modal

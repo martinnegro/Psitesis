@@ -22,6 +22,10 @@ import Logo from './../../assets/Logo.png';
 
 //validation
 import { minLengthValidation, emailValidation, passwordValidation } from "../../utils/validations/formValidations";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
+
 const useStyles = makeStyles((theme) => ({
 	root: {
 		'input': {
@@ -169,12 +173,20 @@ const Landing = (props) => {
 	const dispatch = useDispatch();
 	const classes = useStyles();
 	const [stateAuth, setStateAuth] = useState('Login');
+
+	//validation......
 	const [mensajeEmail, setMensajeEmail] = useState('')
 	const [errorEmail, setErrorEmail] = useState(false)
 	const [mensajeUsuario, setMensajeUsuario] = useState('')
 	const [errorUsuario, setErrorUsuario] = useState(false)
 	const [mensajePassword, setMensajePassword] = useState('')
 	const [errorPassword, setErrorPassword] = useState(false)
+	const [openSnack, setOpenSnack] = React.useState(false);
+	function Alert(props) {
+	  return <MuiAlert elevation={6} variant="filled" {...props} />;
+	}
+
+	//...validation
 
 	const [inputLogin, setInputLogin] = useState({
 		email: '',
@@ -271,6 +283,37 @@ const Landing = (props) => {
 	};
 
 	const handleOnChangeLogin = (e) => {
+		const {name, type} = e.target;
+		const {	email,password} = formValid;
+
+		if(type === 'email'){
+			setformValid({
+			  ...formValid,
+			  [name]: emailValidation(e.target)
+			})
+			
+			if(email === true){
+			setErrorEmail(false)
+			setMensajeEmail('Mail valido')
+		  } else{
+			setErrorEmail(true)
+			setMensajeEmail('Ingrese un Mail valido')
+		  }
+		}
+
+		  if(type === 'password'){
+			setformValid({
+			  ...formValid,
+			  [name]: passwordValidation(e.target)
+			})
+			if(password === true){
+				setErrorPassword(false)
+				setMensajePassword('password valido')
+			  } else{
+				setErrorPassword(true)
+				setMensajePassword('')
+			  }
+		  }
 		setInputLogin({
 			...inputLogin,
 			[e.target.name]: e.target.value,
@@ -279,17 +322,23 @@ const Landing = (props) => {
 
 	const handleOnSubmitLogin = (e) => {
 		e.preventDefault();
-		if (inputLogin.email !== '' && inputLogin.password !== '') {
+		if (!inputLogin.email || !inputLogin.password ) {
+			setOpenSnack(true)
+		}
+		else{
 			dispatch(LoginWithEmailPassword(inputLogin.email, inputLogin.password));
 		}
 	};
 	const handleOnSubmitRegister = (e) => {
 		e.preventDefault();
 		if (
-			inputRegister.email !== '' &&
-			inputRegister.username !== '' &&
-			inputRegister.password !== ''
+			!inputRegister.email||
+			!inputRegister.username ||
+			!inputRegister.password 
 		) {
+			setOpenSnack(true)
+		}
+		else{
 			dispatch(
 				RegisterWithEmailPassword(
 					inputRegister.email,
@@ -299,6 +348,15 @@ const Landing = (props) => {
 			);
 		}
 	};
+
+	const handleCloseSnack = (event, reason) => {
+		if (reason === 'clickaway') {
+		  return;
+		}
+	
+		setOpenSnack(false);
+	  };
+
 	const handleOnSubmitRecoveryPassword = (e) => {
 		e.preventDefault();
 	};
@@ -338,9 +396,11 @@ const Landing = (props) => {
 										<TextField
 											label="Correo electrónico"
 											name="email"
+											type="email"
 											value={inputLogin.email}
 											className={classes.textField}
-											helperText="Some important text"
+											helperText={mensajeEmail}
+											error={errorEmail}
 											InputProps={{
 												className: classes.input,
 											}}
@@ -359,7 +419,8 @@ const Landing = (props) => {
 											type="password"
 											value={inputLogin.password}
 											className={classes.textField}
-											helperText="Some important text"
+											helperText={mensajePassword}
+											error={errorPassword}
 											InputProps={{
 												className: classes.input,
 											}}
@@ -379,6 +440,11 @@ const Landing = (props) => {
 										>
 											ingresar
 										</Button>
+										<Snackbar open={openSnack} autoHideDuration={4000} onClose={handleCloseSnack}>
+        								<Alert onClose={handleCloseSnack} severity="error">
+          								Debe completar todos los campos!
+        								</Alert>
+      									</Snackbar>
 									</Box>
 									<Box>
 										<Button
@@ -547,6 +613,11 @@ const Landing = (props) => {
 										>
 											registrase
 										</Button>
+										<Snackbar open={openSnack} autoHideDuration={4000} onClose={handleCloseSnack}>
+        								<Alert onClose={handleCloseSnack} severity="error">
+          								Debe completar todos los campos!
+        								</Alert>
+      									</Snackbar>
 									</Box>
 									<Box>
 										<Button
