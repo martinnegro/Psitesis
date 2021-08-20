@@ -12,7 +12,8 @@ import CommentCard from '../Forum/components/CommentCard';
 import ConfirmDeleteAlert from './components/ConfirmDeleteAlert';
 import Comment from '../Forum/components/Comment';
 import QuoteCard from '../Forum/components/QuoteCard';
-import {getUserDetail} from "../../redux/actions/usersActions";
+import { getUserDetail } from "../../redux/actions/usersActions";
+import { highlightPost } from '../../redux/API';
 import axios from 'axios';
 
 const { REACT_APP_URL_API } = process.env
@@ -182,10 +183,17 @@ function Forum_Post() {
             console.log(responseToComentId)
         }
     }
-
     const handleCancellComment = () =>{
         setCommentComponent(false)
     }
+
+    // HANDLE HIGHLIGHT POST
+    const handleHighlightPost = async () => {
+        try {
+        await highlightPost(post_id);
+        fetchPostData();
+        } catch (err) { alert('No update!') }
+    };
 
 
    return (
@@ -218,6 +226,14 @@ function Forum_Post() {
                                 'Cerrar Thread'
                             :
                                 'Abrir Thread'
+                        }
+                        </Button>
+                        <Button onClick={handleHighlightPost}>
+                        {
+                            post.post_highlight ? 
+                                'Eliminar Destacado'
+                            :
+                                'Destacar Post'
                         }
                         </Button>
                         <IconButton color="secondary" onClick={() => setOpenAlertDelete(true)}>
@@ -311,9 +327,7 @@ function Forum_Post() {
             </Container>
             {commentComponent ? <Comment response_to_comment_id = {responseToComentId} fetchPostData = {fetchPostData} handleCancellComment = {handleCancellComment} /> : null}
             <Container className = {classes.commentIcon}>
-                
                 <Button className = {commentComponent ? classes.hide : null} onClick = {(e) => handleCommentComponent(e,null)}   ><ReplyIcon className = {classes.replyButton}/></Button>
-                
             </Container>
             
         </Container>

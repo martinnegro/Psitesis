@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Nav from "../../components/Nav/Nav";
 import { makeStyles, createTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -87,9 +87,7 @@ const useStyles = makeStyles((theme) => ({
   },
   lastMssg: {
     width: "100%",
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "center"
+    
   }
 }));
 
@@ -130,6 +128,7 @@ const Forum = () => {
     (state) => state.forumReducer.topicsAndSubtopics
   );
   const last20Post = useSelector((state) => state.forumReducer.last20Post);
+  const [ orderedPost, setOrderedPost ] = useState([]); 
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -144,7 +143,15 @@ const Forum = () => {
       dispatch(getForumHomeInfo());
     }, [dispatch])
     
-  
+    useEffect(()=>{
+      if (last20Post) {
+          const highlighted = last20Post.filter(p => p.post_highlight);
+          const unHighlight = last20Post.filter(p => !p.post_highlight);
+          highlighted.sort((a,b) => a.createdAt > b.createdAt ? 1 : -1 );
+          unHighlight.sort((a,b) => a.createdAt > b.createdAt ? 1 : -1 );
+          setOrderedPost([...highlighted,...unHighlight])
+      };
+  },[last20Post]);
     
     return (
         <Container>
@@ -205,7 +212,7 @@ const Forum = () => {
         <TabPanel value={value} index={1}>
           <Container className={classes.lastMssg}>
             {last20Post ? (
-              last20Post.map((p) => <PostCard post={p} />)
+              orderedPost.map((p) => <PostCard post={p} />)
             ) : 
               <div>CARGANDO</div>
             }
