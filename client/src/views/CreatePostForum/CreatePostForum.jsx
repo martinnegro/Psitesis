@@ -233,18 +233,7 @@ export default function Post() {
 					<br />
 					<br />
 					<div>
-						<Button
-							variant="contained"
-							size="medium"
-							color="primary"
-							onClick={handleOpen}
-							classes={{
-								root: classes.root,
-								label: classes.label,
-							}}
-						>
-							VISTA PREVIA
-						</Button>
+						
 						<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 						<div>
 							<Modal

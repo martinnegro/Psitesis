@@ -56,6 +56,10 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     textAlign: "center",
     color: "white",
+    display: 'flex',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
   },
   tabsText: {
     color: "#93827F",
@@ -210,7 +214,11 @@ const Forum = () => {
              <div className={classes.offset}></div>
         <Nav/>
         <Container className={classes.title}>
+        <Link to='/forum/crearpost' style={{textDecoration:'none'}}>
+            <Button className={`${classes2.root}`}>Crear Post Foro</Button>
+          </Link>
             <Typography variant='h2' >Foro</Typography>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
         </Container>
         <div className={classes.root}>
           <AppBar className = {classes.tab} position="static" color="default" >
@@ -234,9 +242,7 @@ const Forum = () => {
                 />
             </Tabs>
           </AppBar>
-          <Link to='/forum/crearpost'>
-            <Button className={`${classes2.root}`}>Crear Post Foro</Button>
-          </Link>
+         
           
           <TabPanel value={value} index={0}>
             <Container>
