@@ -180,7 +180,8 @@ function Post() {
 
   const handleInputReseña = (e) => {
     setReseña(e.target.value);
-    const {name, type} = e.target;
+    const {name, type, value} = e.target;
+// console.log('target',e.target.value);
 
     if(type === 'text'){
       setformValid({
@@ -228,14 +229,17 @@ function Post() {
 
   const handleSubmitBody = async (e) => {
     e.preventDefault();
-    const {titulo,reseña,subcategoria, categoria,tags} = formValid;
+    const {titulo,tags} = formValid;
+
     const tituloVal = titulo;
     const reseñaVal = reseña;
     const subcategoriaVal = subcategoria;
+    const bodyVal = body;
     const categoriaVal = categoria;
     const tagsVal = tags;
     
-    if(!tituloVal || !tagsVal) {
+
+    if(!tituloVal || !tagsVal || reseñaVal.length === 0 || bodyVal.length === 0 || subcategoriaVal === 0||categoriaVal===0){
       setOpenSnack(true)
     }else{
 
@@ -251,6 +255,8 @@ function Post() {
         art_id: id ? articlesDetail.art_id : null,
       };
       console.log("data: ", data);
+
+    
   
       // action createPost or editPost
       const token = await getAccessTokenSilently();
