@@ -54,10 +54,24 @@ const useStyles = makeStyles((theme) => ({
 		color: 'white',
 	},
 	tabs: {
+		backgroundColor: "#031927",
 		'& .MuiTabs-flexContainer': {
 			justifyContent: 'space-around',
 		},
+		'&:focus': {
+			color: 'white',
+		  }, 
+		  "& .MuiTabs-indicator":{
+			backgroundColor: 'white'
+		  }
 	},
+    tabsText:{
+		color: "#93827F",
+		'&:focus': {
+		  color: 'white',
+		},
+		
+	  },
 }));
 
 function TabPanel(props) {
@@ -137,8 +151,8 @@ export default function Colaborators() {
 						aria-label="scrollable auto tabs example"
 						className={classes.tabs}
 					>
-						<Tab label="Bios" {...a11yProps(0)} />
-						<Tab label="Instituciones" {...a11yProps(1)} />
+						<Tab label="Bios" {...a11yProps(0)} className={classes.tabsText} />
+						<Tab label="Instituciones" {...a11yProps(1)} className={classes.tabsText} />
 					</Tabs>
 				</AppBar>
 				<TabPanel value={value} index={0}>

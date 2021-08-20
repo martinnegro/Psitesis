@@ -15,6 +15,7 @@ import Card2 from '../../components/Card/CardTabPanel';
 import { getArticleTag, getArticleWhithoutSection } from '../../redux/actions/actionsArticles';
 import ReactPaginate from "react-paginate";
 import s from "../Home/Home.module.css";
+
   
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -47,9 +48,23 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
     },
     tabs:{
+      backgroundColor: "#031927",
       "& .MuiTabs-flexContainer":{
         justifyContent:'space-around'
+      }, 
+      '&:focus': {
+        color: 'white',
+      }, 
+      "& .MuiTabs-indicator":{
+        backgroundColor: 'white'
       }
+    },
+    tabsText:{
+      color: "#93827F",
+      '&:focus': {
+        color: 'white',
+      },
+      
     },
     search: {
       position: 'relative',
@@ -184,7 +199,7 @@ export default function GuiaDeTesis() {
                     {
                         categories?.length > 0 ?
                         categories.map(c => (
-                          <Tab label={c.cat_name} key={c.cat_id} id={c.cat_id} {...a11yProps(c.cat_id)} />
+                          <Tab label={c.cat_name} key={c.cat_id} id={c.cat_id} {...a11yProps(c.cat_id)} className={classes.tabsText} />
                         ))  : null
                     }
                     </Tabs>
