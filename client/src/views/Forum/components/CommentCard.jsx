@@ -127,9 +127,18 @@ const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCo
                             </Box>
                             <Box className = {classes.iconContainer}>
                             <Typography color="textSecondary">
-                                  <Button onClick = {handleEdit}> <EditIcon/> Editar</Button> <Button onClick = {handleDelete}><DeleteForeverIcon/>Eliminar</Button> 
+                                    <Button onClick = {handleEdit}>
+                                        Editar
+                                       <EditIcon /> 
+                                    </Button> 
+                                    <Button onClick = {handleDelete}>
+                                        <DeleteForeverIcon/>Eliminar</Button> 
                                 {edit ? <EditComment id = {id} content = {content} cancellEdit = {cancellEdit} fetchPostData = {fetchPostData}></EditComment> : null}
                             </Typography>
+                            <Typography color="textSecondary">
+                            <Button onClick =  {(e) => handleCommentComponent(e,id)}> <ReplyTwoToneIcon/> Responder</Button>
+                            </Typography>
+                            
                             </Box>
                             </Box>
                             <Divider/>

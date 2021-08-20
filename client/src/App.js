@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import Landing from './components/Landing/Landing';
+import Landing from './views/Landing/Landing';
 import User_Detail from './views/User_Detail/User_Detail';
 import Art_Detail from './views/Art_Detail/Art_Detail';
 import Home from './views/Home/Home.jsx';
@@ -15,6 +15,7 @@ import GuiaDeTesis from './views/Guia de Tesis/GuiaDeTesis';
 import Forum from './views/Forum/Forum';
 import Forum_Post from "./views/Forum_Post/Forum_Post";
 import GetForumSubTopic from "./views/GetForumSubtopic/GetForumSubtopic";
+import CreatePostForum from './views/CreatePostForum/CreatePostForum';
 
 const App = () => {
 	return (
@@ -39,6 +40,7 @@ const App = () => {
 				<ProtectedRoute path="/home" exact component={Home} />
 				<ProtectedRoute path="/guiadetesis" exact component={GuiaDeTesis} />
 				<ProtectedRoute path="/forum" exact component={Forum} />
+				<ProtectedRoute path='/forum/crearpost' exact component={CreatePostForum} />
 				<ProtectedRoute path="/forum/subtopic/:sub_topic_id" exact component={GetForumSubTopic} />
         		<ProtectedRoute path="/forum/post/:post_id" exact component={Forum_Post} />
 				<ProtectedRoute>

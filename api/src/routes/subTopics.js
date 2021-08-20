@@ -3,6 +3,13 @@ const { Router } = require("express");
 const router = Router();
 const { Subtopic, Forumpost, User, Comment, Topic } = require("../db");
 
+router.get('/', async (req, res)=>{
+  let subtopics = await Topic.findAll({
+    include: {model: Subtopic}
+  });
+  res.json(subtopics);
+})
+
 router.get("/:id", async (req, res) => {
   let {id} = req.params
     let query = await Subtopic.findAll({
@@ -18,7 +25,8 @@ router.get("/:id", async (req, res) => {
           model: Topic,
           attributes: ['topic_name']
         }
-      ]
+      ],
+      order: [['createdAt','DESC']]
     })
     res.json(query[0]);
 });

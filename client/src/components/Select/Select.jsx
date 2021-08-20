@@ -12,7 +12,7 @@ const Selectores = () => {
 		name: el.cat_name,
 		id: el.cat_id,
 		subcategories: sgat.filter((obj) => obj.cat_id === el.cat_id),
-	}));
+}));
 
 	return (
 		<Fragment>
