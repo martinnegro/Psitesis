@@ -135,9 +135,7 @@ const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCo
                                         <DeleteForeverIcon/>Eliminar</Button> 
                                 {edit ? <EditComment id = {id} content = {content} cancellEdit = {cancellEdit} fetchPostData = {fetchPostData}></EditComment> : null}
                             </Typography>
-                            <Typography color="textSecondary">
-                            <Button onClick =  {(e) => handleCommentComponent(e,id)}> <ReplyTwoToneIcon/> Responder</Button>
-                            </Typography>
+                            
                             
                             </Box>
                             </Box>
