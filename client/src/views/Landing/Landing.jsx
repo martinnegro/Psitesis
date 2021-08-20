@@ -6,6 +6,8 @@ import {
 	RegisterWithEmailPassword,
 	LoginWithEmailPassword,
 	loginWithFacebook,
+	RecoveryPassword,
+	clearErrors,
 } from '../../redux/actions/actionsAuth';
 import Carousel from './CarouselSlide';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,6 +19,7 @@ import {
 	Box,
 	Paper,
 } from '@material-ui/core';
+import GoogleIcon from './GoogleIcon';
 import Logo from './../../assets/Logo.png';
 
 const useStyles = makeStyles((theme) => ({
@@ -159,10 +162,13 @@ const useStyles = makeStyles((theme) => ({
 		borderTop: '1px solid #fff',
 		color: '#fff',
 	},
+	icon: {
+		padding: '0px 10px 0px 0px',
+	},
 }));
 
 const Landing = (props) => {
-	const { isAuthenticated } = useSelector((state) => state.authReducer);
+	const { isAuthenticated, errors } = useSelector((state) => state.authReducer);
 	const dispatch = useDispatch();
 	const classes = useStyles();
 	const [stateAuth, setStateAuth] = useState('Login');
@@ -171,14 +177,48 @@ const Landing = (props) => {
 		email: '',
 		password: '',
 	});
+	const [inputLoginErrors, setInputLoginErrors] = useState({
+		email: '',
+		password: '',
+	});
 	const [inputRecoveryPassword, setInputRecoveryPassword] = useState({
 		email: '',
 	});
+	const [inputRecoveryPasswordErrors, setInputRecoveryPasswordErrors] =
+		useState({
+			email: '',
+		});
 	const [inputRegister, setInputRegister] = useState({
 		email: '',
 		username: '',
 		password: '',
 	});
+	const [inputRegisterErrors, setInputRegisterErrors] = useState({
+		email: '',
+		username: '',
+		password: '',
+	});
+	useEffect(() => {
+		if (errors?.type === 'login') {
+			if (errors?.code === 'too_many_attempts') {
+				setInputLoginErrors({
+					...inputLoginErrors,
+					email: 'Demasiados intentos fallidos. espera unos momentos!',
+				});
+			} else {
+				setInputLoginErrors({
+					email: 'Correo o contraseña equivocada.',
+					password: 'Correo o contraseña equivocada.',
+				});
+			}
+		} else if (errors?.type === 'register') {
+		} else if (errors?.type === 'recovery-send') {
+			setInputRecoveryPasswordErrors({
+				email: 'Te acabamos de enviar un correo para reiniciar tu constaseña!',
+			});
+		}
+		return () => dispatch(clearErrors());
+	}, [dispatch, errors, inputLoginErrors]);
 
 	const showRecoveryPassword = (e) => {
 		e.preventDefault();
@@ -199,12 +239,24 @@ const Landing = (props) => {
 			...inputRegister,
 			[e.target.name]: e.target.value,
 		});
+		if (e.target.name === 'password') {
+			validatePassword(e.target.value);
+		}
+		if (e.target.name === 'email') {
+			validateEmail(e.target.value);
+		}
+		if (e.target.name === 'username') {
+			validateUsername(e.target.value);
+		}		
 	};
 
 	const handleOnChangeRecoveryPassword = (e) => {
 		setInputRecoveryPassword({
 			...inputRecoveryPassword,
 			[e.target.name]: e.target.value,
+		});
+		setInputRecoveryPasswordErrors({
+			email: '',
 		});
 	};
 
@@ -213,6 +265,18 @@ const Landing = (props) => {
 			...inputLogin,
 			[e.target.name]: e.target.value,
 		});
+		if (e.target.name === 'email') {
+			setInputLoginErrors({
+				...inputLoginErrors,
+				email: '',
+			});
+		}
+		if (e.target.name === 'password') {
+			setInputLoginErrors({
+				...inputLoginErrors,
+				password: '',
+			});
+		}
 	};
 
 	const handleOnSubmitLogin = (e) => {
@@ -239,6 +303,9 @@ const Landing = (props) => {
 	};
 	const handleOnSubmitRecoveryPassword = (e) => {
 		e.preventDefault();
+		if (inputRecoveryPassword.email !== '') {
+			dispatch(RecoveryPassword(inputRecoveryPassword.email));
+		}
 	};
 
 	const handlerLoginWithGoogle = (e) => {
@@ -249,6 +316,69 @@ const Landing = (props) => {
 	const handlerLoginWithFacebook = (e) => {
 		e.preventDefault();
 		dispatch(loginWithFacebook());
+	};
+
+	const validateEmail = (email) => {
+		const rex = /\S+@\S+\.\S+/;
+		if (!rex.test(email)) {
+			setInputRegisterErrors({
+				inputRegisterErrors,
+				email: 'Ingrese un correo electrónico!',
+			});
+		} else {
+			setInputRegisterErrors({
+				inputRegisterErrors,
+				email: '',
+			});
+		}
+	};
+
+	const validateUsername = (username) => {
+		if (username.length < 1) {
+			setInputRegisterErrors({
+				inputRegisterErrors,
+				username: 'El usuario debe tener por lo menos 1 caracter!',
+			});
+		} else if (username.length > 15) {
+			setInputRegisterErrors({
+				inputRegisterErrors,
+				username: 'El usuario no debe tener mas de 15 caracteres!',
+			});
+		} else {
+			setInputRegisterErrors({
+				inputRegisterErrors,
+				username: '',
+			});
+		}
+	};
+
+	const validatePassword = (password) => {
+		if (!/^(?=.*?[0-9])/.test(password)) {
+			setInputRegisterErrors({
+				inputRegisterErrors,
+				password: 'La contraseña debe tener por lo menos un numero!',
+			});
+		} else if (!/(?=.*?[A-Z])/.test(password)) {
+			setInputRegisterErrors({
+				inputRegisterErrors,
+				password: 'La contraseña debe tener por lo menos una mayuscula!',
+			});
+		} else if (!/(?=.*?[a-z])/.test(password)) {
+			setInputRegisterErrors({
+				inputRegisterErrors,
+				password: 'La contraseña debe tener por lo menos una minuscula!',
+			});
+		} else if (password.length < 8) {
+			setInputRegisterErrors({
+				inputRegisterErrors,
+				password: 'La contraseña debe tener por lo 8 caracteres!',
+			});
+		} else {
+			setInputRegisterErrors({
+				inputRegisterErrors,
+				password: '',
+			});
+		}
 	};
 
 	if (isAuthenticated) {
@@ -278,7 +408,7 @@ const Landing = (props) => {
 											name="email"
 											value={inputLogin.email}
 											className={classes.textField}
-											helperText="Some important text"
+											helperText={inputLoginErrors.email}
 											InputProps={{
 												className: classes.input,
 											}}
@@ -297,7 +427,7 @@ const Landing = (props) => {
 											type="password"
 											value={inputLogin.password}
 											className={classes.textField}
-											helperText="Some important text"
+											helperText={inputLoginErrors.password}
 											InputProps={{
 												className: classes.input,
 											}}
@@ -323,7 +453,8 @@ const Landing = (props) => {
 											className={classes.button_login_with_google}
 											onClick={handlerLoginWithGoogle}
 										>
-											ingresar con google
+											<GoogleIcon className={classes.icon} /> ingresar con
+											google
 										</Button>
 									</Box>
 									<div className={classes.content_separator_line}>
@@ -364,7 +495,7 @@ const Landing = (props) => {
 											name="email"
 											value={inputRecoveryPassword.email}
 											className={classes.textField}
-											helperText="Some important text"
+											helperText={inputRecoveryPasswordErrors.email}
 											InputProps={{
 												className: classes.input,
 											}}
@@ -382,14 +513,6 @@ const Landing = (props) => {
 											onClick={handleOnSubmitRecoveryPassword}
 										>
 											recuperar
-										</Button>
-									</Box>
-									<Box>
-										<Button
-											className={classes.button_login_with_google}
-											onClick={handlerLoginWithGoogle}
-										>
-											ingresar con google
 										</Button>
 									</Box>
 									<div className={classes.content_separator_line}>
@@ -424,7 +547,7 @@ const Landing = (props) => {
 											name="email"
 											value={inputRegister.email}
 											className={classes.textField}
-											helperText="Some important text"
+											helperText={inputRegisterErrors.email}
 											InputProps={{
 												className: classes.input,
 											}}
@@ -442,7 +565,7 @@ const Landing = (props) => {
 											name="username"
 											value={inputRegister.username}
 											className={classes.textField}
-											helperText="Some important text"
+											helperText={inputRegisterErrors.username}
 											InputProps={{
 												className: classes.input,
 											}}
@@ -461,7 +584,7 @@ const Landing = (props) => {
 											type="password"
 											value={inputRegister.password}
 											className={classes.textField}
-											helperText="Some important text"
+											helperText={inputRegisterErrors.password}
 											InputProps={{
 												className: classes.input,
 											}}
@@ -486,7 +609,8 @@ const Landing = (props) => {
 											className={classes.button_login_with_google}
 											onClick={handlerLoginWithGoogle}
 										>
-											registrar con google
+											<GoogleIcon className={classes.icon} /> registrar con
+											google
 										</Button>
 									</Box>
 									<div className={classes.content_separator_line}>
