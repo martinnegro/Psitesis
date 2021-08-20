@@ -1,11 +1,13 @@
 import {React,useState} from "react"
 import { Link } from 'react-router-dom'
-import { Card, CardContent, Avatar, Typography, makeStyles, Box,Container,Divider,Button } from '@material-ui/core'
+import { Avatar, Typography, makeStyles, Box,Container,Divider,Button } from '@material-ui/core'
 import ReportTwoToneIcon from '@material-ui/icons/ReportTwoTone';
 import EditIcon from '@material-ui/icons/Edit';
 import ReplyTwoToneIcon from '@material-ui/icons/ReplyTwoTone';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { useDispatch, useSelector } from "react-redux";
 import EditComment from "./EditComment";
+import { deleteComment } from "../../../utils/auth";
 
 const useStyle = makeStyles({
     root: {
@@ -69,13 +71,22 @@ const useStyle = makeStyles({
     }
 });
 
-const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCommentComponent,response_to_comment_id}) =>{
+const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCommentComponent,response_to_comment_id,fetchPostData}) =>{
     const classes = useStyle();
     const loggedUserId =  useSelector((state) => state.authReducer.user.user_id)
     const [edit,setEdit] = useState(false)
     const handleEdit = () => {
         setEdit(true)
     }
+    const cancellEdit = () => {
+        setEdit(false)
+    }
+
+    const handleDelete = async () => {
+        deleteComment(id)
+        await fetchPostData()
+    }
+    
     return(
         <Container className = {classes.root} >
             <Link className = {classes.links} to = {`/user/${userId}`}>
@@ -116,9 +127,8 @@ const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCo
                             </Box>
                             <Box className = {classes.iconContainer}>
                             <Typography color="textSecondary">
-                                {loggedUserId == userId ? <Button onClick = {handleEdit}> <EditIcon/> Editar</Button> : null}
-                                {edit ? <EditComment id = {id} content = {content}></EditComment> : null}
-                                
+                                  <Button onClick = {handleEdit}> <EditIcon/> Editar</Button> <Button onClick = {handleDelete}><DeleteForeverIcon/>Eliminar</Button> 
+                                {edit ? <EditComment id = {id} content = {content} cancellEdit = {cancellEdit} fetchPostData = {fetchPostData}></EditComment> : null}
                             </Typography>
                             </Box>
                             </Box>

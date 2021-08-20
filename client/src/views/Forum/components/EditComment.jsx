@@ -1,29 +1,36 @@
 import {React,useState} from "react"
-import { Link } from 'react-router-dom'
 import {Container,Button}  from '@material-ui/core'
-import { useDispatch, useSelector } from "react-redux";
 import ReactQuill from "react-quill";
-import { spacing } from '@material-ui/system';
 import CheckIcon from '@material-ui/icons/Check';
+import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import "./EditComment.css"
 import { editComment } from "../../../utils/auth";
 
-const EditComment = ({id,content}) => {
+ const EditComment =   ({id,content,cancellEdit,fetchPostData}) => {
 
     const [comment,setComment] = useState(content)
 
     const handleOnChange = (e) =>{
         setComment(e)
-        console.log(e)
-    }
-    let obj = {
-        comment_contents : comment,
-        comment_id: id
     }
 
-    const handleSubmit = () =>{
-       
-        editComment(id,{obj})
+  
+    const handleSubmit = async () =>{
+        try{
+           
+             await editComment(id,{comment_contents : comment }) 
+             await fetchPostData()
+        }
+        catch(error){
+            console.error(error)
+        }
+        console.log("termino editing comment")
+        console.log("termino fetch data")
+        cancellEdit()
+        console.log("cancelando la edicion")
+        setComment(content)
+        console.log("reseteando el content")
+         
     }
     return(
         <Container>
@@ -36,6 +43,7 @@ const EditComment = ({id,content}) => {
             name = "comment_contents"
             m = {50}>
             </ReactQuill>
+            <Button onClick = {cancellEdit}> <CancelOutlinedIcon/></Button>
             <Button onClick = {handleSubmit}><CheckIcon/></Button>
         </Container>
     )

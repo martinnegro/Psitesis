@@ -38,6 +38,18 @@ router.put("/edit/:comment_id", async (req, res, next) => {
     const comment = await Comment.findByPk(comment_id);
     comment.comment_contents = comment_contents;
     await comment.save();
+    return res.json(comment);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete("/delete/:comment_id", async (req, res, next) => {
+  const { comment_id } = req.params;
+  try {
+    const comment = await Comment.findByPk(comment_id);
+    await comment.destroy();
+    res.json({ message: "Deleted" });
   } catch (err) {
     next(err);
   }

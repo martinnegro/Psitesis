@@ -190,7 +190,6 @@ function Forum_Post() {
 
    return (
         <Container>
-            {console.log(post?.comments)}
             <Nav></Nav>
             {
                 post ?  
@@ -301,7 +300,7 @@ function Forum_Post() {
                         <Container>
                         {comment.response_to_comment_id ? <QuoteCard  userName = {respondingToUser(comment.response_to_comment_id,post.comments)} commentContent = {respondingToComment(comment.response_to_comment_id,post.comments)} commentId = {comment.response_to_comment_id}></QuoteCard> : null}
                         </Container>
-                    <CommentCard
+                    <CommentCard fetchPostData = {fetchPostData}
                      key = {comment.comment_id}  id = {comment.comment_id} content = {comment.comment_contents} date = {comment.comment_date}  userName = {comment.user.user_name} image = {comment.user.user_img_profile}   userId = {comment.user.user_id_A0}  handleCommentComponent = {handleCommentComponent} response_to_comment_id = {responseToComentId}
                     ></CommentCard>
                     </div>
