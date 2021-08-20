@@ -15,6 +15,11 @@ import { useDispatch,useSelector } from "react-redux"
 import PostCard from './components/PostCard';
 import { ThemeProvider } from "@material-ui/core/styles";
 import { grey } from '@material-ui/core/colors';
+import {Link} from 'react-router-dom'
+import {  Button } from '@material-ui/core';
+import { purple } from '@material-ui/core/colors';
+import style from './Forum.module.css'
+
 
 const theme = createTheme({
   palette: {
@@ -93,6 +98,58 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const useStyles2 = makeStyles({
+	offset: theme.mixins.toolbar,
+	root: {
+		'color': '#ffffff',
+		'backgroundColor': purple[500],
+		'&:hover': {
+			backgroundColor: purple[700],
+		},
+    
+	},
+	modal: {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	paper: {
+		backgroundColor: theme.palette.background.paper,
+		border: '2px solid purple',
+		boxShadow: theme.shadows[5],
+		padding: theme.spacing(2, 4, 3),
+		maxWidth: '80%',
+	},
+	paper2: {
+		backgroundColor: theme.palette.background.paper,
+		border: '2px solid purple',
+		boxShadow: theme.shadows[5],
+		padding: theme.spacing(2, 4, 3),
+		maxWidth: '10%',
+	},
+	Home: {
+		marginTop: theme.spacing(5),
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	tipoh2: {
+		'@media (max-width: 601px)': {
+			marginTop: 0,
+			fontSize: '1.75rem',
+			marginBottom: '10px',
+		},
+	},
+	anchoInput: {
+		'marginTop': 20,
+		'width': '50vw',
+		'@media (max-width: 601px)': {
+			width: '80vw',
+		},
+	},
+});
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -125,6 +182,7 @@ function a11yProps(index) {
 
 const Forum = () => {
   const classes = useStyles();
+  const classes2 = useStyles2()
   const [value, setValue] = React.useState(0);
   const topicsAndSubtopics = useSelector(
     (state) => state.forumReducer.topicsAndSubtopics
@@ -176,6 +234,10 @@ const Forum = () => {
                 />
             </Tabs>
           </AppBar>
+          <Link to='/forum/crearpost'>
+            <Button className={`${classes2.root}`}>Crear Post Foro</Button>
+          </Link>
+          
           <TabPanel value={value} index={0}>
             <Container>
               {topicsAndSubtopics ? topicsAndSubtopics.map((topic)=>{

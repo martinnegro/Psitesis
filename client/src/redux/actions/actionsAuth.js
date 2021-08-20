@@ -116,7 +116,9 @@ export const loginWithAccessToken = (accessToken) => {
 					},
 				}
 			);
+			console.log("token:",accessToken )
 			if (response.data?.message === 'verified token') {
+		
 				localStorage.setItem('access_token', accessToken);
 				localStorage.setItem('user', JSON.stringify(response.data.user));
 				dispatch(setUser(response.data.user));

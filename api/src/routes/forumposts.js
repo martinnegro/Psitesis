@@ -24,9 +24,6 @@ router.post('/create',authorizeAccessToken, async (req, res, next) => {
             post_open: true,
             post_edited: false,
         })
-
-        console.log(newPost)
-      
         const aux_user = await User.findOne({ where: { user_id_A0: req.user.sub } });
         await newPost.setUser(aux_user.user_id)
         await newPost.setSubtopic(sub_topic_id)
