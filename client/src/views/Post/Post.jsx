@@ -283,7 +283,7 @@ function Post() {
 					<TextField
 						id="outlined-full-width"
 						label="Reseña"
-						style={{ marginTop: 20 }}
+						style={{ marginTop: 20 , maxWidth: '70%'}}
 						placeholder="Placeholder"
 						helperText={`Disponible - ${120 - reseña.length} caracteres`}
 						fullWidth
