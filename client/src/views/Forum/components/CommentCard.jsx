@@ -1,9 +1,13 @@
-import React from "react"
+import {React,useState} from "react"
 import { Link } from 'react-router-dom'
-import { Card, CardContent, Avatar, Typography, makeStyles, Box,Container,Divider,Button } from '@material-ui/core'
+import { Avatar, Typography, makeStyles, Box,Container,Divider,Button } from '@material-ui/core'
 import ReportTwoToneIcon from '@material-ui/icons/ReportTwoTone';
-import FormatQuoteTwoToneIcon from '@material-ui/icons/FormatQuoteTwoTone';
+import EditIcon from '@material-ui/icons/Edit';
 import ReplyTwoToneIcon from '@material-ui/icons/ReplyTwoTone';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import { useDispatch, useSelector } from "react-redux";
+import EditComment from "./EditComment";
+import { deleteComment } from "../../../utils/auth";
 
 const useStyle = makeStyles({
     root: {
@@ -67,53 +71,71 @@ const useStyle = makeStyles({
     }
 });
 
-const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCommentComponent,response_to_comment_id,postisOpen}) =>{
+const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCommentComponent,response_to_comment_id,fetchPostData}) =>{
     const classes = useStyle();
+    const loggedUserId =  useSelector((state) => state.authReducer.user.user_id)
+    const [edit,setEdit] = useState(false)
+    const handleEdit = () => {
+        setEdit(true)
+    }
+    const cancellEdit = () => {
+        setEdit(false)
+    }
+
+    const handleDelete = async () => {
+        await deleteComment(id)
+        await fetchPostData()
+    }
+    
     return(
         <Container className = {classes.root} >
             <Link className = {classes.links} to = {`/user/${userId}`}>
-            <Box className={classes.user} >
-                
-                        <Avatar className={classes.avatar} alt={userName} src={image}/> 
-                        <div>
+                <Box className={classes.user} >
+                    <Avatar className={classes.avatar} alt={userName} src={image}/> 
+                    <div>
                         <Typography color="textSecondary">
-                                {date}
-                            </Typography>
+                            {date}
+                        </Typography>
                         <Typography className={classes.autor} color="textSecondary">
                             <span> {userName}</span>
                         </Typography>
-                        </div>
-                        
-                    </Box>
-                    </Link>
+                    </div> 
+                </Box>
+            </Link>
                     <Box>
                         </Box>
                         <Box className = {classes.contentContainer}>
                         <Typography>
                         <span
-              dangerouslySetInnerHTML={{
-                __html: `${content}`,
-              }}
-            />
+                            dangerouslySetInnerHTML={{
+                              __html: `${content}`,
+                            }}
+                        />
                         </Typography>
                     </Box>
 
                     <Box className = {classes.iconsContainer}>
                     <Box className = {classes.iconContainer}>
-                    <Typography /* color="textSecondary" */>
-                        
-                        
-                    <Button className = {classes.button}> <ReportTwoToneIcon  /> Reportar </Button>
-                    
-                                
+                    <Typography>
+                    <Button className = {classes.button}> <ReportTwoToneIcon  /> Reportar </Button>         
                             </Typography>
                             </Box>
                             <Box className = {classes.iconContainer}>
+                            <Typography color="textSecondary">
+                            <Button onClick =  {(e) => handleCommentComponent(e,id)}> <ReplyTwoToneIcon/> Responder</Button>
+                            </Typography>
                             </Box>
                             <Box className = {classes.iconContainer}>
-                                {postisOpen ? <Typography color="textSecondary">
-                            <Button onClick =  {(e) => handleCommentComponent(e,id)}> <ReplyTwoToneIcon/> Responder</Button>
-                            </Typography> : null }
+                            <Typography color="textSecondary">
+                                    <Button onClick = {handleEdit}>
+                                        Editar
+                                       <EditIcon /> 
+                                    </Button> 
+                                    <Button onClick = {handleDelete}>
+                                        <DeleteForeverIcon/>Eliminar</Button> 
+                                {edit ? <EditComment id = {id} content = {content} cancellEdit = {cancellEdit} fetchPostData = {fetchPostData}></EditComment> : null}
+                            </Typography>
+                            
                             
                             </Box>
                             </Box>

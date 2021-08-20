@@ -37,6 +37,28 @@ const configAuth0 = {
 
 const ReactAuth0 = new auth0.WebAuth(configAuth0);
 
+export const RecoveryPassword = (email) => {
+	return async (dispatch) => {
+		try {
+			ReactAuth0.changePassword(
+				{
+					connection: databaseConnection,
+					email: email,
+				},
+				(err, resp) => {
+					if (err) {
+						dispatch(setError({ ...err, type: 'recovery' }));
+					} else {
+						dispatch(setError({ ...resp, type: 'recovery-send' }));
+					}
+				}
+			);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};
+
 export const LoginWithEmailPassword = (email, password) => {
 	return async (dispatch) => {
 		try {
@@ -48,7 +70,7 @@ export const LoginWithEmailPassword = (email, password) => {
 					scope: 'openid profile email',
 				},
 				(err) => {
-					if (err) dispatch(setError(err));
+					if (err) dispatch(setError({ ...err, type: 'login' }));
 				}
 			);
 		} catch (error) {
@@ -68,7 +90,7 @@ export const RegisterWithEmailPassword = (email, username, password) => {
 					password: password,
 				},
 				(err) => {
-					if (err) dispatch(setError(err));
+					if (err) dispatch(setError({ ...err, type: 'register' }));
 				}
 			);
 		} catch (error) {
@@ -116,9 +138,8 @@ export const loginWithAccessToken = (accessToken) => {
 					},
 				}
 			);
-			console.log("token:",accessToken )
+			console.log('token:', accessToken);
 			if (response.data?.message === 'verified token') {
-		
 				localStorage.setItem('access_token', accessToken);
 				localStorage.setItem('user', JSON.stringify(response.data.user));
 				dispatch(setUser(response.data.user));
@@ -135,7 +156,6 @@ export const loginWithAccessToken = (accessToken) => {
 		}
 	};
 };
-
 
 export const checkAuth = () => {
 	return async (dispatch) => {
@@ -169,11 +189,16 @@ export const sendVerificationEmail = () => {
 };
 
 export const logOut = () => {
-	console.log("test");
 	return (dispatch) => {
 		dispatch(setUser(null));
 		dispatch(setAccessToken(null));
 		dispatch(setAuthenticate(false));
+	};
+};
+
+export const clearErrors = () => {
+	return (dispatch) => {
+		dispatch(setError(null));
 	};
 };
 

@@ -1,6 +1,5 @@
 import React from "react"
 import { useState } from "react"
-import { useAuth0 } from '@auth0/auth0-react';
 import { postComment } from "../../../utils/auth"
 import { useParams, useHistory } from 'react-router-dom'
 import { makeStyles, Container,Button} from "@material-ui/core";
@@ -13,7 +12,6 @@ import { spacing } from '@material-ui/system';
 const useStyle = makeStyles({
     disableButton : {
         disabled : true,
-        
     },
     button:{
         color: "#ff99bb"
@@ -34,20 +32,21 @@ const Comment = ({response_to_comment_id,fetchPostData,handleCancellComment}) =>
     
     async function handleSubmit(e){
         e.preventDefault();
-        console.log(commentInf.response_to_comment_id)
-         await postComment(commentInf)
-         setCommentInf({
-            comment_contents : "" 
+        await postComment(commentInf)
+        setCommentInf({
+           ...commentInf,
+          comment_contents : "",
+          response_to_comment_id : null
         })
-         await fetchPostData();
-         handleCancellComment();
+        
+        await fetchPostData();
+        handleCancellComment();
     }
 
     function handleOnChange(e){
-        
             setCommentInf({
                 ...commentInf,
-                  response_to_comment_id,  
+                response_to_comment_id,  
                 comment_contents : e,
             })
     }

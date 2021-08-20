@@ -72,46 +72,47 @@ const useStyle = makeStyles({
 });
 
 function Forum_Post() {
-  const classes = useStyle();
-  const userId = useSelector((state) => state.authReducer.user.user_id);
-  const dispatch = useDispatch();
-  const { post_id } = useParams();
-  const history = useHistory();
-  const [post, setPost] = useState();
-  const [editing, setEditing] = useState({ isEditing: false });
-  const [okEdit, setOkEdit] = useState(false);
-  const [previous, setPrevious] = useState();
-  const [openAlertDelete, setOpenAlertDelete] = useState(false);
-  const [okDelete, setOkDelete] = useState(false);
-  const [commentComponent, setCommentComponent] = useState(false);
-  const [responseToComentId, setResponseToComentId] = useState(null);
+    const classes = useStyle()
+    const userId = useSelector((state) => state.authReducer.user.user_id)
+    const dispatch = useDispatch();
+    const { post_id } = useParams();
+    const history = useHistory();
+    const [ post, setPost ] = useState();
+    const [ editing, setEditing ] = useState({isEditing: false});
+    const [ previous, setPrevious ] = useState();
+    const [ openAlertDelete, setOpenAlertDelete ] = useState(false);
+    const [ okDelete, setOkDelete ] = useState(false);
+    const [ commentIdForResponse, setCommentIdForResponse ] = useState();
+    const [ commentComponent, setCommentComponent ] = useState(false);
+    const [ orderedComments,setOrderedComments ] = useState([]);
 
-  useEffect(async () => {
-    fetchPostData();
-  }, []);
 
-  const fetchPostData = async (data) => {
-    if (!data) {
-      const fetchedPost = await axios.get(
-        `${REACT_APP_URL_API}/forumposts/${post_id}`
-      );
-      data = fetchedPost.data;
-      console.log(data);
-    }
-    if (!data) return;
-    setPost(data);
-    setEditing({
-      isEditing: false,
-      post_contents: data.post_contents,
-      post_title: data.post_title,
-    });
-  };
+    useEffect(async()=>{
+        fetchPostData();
+    },[]);
 
-  useEffect(() => {
-    if (userId) {
-      dispatch(getUserDetail(userId));
-    }
-  }, [dispatch, userId]);
+    const fetchPostData = async (data) => {
+        if (!data){
+            const fetchedPost = await axios.get(`${REACT_APP_URL_API}/forumposts/${post_id}`);
+            data = fetchedPost.data
+        }
+        if (!data) return 
+        const auxComment = data.comments.sort((a,b)=> a.createdAt < b.createdAt ? -1 : 1)
+        setOrderedComments(auxComment)
+        setPost(data);
+        setEditing({ 
+            isEditing: false,
+            post_contents: data.post_contents,
+            post_title: data.post_title,
+         })
+         console.log(data)
+    };
+    
+    useEffect(() => {
+		if (userId) {
+			dispatch(getUserDetail(userId));
+		}
+	}, [dispatch, userId]);
 
   // LOGICA PARA EDITAR TÍTULO y CONTENIDO
   const handleWantEdit = () => {
@@ -160,11 +161,16 @@ function Forum_Post() {
     return user;
   };
 
+  const handleCommentComponent = (_e,response_to_comment_id) =>{
+      commentComponent ? setCommentComponent(false) : setCommentComponent(true)
+      setCommentComponent(true)
+      setCommentIdForResponse(response_to_comment_id);
   const respondingToComment = (postId, arr) => {
     const postFound = arr.find((post) => post.comment_id === postId);
     const postContent = postFound.comment_contents;
     return postContent;
   };
+}
   // LOGICA PARA ABRIR Y CERRAR THREAD
   const handleStatusThread = async () => {
     try {
@@ -195,14 +201,11 @@ function Forum_Post() {
 
   // HANDLE COMMENT COMPONENT
 
-  const handleCommentComponent = (_e, response_to_comment_id) => {
-    commentComponent ? setCommentComponent(false) : setCommentComponent(true);
-    if (response_to_comment_id) {
-      setCommentComponent(true);
-      setResponseToComentId(response_to_comment_id);
-      console.log(responseToComentId);
-    }
-  };
+  const respondingToComment = (postId,arr) =>{
+    const postFound = arr.find(post => post.comment_id === postId)
+    const postContent = postFound.comment_contents;
+    return postContent
+}
   const handleCancellComment = () => {
     setCommentComponent(false);
   };
@@ -219,7 +222,6 @@ function Forum_Post() {
 
   return (
     <Container>
-      {console.log(post?.comments)}
       <Nav></Nav>
       {post ? (
         <Container className={classes.root}>
@@ -295,14 +297,6 @@ function Forum_Post() {
           </Box>
           <Box>
             {editing.isEditing ? (
-              //   <TextField
-              //     value={editing.post_contents}
-              //     name="post_contents"
-              //     onChange={handleOnChange}
-              //     className={classes.textField}
-              //     multiline
-              //     rows={5}
-              //   />
               <ReactQuill
                 value={editing.post_contents}
                 name="post_contents"
@@ -331,67 +325,66 @@ function Forum_Post() {
       ) : (
         <div className={classes.root}>CARGANDO</div>
       )}
-
+      {/*//////////////////////////////////////////////////////////////////////*/}
+      {/*//////////////////////////////////////////////////////////////////////*/}
       {/* --------- COMMENTS ----------*/}
       <Container>
-        {post ? (
-          post.comments?.map((comment) => {
-            return (
-              <div>
-                <Container>
-                  {comment.response_to_comment_id ? (
-                    <QuoteCard
-                      userName={respondingToUser(
-                        comment.response_to_comment_id,
-                        post.comments
-                      )}
-                      commentContent={respondingToComment(
-                        comment.response_to_comment_id,
-                        post.comments
-                      )}
-                      commentId={comment.response_to_comment_id}
-                    ></QuoteCard>
-                  ) : null}
-                </Container>
-                <CommentCard
-                  key={comment.comment_id}
-                  postisOpen={post.post_open}
-                  id={comment.comment_id}
-                  content={comment.comment_contents}
-                  date={comment.comment_date}
-                  userName={comment.user.user_name}
-                  image={comment.user.user_img_profile}
-                  userId={comment.user.user_id_A0}
-                  handleCommentComponent={handleCommentComponent}
-                  response_to_comment_id={responseToComentId}
-                ></CommentCard>
-              </div>
-            );
-          })
-        ) : (
-          <div className={classes.root}>CARGANDO</div>
-        )}
-      </Container>
-      {commentComponent ? (
-        <Comment
-          response_to_comment_id={responseToComentId}
-          fetchPostData={fetchPostData}
-          handleCancellComment={handleCancellComment}
-        />
-      ) : null}
-      <Container className={classes.commentIcon}>
-        {post?.post_open ? (
-          <Button
-            className={commentComponent ? classes.hide : null}
-            onClick={(e) => handleCommentComponent(e, null)}
-          >
-            <ReplyIcon className={classes.replyButton} />
-          </Button>
-        ) : null}
-      </Container>
-    </Container>
+            {
+            post ? orderedComments?.map((comment)=>{
+                return(
+                    <div>
+                        <Container>
+                        {comment.response_to_comment_id ? <QuoteCard  userName = {respondingToUser(comment.response_to_comment_id,post.comments)} commentContent = {respondingToComment(comment.response_to_comment_id,post.comments)} commentId = {comment.response_to_comment_id}></QuoteCard> : null}
+                        </Container>
+                    <CommentCard 
+                        fetchPostData = {fetchPostData}
+                        key = {comment.comment_id}
+                        id = {comment.comment_id}
+                        content = {comment.comment_contents}
+                        date = {comment.comment_date}
+                        userName = {comment.user.user_name}
+                        image = {comment.user.user_img_profile}
+                        userId = {comment.user.user_id_A0}
+                        handleCommentComponent = {handleCommentComponent}                        
+                    ></CommentCard>
+                    </div>
+                )
+                }) : <div className={classes.root}>CARGANDO</div> 
+            } 
+            {/*//////////////////////////////////////////////////////////////////////*/}
+          </Container>
+          <Container>
+            {
+                commentComponent ? 
+                <Comment 
+                    fetchPostData = {fetchPostData} 
+                    handleCancellComment = {handleCancellComment} 
+                    response_to_comment_id={commentIdForResponse}
+                /> : null
+            }
+            </Container>
+        {/*//////////////////////////////////////////////////////////////////////*/}
+        {/*//////////////////////////////////////////////////////////////////////*/}
+        {/*ICONO COMENTAR POST*/}
+        
+          <Container className={classes.commentIcon}>
+            {
+              post?.post_open && (
+                <Button
+                  className={commentComponent ? classes.hide : null}
+                  onClick={(e) => handleCommentComponent(e, null)}
+                >
+                  <ReplyIcon className={classes.replyButton} />
+                </Button>
+              )
+            }  
+          </Container>
+        </Container>
+                
+  
   );
 }
+
 Forum_Post.modules = {
   toolbar: [
     [{ header: "1" }, { header: ["2", "3", "4", "5", "6"] }],

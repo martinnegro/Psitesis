@@ -82,7 +82,7 @@ export default function Home() {
 
   useEffect(()=>{
     dispatch(orderArticles("art_views","DESC"))
-  },[dispatch])
+  },[dispatch,articles])
 
   useEffect(() => {
 		if (userId) {
@@ -117,6 +117,12 @@ export default function Home() {
     setPageNumber(selected);
   };
   
+
+  const handleReload = () => {
+
+  };
+
+
   return (
     <Container>
       
@@ -204,7 +210,7 @@ export default function Home() {
               variant="contained"
               size="medium"
               color="purple"
-              onClick={() => history.push('/home')}
+              onClick={()=>dispatch(getAllArticle('views','DESC'))}
               classes={{
                 root: classes.root,
                 label: classes.label,

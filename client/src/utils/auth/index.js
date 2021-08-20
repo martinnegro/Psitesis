@@ -23,6 +23,28 @@ export const postComment = async (obj) => {
   }
 };
 
+export const editComment = async (id, obj) => {
+  try {
+    const response = await axios.put(
+      `${REACT_APP_URL_API}/forum_comments/edit/${id}`,
+      obj
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteComment = async (id) => {
+  try {
+    const response = await axios.delete(
+      `${REACT_APP_URL_API}/forum_comments/delete/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
 // Una función que recibe un timestamp en formato string y devuelve la fecha y la hora en formato string
 export const getDateTime = (timestamp) => {
   const date = new Date(timestamp);
