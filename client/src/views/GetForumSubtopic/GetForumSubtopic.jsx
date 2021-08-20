@@ -40,7 +40,7 @@ export default function GetForumSubTopic(){
     const forum = useSelector((state) => state.forumReducer.forumSubtopics);
     const [ orderedPost, setOrderedPost ] = useState([]);
     useEffect(()=>{
-        if (forum.forumposts.length > 0) {
+        if (forum) {
             const highlighted = forum.forumposts.filter(p => p.post_highlight);
             const unHighlight = forum.forumposts.filter(p => !p.post_highlight);
             highlighted.sort((a,b) => a.createdAt > b.createdAt ? 1 : -1 );
