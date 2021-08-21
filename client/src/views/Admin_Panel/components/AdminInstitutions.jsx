@@ -10,7 +10,17 @@ import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
-import ConfirmAlert from './ConfirmAlert'
+import ConfirmAlert from './ConfirmAlert';
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+	table2: {
+	  "@media (max-width: 601px)": {
+		display: "block",
+		overflowX: "auto",
+	  },
+	},
+  }));
 
 
 const createData = ({inst_id, inst_name, inst_descriptions, inst_link, inst_logo}) => ({
@@ -56,6 +66,7 @@ function AdminInstitutions() {
     const dispatch = useDispatch();
     const [ rows, setRows] = useState([]);
     const [previous, setPrevious] = useState({});
+    const classes = useStyles();
     
     
     useEffect(()=> {
@@ -151,7 +162,7 @@ function AdminInstitutions() {
     }
     return (
         institutions.isFetching ?  <div>CARGANDO</div> :
-        <Table size="small" width="100%" padding="none">
+        <Table size="small" width="100%"  className={classes.table2}>
             <TableHead>
                 <TableCell>Nombre</TableCell>
                 <TableCell>Descripción</TableCell>
