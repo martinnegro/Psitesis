@@ -35,9 +35,11 @@ export const editComment = async (id, obj) => {
   }
 };
 
+//DELETE COMMENT VERSION CAMBIAR CONTENIDO A MENSAJE ELIMINADO
+
 export const deleteComment = async (id) => {
   try {
-    const response = await axios.delete(
+    const response = await axios.put(
       `${REACT_APP_URL_API}/forum_comments/delete/${id}`
     );
     return response.data;
