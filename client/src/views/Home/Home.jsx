@@ -114,12 +114,7 @@ export default function Home() {
     setPageNumber(selected);
   };
   
-
-  const handleReload = () => {
-
-  };
-
-
+  
   return (
     <Container>
       
