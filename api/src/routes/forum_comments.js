@@ -24,6 +24,7 @@ router.post("/", async (req, res, next) => {
       post_id,
       user_id,
       response_to_comment_id,
+      deleted: false,
     });
     return res.status(201).send(newComment);
   } catch (err) {
