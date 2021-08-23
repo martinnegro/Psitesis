@@ -26,8 +26,8 @@ router.post(
       art_date,
       art_abstract,
       art_id,
-      sub_cat_id,
-      cat_id,
+      sub_cat_id: sub_cat_id ? sub_cat_id : null ,
+      cat_id: cat_id ? cat_id : null,
       user_id: aux_id,
       art_views: 0,
     })

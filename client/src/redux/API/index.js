@@ -20,8 +20,9 @@ export const getArticles = () => API.get(`/auth/send_verify_email`);
 export const getAllUsers = () => API.get(`/users`);
 export const getUserDetail = (id) => API.get(`/users/${id}`);
 export const getUsersByRoles = (rol) => API.get(`/users?rol=${rol}`);
-export const changeUserRole = (idUser, oldRoleId, newRolId) =>
-  API.put(`/users/change_role`, { idUser, oldRoleId, newRolId });
+export const changeUserRole = (idUser, oldRoleId, newRolId) => API.put(`/users/change_role`,{idUser, oldRoleId, newRolId});
+export const changeUserColab = (user_id_A0) => API.put(`/users/change_colab/${user_id_A0}`);
+export const getAllCollabs = () => API.get('users/get_all_collab');
 
 //peticiones ruta metadata
 export const getUserMetadata = (id) => API.get(`/metadata?id=${id}`);

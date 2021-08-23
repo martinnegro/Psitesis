@@ -68,10 +68,18 @@ async function createData() {
     id: "rol_r4BJVRTjRQyatGop",
   });
 
-  users1.forEach((u) => (u.rol_id = "rol_mALahPQjTe8Re7vf"));
-  users2.forEach((u) => (u.rol_id = "rol_RXyaFjSO2qcD4KNG"));
-  users3.forEach((u) => (u.rol_id = "rol_ZtYREJr7Fq2n211C"));
-  users4.forEach((u) => (u.rol_id = "rol_r4BJVRTjRQyatGop"));
+  const mappedusersA0 = preMap.map((u) => {
+    return {
+      user_id: uuidv4(),
+      user_name: u.name,
+      user_id_A0: u.user_id,
+      user_email: u.email,
+      user_img_profile: u.picture,
+      user_rol_id: u.rol_id,
+      biography: "",
+      user_colab: false,
+    };
+  });
 
   const preMap = [...users1, ...users2, ...users3, ...users4];
 

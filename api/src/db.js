@@ -10,17 +10,17 @@ const sequelize = new Sequelize(
     logging: false,
     native: false,
   }
-  /* {
-    logging: false,
-    dialect: "postgres",
-    protocol: "postgres",
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false,
-      },
-    },
-  } */
+  // {
+  //   logging: false,
+  //   dialect: "postgres",
+  //   protocol: "postgres",
+  //   dialectOptions: {
+  //     ssl: {
+  //       require: true,
+  //       rejectUnauthorized: false,
+  //     },
+  //   },
+  // }
 );
 
 const basename = path.basename(__filename);
@@ -60,6 +60,7 @@ const {
   Subtopic,
   Forumpost,
   Comment,
+  Report,
 } = sequelize.models;
 
 User.hasMany(Article, { foreignKey: "user_id" });
@@ -101,6 +102,15 @@ Comment.belongsTo(Comment, {
   foreignKey: "response_to_comment_id",
   as: "parent_comment",
 });
+
+Comment.hasMany(Report, { foreignKey: "comment_id" });
+Report.belongsTo(Comment, { foreignKey: "comment_id" });
+
+Forumpost.hasMany(Report, { foreignKey: "post_id" });
+Report.belongsTo(Forumpost, { foreignKey: "post_id" });
+
+// Forumpost.belongsToMany(Report, {through: "report_forum"})
+// Report.belongsToMany(Forumpost, {through: "report_forum"})
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
