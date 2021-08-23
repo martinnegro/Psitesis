@@ -14,6 +14,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import DoneIcon from "@material-ui/icons/Done";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import ReportTwoToneIcon from '@material-ui/icons/ReportTwoTone';
 import ReplyIcon from "@material-ui/icons/Reply";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
@@ -29,6 +30,7 @@ import axios from "axios";
 import ReactQuill from "react-quill";
 import ReactPaginate from "react-paginate";
 import s from "./Forum_Post.module.css";
+import Report from "../Forum/components/Report";
 
 const { REACT_APP_URL_API } = process.env;
 
@@ -79,7 +81,15 @@ const useStyle = makeStyles({
   divider:{
     width: "100%",
     marginTop: "30px"
-  } 
+  },
+  buttonContainer:{
+    display: "flex",
+    justifyContent:"center",
+    margin: "30px"
+  },
+  btnText: {
+    fontSize: "10px",
+  }
 });
 
 function Forum_Post() {
@@ -100,6 +110,7 @@ function Forum_Post() {
     const postsByPage = 9;
     const pagesVisited = pageNumber * postsByPage;
     const pageCount = Math.ceil(orderedComments.length / postsByPage);
+    const [report,setReport] = useState(false)
     
     useEffect(async()=>{
         fetchPostData();
@@ -234,6 +245,14 @@ function Forum_Post() {
     setPageNumber(selected);
   };
 
+  const handleReport = () =>{
+    setReport(true)
+}
+
+const cancellReport = () =>{
+    setReport(false)
+}
+
   return (
     <Container>
       <Nav></Nav>
@@ -327,6 +346,11 @@ function Forum_Post() {
                 />
               </Typography>
             )}
+            <Container className = {classes.buttonContainer}>
+            <Button  onClick = {handleReport}><ReportTwoToneIcon style={{ fontSize: 15 }}/><span className = {classes.btnText}>Reportar</span></Button>
+            {report ? <Report postId = {post_id} cancellReport = {cancellReport}/>  : null}
+            </Container>
+            
           </Box>
           {post.post_open ? (
             <></>
@@ -335,6 +359,7 @@ function Forum_Post() {
               La sección de comentarios ha sido cerrada.
             </Typography>
           )}
+          
         </Container>
       ) : (
         <div className={classes.root}>CARGANDO</div>

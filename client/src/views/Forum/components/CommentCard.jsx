@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import EditComment from "./EditComment"
 import { deleteComment } from "../../../redux/API";
 import { getDateTime } from "../../../utils/auth";
+import Report from "./Report";
 
 const useStyle = makeStyles({
     root: {
@@ -73,13 +74,12 @@ const useStyle = makeStyles({
     button:{
         fontSize: "7px"
     }
-    
 });
-
 const CommentCard = ({id,date,userName,image,content,userId,handleCommentComponent,fetchPostData,deleted}) =>{
     const classes = useStyle();
     const loggedUserId =  useSelector((state) => state.authReducer.user.user_id)
     const [edit,setEdit] = useState(false)
+    const [report,setReport] = useState(false)
     const handleEdit = () => {
         setEdit(true)
     }
@@ -89,6 +89,14 @@ const CommentCard = ({id,date,userName,image,content,userId,handleCommentCompone
     const handleDelete = async () => {
         await deleteComment(id)
         await fetchPostData()
+    }
+
+    const handleReport = () =>{
+        setReport(true)
+    }
+
+    const cancellReport = () =>{
+        setReport(false)
     }
     return(
         <Container className = {classes.root} >
@@ -121,7 +129,8 @@ const CommentCard = ({id,date,userName,image,content,userId,handleCommentCompone
                     {deleted === false ? <Box className = {classes.iconsContainer}>
                     <Box className = {classes.iconContainer}>
                     <Typography>
-                    <Button className = {classes.button}> <ReportTwoToneIcon style={{ fontSize: 15 }}  /> Reportar </Button>         
+                    <Button className = {classes.button} onClick = {handleReport}> <ReportTwoToneIcon style={{ fontSize: 15 }}  /> Reportar </Button>
+                    {report ? <Report cancellReport = {cancellReport} commentId = {id}/> : null}         
                             </Typography>
                             </Box>
                             <Box className = {classes.iconContainer}>
