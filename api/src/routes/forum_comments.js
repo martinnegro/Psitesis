@@ -24,6 +24,7 @@ router.post("/", async (req, res, next) => {
       post_id,
       user_id,
       response_to_comment_id,
+      deleted: false,
     });
     return res.status(201).send(newComment);
   } catch (err) {
@@ -44,11 +45,13 @@ router.put("/edit/:comment_id", async (req, res, next) => {
   }
 });
 
-router.delete("/delete/:comment_id", async (req, res, next) => {
+router.put("/delete/:comment_id", async (req, res, next) => {
   const { comment_id } = req.params;
   try {
     const comment = await Comment.findByPk(comment_id);
-    await comment.destroy();
+    comment.comment_contents = "Mensaje eliminado";
+    comment.deleted = true;
+    await comment.save();
     res.json({ message: "Deleted" });
   } catch (err) {
     next(err);

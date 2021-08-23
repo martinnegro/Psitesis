@@ -65,9 +65,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home() {
-
-  
-  
   const history = useHistory();
   const classes = useStyles();
   const articles = useSelector((state) => state.articlesReducer.articles); // Nueva forma de acceder al estado por combineReducer

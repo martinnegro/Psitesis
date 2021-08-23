@@ -6,8 +6,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import ReplyTwoToneIcon from '@material-ui/icons/ReplyTwoTone';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { useDispatch, useSelector } from "react-redux";
-import EditComment from "./EditComment";
-import { deleteComment } from "../../../utils/auth";
+import EditComment from "./EditComment"
+import { deleteComment } from "../../../redux/API";
+import { getDateTime } from "../../../utils/auth";
 
 const useStyle = makeStyles({
     root: {
@@ -66,12 +67,16 @@ const useStyle = makeStyles({
         styles: "none",
         textDecoration: "none"
     },
-    buttonContainer:{
-       height: "2px"
+    divider:{
+        width: "100%"
+    },
+    button:{
+        fontSize: "7px"
     }
+    
 });
 
-const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCommentComponent,response_to_comment_id,fetchPostData}) =>{
+const CommentCard = ({id,date,userName,image,content,userId,handleCommentComponent,fetchPostData,deleted}) =>{
     const classes = useStyle();
     const loggedUserId =  useSelector((state) => state.authReducer.user.user_id)
     const [edit,setEdit] = useState(false)
@@ -81,12 +86,10 @@ const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCo
     const cancellEdit = () => {
         setEdit(false)
     }
-
     const handleDelete = async () => {
         await deleteComment(id)
         await fetchPostData()
     }
-    
     return(
         <Container className = {classes.root} >
             <Link className = {classes.links} to = {`/user/${userId}`}>
@@ -94,10 +97,10 @@ const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCo
                     <Avatar className={classes.avatar} alt={userName} src={image}/> 
                     <div>
                         <Typography color="textSecondary">
-                            {date}
+                            {getDateTime(date)}
                         </Typography>
-                        <Typography className={classes.autor} color="textSecondary">
-                            <span> {userName}</span>
+                        <Typography fontWeight = {500}className={classes.autor} variant = "body2">
+                            <span fontWeight = {500} > Por {userName}</span>
                         </Typography>
                     </div> 
                 </Box>
@@ -105,7 +108,7 @@ const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCo
                     <Box>
                         </Box>
                         <Box className = {classes.contentContainer}>
-                        <Typography>
+                        <Typography variant = "body1">
                         <span
                             dangerouslySetInnerHTML={{
                               __html: `${content}`,
@@ -113,33 +116,32 @@ const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCo
                         />
                         </Typography>
                     </Box>
-
-                    <Box className = {classes.iconsContainer}>
+                    
+                            
+                    {deleted === false ? <Box className = {classes.iconsContainer}>
                     <Box className = {classes.iconContainer}>
                     <Typography>
-                    <Button className = {classes.button}> <ReportTwoToneIcon  /> Reportar </Button>         
+                    <Button className = {classes.button}> <ReportTwoToneIcon style={{ fontSize: 15 }}  /> Reportar </Button>         
                             </Typography>
                             </Box>
                             <Box className = {classes.iconContainer}>
                             <Typography color="textSecondary">
-                            <Button onClick =  {(e) => handleCommentComponent(e,id)}> <ReplyTwoToneIcon/> Responder</Button>
+                            <Button className = {classes.button} onClick =  {(e) => handleCommentComponent(e,id)}> <ReplyTwoToneIcon style={{ fontSize: 15 }} /> Responder</Button>
                             </Typography>
                             </Box>
                             <Box className = {classes.iconContainer}>
                             <Typography color="textSecondary">
-                                    <Button onClick = {handleEdit}>
+                                    <Button className = {classes.button} onClick = {handleEdit}>
+                                    <EditIcon  style={{ fontSize: 15 }} /> 
                                         Editar
-                                       <EditIcon /> 
                                     </Button> 
-                                    <Button onClick = {handleDelete}>
-                                        <DeleteForeverIcon/>Eliminar</Button> 
+                                    <Button className = {classes.button} onClick = {handleDelete}>
+                                        <DeleteForeverIcon  style={{ fontSize: 15 }}/>Eliminar</Button> 
                                 {edit ? <EditComment id = {id} content = {content} cancellEdit = {cancellEdit} fetchPostData = {fetchPostData}></EditComment> : null}
-                            </Typography>
-                            
-                            
+                            </Typography>     
                             </Box>
-                            </Box>
-                            <Divider/>
+                            </Box >  : null}
+                            <Divider className = {classes.divider}/>
         </Container>
     )
 }

@@ -6,6 +6,7 @@ import {
 	getUsersAdmin,
 	getUsersColaborator,
 } from '../../redux/actions/usersActions';
+import { getAllCollabs } from '../../redux/API';
 import { useDispatch, useSelector } from 'react-redux';
 import BiosContainer from '../../components/Bios/BiosContainer';
 import Institutions from '../../components/Institutions/Institutions';
@@ -112,16 +113,14 @@ function a11yProps(index) {
 
 export default function Colaborators() {
 	const dispatch = useDispatch();
-	const { admins, colaborators } = useSelector(
-		(state) => state.usersReducer
-	);
+	const [ collabs, setCollabs ] = useState()
 	const institutions = useSelector(
 		(state) => state.institutionsReducer.institutions
 	);
 
-	useEffect(() => {
-		dispatch(getUsersAdmin('rol_mALahPQjTe8Re7vf'));
-		dispatch(getUsersColaborator('rol_ZtYREJr7Fq2n211C'));
+	useEffect(async () => {
+		const newCollabs = await getAllCollabs();
+		setCollabs(newCollabs.data)
 		dispatch(getInstitutions());
 	}, [dispatch]);
 
@@ -156,18 +155,8 @@ export default function Colaborators() {
 					</Tabs>
 				</AppBar>
 				<TabPanel value={value} index={0}>
-					{admins?.map((user) => {
-							return (
-								<BiosContainer
-									id={user.user_id_A0}
-									key={user.user_id}
-									userName={user.user_name}
-									biography={user.biography}
-									imgProfile={user.user_img_profile}
-								></BiosContainer>
-							);
-						})}
-					{colaborators?.map((user) => {
+					
+					{collabs?.map((user) => {
 							return (
 								<BiosContainer
 									id={user.user_id_A0}

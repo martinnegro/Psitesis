@@ -29,7 +29,7 @@ import { Container, TableHead } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { getAllUsers } from '../../../redux/actions/usersActions'
-import { changeUserRole } from '../../../redux/API'; 
+import { changeUserRole, changeUserColab } from '../../../redux/API'; 
 
 import './AdminUsers.css'
 const { REACT_APP_URL_API } = process.env;
@@ -179,6 +179,12 @@ export default function AdminUsers() {
     } catch(err) { alert('No update') }
   };
 
+  const onChangeColab = async (user_id_A0) => {
+    try {
+      const response = await changeUserColab(user_id_A0);
+      dispatch(getAllUsers())
+    } catch(err) { alert('No update') }
+  };
 
   return (
     <Container>
@@ -195,7 +201,7 @@ export default function AdminUsers() {
             <TableCell>Foto</TableCell>
             <TableCell>Nombre</TableCell>
             <TableCell>Rol</TableCell>
-            <TableCell></TableCell>
+            <TableCell>Colaborador</TableCell>
         </TableHead>
         <TableBody>
           {(usersPerPage > 0
@@ -213,8 +219,6 @@ export default function AdminUsers() {
                 </TableCell>  
               <TableCell /*style={{ width: 160 }}*/ align="left">
                 {getRoleName(row.user_rol_id)}
-              </TableCell>
-              <TableCell>
                 {
                     !wantChangeRole[row.user_id] ?
                     <Button onClick={()=>onWantChangeRol(row.user_id)}>CAMBIAR</Button> :
@@ -244,6 +248,10 @@ export default function AdminUsers() {
                         </IconButton>
                     </>
                 }
+              </TableCell>
+              <TableCell>
+                { row.user_colab ? 'SI' : 'NO'  }
+                <Button onClick={()=>onChangeColab(row.user_id_A0)}>CAMBIAR</Button>
               </TableCell>
             </TableRow>
           ))}
