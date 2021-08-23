@@ -4,7 +4,8 @@ import ReactQuill from "react-quill";
 import CheckIcon from '@material-ui/icons/Check';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import "./EditComment.css"
-import { editComment } from "../../../utils/auth";
+/* import { editComment } from "../../../utils/auth"; */
+import { editComment } from "../../../redux/API";
 
  const EditComment =   ({id,content,cancellEdit,fetchPostData}) => {
 
@@ -15,24 +16,18 @@ import { editComment } from "../../../utils/auth";
     }
 
     const handleSubmit = async () =>{
-        try{
-           
+        try{ 
              await editComment(id,{comment_contents : comment }) 
              await fetchPostData()
         }
         catch(error){
             console.error(error)
         }
-        console.log("termino editing comment")
-        console.log("termino fetch data")
         cancellEdit()
-        console.log("cancelando la edicion")
         setComment(content)
-        console.log("reseteando el content")
     }
     return(
         <Container>
-            <h3>Editing</h3>
             <ReactQuill 
             modules={EditComment.modules}
             formats={EditComment.formats}
