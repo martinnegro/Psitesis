@@ -365,7 +365,7 @@ function Forum_Post() {
                 return(
                     <div>
                         <Container>
-                        {comment.response_to_comment_id ? <QuoteCard  userName = {respondingToUser(comment.response_to_comment_id,post.comments)} commentContent = {respondingToComment(comment.response_to_comment_id,post.comments)} commentId = {comment.response_to_comment_id}></QuoteCard> : null}
+                        {comment.response_to_comment_id ? <QuoteCard  userName = {respondingToUser(comment.response_to_comment_id,post.comments)} commentContent = {respondingToComment(comment.response_to_comment_id,post.comments)} commentId = {comment.response_to_comment_id} ></QuoteCard> : null}
                         </Container>
                     <CommentCard 
                         fetchPostData = {fetchPostData}
@@ -377,7 +377,8 @@ function Forum_Post() {
                         image = {comment.user.user_img_profile}
                         userId = {comment.user.user_id_A0}
                         handleCommentComponent = {handleCommentComponent} 
-                        date = {comment.createdAt}                       
+                        date = {comment.createdAt}
+                        deleted = {comment.deleted}                       
                     ></CommentCard>
                     </div>
                 )

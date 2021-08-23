@@ -45,17 +45,6 @@ router.put("/edit/:comment_id", async (req, res, next) => {
   }
 });
 
-router.delete("/delete/:comment_id", async (req, res, next) => {
-  const { comment_id } = req.params;
-  try {
-    const comment = await Comment.findByPk(comment_id);
-    await comment.destroy();
-    res.json({ message: "Deleted" });
-  } catch (err) {
-    next(err);
-  }
-});
-
 router.put("/delete/:comment_id", async (req, res, next) => {
   const { comment_id } = req.params;
   try {
