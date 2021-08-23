@@ -11,15 +11,15 @@ router.post("/", async (req, res, next) => {
     let newReport = await Report.create({
       rep_id: uuidv4(),
       rep_reason,
-      rep_state: false,
+      rep_resolved: false,
     });
 
-    if(comment_id !== null){
-        await newReport.setComment(comment_id);
+    if (comment_id !== null) {
+      await newReport.setComment(comment_id);
     }
 
-    if(post_id !== null){
-        await newReport.setForumpost(post_id);
+    if (post_id !== null) {
+      await newReport.setForumpost(post_id);
     }
     return res.json(newReport);
   } catch (err) {
