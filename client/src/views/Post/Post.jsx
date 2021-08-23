@@ -116,8 +116,8 @@ function Post() {
 	const [body, setBody] = useState('');
 	const [titulo, setTitulo] = useState('');
 	const [reseña, setReseña] = useState('');
-	const [subcategoria, setSubcategoria] = useState('');
-	const [categoria, setCategoria] = useState('');
+	const [subcategoria, setSubcategoria] = useState(null);
+	// const [categoria, setCategoria] = useState(null);
 	const [tags, setTags] = useState('');
 
 	//MOdal
@@ -160,7 +160,7 @@ function Post() {
 		let index = e.target.selectedIndex;
 		let option = e.target.options[index].value;
 		console.log('option: ', option);
-		setCategoria(option.split('/')[0]);
+		// setCategoria(option.split('/')[0]);
 		setSubcategoria(option.split('/')[1]);
 	};
 
@@ -170,7 +170,7 @@ function Post() {
 		let data = {
 			art_contents: body,
 			art_title: titulo,
-			cat_id: categoria,
+			// cat_id: categoria,
 			sub_cat_id: subcategoria,
 			user_id: user.user_id,
 			art_abstract: reseña,
@@ -269,12 +269,12 @@ function Post() {
 							<InputLabel htmlFor="grouped-native-select">Categoria</InputLabel>
 							<Select
 								native
-								defaultValue=""
+								defaultValue={null}
 								id="grouped-native-select"
 								onChange={handleInputCat}
 								required
 							>
-								<option aria-label="None" value="" />
+								<option aria-label="None" value={null} />
 								<Selectores />
 							</Select>
 						</FormControl>

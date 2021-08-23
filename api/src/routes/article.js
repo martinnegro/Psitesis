@@ -10,10 +10,17 @@ router.post(
   authorizeAccessToken,
   checkAdminPermission,
   async (req, res, next) => {
-    const { art_contents, art_title, art_date, art_tags, sub_cat_id, user_id, art_abstract, cat_id } =
-      req.body;
-    let id_cat = cat_id
-    let id_subcat = sub_cat_id
+    const { 
+      art_contents,
+      art_title,
+      art_date, 
+      art_tags, 
+      sub_cat_id, 
+      user_id, 
+      art_abstract, 
+      // cat_id 
+    } = req.body;
+    
     let aux_id = user_id;
     const art_id = uuidv4();
     if (aux_id.includes("google")) {
@@ -27,7 +34,7 @@ router.post(
       art_abstract,
       art_id,
       sub_cat_id,
-      cat_id,
+      // cat_id,
       user_id: aux_id,
       art_views: 0,
     })
