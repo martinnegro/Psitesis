@@ -157,11 +157,9 @@ function Post() {
 	};
 
 	const handleInputCat = (e) => {
-		let index = e.target.selectedIndex;
-		let option = e.target.options[index].value;
-		console.log('option: ', option);
-		// setCategoria(option.split('/')[0]);
-		setSubcategoria(option);
+		let value = e.target.value;
+		if (parseInt(value) === -1) value = null;
+		setSubcategoria(value);
 	};
 
 	const handleSubmitBody = async (e) => {
@@ -273,7 +271,7 @@ function Post() {
 								onChange={handleInputCat}
 								required
 							>
-								<option aria-label="None" value={null} />
+								<option aria-label="None" value={-1}>Ninguna</option>
 								<Selectores />
 							</Select>
 						</FormControl>
@@ -386,7 +384,6 @@ function Post() {
 								label: classes.label,
 							}}
 						>
-							{console.log(id)}
 							{id ? 'EDITAR POST' : 'POSTEAR'}
 						</Button>
 					</div>
