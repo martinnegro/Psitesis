@@ -89,12 +89,10 @@ const CommentCard = ({id,date,userName,image,content,userId,handleCommentCompone
     const cancellEdit = () => {
         setEdit(false)
     }
-
     const handleDelete = async () => {
         await deleteComment(id)
         await fetchPostData()
     }
-    
     return(
         <Container className = {classes.root} >
             <Link className = {classes.links} to = {`/user/${userId}`}>
@@ -142,9 +140,7 @@ const CommentCard = ({id,date,userName,image,content,userId,handleCommentCompone
                                     <Button className = {classes.button} onClick = {handleDelete}>
                                         <DeleteForeverIcon  style={{ fontSize: 15 }}/>Eliminar</Button> 
                                 {edit ? <EditComment id = {id} content = {content} cancellEdit = {cancellEdit} fetchPostData = {fetchPostData}></EditComment> : null}
-                            </Typography>
-                            
-                            
+                            </Typography>     
                             </Box>
                             </Box>
                             <Divider className = {classes.divider}/>
