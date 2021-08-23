@@ -8,6 +8,7 @@ import {
   IconButton,
   TextField,
   Button,
+  Divider
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import DoneIcon from "@material-ui/icons/Done";
@@ -26,6 +27,8 @@ import { getUserDetail } from "../../redux/actions/usersActions";
 import { highlightPost } from "../../redux/API";
 import axios from "axios";
 import ReactQuill from "react-quill";
+import ReactPaginate from "react-paginate";
+import s from "./Forum_Post.module.css";
 
 const { REACT_APP_URL_API } = process.env;
 
@@ -68,7 +71,15 @@ const useStyle = makeStyles({
   replyButton: {
     fontSize: "80px",
     color: "#ff99bb",
+    marginTop: "30px"
   },
+   paginate:{
+    marginTop: "70px"
+  },
+  divider:{
+    width: "100%",
+    marginTop: "30px"
+  } 
 });
 
 function Forum_Post() {
@@ -85,8 +96,11 @@ function Forum_Post() {
     const [ commentIdForResponse, setCommentIdForResponse ] = useState();
     const [ commentComponent, setCommentComponent ] = useState(false);
     const [ orderedComments,setOrderedComments ] = useState([]);
-
-
+    const [pageNumber, setPageNumber] = useState(0);
+    const postsByPage = 9;
+    const pagesVisited = pageNumber * postsByPage;
+    const pageCount = Math.ceil(orderedComments.length / postsByPage);
+    
     useEffect(async()=>{
         fetchPostData();
     },[]);
@@ -165,11 +179,6 @@ function Forum_Post() {
       commentComponent ? setCommentComponent(false) : setCommentComponent(true)
       setCommentComponent(true)
       setCommentIdForResponse(response_to_comment_id);
-  const respondingToComment = (postId, arr) => {
-    const postFound = arr.find((post) => post.comment_id === postId);
-    const postContent = postFound.comment_contents;
-    return postContent;
-  };
 }
   // LOGICA PARA ABRIR Y CERRAR THREAD
   const handleStatusThread = async () => {
@@ -218,6 +227,11 @@ function Forum_Post() {
     } catch (err) {
       alert("No update!");
     }
+  };
+
+  // PAGINATION
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
   };
 
   return (
@@ -290,7 +304,7 @@ function Forum_Post() {
             />
             <Box>
               <Typography color="textSecondary">{post.post_date}</Typography>
-              <Typography color="textSecondary">
+              <Typography  variant = "body2">
                 Por {post.user.user_name}
               </Typography>
             </Box>
@@ -325,12 +339,29 @@ function Forum_Post() {
       ) : (
         <div className={classes.root}>CARGANDO</div>
       )}
+
+      <Divider className = {classes.divider}/>
+      
+
+<Container className = {classes.paginate}>
+          <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            pageCount={pageCount}
+            onPageChange={changePage}
+            containerClassName={s.paginationBttns}
+            previousLinkClassName={s.previousBttn}
+            nextLinkClassName={s.nextBttn}
+            disabledClassName={s.paginationDisabled}
+            activeClassName={s.paginationActive}
+          />
+        </Container>
       {/*//////////////////////////////////////////////////////////////////////*/}
       {/*//////////////////////////////////////////////////////////////////////*/}
       {/* --------- COMMENTS ----------*/}
       <Container>
             {
-            post ? orderedComments?.map((comment)=>{
+            post ? orderedComments?.slice(pagesVisited, pagesVisited + postsByPage).map((comment)=>{
                 return(
                     <div>
                         <Container>
@@ -345,7 +376,8 @@ function Forum_Post() {
                         userName = {comment.user.user_name}
                         image = {comment.user.user_img_profile}
                         userId = {comment.user.user_id_A0}
-                        handleCommentComponent = {handleCommentComponent}                        
+                        handleCommentComponent = {handleCommentComponent} 
+                        date = {comment.createdAt}                       
                     ></CommentCard>
                     </div>
                 )
@@ -379,6 +411,19 @@ function Forum_Post() {
               )
             }  
           </Container>
+          <Container>
+          <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            pageCount={pageCount}
+            onPageChange={changePage}
+            containerClassName={s.paginationBttns}
+            previousLinkClassName={s.previousBttn}
+            nextLinkClassName={s.nextBttn}
+            disabledClassName={s.paginationDisabled}
+            activeClassName={s.paginationActive}
+          />
+        </Container>
         </Container>
                 
   

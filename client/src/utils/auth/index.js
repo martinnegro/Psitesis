@@ -51,14 +51,10 @@ export const getDateTime = (timestamp) => {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
-  const hour = date.getHours();
+  let hour = date.getHours();
   let min = date.getMinutes();
-  if (min < 10) min = '0' + min;
-  if (hour < 10) hour = '0' + hour;
+  if (min < 10) min = "0" + min;
+  if (hour < 10) hour = "0" + hour;
   const dateTime = `${day}-${month}-${year} ${hour}:${min}`;
   return dateTime;
-}
-
-
-
-  
+};
