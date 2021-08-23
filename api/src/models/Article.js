@@ -34,7 +34,10 @@ module.exports = (sequelize) => {
       art_views: {
         type: DataTypes.INTEGER,
       },
+      art_available: {
+        type: DataTypes.BOOLEAN
+      } 
     }
-    /* { timestamps: false } */
+
   );
 };

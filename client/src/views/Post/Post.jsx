@@ -116,8 +116,8 @@ function Post() {
 	const [body, setBody] = useState('');
 	const [titulo, setTitulo] = useState('');
 	const [reseña, setReseña] = useState('');
-	const [subcategoria, setSubcategoria] = useState('');
-	const [categoria, setCategoria] = useState('');
+	const [subcategoria, setSubcategoria] = useState(null);
+	// const [categoria, setCategoria] = useState(null);
 	const [tags, setTags] = useState('');
 
 	//MOdal
@@ -157,11 +157,9 @@ function Post() {
 	};
 
 	const handleInputCat = (e) => {
-		let index = e.target.selectedIndex;
-		let option = e.target.options[index].value;
-		console.log('option: ', option);
-		setCategoria(option.split('/')[0]);
-		setSubcategoria(option.split('/')[1]);
+		let value = e.target.value;
+		if (parseInt(value) === -1) value = null;
+		setSubcategoria(value);
 	};
 
 	const handleSubmitBody = async (e) => {
@@ -170,7 +168,7 @@ function Post() {
 		let data = {
 			art_contents: body,
 			art_title: titulo,
-			cat_id: categoria,
+			// cat_id: categoria,
 			sub_cat_id: subcategoria,
 			user_id: user.user_id,
 			art_abstract: reseña,
@@ -178,8 +176,6 @@ function Post() {
 			art_tags: tags.split(',').map((e) => e.trim()),
 			art_id: id ? articlesDetail.art_id : null,
 		};
-
-		console.log('data: ', data);
 
 		// action createPost or editPost
 		if (id) {
@@ -211,6 +207,7 @@ function Post() {
 			setBody(articlesDetail.art_contents);
 			setTitulo(articlesDetail.art_title);
 			setReseña(articlesDetail.art_abstract);
+			setSubcategoria(articlesDetail.sub_cat_id);
 			if (
 				articlesDetail.user_id === user.user_id ||
 				user.roles.includes('admin') ||
@@ -269,12 +266,12 @@ function Post() {
 							<InputLabel htmlFor="grouped-native-select">Categoria</InputLabel>
 							<Select
 								native
-								defaultValue=""
+								value={subcategoria}
 								id="grouped-native-select"
 								onChange={handleInputCat}
 								required
 							>
-								<option aria-label="None" value="" />
+								<option aria-label="None" value={-1}>Ninguna</option>
 								<Selectores />
 							</Select>
 						</FormControl>
@@ -387,7 +384,6 @@ function Post() {
 								label: classes.label,
 							}}
 						>
-							{console.log(id)}
 							{id ? 'EDITAR POST' : 'POSTEAR'}
 						</Button>
 					</div>
