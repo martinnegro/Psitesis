@@ -161,7 +161,7 @@ function Post() {
 		let option = e.target.options[index].value;
 		console.log('option: ', option);
 		// setCategoria(option.split('/')[0]);
-		setSubcategoria(option.split('/')[1]);
+		setSubcategoria(option);
 	};
 
 	const handleSubmitBody = async (e) => {
@@ -178,8 +178,6 @@ function Post() {
 			art_tags: tags.split(',').map((e) => e.trim()),
 			art_id: id ? articlesDetail.art_id : null,
 		};
-
-		console.log('data: ', data);
 
 		// action createPost or editPost
 		if (id) {
@@ -211,6 +209,7 @@ function Post() {
 			setBody(articlesDetail.art_contents);
 			setTitulo(articlesDetail.art_title);
 			setReseña(articlesDetail.art_abstract);
+			setSubcategoria(articlesDetail.sub_cat_id);
 			if (
 				articlesDetail.user_id === user.user_id ||
 				user.roles.includes('admin') ||
@@ -269,7 +268,7 @@ function Post() {
 							<InputLabel htmlFor="grouped-native-select">Categoria</InputLabel>
 							<Select
 								native
-								defaultValue={null}
+								value={subcategoria}
 								id="grouped-native-select"
 								onChange={handleInputCat}
 								required
