@@ -52,6 +52,9 @@ export const createPostForum = (data) => API.post(`/forumposts/create`, data);
 // RUTA /forumposts
 export const highlightPost = (post_id) => API.put(`/forumposts/highlight_post/${post_id}`);
 
+// ruta notification
+export const getNotifications = () => API.get(`/notification`);
+export const sentNotificationTest = () => API.get(`/notification/test`);
 
 
 
