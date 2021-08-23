@@ -44,6 +44,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import { grey } from "@material-ui/core/colors";
+import ForumOutlinedIcon from '@material-ui/icons/ForumOutlined';
+import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
 
 const drawerWidth = 270;
 
@@ -441,13 +443,13 @@ export default function Nav() {
         </ListItem>
         <ListItem button onClick={() => history.push("/forum")}>
           <ListItemIcon>
-            <ForumTwoToneIcon />
+            <ForumOutlinedIcon />
           </ListItemIcon>
           <ListItemText style={{textTransform: 'uppercase'}}>Foro</ListItemText>
         </ListItem>
         <ListItem button onClick={() => history.push("/colaborators")}>
           <ListItemIcon>
-            <PeopleAltTwoToneIcon />
+            <PeopleAltOutlinedIcon />
           </ListItemIcon>
           <ListItemText style={{textTransform: 'uppercase'}}>Colaboradores</ListItemText>
         </ListItem>

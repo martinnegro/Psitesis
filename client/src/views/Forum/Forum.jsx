@@ -96,7 +96,15 @@ const useStyles = makeStyles((theme) => ({
   lastMssg: {
     width: "100%",
     
-  }
+  },
+  title2: {
+    flexGrow: 1,
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+    },
+    // marginLeft: '164px',
+  },
 }));
 
 const useStyles2 = makeStyles({
@@ -220,7 +228,7 @@ const Forum = () => {
              <div className={classes.offset}></div>
         <Nav/>
         <Container className={classes.title}>
-            <Typography variant='h2' >Foro</Typography>
+            <Typography variant='h2' className={classes.title2} >Foro</Typography>
       
         </Container>
         <div className={classes.root}>

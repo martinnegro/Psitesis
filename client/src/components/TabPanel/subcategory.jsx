@@ -7,7 +7,6 @@ import Card2 from '../Card/CardTabPanel';
 export default function Subcategoria (props) {
 
     const { articles,  id , name } = props;
-    const [ prueba, setPrueba ] = React.useState([])
     
     const [pageNumber, setPageNumber] = React.useState(0);
     const postsByPage = 2;
@@ -16,11 +15,6 @@ export default function Subcategoria (props) {
     const changePage = ({ selected }) => {
       setPageNumber(selected);
     };
-
-    useEffect(()=> {
-        const aux = articles.filter(a => a.sub_cat_id !== null)
-        setPrueba(aux)
-    },[articles])
 
     return (
         <Container key={id}>
@@ -35,8 +29,8 @@ export default function Subcategoria (props) {
             justifyContent:'space-between',
             flexWrap: 'wrap'}}>
                 {
-                    prueba.length > 0 
-                    ? prueba 
+                    articles.length > 0 
+                    ? articles 
                     ?.slice(pagesVisited, pagesVisited + postsByPage)
                     ?.map(a => (
                         <Card2
@@ -47,22 +41,30 @@ export default function Subcategoria (props) {
                         body={a.art_contents}
                         id={a.art_id}
                         userId={a.user_id}/>
-                    )) : null
+                    )) : <Typography 
+                    variant='h5' 
+                    style={{marginBottom:'15px', marginTop:'15px'}}>
+                    No existen artículos para esta sección.
+                    </Typography>
                 }
             </Container>
-            <Container>
-            <ReactPaginate
-              previousLabel={"<"}
-              nextLabel={">"}
-              pageCount={pageCount}
-              onPageChange={changePage}
-              containerClassName={style.paginationBttns}
-              previousLinkClassName={style.previousBttn}
-              nextLinkClassName={style.nextBttn}
-              disabledClassName={style.paginationDisabled}
-              activeClassName={style.paginationActive}
-            />
-            </Container>
+            {
+                articles.length > 0 ? (
+                    <Container>
+                    <ReactPaginate
+                      previousLabel={"<"}
+                      nextLabel={">"}
+                      pageCount={pageCount}
+                      onPageChange={changePage}
+                      containerClassName={style.paginationBttns}
+                      previousLinkClassName={style.previousBttn}
+                      nextLinkClassName={style.nextBttn}
+                      disabledClassName={style.paginationDisabled}
+                      activeClassName={style.paginationActive}
+                    />
+                    </Container>
+                ) : null
+            }
             <Divider variant="middle" />
         </Container>
     
