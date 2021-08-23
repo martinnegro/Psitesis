@@ -130,7 +130,7 @@ const CommentCard = ({id,date,userName,image,content,userId,handleCommentCompone
                     <Box className = {classes.iconContainer}>
                     <Typography>
                     <Button className = {classes.button} onClick = {handleReport}> <ReportTwoToneIcon style={{ fontSize: 15 }}  /> Reportar </Button>
-                    {report ? <Report cancellReport = {cancellReport} id = {id}/> : null}         
+                    {report ? <Report cancellReport = {cancellReport} commentId = {id}/> : null}         
                             </Typography>
                             </Box>
                             <Box className = {classes.iconContainer}>
