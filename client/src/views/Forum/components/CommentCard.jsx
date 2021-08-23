@@ -6,8 +6,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import ReplyTwoToneIcon from '@material-ui/icons/ReplyTwoTone';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { useDispatch, useSelector } from "react-redux";
-import EditComment from "./EditComment";
-import { deleteComment } from "../../../utils/auth";
+import EditComment from "./EditComment"
+import { deleteComment } from "../../../redux/API";
 import { getDateTime } from "../../../utils/auth";
 
 const useStyle = makeStyles({
@@ -67,9 +67,6 @@ const useStyle = makeStyles({
         styles: "none",
         textDecoration: "none"
     },
-  /*   buttonContainer:{
-       fontWeight: "100px"
-    }, */
     divider:{
         width: "100%"
     },
@@ -79,7 +76,7 @@ const useStyle = makeStyles({
     
 });
 
-const CommentCard = ({id,date,userName,image,content,userId,handleCommentComponent,fetchPostData}) =>{
+const CommentCard = ({id,date,userName,image,content,userId,handleCommentComponent,fetchPostData,deleted}) =>{
     const classes = useStyle();
     const loggedUserId =  useSelector((state) => state.authReducer.user.user_id)
     const [edit,setEdit] = useState(false)
@@ -119,8 +116,9 @@ const CommentCard = ({id,date,userName,image,content,userId,handleCommentCompone
                         />
                         </Typography>
                     </Box>
-
-                    <Box className = {classes.iconsContainer}>
+                    
+                            
+                    {deleted === false ? <Box className = {classes.iconsContainer}>
                     <Box className = {classes.iconContainer}>
                     <Typography>
                     <Button className = {classes.button}> <ReportTwoToneIcon style={{ fontSize: 15 }}  /> Reportar </Button>         
@@ -142,7 +140,7 @@ const CommentCard = ({id,date,userName,image,content,userId,handleCommentCompone
                                 {edit ? <EditComment id = {id} content = {content} cancellEdit = {cancellEdit} fetchPostData = {fetchPostData}></EditComment> : null}
                             </Typography>     
                             </Box>
-                            </Box>
+                            </Box >  : null}
                             <Divider className = {classes.divider}/>
         </Container>
     )
