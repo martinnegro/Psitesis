@@ -30,6 +30,16 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ConfirmAlertDeleteSubCategory from './ConfirmAlertDeleteSubCategory';
 import ConfirmAlertDeleteCategory from './ConfirmAlertDeleteCategory';
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+	table2: {
+	  "@media (max-width: 601px)": {
+		display: "block",
+		overflowX: "auto",
+	  },
+	},
+  }));
 
 const CustomInputCell = ({ newCat, name, handleNewCat }) => {
 	return (
@@ -97,6 +107,8 @@ const AdminCategories = () => {
 	const [rowsCategories, setRowsCategories] = useState([]);
 	const [previous, setPrevious] = useState({});
 	const [previousSub, setPreviousSub] = useState({});
+	const classes = useStyles();
+
 
 	useEffect(() => {
 		dispatch(getAllCatSub());
@@ -374,8 +386,8 @@ const AdminCategories = () => {
 					Categorias
 				</AccordionSummary>
 				<AccordionDetails>
-					<Table size="small" width="100%">
-						<TableHead>
+					<Table size="small" width="100%" className={classes.table2}>
+						<TableHead >
 							<TableCell>Nombre</TableCell>
 							<TableCell align="right">Editar</TableCell>
 							<TableCell align="right">Eliminar</TableCell>
@@ -461,7 +473,7 @@ const AdminCategories = () => {
 						Sub-Categorias de {category.name}
 					</AccordionSummary>
 					<AccordionDetails>
-						<Table size="small" width="100%">
+						<Table size="small" width="100%" className={classes.table2}>
 							<TableHead>
 								<TableCell>Nombre</TableCell>
 								<TableCell>Descripción</TableCell>
