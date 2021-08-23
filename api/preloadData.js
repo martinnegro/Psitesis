@@ -77,6 +77,7 @@ async function createData() {
             user_img_profile: u.picture,
             user_rol_id: u.rol_id,
             biography: "",
+            user_colab: false
         };
     });
 
