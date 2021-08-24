@@ -31,8 +31,13 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Selectores from '../../components/Select/Select';
 //menucito
-import NavBottom from '../../components/NavBottom/NavBottom';
-import Container from '@material-ui/core/Container';
+import NavBottom from "../../components/NavBottom/NavBottom";
+import Container from "@material-ui/core/Container"; 
+//validation
+import { minLengthValidation } from "../../utils/validations/formValidations";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
 
 const theme = createTheme({
 	palette: {
@@ -125,6 +130,25 @@ function Post() {
 	const [open, setOpen] = React.useState(false);
 	const [on, setOn] = React.useState('1');
 
+//validation...
+  const [formValid, setformValid] = useState({
+    titulo:false,
+    reseña:false,
+    subcategoria:false,
+    categoria:false,
+    tags:false
+  });
+
+  const [openSnack, setOpenSnack] = React.useState(false);
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+  //....validation
+  
+  //MOdal
+  //const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const [on, setOn] = React.useState("1");
 	const handleOpen = () => {
 		setOpen(true);
 		setOn('0');
@@ -148,22 +172,82 @@ function Post() {
 		setTitulo(e.target.value);
 	};
 
-	const handleInputReseña = (e) => {
-		setReseña(e.target.value);
-	};
+  const handleInput = (e) => {
+    setTitulo(e.target.value);
+    const {name, type} = e.target;
 
-	const handleInputTags = (e) => {
-		setTags(e.target.value);
-	};
+    if(type === 'text'){
+      setformValid({
+        ...formValid,
+        [name]: minLengthValidation(e.target, 3)
+      })
+    }
+  };
 
-	const handleInputCat = (e) => {
-		let value = e.target.value;
-		if (parseInt(value) === -1) value = null;
-		setSubcategoria(value);
-	};
+  const handleInputReseña = (e) => {
+    setReseña(e.target.value);
+    const {name, type, value} = e.target;
+// console.log('target',e.target.value);
 
-	const handleSubmitBody = async (e) => {
-		e.preventDefault();
+    if(type === 'text'){
+      setformValid({
+        ...formValid,
+        [name]: minLengthValidation(e.target, 3)
+      })
+    }
+  };
+
+  const handleInputTags = (e) => {
+    setTags(e.target.value);
+
+    const {name, type} = e.target;
+
+    if(type === 'text'){
+      setformValid({
+        ...formValid,
+        [name]: minLengthValidation(e.target, 3)
+      })
+    }
+  };
+
+  const handleInputCat = (e) => {
+    let index = e.target.selectedIndex;
+    let option = e.target.options[index].value;
+    console.log("option: ", option);
+
+    setCategoria(option.split("/")[0]);
+    setSubcategoria(option.split("/")[1]);
+
+
+    const {name, type} = e.target;
+
+    if(type === 'text'){
+      setformValid({
+        ...formValid,
+        [name]: minLengthValidation(e.target, 3)
+      })
+    }
+  };
+
+  const inputsValidations = e=>{
+    console.log(e.target);
+  }
+
+  const handleSubmitBody = async (e) => {
+    e.preventDefault();
+    const {titulo,tags} = formValid;
+
+    const tituloVal = titulo;
+    const reseñaVal = reseña;
+    const subcategoriaVal = subcategoria;
+    const bodyVal = body;
+    const categoriaVal = categoria;
+    const tagsVal = tags;
+    
+
+    if(!tituloVal || !tagsVal || reseñaVal.length === 0 || bodyVal.length === 0 ){
+      setOpenSnack(true)
+    }else{
 
 		let data = {
 			art_contents: body,
@@ -176,54 +260,65 @@ function Post() {
 			art_tags: tags.split(',').map((e) => e.trim()),
 			art_id: id ? articlesDetail.art_id : null,
 		};
+      console.log("data: ", data);
 
-		// action createPost or editPost
-		if (id) {
-			dispatch(editPost(data));
-			setBody('');
-			setTitulo('');
-			setTextModal('editado');
-			setOpen2(true);
-			setTimeout(handleClose2, 1000);
+    
+  
+      // action createPost or editPost
+	  if (id) {
+		dispatch(editPost(data));
+		setBody('');
+		setTitulo('');
+		setTextModal('editado');
+		setOpen2(true);
+		setTimeout(handleClose2, 1000);
+	} else {
+		dispatch(createPost(data));
+		setBody('');
+		setTitulo('');
+		setTextModal('creado');
+		setOpen2(true);
+		setTimeout(handleClose2, 1000);
+	}
+  };
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnack(false);
+  };
+
+  useEffect(() => {
+	if (id) {
+		dispatch(getArticleDetail(id));
+	}
+	return () => dispatch(clearDetail());
+}, []);
+
+useEffect(() => {
+	if (articlesDetail && user && id) {
+		setBody(articlesDetail.art_contents);
+		setTitulo(articlesDetail.art_title);
+		setReseña(articlesDetail.art_abstract);
+		setSubcategoria(articlesDetail.sub_cat_id);
+		if (
+			articlesDetail.user_id === user.user_id ||
+			user.roles.includes('admin') ||
+			user.roles.includes('superadmin')
+		) {
+			setEnablePost(true);
 		} else {
-			dispatch(createPost(data));
-			setBody('');
-			setTitulo('');
-			setTextModal('creado');
-			setOpen2(true);
-			setTimeout(handleClose2, 1000);
+			history.push('/');
+			setEnablePost(true);
 		}
-	};
+	}
+}, [articlesDetail, history, id]);
 
-	useEffect(() => {
-		if (id) {
-			dispatch(getArticleDetail(id));
-		}
-		return () => dispatch(clearDetail());
-	}, []);
-
-	useEffect(() => {
-		if (articlesDetail && user && id) {
-			setBody(articlesDetail.art_contents);
-			setTitulo(articlesDetail.art_title);
-			setReseña(articlesDetail.art_abstract);
-			setSubcategoria(articlesDetail.sub_cat_id);
-			if (
-				articlesDetail.user_id === user.user_id ||
-				user.roles.includes('admin') ||
-				user.roles.includes('superadmin')
-			) {
-				setEnablePost(true);
-			} else {
-				history.push('/');
-				setEnablePost(true);
-			}
-		}
-	}, [articlesDetail, history, id]);
-
-	useEffect(() => {
-		dispatch(getAllCatSub());
-	}, []);
+useEffect(() => {
+	dispatch(getAllCatSub());
+}, []);
 
 	//Modal
 	const [open2, setOpen2] = React.useState(false);
@@ -240,183 +335,197 @@ function Post() {
 	//Texto Modal
 	const [textModal, setTextModal] = useState('');
 
-	return (
-		<div>
-			<div className={classes.offset}></div>
-			<Nav />
-			<ThemeProvider theme={theme}>
-				{/* <header className={`${style.contenedor_editor} ${style.centrado}`}> */}
-				<Container className={classes.Home}>
-					<Typography variant="h2" color="initial" className={classes.tipoh2}>
-						NUEVO POST ARTICULO
-					</Typography>
-					<br />
-					<div className={style.botones}>
-						<TextField
-							id="standard-basic"
-							label="Titulo"
-							name="titulo"
-							type="text"
-							value={titulo}
-							onChange={handleInput}
-							required
-						/>
-						<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-						<FormControl>
-							<InputLabel htmlFor="grouped-native-select">Categoria</InputLabel>
-							<Select
-								native
-								value={subcategoria}
-								id="grouped-native-select"
-								onChange={handleInputCat}
-								required
-							>
-								<option aria-label="None" value={-1}>Ninguna</option>
-								<Selectores />
-							</Select>
-						</FormControl>
-					</div>
-					<br />
-					<TextField
-						id="outlined-full-width"
-						label="Reseña"
-						style={{ marginTop: 20 , maxWidth: '70%'}}
-						placeholder="Placeholder"
-						helperText={`Disponible - ${120 - reseña.length} caracteres`}
-						fullWidth
-						margin="normal"
-						InputLabelProps={{
-							shrink: true,
-						}}
-						variant="outlined"
-						name="reseña"
-						type="text"
-						value={reseña}
-						onChange={handleInputReseña}
-						inputProps={{
-							maxLength: 120,
-						}}
-						required
-						rows={3}
-						multiline
-					/>
-					<br />
-					<br />
-					<ReactQuill
-						placeholder="Escribe aqui ...."
-						modules={Post.modules}
-						formats={Post.formats}
-						onChange={handleBody}
-						value={body}
-					/>
-					<br />
-					<div>
-						<TextField
-							id="outlined-full-width"
-							label="Tags"
-							placeholder="Placeholder"
-							helperText="Ingresa tags separados por coma ','"
-							fullWidth
-							margin="normal"
-							InputLabelProps={{
-								shrink: true,
-							}}
-							variant="outlined"
-							name="tags"
-							type="text"
-							value={tags}
-							onChange={handleInputTags}
-							className={classes.anchoInput}
-							required
-						/>
-					</div>
-					<br />
-					<br />
-					<div className={style.botones}>
-						<Button
-							variant="contained"
-							size="medium"
-							color="primary"
-							onClick={handleOpen}
-							classes={{
-								root: classes.root,
-								label: classes.label,
-							}}
-						>
-							VISTA PREVIA
-						</Button>
-						<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-						<div>
-							<Modal
-								aria-labelledby="transition-modal-title"
-								aria-describedby="transition-modal-description"
-								className={classes.modal}
-								open={open}
-								onClose={handleClose}
-								closeAfterTransition
-								BackdropComponent={Backdrop}
-								BackdropProps={{
-									timeout: 500,
-								}}
-							>
-								<Fade in={open}>
-									<div className={classes.paper}>
-										<Typography>{titulo}</Typography>
-										<br />
-										<Typography variant="body2">
-											<span
-												dangerouslySetInnerHTML={{
-													__html: `${body}`,
-												}}
-											/>
-										</Typography>
-									</div>
-								</Fade>
-							</Modal>
-						</div>
-						<Button
-							variant="contained"
-							size="medium"
-							color="primary"
-							onClick={handleSubmitBody}
-							classes={{
-								root: classes.root,
-								label: classes.label,
-							}}
-						>
-							{id ? 'EDITAR POST' : 'POSTEAR'}
-						</Button>
-					</div>
-					<div>
-						<Modal
-							aria-labelledby="transition-modal-title"
-							aria-describedby="transition-modal-description"
-							className={classes.modal}
-							open={open2}
-							onClose={handleClose2}
-							closeAfterTransition
-							BackdropComponent={Backdrop}
-							BackdropProps={{
-								timeout: 500,
-							}}
-						>
-							<Fade in={open2}>
-								<div className={classes.paper2}>
-									<p id="transition-modal-description">Artículo {textModal}</p>
-								</div>
-							</Fade>
-						</Modal>
-					</div>
-				</Container>
-				{/* </header>         */}
-			</ThemeProvider>
-			<br />
-			<br />
-			<br />
-			<br />
-			<NavBottom />
-		</div>
-	);
+  const handleClose2 = () => {
+    setOpen2(false);
+    history.push("/home");
+  };
+
+  //Texto Modal
+  const [textModal, setTextModal]= useState('')
+
+  return (
+    <div>
+      <div className={classes.offset}></div>
+      <Nav />
+      <ThemeProvider theme={theme}>
+        {/* <header className={`${style.contenedor_editor} ${style.centrado}`}> */}
+        <Container className={classes.Home}>
+          <Typography variant="h2" color="initial" className={classes.tipoh2}>
+            NUEVO POST ARTICULO
+          </Typography>
+          <br />
+          <div className={style.botones}>
+            <TextField
+              id="standard-basic"
+              label="Titulo"
+              name="titulo"
+              type="text"
+              value={titulo}
+              onChange={handleInput}
+              required
+            />
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+            <FormControl>
+              <InputLabel htmlFor="grouped-native-select">Categoria</InputLabel>
+              <Select
+                native
+                defaultValue=""
+				value={subcategoria}
+                id="grouped-native-select"
+                onChange={handleInputCat}
+                required
+              >
+               <option aria-label="None" value={-1}>Ninguna</option>
+                <Selectores />
+              </Select>
+            </FormControl>
+          </div>
+          <br />
+            <TextField
+              id="outlined-full-width"
+              label="Reseña"
+              style={{ marginTop: 20 , maxWidth: '70%'}}
+              placeholder="Placeholder"
+              helperText={`Disponible - ${120 - reseña.length} caracteres`}
+              fullWidth
+              margin="normal"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+              name="reseña"
+              type="text"
+              value={reseña}
+              onChange={handleInputReseña}
+              inputProps={{
+                maxLength: 120,
+              }}
+              required
+              rows={3}
+              multiline
+            />
+          <br />
+          <br />
+          <ReactQuill
+            placeholder="Escribe aqui ...."
+            modules={Post.modules}
+            formats={Post.formats}
+            onChange={handleBody}
+            value={body}
+          />
+          <br />
+          <div>
+            <TextField
+              id="outlined-full-width"
+              label="Tags"
+              placeholder="Placeholder"
+              helperText="Ingresa tags separados por coma ','"
+              fullWidth
+              margin="normal"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+              name="tags"
+              type="text"
+              value={tags}
+              onChange={handleInputTags}
+              className={classes.anchoInput}
+              required
+            />
+          </div>
+          <br />
+          <br />
+          <div className={style.botones}>
+            <Button
+              variant="contained"
+              size="medium"
+              color="primary"
+              onClick={handleOpen}
+              classes={{
+                root: classes.root,
+                label: classes.label,
+              }}
+            >
+              VISTA PREVIA
+            </Button>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+            <div>
+              <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                className={classes.modal}
+                open={open}
+                onClose={handleClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500,
+                }}
+              >
+                <Fade in={open}>
+                  <div className={classes.paper}>
+                    <Typography>{titulo}</Typography>
+                    <br />
+                    <Typography variant="body2">
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: `${body}`,
+                        }}
+                      />
+                    </Typography>
+                  </div>
+                </Fade>
+              </Modal>
+            </div>
+            <Button
+              variant="contained"
+              size="medium"
+              color="primary"
+              onClick={handleSubmitBody}
+              classes={{
+                root: classes.root,
+                label: classes.label,
+              }}
+            >
+              {id ? "EDITAR POST" : "POSTEAR"}
+            </Button>
+            <Snackbar open={openSnack} autoHideDuration={4000} onClose={handleCloseSnack}>
+        <Alert onClose={handleCloseSnack} severity="error">
+          Debe completar todos los campos!
+        </Alert>
+      </Snackbar>
+          </div>
+          <div>
+            <Modal
+              aria-labelledby="transition-modal-title"
+              aria-describedby="transition-modal-description"
+              className={classes.modal}
+              open={open2}
+              onClose={handleClose2}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+              }}
+            >
+              <Fade in={open2}>
+                <div className={classes.paper2}>
+                  <p id="transition-modal-description">Artículo {textModal}</p>
+                </div>
+              </Fade>
+            </Modal>
+          </div>
+          </Container>
+        {/* </header>         */}
+      </ThemeProvider>
+      <br />
+      <br />
+      <br />
+      <br />
+      <NavBottom />
+    </div>
+  );
 }
 
 Post.modules = {
