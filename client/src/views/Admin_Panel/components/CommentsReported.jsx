@@ -1,4 +1,4 @@
-import {React,useEffect} from 'react'
+import {React,useEffect,useState} from 'react'
 import { useDispatch,useSelector } from 'react-redux';
 import { getReports } from '../../../redux/API';
 import {Container} from '@material-ui/core/'
@@ -9,7 +9,7 @@ const CommentsReported = () =>{
     const dispatch = useDispatch();
     useEffect(()=>{
         dispatch(getReports("rep_resolved","false"))
-    },[])
+    },[getReports])
 
     return(
         <Container>

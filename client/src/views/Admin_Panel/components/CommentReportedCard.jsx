@@ -2,7 +2,7 @@ import {React,useState} from 'react';
 import {makeStyles,Card,CardActions,CardContent,Button,Typography,Container,Table,TableBody,TableCell,TableContainer,TableHead,TableRow,Paper}
  from '@material-ui/core/'
 import {Link} from 'react-router-dom'
-import { editReport,deleteReport } from '../../../redux/API';
+import { editReport,deleteReport, getReports } from '../../../redux/API';
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 const useStyles = makeStyles({
@@ -38,12 +38,14 @@ const CommentReportedCard = ({content,postId,reports}) =>{
   }
   function handleResolve(id){
     editReport(id);
+    getReports();
     
     
   }
 
   function handleDelete(id){
     deleteReport(id);
+    getReports();
     
   }
     return(
