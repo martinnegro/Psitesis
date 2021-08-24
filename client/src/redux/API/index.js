@@ -56,7 +56,9 @@ export const deletePost = (art_id) => API.delete(`/article/${art_id}`);
 //post foro
 export const createPostForum = (data) => API.post(`/forumposts/create`, data);
 export const postComment = (data) => API.post(`/forum_comments`, data);
-
+// ruta notification
+export const getNotifications = () => API.get(`/notification`);
+export const sentNotificationTest = () => API.get(`/notification/test`);
 // rutas file
 export const createFile = (data) => API.post(`/files`, data);
 export const getAllFiles = () => API.get(`/files`);
