@@ -27,4 +27,28 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+router.get("/", async (req, res, next) => {
+  try {
+    const { prop, value } = req.query;
+    const commentsReports = await Comment.findAll({
+      attributes: [
+        "comment_id",
+        "comment_contents",
+        "deleted",
+        "post_id",
+        "user_id",
+      ],
+      include: {
+        model: Report,
+        where: {
+          [prop]: value,
+        },
+      },
+    });
+    return res.json(commentsReports);
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = router;
