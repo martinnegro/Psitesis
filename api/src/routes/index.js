@@ -16,6 +16,7 @@ const forum_home = require('./forum_home')
 const subtopics = require('./subTopics')
 const forum_comments = require("./forum_comments");
 const files = require('./file')
+const report = require("./report");
 const router = Router();
 
 
@@ -36,5 +37,6 @@ router.use('/forum_home',forum_home);
 router.use('/subtopics', subtopics);
 router.use("/forum_comments", forum_comments);
 router.use("/files", files);
+router.use('/report', report);
 
 module.exports = router;

@@ -19,7 +19,7 @@ const Selectores = () => {
 			{selectores?.map((e) => (
 				<optgroup key={e.id} label={e.name}>
 					{e.subcategories?.map((s) => (
-						<option key={s.sub_cat_id}  value={`${e.id}/${s.sub_cat_id}`}>
+						<option key={s.sub_cat_id}  value={`${s.sub_cat_id}`}>
 							{s.sub_cat_name}
 						</option>
 					))}

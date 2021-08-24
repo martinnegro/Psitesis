@@ -8,11 +8,13 @@ import {
   IconButton,
   TextField,
   Button,
+  Divider
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import DoneIcon from "@material-ui/icons/Done";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import ReportTwoToneIcon from '@material-ui/icons/ReportTwoTone';
 import ReplyIcon from "@material-ui/icons/Reply";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
@@ -26,6 +28,9 @@ import { getUserDetail } from "../../redux/actions/usersActions";
 import { highlightPost } from "../../redux/API";
 import axios from "axios";
 import ReactQuill from "react-quill";
+import ReactPaginate from "react-paginate";
+import s from "./Forum_Post.module.css";
+import Report from "../Forum/components/Report";
 
 const { REACT_APP_URL_API } = process.env;
 
@@ -68,7 +73,23 @@ const useStyle = makeStyles({
   replyButton: {
     fontSize: "80px",
     color: "#ff99bb",
+    marginTop: "30px"
   },
+   paginate:{
+    marginTop: "70px"
+  },
+  divider:{
+    width: "100%",
+    marginTop: "30px"
+  },
+  buttonContainer:{
+    display: "flex",
+    justifyContent:"center",
+    margin: "30px"
+  },
+  btnText: {
+    fontSize: "10px",
+  }
 });
 
 function Forum_Post() {
@@ -85,8 +106,12 @@ function Forum_Post() {
     const [ commentIdForResponse, setCommentIdForResponse ] = useState();
     const [ commentComponent, setCommentComponent ] = useState(false);
     const [ orderedComments,setOrderedComments ] = useState([]);
-
-
+    const [pageNumber, setPageNumber] = useState(0);
+    const postsByPage = 9;
+    const pagesVisited = pageNumber * postsByPage;
+    const pageCount = Math.ceil(orderedComments.length / postsByPage);
+    const [report,setReport] = useState(false)
+    
     useEffect(async()=>{
         fetchPostData();
     },[]);
@@ -165,11 +190,6 @@ function Forum_Post() {
       commentComponent ? setCommentComponent(false) : setCommentComponent(true)
       setCommentComponent(true)
       setCommentIdForResponse(response_to_comment_id);
-  const respondingToComment = (postId, arr) => {
-    const postFound = arr.find((post) => post.comment_id === postId);
-    const postContent = postFound.comment_contents;
-    return postContent;
-  };
 }
   // LOGICA PARA ABRIR Y CERRAR THREAD
   const handleStatusThread = async () => {
@@ -219,6 +239,19 @@ function Forum_Post() {
       alert("No update!");
     }
   };
+
+  // PAGINATION
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  };
+
+  const handleReport = () =>{
+    setReport(true)
+}
+
+const cancellReport = () =>{
+    setReport(false)
+}
 
   return (
     <Container>
@@ -290,7 +323,7 @@ function Forum_Post() {
             />
             <Box>
               <Typography color="textSecondary">{post.post_date}</Typography>
-              <Typography color="textSecondary">
+              <Typography  variant = "body2">
                 Por {post.user.user_name}
               </Typography>
             </Box>
@@ -313,6 +346,11 @@ function Forum_Post() {
                 />
               </Typography>
             )}
+            <Container className = {classes.buttonContainer}>
+            <Button  onClick = {handleReport}><ReportTwoToneIcon style={{ fontSize: 15 }}/><span className = {classes.btnText}>Reportar</span></Button>
+            {report ? <Report postId = {post_id} cancellReport = {cancellReport}/>  : null}
+            </Container>
+            
           </Box>
           {post.post_open ? (
             <></>
@@ -321,20 +359,38 @@ function Forum_Post() {
               La sección de comentarios ha sido cerrada.
             </Typography>
           )}
+          
         </Container>
       ) : (
         <div className={classes.root}>CARGANDO</div>
       )}
+
+      <Divider className = {classes.divider}/>
+      
+
+<Container className = {classes.paginate}>
+          <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            pageCount={pageCount}
+            onPageChange={changePage}
+            containerClassName={s.paginationBttns}
+            previousLinkClassName={s.previousBttn}
+            nextLinkClassName={s.nextBttn}
+            disabledClassName={s.paginationDisabled}
+            activeClassName={s.paginationActive}
+          />
+        </Container>
       {/*//////////////////////////////////////////////////////////////////////*/}
       {/*//////////////////////////////////////////////////////////////////////*/}
       {/* --------- COMMENTS ----------*/}
       <Container>
             {
-            post ? orderedComments?.map((comment)=>{
+            post ? orderedComments?.slice(pagesVisited, pagesVisited + postsByPage).map((comment)=>{
                 return(
                     <div>
                         <Container>
-                        {comment.response_to_comment_id ? <QuoteCard  userName = {respondingToUser(comment.response_to_comment_id,post.comments)} commentContent = {respondingToComment(comment.response_to_comment_id,post.comments)} commentId = {comment.response_to_comment_id}></QuoteCard> : null}
+                        {comment.response_to_comment_id ? <QuoteCard  userName = {respondingToUser(comment.response_to_comment_id,post.comments)} commentContent = {respondingToComment(comment.response_to_comment_id,post.comments)} commentId = {comment.response_to_comment_id} ></QuoteCard> : null}
                         </Container>
                     <CommentCard 
                         fetchPostData = {fetchPostData}
@@ -345,7 +401,9 @@ function Forum_Post() {
                         userName = {comment.user.user_name}
                         image = {comment.user.user_img_profile}
                         userId = {comment.user.user_id_A0}
-                        handleCommentComponent = {handleCommentComponent}                        
+                        handleCommentComponent = {handleCommentComponent} 
+                        date = {comment.createdAt}
+                        deleted = {comment.deleted}                       
                     ></CommentCard>
                     </div>
                 )
@@ -379,6 +437,19 @@ function Forum_Post() {
               )
             }  
           </Container>
+          <Container>
+          <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            pageCount={pageCount}
+            onPageChange={changePage}
+            containerClassName={s.paginationBttns}
+            previousLinkClassName={s.previousBttn}
+            nextLinkClassName={s.nextBttn}
+            disabledClassName={s.paginationDisabled}
+            activeClassName={s.paginationActive}
+          />
+        </Container>
         </Container>
                 
   

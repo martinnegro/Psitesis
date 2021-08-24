@@ -10,10 +10,17 @@ router.post(
   authorizeAccessToken,
   checkAdminPermission,
   async (req, res, next) => {
-    const { art_contents, art_title, art_date, art_tags, sub_cat_id, user_id, art_abstract, cat_id } =
-      req.body;
-    let id_cat = cat_id
-    let id_subcat = sub_cat_id
+    const { 
+      art_contents,
+      art_title,
+      art_date, 
+      art_tags, 
+      sub_cat_id, 
+      user_id, 
+      art_abstract, 
+      // cat_id 
+    } = req.body;
+    console.log(sub_cat_id)
     let aux_id = user_id;
     const art_id = uuidv4();
     if (aux_id.includes("google")) {
@@ -27,7 +34,7 @@ router.post(
       art_abstract,
       art_id,
       sub_cat_id,
-      cat_id,
+      // cat_id,
       user_id: aux_id,
       art_views: 0,
     })
@@ -97,7 +104,6 @@ router.get("/:art_id", (req, res, next) => {
     })
       .then((finded) => {
         finded.increment("art_views");
-        console.log('FINDED:',finded.dataValues)
         res.json(finded.dataValues);
       })
       .catch((err) => next(err));
@@ -105,23 +111,24 @@ router.get("/:art_id", (req, res, next) => {
 });
 
 router.put("/:art_id", authorizeAccessToken, async (req, res, next) => {
-  const { art_contents, art_title, art_abstract } = req.body;
+  const { art_contents, art_title, art_abstract, sub_cat_id } = req.body;
+  console.log(sub_cat_id)
   const { art_id } = req.params;
-  const artToEdit = await Article.findOne({ where: { art_id: art_id } });
-  if (artToEdit) {
-    artToEdit
-      .update({
-        art_title,
-        art_contents,
-        art_abstract
-      })
-      .then((updated) => res.json(updated.dataValues))
-      .catch((err) => next(err));
-  } else {
-    res.json({
-      message: `ID recieved: ${art_id} but dont exist article with ID!`,
-    });
-  }
+  try{
+    const artToEdit = await Article.findOne({ where: { art_id: art_id } });
+    if (artToEdit) {
+      artToEdit.art_contents = art_contents;
+      artToEdit.art_title    = art_title;
+      artToEdit.art_abstract = art_abstract;
+      artToEdit.sub_cat_id   = sub_cat_id;
+      await artToEdit.save()
+      res.json(artToEdit)
+    } else {
+      res.json({
+        message: `ID recieved: ${art_id} but dont exist article with ID!`,
+      });
+    }
+  } catch(err) { next(err) } 
 });
 
 router.delete("/:art_id", authorizeAccessToken, async (req, res, next) => {

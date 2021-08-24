@@ -1,6 +1,6 @@
 import React from "react"
 import { useState } from "react"
-import { postComment } from "../../../utils/auth"
+import { postComment } from "../../../redux/API"
 import { useParams, useHistory } from 'react-router-dom'
 import { makeStyles, Container,Button} from "@material-ui/core";
 import ReplyIcon from '@material-ui/icons/Reply';
