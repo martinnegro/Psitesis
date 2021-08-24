@@ -11,6 +11,7 @@ import AdminCategories from "./components/AdminCategories";
 import AdminUsers from "./components/AdminUsers";
 import CommentsReported from "./components/CommentsReported";
 import NavBottom from "../../components/NavBottom/NavBottom";
+import AdminArticles from "./components/AdminArticles";
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
@@ -87,6 +88,18 @@ const Admin_Panel = () => {
             </AccordionSummary>
             <AccordionDetails>
               <CommentsReported />
+            </AccordionDetails>
+          </Accordion>
+          <Accordion className={classes.table2}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1bh-content"
+              id="panel1bh-header"
+            >
+              Artículos Ocultos
+            </AccordionSummary>
+            <AccordionDetails>
+              <AdminArticles />
             </AccordionDetails>
           </Accordion>
         </div>

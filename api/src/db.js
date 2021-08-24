@@ -60,6 +60,7 @@ const {
   Subtopic,
   Forumpost,
   Comment,
+  Notification,
   Report,
 } = sequelize.models;
 
@@ -101,6 +102,17 @@ Comment.hasMany(Comment, {
 Comment.belongsTo(Comment, {
   foreignKey: "response_to_comment_id",
   as: "parent_comment",
+});
+
+User.hasMany(Notification, { as: "sender", foreignKey: "senderId" });
+User.hasMany(Notification, { as: "receiver", foreignKey: "receiverId" });
+Notification.belongsTo(User, {
+  foreignKey: "senderId",
+  as: "sender",
+});
+Notification.belongsTo(User, {
+  foreignKey: "receiverId",
+  as: "receiver",
 });
 
 Comment.hasMany(Report, { foreignKey: "comment_id" });

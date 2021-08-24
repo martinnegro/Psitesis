@@ -56,7 +56,9 @@ export const deletePost = (art_id) => API.delete(`/article/${art_id}`);
 //post foro
 export const createPostForum = (data) => API.post(`/forumposts/create`, data);
 export const postComment = (data) => API.post(`/forum_comments`, data);
-
+// ruta notification
+export const getNotifications = () => API.get(`/notification`);
+export const sentNotificationTest = () => API.get(`/notification/test`);
 // rutas file
 export const createFile = (data) => API.post(`/files`, data);
 export const getAllFiles = () => API.get(`/files`);
@@ -76,6 +78,8 @@ export const highlightPost = (post_id) =>
 // ruta para articles
 export const getArticleWhithoutSectionAuth = () =>
   API.get(`/article/sinseccion/hola`);
+export const changeVisibility = (art_id) => API.put(`/article/change_show/${art_id}`)
+export const getHideArticles = () => API.get('/article/hide_articles')
 
 // reports
 export const postReport = (data) => API.post(`/report`, data);

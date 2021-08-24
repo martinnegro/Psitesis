@@ -1,7 +1,7 @@
 import auth0 from 'auth0-js';
 import axios from 'axios';
 import * as API from '../API';
-
+import { ConnectServerIO } from './actionsNotifications';
 export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN';
 export const SET_USER = 'SET_ACCESS_TOKEN';
 export const SET_AUTHENTICATE = 'SET_AUTHENTICATE';
@@ -164,6 +164,7 @@ export const checkAuth = () => {
 			const response = await API.checkAuth();
 			if (response.data?.message === 'verified token') {
 				console.log(response.data);
+				dispatch(ConnectServerIO(response.data.user.user_id));
 				dispatch(setUser(response.data.user));
 				dispatch(setAuthenticate(true));
 			} else {
