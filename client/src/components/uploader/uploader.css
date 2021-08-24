@@ -1,0 +1,14 @@
+.uploader {
+	width: 100%;
+	min-height: 300px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: all ease-in 0.4s;
+}
+
+@media screen and (min-width: 900px) {
+	.uploader {
+		align-items: initial;
+	}
+}

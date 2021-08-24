@@ -8,7 +8,7 @@ import Home from './views/Home/Home.jsx';
 import Admin_Panel from './views/Admin_Panel/Admin_Panel';
 import Post from './views/Post/Post.jsx';
 import Colaborators from './views/Colaborators/Colaborators';
-import PostOk from './views/postOk/PostOk.jsx';
+import Library from './views/UploadFile/UploadFile.jsx';
 import InstitutionBio from './components/InstitutionBio/InstitutionBio';
 import ProtectedRoute from './components/ProtectedRoute';
 import GuiaDeTesis from './views/Guia de Tesis/GuiaDeTesis';
@@ -36,7 +36,7 @@ const App = () => {
 					component={InstitutionBio}
 				/>
 				<ProtectedRoute path="/adminpanel" exact component={Admin_Panel} />
-				<ProtectedRoute path="/post_exitoso/:accion" exact component={PostOk} />
+				<ProtectedRoute path="/library" exact component={Library} />
 				<ProtectedRoute path="/home" exact component={Home} />
 				<ProtectedRoute path="/guiadetesis" exact component={GuiaDeTesis} />
 				<ProtectedRoute path="/forum" exact component={Forum} />

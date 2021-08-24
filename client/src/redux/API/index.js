@@ -56,6 +56,12 @@ export const deletePost = (art_id) => API.delete(`/article/${art_id}`);
 export const createPostForum = (data) => API.post(`/forumposts/create`, data);
 export const postComment = (data) => API.post(`/forum_comments`, data);
 
+
+// rutas file
+export const createFile = (data) => API.post(`/files`, data);
+export const getAllFiles = () => API.get(`/files`);
+export const deleteFile = (file_id) => API.delete(`/files/${file_id}`);
+export const searchFiles = (name) => API.get(`/files?name=${name}`);
 // edit comment
 export const editComment = (id, data) =>
   API.put(`/forum_comments/edit/${id}`, data);
