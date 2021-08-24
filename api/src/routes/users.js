@@ -250,7 +250,8 @@ router.get("/:user_id_A0", authorizeAccessToken, async (req, res, next) => {
         },
         {
           model: Article,
-          /*where: { art_visibility: true }*/
+          required: false,
+          where: { art_visibility: true }
         },
       ],
     });
