@@ -87,6 +87,7 @@ router.get('/categories', async (req, res, next) => {
         const article = await Category.findAll({
             include: [{ 
 				model: Article,
+				required: false,
 				where: { art_visibility: true } 
 			}],
         })
@@ -102,6 +103,7 @@ router.get('/:id', async (req, res, next) => {
         let categoria = await Category.findByPk(id, {
             include: [{ 
 				model: Article,
+				required: false,
 				where: { art_visibility: true } 
 			}],
         })

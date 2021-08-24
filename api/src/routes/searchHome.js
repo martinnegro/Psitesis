@@ -12,6 +12,7 @@ router.get("/", async (req, res) => {
       const article = await Tag.findAll({
         include: [{ 
           model: Article,
+          required: false,
           where: { art_visibility: true }
         }],
         where: { tag_name: { [Op.iLike]: `%${search}%` } },
