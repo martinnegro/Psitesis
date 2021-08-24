@@ -9,6 +9,7 @@ import Nav from "../../components/Nav/Nav";
 import AdminInstitutions from "./components/AdminInstitutions";
 import AdminCategories from "./components/AdminCategories";
 import AdminUsers from "./components/AdminUsers";
+import CommentsReported from "./components/CommentsReported";
 import NavBottom from "../../components/NavBottom/NavBottom";
 
 const useStyles = makeStyles((theme) => ({
@@ -76,6 +77,18 @@ const Admin_Panel = () => {
             </AccordionDetails>
           </Accordion>
           <AdminCategories />
+          <Accordion className={classes.table2}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1bh-content"
+              id="panel1bh-header"
+            >
+              Comentarios Reportados
+            </AccordionSummary>
+            <AccordionDetails>
+              <CommentsReported />
+            </AccordionDetails>
+          </Accordion>
         </div>
       </Container>
       <br />

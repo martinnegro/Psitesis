@@ -3,7 +3,7 @@ const router = Router();
 const { v4: uuidv4 } = require("uuid");
 const { authorizeAccessToken, checkAdminPermission } = require("../auth/index");
 
-const { Report,User} = require("../db");
+const { Report, User, Comment } = require("../db");
 
 router.post("/", authorizeAccessToken, async (req, res, next) => {
   try {
@@ -14,9 +14,11 @@ router.post("/", authorizeAccessToken, async (req, res, next) => {
       rep_resolved: false,
     });
 
-    const aux_user = await User.findOne({ where: { user_id_A0: req.user.sub } });
+    const aux_user = await User.findOne({
+      where: { user_id_A0: req.user.sub },
+    });
 
-    await newReport.setUser(aux_user.user_id)
+    await newReport.setUser(aux_user.user_id);
 
     if (comment_id !== null) {
       await newReport.setComment(comment_id);
