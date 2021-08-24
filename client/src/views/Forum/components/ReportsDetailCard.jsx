@@ -4,16 +4,19 @@ const useStyles = makeStyles({
     table: {
       minWidth: 650,
     },
+    container:{
+      display: "flex",
+      justifyContent: "center"
+      
+    }
   });
-  function createData(usuario, motivo, resolver, eliminar) {
-    return { usuario, motivo, resolver, eliminar };
-  }
+  
   
 const ReportDetailCard = ({userReporting,reason}) =>{
 
     const classes = useStyles();
     return(
-        <Container>
+        <Container className = {classes.container}>
            <h3>{userReporting}</h3>
            <h4>{reason}</h4>
         </Container>

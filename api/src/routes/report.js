@@ -3,7 +3,7 @@ const router = Router();
 const { v4: uuidv4 } = require("uuid");
 const { authorizeAccessToken, checkAdminPermission } = require("../auth/index");
 
-const { Report, User, Comment } = require("../db");
+const { Report, User, Comment, Forumpost } = require("../db");
 
 router.post("/", authorizeAccessToken, async (req, res, next) => {
   try {
@@ -36,6 +36,17 @@ router.post("/", authorizeAccessToken, async (req, res, next) => {
 router.get("/", async (req, res, next) => {
   try {
     const { prop, value } = req.query;
+
+    const postReports = await Forumpost.findAll({
+      include: {
+        model: Report,
+        where: {
+          [prop]: value,
+        },
+        include: [{ model: User }],
+      },
+    });
+
     const commentsReports = await Comment.findAll({
       attributes: [
         "comment_id",
@@ -52,10 +63,35 @@ router.get("/", async (req, res, next) => {
         include: [{ model: User }],
       },
     });
-    return res.json(commentsReports);
+    return res.json({
+      posts: postReports,
+      comments: commentsReports,
+    });
   } catch (err) {
     next(err);
   }
 });
 
+router.put("/resolve/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const report = await Report.findByPk(id);
+    report.rep_resolved = true;
+    await report.save();
+    return res.json(report);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete("/delete/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const report = await Report.findByPk(id);
+    await report.destroy();
+    res.json({ message: "Deleted" });
+  } catch (err) {
+    next(err);
+  }
+});
 module.exports = router;

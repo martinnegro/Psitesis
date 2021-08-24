@@ -1,23 +1,27 @@
 import {React,useEffect} from 'react'
 import { useDispatch,useSelector } from 'react-redux';
-import { getCommentsReports } from '../../../redux/API';
+import { getReports } from '../../../redux/API';
 import {Container} from '@material-ui/core/'
-import CommentReportedCard from '../../Forum/components/CommentReportedCard';
-import {Link} from 'react-router-dom'
+import CommentReportedCard from './CommentReportedCard';
 const CommentsReported = () =>{
-    const commentsReported = useSelector((state) => state.forumReducer.commentsReports)
-    
+    const commentsReported = useSelector((state) => state.forumReducer.reports.comments)
+    const postsReported = useSelector((state) => state.forumReducer.reports.posts)
     const dispatch = useDispatch();
     useEffect(()=>{
-        dispatch(getCommentsReports("rep_resolved","false"))
-    },[dispatch])
+        dispatch(getReports("rep_resolved","false"))
+    },[])
     return(
         <Container>
             {commentsReported ? commentsReported.map((comment)=>{
                 return(
-                    <CommentReportedCard content = {comment.comment_contents} postId = {comment.post_id} reports = {comment.reports}></CommentReportedCard>
+                    <CommentReportedCard getReports = {getReports} content = {comment.comment_contents} postId = {comment.post_id} reports = {comment.reports}></CommentReportedCard>
                 )
             }) : null}
+            {postsReported ? postsReported.map((post)=>{
+                return(
+                    <CommentReportedCard content = {post.post_contents} reports = {post.reports}></CommentReportedCard>
+                )
+            }): null}
         </Container>
     )
 }
