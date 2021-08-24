@@ -54,7 +54,7 @@ const AuthProvider = ({ children }) => {
 		<>
 			{children}
 			<ToastContainer
-				position="bottom-right"
+				position="bottom-center"
 				autoClose={3000}
 				hideProgressBar
 				newestOnTop

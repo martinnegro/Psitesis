@@ -12,18 +12,17 @@ router.get('/', authorizeAccessToken, async (req, res, next) => {
 		console.log(user.user_id);
 		const notifications = await Notification.findAll({
 			where: { receiver_id: user.user_id },
-			limit: 20,
 			order: [['updatedAt', 'DESC']],
 			include: [
 				{
 					model: User,
-					as: "receiver",
-					attributes: ['user_id', 'user_img_profile'],
+					as: 'receiver',
+					attributes: ['user_id', 'user_img_profile', 'user_id_A0'],
 				},
 				{
 					model: User,
-					as: "sender",
-					attributes: ['user_id', 'user_img_profile'],
+					as: 'sender',
+					attributes: ['user_id', 'user_img_profile', 'user_id_A0'],
 				},
 			],
 		});
@@ -39,7 +38,7 @@ router.get('/test', authorizeAccessToken, async (req, res, next) => {
 			id: 'bc319c01-cc70-4e5f-a4db-ac204d64ad07',
 			link: '/user/google-oauth2|110400245480152722998',
 			description: 'descripcion',
-			read: null,
+			read: false,
 			senderId: '61c91e70-8716-49bd-b9aa-fe560cddd2c2',
 			receiverId: '61c91e70-8716-49bd-b9aa-fe560cddd2c2',
 			createdAt: new Date(),

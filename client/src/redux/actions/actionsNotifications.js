@@ -5,6 +5,7 @@ export const SET_SOCKET_IO = 'SET_SOCKET_IO';
 export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
 export const SET_NOTIFICATIONS = 'SET_NOTIFICATIONS';
 export const SET_LAST_NOTIFICATION = 'SET_LAST_NOTIFICATION';
+export const SET_READ_NOTIFICATION = 'SET_READ_NOTIFICATION';
 
 export const ConnectServerIO = (ID) => {
 	return async (dispatch) => {
@@ -44,6 +45,13 @@ export const getNotifications = () => {
 		} catch (error) {
 			console.log(error);
 		}
+	};
+};
+
+export const setReadNotifications = () => {
+	return {
+		type: SET_READ_NOTIFICATION,
+		payload: false,
 	};
 };
 

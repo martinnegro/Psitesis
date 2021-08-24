@@ -44,8 +44,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
-import { grey,purple } from '@material-ui/core/colors';
-import { sentNotificationTest } from '../../redux/actions/actionsNotifications';
+import { grey, purple } from '@material-ui/core/colors';
+import { setReadNotifications } from '../../redux/actions/actionsNotifications';
 
 const drawerWidth = 270;
 
@@ -137,56 +137,55 @@ const useStyles = makeStyles((theme) => ({
 			justifyContent: 'space-between',
 		},
 	},
-  scrollBar: {
-    '&::-webkit-scrollbar': {
-      width: '0.4em'
-    },
-    '&::-webkit-scrollbar-track': {
-      '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
-    },
-    '&::-webkit-scrollbar-thumb': {
-      backgroundColor: 'rgba(0,0,0,.1)',
-      outline: '1px solid slategrey'
-    }
-  },
-  ali: {
-    flexGrow: 1,
-    align: "center",
-    display: 'flex',
-    alignItems: 'center',
-    textAlign: 'center',
-    color: grey[600],
-    overflow: 'auto',
-    justify:"center"
-  },
-  ali2: {
-    flexGrow: 1,
-    whiteSpace: "normal",
-  }
+	scrollBar: {
+		'&::-webkit-scrollbar': {
+			width: '0.4em',
+		},
+		'&::-webkit-scrollbar-track': {
+			'-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)',
+		},
+		'&::-webkit-scrollbar-thumb': {
+			backgroundColor: 'rgba(0,0,0,.1)',
+			outline: '1px solid slategrey',
+		},
+	},
+	ali: {
+		flexGrow: 1,
+		align: 'center',
+		display: 'flex',
+		alignItems: 'center',
+		textAlign: 'center',
+		color: grey[600],
+		overflow: 'auto',
+		justify: 'center',
+	},
+	ali2: {
+		flexGrow: 1,
+		whiteSpace: 'normal',
+	},
 }));
-
 
 export default function Nav() {
 	const { isAuthenticated, user } = useSelector((state) => state.authReducer); // Nueva forma de acceder al estado por combineReducer
 	const { notifications } = useSelector((state) => state.notificationsReducer);
-  const [ orderedNotifications, setOrderedNotifications] = useState([]);
-  const dispatch = useDispatch();
+	const [orderedNotifications, setOrderedNotifications] = useState([]);
+	const dispatch = useDispatch();
 
 	const handleLogout = () => {
 		dispatch(logOut());
 	};
 
-  const orderDate = (object) => {
-    return object.sort((a,b) => {
-      if(new Date(a.createdAt).getTime() < new Date(b.createdAt).getTime()) {
-        return 1;
-      }
-      if (new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime()) {
-        return -1;
-      }
-      return 0;      
-    });
-  }
+	const orderDate = (object) => {
+		return object.sort((a, b) => {
+			if (new Date(a.createdAt).getTime() < new Date(b.createdAt).getTime()) {
+				return 1;
+			}
+			if (new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime()) {
+				return -1;
+			}
+			return 0;
+		});
+	};
 
 	const history = useHistory();
 
@@ -202,11 +201,11 @@ export default function Nav() {
 	const handleDrawerClose = () => {
 		setOpen(false);
 	};
-    
-  useEffect(()=>{
-    setOrderedNotifications(orderDate(notifications));
-// eslint-disable-next-line react-hooks/exhaustive-deps
-},[notifications])
+
+	useEffect(() => {
+		setOrderedNotifications(orderDate(notifications));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [notifications]);
 
 	const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -222,21 +221,22 @@ export default function Nav() {
 
 	const handleClick2 = (event) => {
 		setAnchorEl2(event.currentTarget);
-	};  
+	};
 
 	const handleClose2 = () => {
 		setAnchorEl2(null);
 	};
-  const [anchorNotifications, setAnchorNotifications] = React.useState(null);
+	const [anchorNotifications, setAnchorNotifications] = React.useState(null);
 
-  const handleClickNotifications = (event) => {
+	const handleClickNotifications = (event) => {
 		setAnchorNotifications(event.currentTarget);
+		dispatch(setReadNotifications());
 	};
-  const handleCloseNotifications = () => {
+	const handleCloseNotifications = () => {
 		setAnchorNotifications(null);
 	};
 
-  const calcDate = (time) => {
+	const calcDate = (time) => {
 		var date = new Date(time),
 			diff = (new Date().getTime() - date.getTime()) / 1000,
 			day_diff = Math.floor(diff / 86400);
@@ -247,7 +247,7 @@ export default function Nav() {
 			(day_diff === 0 &&
 				((diff < 60 && 'Ahora mismo.') ||
 					(diff < 120 && 'Hace 1 minuto.') ||
-					(diff < 3600 &&  `Hace ${Math.floor(diff / 60)} minutos.`) ||
+					(diff < 3600 && `Hace ${Math.floor(diff / 60)} minutos.`) ||
 					(diff < 7200 && 'Hace 1 hora.') ||
 					(diff < 86400 && `Hace ${Math.floor(diff / 3600)} horas.`))) ||
 			(day_diff === 1 && 'Ayer') ||
@@ -284,25 +284,22 @@ export default function Nav() {
 					{isAuthenticated ? (
 						<>
 							<IconButton
-								aria-label="show new notifications"
-								color="inherit"
-								onClick={() => {
-									dispatch(sentNotificationTest());
-								}}
-							>
-								Test
-							</IconButton>
-							<IconButton
 								onClick={handleClickNotifications}
 								aria-label="show-new-notifications"
 								aria-haspopup="true"
 								color="inherit"
 							>
-								<Badge badgeContent={notifications.length} color="secondary">
+								<Badge
+									badgeContent={
+										orderedNotifications.filter((noty) => noty.read === false)
+											.length
+									}
+									color="secondary"
+								>
 									<NotificationsIcon />
 								</Badge>
 							</IconButton>
-							<Menu 
+							<Menu
 								id="show-new-notifications"
 								anchorEl={anchorNotifications}
 								keepMounted
@@ -314,44 +311,43 @@ export default function Nav() {
 										color="inherit"
 										aria-label="add"
 										style={{
-                      flexGrow: 1,
-                      align: "center",
+											flexGrow: 1,
+											align: 'center',
 											display: 'flex',
 											alignItems: 'center',
 											textAlign: 'center',
 											color: grey[600],
-                      overflow: 'auto',
-                      justify:"center"
+											overflow: 'auto',
+											justify: 'center',
 										}}
 									>
 										<Typography
 											variant="subtitle2"
 											color="initial"
-                      className={classes.ali}
+											className={classes.ali}
 											style={{
-                        
-                      align: "center",
-											display: 'flex',
+												align: 'center',
+												display: 'flex',
 												justifyContent: 'center',
 												fontSize: '14px',
 												textTransform: 'uppercase',
 												textAlign: 'center',
-                        color: purple[500],
+												color: purple[500],
 											}}
 										>
 											Notificaciones
 										</Typography>
 									</span>
 								</MenuItem>
-								{notifications.slice(0, 10).map((notification) => {
+								{orderedNotifications.slice(0, 10).map((notification) => {
 									return (
-										
-											<MenuItem><Link
-											to={notification.link}
-											style={{
-												textDecoration: 'none',
-											}}
-										>
+										<MenuItem>
+											<Link
+												to={notification.link}
+												style={{
+													textDecoration: 'none',
+												}}
+											>
 												<span
 													color="inherit"
 													aria-label="add"
@@ -362,53 +358,63 @@ export default function Nav() {
 														src={notification.sender.user_img_profile}
 													/>
 													&nbsp;
-													<p><Typography
-														variant="subtitle2"
-														color="initial"
-														style={{
-															fontSize: '12px',
-														}}
-													>
-														{notification.description}
-													</Typography></p></span><span>
-                          <p><Typography
-														variant="subtitle2"
-														color="initial"
-														style={{
-															fontSize: '10px',
-														}}
-													>
-														{calcDate(notification.createdAt)}
-													</Typography></p>
-												</span></Link>
-											</MenuItem>
-										
+													<p>
+														<Typography
+															variant="subtitle2"
+															color="initial"
+															style={{
+																fontSize: '12px',
+															}}
+														>
+															{notification.description}
+														</Typography>
+													</p>
+												</span>
+												<span>
+													<p>
+														<Typography
+															variant="subtitle2"
+															color="initial"
+															style={{
+																fontSize: '10px',
+															}}
+														>
+															{calcDate(notification.createdAt)}
+														</Typography>
+													</p>
+												</span>
+											</Link>
+										</MenuItem>
 									);
 								})}
-                <MenuItem>
-                <Link style={{
-												textDecoration: 'none',
-											}} to="/notifications">
-									<span
-										color="inherit"
-										aria-label="add"
-										className={classes.ali}
+								<MenuItem>
+									<Link
+										style={{
+											textDecoration: 'none',
+										}}
+										to="/notifications"
 									>
-										<Typography
-											variant="subtitle2"
-											color="initial"
-                      className={classes.ali}
-											style={{
-												justifyContent: 'center',
-												fontSize: '14px',
-												textTransform: 'uppercase',
-												textAlign: 'center',
-                        color: purple[500],
-											}}
+										<span
+											color="inherit"
+											aria-label="add"
+											className={classes.ali}
 										>
-											Todas las notificaiones
-										</Typography>
-									</span></Link>
+											<Typography
+												variant="subtitle2"
+												color="initial"
+												className={classes.ali}
+												style={{
+													justifyContent: 'center',
+													fontSize: '14px',
+													textTransform: 'uppercase',
+													textAlign: 'center',
+													color: purple[500],
+												}}
+											>
+												Todas las notificaiones
+											</Typography>
+										</span>
+									</Link>
 								</MenuItem>
 							</Menu>
 
