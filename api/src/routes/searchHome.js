@@ -12,14 +12,14 @@ router.get("/", async (req, res) => {
       const article = await Tag.findAll({
         include: [{ 
           model: Article,
-          where: { art_available: true }
+          where: { art_visibility: true }
         }],
         where: { tag_name: { [Op.iLike]: `%${search}%` } },
       });
       if (article.length === 0) {
         const artTitle = await Article.findAll({
           where: {
-            where: { art_available: true },
+            where: { art_visibility: true },
             art_title: { [Op.iLike]: `%${search}%` } 
           },
         });
@@ -32,7 +32,7 @@ router.get("/", async (req, res) => {
           } else {
             const artAutor = await Article.findAll({
               where: {
-                where: { art_available: true },
+                where: { art_visibility: true },
                 user_id: autor[0].user_id
               },
             });

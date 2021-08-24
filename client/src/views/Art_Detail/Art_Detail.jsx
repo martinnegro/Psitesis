@@ -13,6 +13,7 @@ import {
   deletePost,
   getAllCatSub,
 } from "../../redux/actions/actions";
+import { changeVisibility } from "../../redux/API"; 
 import { useHistory, useParams } from "react-router-dom";
 import { Container, makeStyles, Typography, Button } from "@material-ui/core";
 import s from "./Art_Detail.module.css";
@@ -21,7 +22,7 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import { purple } from "@material-ui/core/colors";
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 
 //Modal confirmacion eliminar
@@ -120,14 +121,11 @@ const Art_Detail = () => {
   const user = useSelector((state) => state.authReducer.user); // Nueva forma de acceder al estado por combineReducer
   const users = useSelector((state) => state.usersReducer.users);
   const [idUser, setIdUser] = useState([]);
-  const subcategories = useSelector((state) => state.rootReducer.cat_sub?.sub_cats);
 	const [enablePost, setEnablePost] = useState(false);
 
   const history = useHistory();
 
   const classes = useStyles();
-
-
 
   useEffect(() => {
     dispatch(getAllCatSub())
@@ -145,11 +143,6 @@ const Art_Detail = () => {
   useEffect(() => {
     setIdUser(users?.filter((u) => u.user_id === articlesDetail?.user_id));
   }, [articlesDetail?.user_id, users]);
-
-
-  // useEffect(() => {
-  //   setSection(subcategories?.filter((c) => c.sub_cat_id === articlesDetail?.Subcategories[0]?.sub_cat_id));
-  // }, [articlesDetail?.Subcategories, subcategories]);
 
 	useEffect(() => {
 		if (articlesDetail && user) {      
@@ -205,6 +198,12 @@ const Art_Detail = () => {
   //Texto Modal
   const [textModal, setTextModal]= useState('')
 
+  const onClickVisbility = async () => {
+    try {
+    const response = await changeVisibility(id);
+    dispatch(getArticleDetail(id))
+    } catch(err) { alert('No update') }
+  };  
 
   return (
     <Container>
@@ -270,6 +269,19 @@ const Art_Detail = () => {
                 label: classes.label,
               }} onClick={editArticle}>
                 Editar
+              </Button>
+              <Button 
+                startIcon={<VisibilityIcon />}
+                size="medium"
+                color="primary"
+                classes={{ 
+                  root: classes.root, 
+                  label: classes.label,
+                  showButton: classes.showButton
+                }}
+                onClick={onClickVisbility}
+              >
+                { articlesDetail.art_visibility ? 'OCULTAR' : 'MOSTRAR' }
               </Button>
            </div>  : null}         
           

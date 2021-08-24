@@ -76,6 +76,8 @@ export const highlightPost = (post_id) =>
 // ruta para articles
 export const getArticleWhithoutSectionAuth = () =>
   API.get(`/article/sinseccion/hola`);
+export const changeVisibility = (art_id) => API.put(`/article/change_show/${art_id}`)
+export const getHideArticles = () => API.get('/article/hide_articles')
 
 // reports
 export const postReport = (data) => API.post(`/report`, data);

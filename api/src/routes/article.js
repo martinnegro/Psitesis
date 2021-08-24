@@ -35,7 +35,7 @@ router.post(
       sub_cat_id,
       user_id: aux_id,
       art_views: 0,
-      art_available: true
+      art_visibility: true
     })
 
     const tags = []
@@ -72,7 +72,7 @@ router.get("/", (req, res, next) => {
   const { orderBy, order } = req.query;
   if (orderBy && order) {
     return Article.findAll({
-      where: { art_available: true },
+      where: { art_visibility: true },
       order: [[orderBy, order]],
       include:[{ model: Subcategory}]
     })
@@ -80,17 +80,32 @@ router.get("/", (req, res, next) => {
       .catch((err) => next(err));
   }
   Article.findAll({
-    where: { art_available: true },
+    where: { art_visibility: true },
     include:[{ model: Subcategory,
       attributes:['sub_cat_id'],
-    include: [{model: Category,
-    attributes:['cat_id']}]}]
-  })
-    .then((articlesFound) => {
-      return res.json(articlesFound);
+      include: [{model: Category,
+        attributes:['cat_id']}]}]
+      })
+      .then((articlesFound) => {
+        return res.json(articlesFound);
+      })
+      .catch((err) => next(err));
+    });
+
+//*************************************************//
+//       RUTA PARA ARTICULOS OCULTOS               //
+//*************************************************//
+router.get('/hide_articles', async (req,res,next) => {
+  try {
+    const hideArts = await Article.findAll({ 
+      where: { art_visibility: false },
+      include: [{ model: User }]
     })
-    .catch((err) => next(err));
+    res.json(hideArts);
+  } catch(err) { next(err) }
 });
+
+//*************************************************//
 
 router.get("/:art_id", (req, res, next) => {
   const { art_id } = req.params;
@@ -110,6 +125,23 @@ router.get("/:art_id", (req, res, next) => {
       .catch((err) => next(err));
   }
 });
+
+
+//*************************************************//
+//       RUTA PARA MOSTRAR Y OCULTAR ART           //
+//*************************************************//
+
+router.put('/change_show/:art_id', async (req,res,next) => {
+  const { art_id } = req.params;
+  try {
+    const art = await Article.findByPk(art_id);
+    art.art_visibility = !art.art_visibility;
+    art.save();
+    res.json({ message: 'Updated' })
+  } catch(err) { next(err) }
+});
+
+//************************************************//
 
 router.put("/:art_id", authorizeAccessToken, async (req, res, next) => {
   const { art_contents, art_title, art_abstract, sub_cat_id } = req.body;
@@ -156,7 +188,7 @@ router.get("/sinseccion/hola", async (req, res, next) => {
     let articleWithoutCategory = await Article.findAll( {
       where: { 
         sub_cat_id: null,
-        where: { art_available: true }
+        where: { art_visibility: true }
       }
     })
   

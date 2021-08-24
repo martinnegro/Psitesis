@@ -7,7 +7,7 @@ router.get("/", async (req, res) => {
         const article = await Subcategory.findAll({
             include: [{
                 model: Article,
-                where: { art_available: true }
+                where: { art_visibility: true }
             }],
         })
         if(article.length === 0){
@@ -31,7 +31,7 @@ router.get("/category/:id", async (req, res) => {
             where: { cat_id: id},            
             include: [{
                 model: Article,
-                where: { art_available: true }
+                where: { art_visibility: true }
             }],
         })
         res.json(subcategoria)
@@ -46,7 +46,7 @@ router.get("/:id", async (req, res) => {
             const article = await Subcategory.findByPk(id, {
                 include: [{
                     model: Article,
-                    where: { art_available: true }
+                    where: { art_visibility: true }
                 }],
             })
         res.json(article)
