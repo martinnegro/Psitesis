@@ -226,14 +226,11 @@ function Post() {
 
   const handleSubmitBody = async (e) => {
     e.preventDefault();
-    const {titulo,tags} = formValid;
     const tituloVal = titulo;
     const reseñaVal = reseña;
-    const subcategoriaVal = subcategoria;
     const bodyVal = body;
-    const categoriaVal = categoria;
     const tagsVal = tags;
-    if(!tituloVal || !tagsVal || reseñaVal.length === 0 || bodyVal.length === 0 ){
+    if(tituloVal.length===0 || tagsVal.length ===0 || reseñaVal.length === 0 || bodyVal.length === 0 ){
       setOpenSnack(true)
     } else {
 		  let data = {
