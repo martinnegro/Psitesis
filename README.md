@@ -33,6 +33,7 @@ Dentro encontrarán las siguientes secciones:
 
 
 #### En api:
+- `CLIENT_URL`
 - `DATABASE_URL=postgres://user:password@server:port/database`
 - `JWKSURI=`
 - `AUDIENCE =`
