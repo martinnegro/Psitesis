@@ -2,8 +2,8 @@ const { Router } = require("express");
 const router = Router();
 const sequelize = require("sequelize");
 const { v4: uuidv4 } = require("uuid");
-const { Forumpost, Comment } = require("../db");
-
+const { Forumpost, Comment, User } = require("../db");
+const { sendNotification } = require("./../utils");
 router.get("/", async (req, res, next) => {
   try {
     const comments = await Comment.findAll();
@@ -26,6 +26,19 @@ router.post("/", async (req, res, next) => {
       response_to_comment_id,
       deleted: false,
     });
+    const newUser = await Forumpost.findOne({
+      where: {
+        post_id: post_id,
+      },
+      include: [{ model: User, attributes: ["user_id"] }],
+    });
+    sendNotification(
+      req,
+      "Han comentado tu post",
+      `/forum/post/${post_id}`,
+      newUser.user_id,
+      user_id
+    );
     return res.status(201).send(newComment);
   } catch (err) {
     next(err);
