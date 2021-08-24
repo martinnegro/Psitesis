@@ -10,6 +10,7 @@ const CommentsReported = () =>{
     useEffect(()=>{
         dispatch(getReports("rep_resolved","false"))
     },[])
+
     return(
         <Container>
             {commentsReported ? commentsReported.map((comment)=>{
@@ -19,7 +20,7 @@ const CommentsReported = () =>{
             }) : null}
             {postsReported ? postsReported.map((post)=>{
                 return(
-                    <CommentReportedCard content = {post.post_contents} reports = {post.reports}></CommentReportedCard>
+                    <CommentReportedCard getReports = {getReports} content = {post.post_contents} reports = {post.reports}></CommentReportedCard>
                 )
             }): null}
         </Container>
