@@ -6,7 +6,6 @@ const { DATABASE_URL } = process.env;
 
 const sequelize = new Sequelize(
   DATABASE_URL,
-   {
     logging: false,
     native: false,
   } /*
@@ -60,7 +59,8 @@ const {
   Subtopic,
   Forumpost,
   Comment,
-  Notification
+  Notification,
+  Report,
 } = sequelize.models;
 
 User.hasMany(Article, { foreignKey: "user_id" });
@@ -113,6 +113,15 @@ Notification.belongsTo(User, {
   foreignKey: 'receiverId',
   as: 'receiver'
 })
+
+Comment.hasMany(Report, { foreignKey: "comment_id" });
+Report.belongsTo(Comment, { foreignKey: "comment_id" });
+
+Forumpost.hasMany(Report, { foreignKey: "post_id" });
+Report.belongsTo(Forumpost, { foreignKey: "post_id" });
+
+User.hasMany(Report, { foreignKey: "user_id" });
+Report.belongsTo(User, { foreignKey: "user_id" });
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

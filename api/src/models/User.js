@@ -34,10 +34,9 @@ module.exports = (sequelize) => {
         },
         user_rol_id:{
             type: DataTypes.STRING
+        },
+        user_colab: {
+            type: DataTypes.BOOLEAN
         }
-        // soc_net_id:{
-        //     type: DataTypes.STRING,
-        //     allowNull: false,
-        // }
     })
 }

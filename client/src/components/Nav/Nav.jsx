@@ -46,6 +46,8 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import { grey, purple } from '@material-ui/core/colors';
 import { setReadNotifications } from '../../redux/actions/actionsNotifications';
+import ForumOutlinedIcon from '@material-ui/icons/ForumOutlined';
+import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
 
 const drawerWidth = 270;
 
@@ -612,66 +614,58 @@ export default function Nav() {
               </MenuItem>
             </Menu> 
           </div>*/}
-				</Toolbar>
-			</AppBar>
+        </Toolbar>
+      </AppBar>
 
-			<Drawer
-				variant="permanent"
-				className={clsx(classes.drawer, classes.ocult, {
-					[classes.drawerOpen]: open,
-					[classes.drawerClose]: !open,
-				})}
-				classes={{
-					paper: clsx({
-						[classes.drawerOpen]: open,
-						[classes.drawerClose]: !open,
-					}),
-				}}
-			>
-				<div className={classes.toolbar}>
-					<IconButton onClick={handleDrawerClose}>
-						{theme.direction === 'rtl' ? (
-							<ChevronRightIcon />
-						) : (
-							<ChevronLeftIcon />
-						)}
-					</IconButton>
-				</div>
-				<Divider />
-				<ListItem button onClick={() => history.push('/home')}>
-					<ListItemIcon>
-						<HomeOutlinedIcon />
-					</ListItemIcon>
-					<ListItemText style={{ textTransform: 'uppercase' }}>
-						Inicio
-					</ListItemText>
-				</ListItem>
-				<ListItem button onClick={() => history.push('/guiadetesis')}>
-					<ListItemIcon>
-						<BookOutlinedIcon />
-					</ListItemIcon>
-					<ListItemText style={{ textTransform: 'uppercase' }}>
-						Guía de Tesis
-					</ListItemText>
-				</ListItem>
-				<ListItem button onClick={() => history.push('/forum')}>
-					<ListItemIcon>
-						<ForumTwoToneIcon />
-					</ListItemIcon>
-					<ListItemText style={{ textTransform: 'uppercase' }}>
-						Foro
-					</ListItemText>
-				</ListItem>
-				<ListItem button onClick={() => history.push('/colaborators')}>
-					<ListItemIcon>
-						<PeopleAltTwoToneIcon />
-					</ListItemIcon>
-					<ListItemText style={{ textTransform: 'uppercase' }}>
-						Colaboradores
-					</ListItemText>
-				</ListItem>
-				<Divider />
-				{/*{user?.roles?.includes("admin") ||
+      <Drawer
+        variant="permanent"
+        className={clsx(classes.drawer, classes.ocult, {
+          [classes.drawerOpen]: open,
+          [classes.drawerClose]: !open,
+        })}
+        classes={{
+          paper: clsx({
+            [classes.drawerOpen]: open,
+            [classes.drawerClose]: !open,
+          }),
+        }}
+      >
+        <div className={classes.toolbar}>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === "rtl" ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
+          </IconButton>
+        </div>
+        <Divider />
+        <ListItem button onClick={() => history.push("/home")}>
+          <ListItemIcon>
+            <HomeOutlinedIcon />
+          </ListItemIcon>
+          <ListItemText style={{textTransform: 'uppercase'}}>Inicio</ListItemText>
+        </ListItem>
+        <ListItem button onClick={() => history.push("/guiadetesis")}>
+          <ListItemIcon>
+            <BookOutlinedIcon />
+          </ListItemIcon>
+          <ListItemText style={{textTransform: 'uppercase'}}>Guía de Tesis</ListItemText>
+        </ListItem>
+        <ListItem button onClick={() => history.push("/forum")}>
+          <ListItemIcon>
+            <ForumOutlinedIcon />
+          </ListItemIcon>
+          <ListItemText style={{textTransform: 'uppercase'}}>Foro</ListItemText>
+        </ListItem>
+        <ListItem button onClick={() => history.push("/colaborators")}>
+          <ListItemIcon>
+            <PeopleAltOutlinedIcon />
+          </ListItemIcon>
+          <ListItemText style={{textTransform: 'uppercase'}}>Colaboradores</ListItemText>
+        </ListItem>
+        <Divider />
+        {/*{user?.roles?.includes("admin") ||
         user?.roles?.includes("superadmin") ? (
           <>
             <ListItem button onClick={() => history.push("/post")}>

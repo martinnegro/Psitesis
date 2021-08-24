@@ -15,6 +15,7 @@ import Card2 from '../../components/Card/CardTabPanel';
 import { getArticleTag, getArticleWhithoutSection } from '../../redux/actions/actionsArticles';
 import ReactPaginate from "react-paginate";
 import s from "../Home/Home.module.css";
+
   
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -47,9 +48,23 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
     },
     tabs:{
+      backgroundColor: "#031927",
       "& .MuiTabs-flexContainer":{
         justifyContent:'space-around'
+      }, 
+      '&:focus': {
+        color: 'white',
+      }, 
+      "& .MuiTabs-indicator":{
+        backgroundColor: 'white'
       }
+    },
+    tabsText:{
+      color: "#93827F",
+      '&:focus': {
+        color: 'white',
+      },
+      
     },
     search: {
       position: 'relative',
@@ -95,6 +110,7 @@ const useStyles = makeStyles((theme) => ({
     },
     title2: {
       flexGrow: 1,
+      marginLeft: '200px',
       display: 'none',
       [theme.breakpoints.up('sm')]: {
         display: 'block',
@@ -110,11 +126,10 @@ export default function GuiaDeTesis() {
 
     const [value, setValue] = React.useState(0);
     const [search, setSearch] = React.useState('');
-    const [generales, setGenerales ] = useState(false)
+    const [Categoriess, setCategoriess ] = useState([])
 
     const categories = useSelector((state) => state.rootReducer.cat_sub?.cats);
     const orderedArticles = useSelector((state) => state.articlesReducer.orderedArticles)
-    const ArticleWithoutSection = useSelector(state => state.articlesReducer.ArticleWithoutSection);
 
     const [pageNumber, setPageNumber] = React.useState(0);
     const postsByPage = 2;
@@ -129,8 +144,15 @@ export default function GuiaDeTesis() {
     }, [dispatch]);
 
     useEffect(() => {
-      dispatch(getArticleWhithoutSection())
-    }, [dispatch]);
+      if(categories){
+      const aux = categories.find(obj => obj.cat_name === 'Generales')
+      if (!aux){
+      setCategoriess([{
+          cat_id: "Generales",
+          cat_name:"Generales"
+        }, ...categories])
+    }}
+    }, [categories])
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
@@ -141,16 +163,11 @@ export default function GuiaDeTesis() {
       if(search) dispatch(getArticleTag(search))
     }
     
-    const onClick = () => {
-      setGenerales(!generales)
-    }
-
     return (
         <Container>
             <div className={classes.offset}></div>
               <Nav/>
               <Container className={classes.title}>
-                <Button onClick={onClick} style={{color: 'white'}}>Generales</Button>
                   <Typography variant='h2' className={classes.title2} noWrap>Guía de Tesis</Typography>
                   <div className={classes.search}>
                     <div className={classes.searchIcon}>
@@ -167,8 +184,6 @@ export default function GuiaDeTesis() {
                     inputProps={{ 'aria-label': 'search' }}/>
                   </div>
               </Container>
-          {
-              !generales ? (
                 <div className={classes.root}>
                   <AppBar position="static" color="default" >
                     <Tabs
@@ -182,9 +197,9 @@ export default function GuiaDeTesis() {
                       className={classes.tabs}
                     >
                     {
-                        categories?.length > 0 ?
-                        categories.map(c => (
-                          <Tab label={c.cat_name} key={c.cat_id} id={c.cat_id} {...a11yProps(c.cat_id)} />
+                        Categoriess?.length > 0 ?
+                        Categoriess.map(c => (
+                          <Tab label={c.cat_name} key={c.cat_id} id={c.cat_id} {...a11yProps(c.cat_id)} className={classes.tabsText} />
                         ))  : null
                     }
                     </Tabs>
@@ -236,78 +251,23 @@ export default function GuiaDeTesis() {
                     ) : null
                   }
                   {
-                      categories?.length > 0 ?
-                      categories.map((c, i) => (
-                          <TabPanel value={value} id={c.cat_id} index={i} sinSeccion={false}/>
+                      Categoriess?.length > 0 ?
+                      Categoriess.map((c, i) => (
+                          <TabPanel value={value} id={c.cat_id} index={i}/>
                       )): null
                   }
-                </div>
-            ) : (
-              <div className={classes.root}>
-                  {
-                    search ? (
-                      <Container>
-                        <Typography 
-                          variant='h4' 
-                          style={{marginBottom:'15px', marginTop:'15px'}}>
-                        Resultados del blog para <span style={{color:'purple'}}>{search}</span>:
-                        </Typography>
-                        <Container 
-                        style={{
-                          display:'flex', 
-                          justifyContent:'center',
-                          flexWrap: 'wrap'}}>
-                            {
-                              orderedArticles?.length > 0 
-                              ? orderedArticles
-                              ?.slice(pagesVisited, pagesVisited + postsByPage)
-                              .map(a => (
-                                <Card2
-                                key={a.art_id}
-                                title ={a.art_title}
-                                abstract={a.art_abstract}
-                                date={a.art_date}
-                                body={a.art_contents}
-                                id={a.art_id}
-                                userId={a.user_id}/>
-                              )) : <Typography variant="h6" color="initial">No hay resultados para su búsqueda</Typography>
-                            }
-                        </Container>
-                        <Container>
-                          <ReactPaginate
-                            previousLabel={"<"}
-                            nextLabel={">"}
-                            pageCount={pageCount}
-                            onPageChange={changePage}
-                            containerClassName={s.paginationBttns}
-                            previousLinkClassName={s.previousBttn}
-                            nextLinkClassName={s.nextBttn}
-                            disabledClassName={s.paginationDisabled}
-                            activeClassName={s.paginationActive}
-                          />
-                        </Container>
-                        <Divider variant="middle" />
-                      </Container>
-                    ) : null
-                  }
-
-                <Container style={{display:'flex', flexWrap: 'wrap', justifyContent: 'space-around'}}>
-                  {
-
-                    ArticleWithoutSection?.length > 0 ? ArticleWithoutSection.map(a => (
-                     <Card2
-                         key={a.art_id}
-                         title ={a.art_title}
-                         abstract={a.art_abstract}
-                         date={a.art_date}
-                         body={a.art_contents}
-                         id={a.art_id}
-                         userId={a.user_id}/>)) : null
-                  }
-                </Container>
-                </div>
-            )
-          }
-    </Container> 
+                </div>        
+        </Container> 
   )
 };
+
+/*
+1) tego que fijarme si el array tiene la categoria 'Sin seccion'
+  - con un includes o hasOwnProperty o some 
+2) si no la tiene, la creo y le creo la sub categoria
+  - Lo puedo hacer con useEffect
+  - Lo puede hacer desde el reducer
+3) tengo que traer los articulos sin seccion y ponerle la seccion creada
+  -
+
+*/

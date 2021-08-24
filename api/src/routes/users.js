@@ -80,8 +80,10 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+/****************************************************/
+// RUTAS DE MANEJO DE ROLES
+/****************************************************/
 router.get('/get_roles', async (req, res, next) => {
-	
 	try {
 		const roles = await management.roles.getAll();
 		res.json(roles);
@@ -112,6 +114,100 @@ router.put("/change_role", async (req, res, next) => {
 	} catch (err) { next(err) }
 
 });
+/****************************************************************************************/
+/****************************************************************************************/
+/*/       SE ENVIARON AL FONDO LAS DOS RUTAS GET ('/' y '/:user_id_A0')                /*/
+/*/                  PARA QUE NO INTERFIERAN CON OTRAS                                 /*/  
+/****************************************************************************************/
+/****************************************************************************************/
+
+/*
+router.post("/verifyemail", async (req, res) => {
+  try {
+    const user = req.body;
+    const sendVerificationEmail = await management.sendEmailVerification(user);
+    return res.send(sendVerificationEmail);
+  } catch (err) {
+    next(err);
+  }
+});*/
+
+/****************************************************/
+// RUTAS DE ASOCIACIÓN USUARIO - INSTITUCIÓN
+/****************************************************/
+router.put("/add_inst", async (req, res, next) => {
+  const { user_id_A0, inst_id } = req.query;
+  try {
+    const user = await User.findOne({
+      where: { user_id_A0 },
+      include: [
+        {
+          model: Institution,
+          through: {
+            attributes: [],
+          },
+        },
+      ],
+    });
+    await user.addInstitution(inst_id);
+    const newSetUserInst = user.dataValues.institutions;
+    const newInst = await Institution.findOne({ where: { inst_id } });
+    res.json([...newSetUserInst, newInst.dataValues]);
+  } catch (err) {
+    err.message = "No se pudo agregar la Institución.";
+    next(err);
+  }
+});
+
+router.delete("/delete_inst", async (req, res, next) => {
+  const { user_id_A0, inst_id } = req.query;
+  try {
+    const user = await User.findOne({
+      where: { user_id_A0 },
+      include: [
+        {
+          model: Institution,
+          through: {
+            attributes: [],
+          },
+        },
+      ],
+    });
+    const newSetUserInst = user.dataValues.institutions.filter(
+      (i) => i.inst_id !== inst_id
+    );
+    const newSetIds = newSetUserInst.map((i) => i.inst_id);
+    await user.setInstitutions(newSetIds);
+    res.json(newSetUserInst);
+  } catch (err) {
+    err.message = "No se pudo borrar la Institución";
+    next(err);
+  }
+});
+
+/****************************************************/
+// RUTAS DE STATUS COLABORADOR
+/****************************************************/
+
+router.put('/change_colab/:user_id_A0', async (req,res,next)=>{
+  const { user_id_A0 } = req.params;
+  try{
+    const user = await User.findOne({
+      where: { user_id_A0 }
+    });
+    user.user_colab = !user.user_colab;
+    await user.save();
+    res.json({ message: 'ok' });
+  } catch(err) { next(err) }
+});
+
+router.get('/get_all_collab', async (req,res,next) => {
+  try {
+    const colabs = await User.findAll({ where: { user_colab: true } })
+    res.json(colabs)
+  } catch(err) { next(err) }
+});
+
 
 router.get("/", authorizeAccessToken, async (req, res, next) => {
   try {
@@ -159,66 +255,6 @@ router.get("/:user_id_A0", authorizeAccessToken, async (req, res, next) => {
     });
     res.json({ message: "successful", user: user.dataValues });
   } catch (err) {
-    next(err);
-  }
-});
-/*
-router.post("/verifyemail", async (req, res) => {
-  try {
-    const user = req.body;
-    const sendVerificationEmail = await management.sendEmailVerification(user);
-    return res.send(sendVerificationEmail);
-  } catch (err) {
-    next(err);
-  }
-});*/
-
-router.put("/add_inst", async (req, res, next) => {
-  const { user_id_A0, inst_id } = req.query;
-  try {
-    const user = await User.findOne({
-      where: { user_id_A0 },
-      include: [
-        {
-          model: Institution,
-          through: {
-            attributes: [],
-          },
-        },
-      ],
-    });
-    await user.addInstitution(inst_id);
-    const newSetUserInst = user.dataValues.institutions;
-    const newInst = await Institution.findOne({ where: { inst_id } });
-    res.json([...newSetUserInst, newInst.dataValues]);
-  } catch (err) {
-    err.message = "No se pudo agregar la Institución.";
-    next(err);
-  }
-});
-
-router.delete("/delete_inst", async (req, res, next) => {
-  const { user_id_A0, inst_id } = req.query;
-  try {
-    const user = await User.findOne({
-      where: { user_id_A0 },
-      include: [
-        {
-          model: Institution,
-          through: {
-            attributes: [],
-          },
-        },
-      ],
-    });
-    const newSetUserInst = user.dataValues.institutions.filter(
-      (i) => i.inst_id !== inst_id
-    );
-    const newSetIds = newSetUserInst.map((i) => i.inst_id);
-    await user.setInstitutions(newSetIds);
-    res.json(newSetUserInst);
-  } catch (err) {
-    err.message = "No se pudo borrar la Institución";
     next(err);
   }
 });

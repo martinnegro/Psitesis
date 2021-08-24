@@ -6,20 +6,28 @@ import CardPost from "../../components/Card/CardHome";
 import s from "./Home.module.css";
 import Container from "@material-ui/core/Container";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import {
-  Divider, IconButton, InputBase,  makeStyles,
-   Paper, TextField,  Typography,
+  Divider,
+  IconButton,
+  InputBase,
+  makeStyles,
+  Paper,
+  TextField,
+  Typography,
 } from "@material-ui/core";
 
-import SearchIcon from '@material-ui/icons/Search';
-import { getAllArticle, orderArticles, getArticleTag } from "../../redux/actions/actionsArticles";
-import {getUserDetail} from "../../redux/actions/usersActions";
+import SearchIcon from "@material-ui/icons/Search";
+import {
+  getAllArticle,
+  orderArticles,
+  getArticleTag,
+} from "../../redux/actions/actionsArticles";
+import { getUserDetail } from "../../redux/actions/usersActions";
 import { Link } from "react-router-dom";
 
 //Menu Bottom
 import NavBottom from "../../components/NavBottom/NavBottom";
-
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
@@ -56,6 +64,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   tipoh2: {
+    textTransform: "uppercase",
     "@media (max-width: 601px)": {
       marginTop: 0,
       fontSize: "1.75rem",
@@ -65,67 +74,57 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home() {
-
-  
-  
   const history = useHistory();
   const classes = useStyles();
   const articles = useSelector((state) => state.articlesReducer.articles); // Nueva forma de acceder al estado por combineReducer
-  const orderedArticles = useSelector((state) => state.articlesReducer.orderedArticles)
-  const userId = useSelector((state) => state.authReducer.user.user_id)
+  const orderedArticles = useSelector(
+    (state) => state.articlesReducer.orderedArticles
+  );
+  const userId = useSelector((state) => state.authReducer.user.user_id);
   const dispatch = useDispatch();
-
 
   useEffect(() => {
     dispatch(getAllArticle());
   }, [dispatch]);
 
-  useEffect(()=>{
-    dispatch(orderArticles("art_views","DESC"))
-  },[dispatch,articles])
+  useEffect(() => {
+    dispatch(orderArticles("art_views", "DESC"));
+  }, [dispatch, articles]);
 
   useEffect(() => {
-		if (userId) {
-			dispatch(getUserDetail(userId));
-		}
-	}, [dispatch, userId]);
+    if (userId) {
+      dispatch(getUserDetail(userId));
+    }
+  }, [dispatch, userId]);
 
   // const [ search, setSearch ] = useState('')
   const [pageNumber, setPageNumber] = useState(0);
-  const [tag, setTag] = useState('')
+  const [tag, setTag] = useState("");
 
   const postsByPage = 9;
   const pagesVisited = pageNumber * postsByPage;
   const pageCount = Math.ceil(articles?.length / postsByPage);
 
   const onChange = (e) => {
-      setTag(e.target.value)
-  }
+    setTag(e.target.value);
+  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if(tag){
-      dispatch(getArticleTag(tag))
-      setTag("")
+  useEffect(() => {
+    if (tag) {
+      dispatch(getArticleTag(tag));
     }
-    else{
-      alert("Ingrese un TAG")
+
+    if (tag === "") {
+      dispatch(orderArticles("art_views", "DESC"));
     }
-  }
+  }, [tag, dispatch]);
 
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
-  
-
-  const handleReload = () => {
-
-  };
-
 
   return (
     <Container>
-      
       <div className={classes.offset}></div>
       <Nav />
       <Container className={classes.Home}>
@@ -153,23 +152,27 @@ export default function Home() {
           </Typography>
         </Container>
 
-         
-
-        <Paper component="form" className={classes.root} onSubmit={handleSubmit}>
-                    <InputBase
-                      className={classes.input}
-                      placeholder="Escribí aquí el artículo que deseas encontrar"
-                      value={tag}
-                      onChange={onChange}
-                      name='search'
-                    />
-                    <IconButton type="submit" className={classes.iconButton} aria-label="search">
-                      <SearchIcon />
-                    </IconButton>
-                </Paper>
-
-
- 
+        <Paper component="form" className={classes.root}>
+          <InputBase
+            className={classes.input}
+            placeholder="Escribí aquí el artículo que deseas encontrar"
+            value={tag}
+            onChange={onChange}
+            name="search"
+          />
+          <IconButton
+            type="submit"
+            className={classes.iconButton}
+            aria-label="search"
+          >
+            <SearchIcon />
+          </IconButton>
+        </Paper>
+        {tag !== ""?
+          <Typography variant="h4">Resultado de su busqueda para <span style={{ color: "purple" }}>{tag}</span></Typography>
+          :
+          null
+        }
         <Container>
           <ReactPaginate
             previousLabel={"<"}
@@ -183,43 +186,30 @@ export default function Home() {
             activeClassName={s.paginationActive}
           />
         </Container>
- 
- 
 
-    
-        <Container
-          className={classes.contCard}
-        >
-          {orderedArticles?.length > 0
-            ? orderedArticles
-                ?.slice(pagesVisited, pagesVisited + postsByPage)
-                .map((p) => (
-                  <CardPost
-                    key={p.art_id}
-                    title={p.art_title}
-                    body={p.art_contents}
-                    id={p.user_id}
-                    articleId={p.art_id}
-                    articleAbstract={p.art_abstract}
-                  />
-                ))
-            : <div>
-                <div className={s.centrado}>
-              <Typography variant="h6" color="initial">No hay resultados para su búsqueda</Typography>
-              <Button
-              variant="contained"
-              size="medium"
-              color="purple"
-              onClick={()=>dispatch(getAllArticle('views','DESC'))}
-              classes={{
-                root: classes.root,
-                label: classes.label,
-              }}
-            >
-              Volver al inicio
-            </Button>              
+        <Container className={classes.contCard}>
+          {orderedArticles?.length > 0 ? (
+            orderedArticles
+              ?.slice(pagesVisited, pagesVisited + postsByPage)
+              .map((p) => (
+                <CardPost
+                  key={p.art_id}
+                  title={p.art_title}
+                  body={p.art_contents}
+                  id={p.user_id}
+                  articleId={p.art_id}
+                  articleAbstract={p.art_abstract}
+                />
+              ))
+          ) : (
+            <div>
+              <div className={s.centrado}>
+                <Typography variant="h5" color="initial">
+                  No hay resultados para su búsqueda
+                </Typography>
+              </div>
             </div>
-              </div>}
+          )}
         </Container>
         <br />
         <br />

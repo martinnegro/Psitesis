@@ -5,39 +5,29 @@ const { DataTypes } = require("sequelize");
 module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define(
-    "article",
+    "file",
     {
-      art_id: {
+      id: {
         type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
       },
 
-      art_contents: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-      },
-
-      art_abstract: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-      },
-
-      art_title: {
+      name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
 
-      art_date: {
+      description: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+
+      url: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
-      art_views: {
-        type: DataTypes.INTEGER,
-      },
-      art_available: {
-        type: DataTypes.BOOLEAN
-      } 
     }
-
+    /* { timestamps: false } */
   );
 };

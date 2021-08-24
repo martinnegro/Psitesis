@@ -7,6 +7,7 @@ import metadataReducer from "./metadataReducer";
 import articlesReducer from "./articlesReducer";
 import forumReducer from "./forumReducer";
 import notificationsReducer from "./notificationsReducer";
+import filesReducer from "./filesReducer";
 
 // combina todos los reducer
 export default combineReducers({
@@ -18,4 +19,5 @@ export default combineReducers({
   articlesReducer,
   forumReducer,
   notificationsReducer,
+  filesReducer,
 });
