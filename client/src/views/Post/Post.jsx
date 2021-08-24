@@ -122,13 +122,8 @@ function Post() {
 	const [titulo, setTitulo] = useState('');
 	const [reseña, setReseña] = useState('');
 	const [subcategoria, setSubcategoria] = useState(null);
-	// const [categoria, setCategoria] = useState(null);
+	const [categoria, setCategoria] = useState(null);
 	const [tags, setTags] = useState('');
-
-	//MOdal
-	//const classes = useStyles();
-	const [open, setOpen] = React.useState(false);
-	const [on, setOn] = React.useState('1');
 
 //validation...
   const [formValid, setformValid] = useState({
@@ -166,10 +161,6 @@ function Post() {
 
 	const handleBody = (e) => {
 		setBody(e);
-	};
-
-	const handleInput = (e) => {
-		setTitulo(e.target.value);
 	};
 
   const handleInput = (e) => {
@@ -236,50 +227,44 @@ function Post() {
   const handleSubmitBody = async (e) => {
     e.preventDefault();
     const {titulo,tags} = formValid;
-
     const tituloVal = titulo;
     const reseñaVal = reseña;
     const subcategoriaVal = subcategoria;
     const bodyVal = body;
     const categoriaVal = categoria;
     const tagsVal = tags;
-    
-
     if(!tituloVal || !tagsVal || reseñaVal.length === 0 || bodyVal.length === 0 ){
       setOpenSnack(true)
-    }else{
-
-		let data = {
-			art_contents: body,
-			art_title: titulo,
-			// cat_id: categoria,
-			sub_cat_id: subcategoria,
-			user_id: user.user_id,
-			art_abstract: reseña,
-			art_date: date,
-			art_tags: tags.split(',').map((e) => e.trim()),
-			art_id: id ? articlesDetail.art_id : null,
-		};
+    } else {
+		  let data = {
+		  	art_contents: body,
+		  	art_title: titulo,
+		  	// cat_id: categoria,
+		  	sub_cat_id: subcategoria,
+		  	user_id: user.user_id,
+		  	art_abstract: reseña,
+		  	art_date: date,
+		  	art_tags: tags.split(',').map((e) => e.trim()),
+		  	art_id: id ? articlesDetail.art_id : null,
+		  };
       console.log("data: ", data);
-
-    
-  
       // action createPost or editPost
-	  if (id) {
-		dispatch(editPost(data));
-		setBody('');
-		setTitulo('');
-		setTextModal('editado');
-		setOpen2(true);
-		setTimeout(handleClose2, 1000);
-	} else {
-		dispatch(createPost(data));
-		setBody('');
-		setTitulo('');
-		setTextModal('creado');
-		setOpen2(true);
-		setTimeout(handleClose2, 1000);
-	}
+	    if (id) {
+		    dispatch(editPost(data));
+		    setBody('');
+		    setTitulo('');
+		    setTextModal('editado');
+		    setOpen2(true);
+		    setTimeout(handleClose2, 1000);
+	    } else {
+		    dispatch(createPost(data));
+		    setBody('');
+		    setTitulo('');
+		    setTextModal('creado');
+		    setOpen2(true);
+		    setTimeout(handleClose2, 1000);
+	    }
+    }
   };
 
   const handleCloseSnack = (event, reason) => {
@@ -327,11 +312,6 @@ useEffect(() => {
 	//   setOpen2(true);
 	// };
 
-	const handleClose2 = () => {
-		setOpen2(false);
-		history.push('/home');
-	};
-
 	//Texto Modal
 	const [textModal, setTextModal] = useState('');
 
@@ -340,8 +320,6 @@ useEffect(() => {
     history.push("/home");
   };
 
-  //Texto Modal
-  const [textModal, setTextModal]= useState('')
 
   return (
     <div>
