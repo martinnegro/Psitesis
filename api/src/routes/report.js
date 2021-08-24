@@ -49,6 +49,7 @@ router.get("/", async (req, res, next) => {
         where: {
           [prop]: value,
         },
+        include: [{ model: User }],
       },
     });
     return res.json(commentsReports);
