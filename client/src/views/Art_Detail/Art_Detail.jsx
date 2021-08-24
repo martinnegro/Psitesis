@@ -121,13 +121,6 @@ const Art_Detail = () => {
   const users = useSelector((state) => state.usersReducer.users);
   const [idUser, setIdUser] = useState([]);
   const subcategories = useSelector((state) => state.rootReducer.cat_sub?.sub_cats);
-  // const [section, setSection] = useState([]);
-
-  // console.log('subcategories :', subcategories)
-  // console.log('section :', section)
-  console.log('articlesDetail :', articlesDetail)
-  // console.log('articlesDetail?.Subcategories[0].sub_cat_id :', articlesDetail?.Subcategories[0].sub_cat_id)
-
 	const [enablePost, setEnablePost] = useState(false);
 
   const history = useHistory();

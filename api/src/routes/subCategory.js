@@ -5,7 +5,10 @@ const { Article, Subcategory,  } = require("../db");
 router.get("/", async (req, res) => {
     try{
         const article = await Subcategory.findAll({
-            include: {model: Article},
+            include: [{
+                model: Article,
+                where: { art_available: true }
+            }],
         })
         if(article.length === 0){
             res.json({message: "Article do not found"})
@@ -26,7 +29,10 @@ router.get("/category/:id", async (req, res) => {
         const {id} = req.params
         const subcategoria = await Subcategory.findAll({
             where: { cat_id: id},            
-            include: { model: Article },
+            include: [{
+                model: Article,
+                where: { art_available: true }
+            }],
         })
         res.json(subcategoria)
     }catch(err){
@@ -38,7 +44,10 @@ router.get("/:id", async (req, res) => {
     try{
         const { id } = req.params
             const article = await Subcategory.findByPk(id, {
-                include: {model: Article},
+                include: [{
+                    model: Article,
+                    where: { art_available: true }
+                }],
             })
         res.json(article)
     }catch(err){

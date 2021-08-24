@@ -47,7 +47,7 @@ router.get("/:id", async (req, res, next) => {
       ],
     });
 
-    const instutionArticles = await Article.findAll();
+    const instutionArticles = await Article.findAll({ where: { art_available: true } });
 
     let articlesResult = institutionUsers.map((user) => {
       return instutionArticles.filter((x) => {

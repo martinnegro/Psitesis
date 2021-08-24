@@ -97,6 +97,7 @@ async function createData() {
       art_id: uuidv4(),
       sub_cat_id: pdSubcategories[0].sub_cat_id,
       user_id: mappedusersA0[0].user_id,
+      art_available: true
     },
 
     {
@@ -108,6 +109,7 @@ async function createData() {
       art_id: uuidv4(),
       sub_cat_id: pdSubcategories[2].sub_cat_id,
       user_id: mappedusersA0[0].user_id,
+      art_available: true
     },
     {
       art_title: "Sobre Proyectos",
@@ -118,6 +120,7 @@ async function createData() {
       art_id: uuidv4(),
       sub_cat_id: pdSubcategories[3].sub_cat_id,
       user_id: mappedusersA0[1].user_id,
+      art_available: true
     },
     {
       art_title: "Sobre Tesis 2",
@@ -129,6 +132,7 @@ async function createData() {
       art_id: uuidv4(),
       sub_cat_id: pdSubcategories[0].sub_cat_id,
       user_id: mappedusersA0[1].user_id,
+      art_available: true
     },
     {
       art_title: "Cómo citar",
@@ -140,6 +144,7 @@ async function createData() {
       art_id: uuidv4(),
       sub_cat_id: pdSubcategories[0].sub_cat_id,
       user_id: mappedusersA0[1].user_id,
+      art_available: true
     },
   ];
 

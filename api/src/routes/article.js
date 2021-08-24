@@ -17,8 +17,7 @@ router.post(
       art_tags, 
       sub_cat_id, 
       user_id, 
-      art_abstract, 
-      // cat_id 
+      art_abstract
     } = req.body;
     console.log(sub_cat_id)
     let aux_id = user_id;
@@ -34,9 +33,9 @@ router.post(
       art_abstract,
       art_id,
       sub_cat_id,
-      // cat_id,
       user_id: aux_id,
       art_views: 0,
+      art_available: true
     })
 
     const tags = []
@@ -73,6 +72,7 @@ router.get("/", (req, res, next) => {
   const { orderBy, order } = req.query;
   if (orderBy && order) {
     return Article.findAll({
+      where: { art_available: true },
       order: [[orderBy, order]],
       include:[{ model: Subcategory}]
     })
@@ -80,6 +80,7 @@ router.get("/", (req, res, next) => {
       .catch((err) => next(err));
   }
   Article.findAll({
+    where: { art_available: true },
     include:[{ model: Subcategory,
       attributes:['sub_cat_id'],
     include: [{model: Category,
@@ -154,7 +155,8 @@ router.get("/sinseccion/hola", async (req, res, next) => {
   try {
     let articleWithoutCategory = await Article.findAll( {
       where: { 
-        sub_cat_id: null
+        sub_cat_id: null,
+        where: { art_available: true }
       }
     })
   

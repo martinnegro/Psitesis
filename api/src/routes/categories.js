@@ -85,7 +85,10 @@ router.post(
 router.get('/categories', async (req, res, next) => {
     try{
         const article = await Category.findAll({
-            include: {model: Article},
+            include: [{ 
+				model: Article,
+				where: { art_available: true } 
+			}],
         })
         res.json(article)
     }catch(err){
@@ -97,7 +100,10 @@ router.get('/:id', async (req, res, next) => {
     try {
         const {id} = req.params;
         let categoria = await Category.findByPk(id, {
-            include: {model: Article}
+            include: [{ 
+				model: Article,
+				where: { art_available: true } 
+			}],
         })
         return res.json(categoria)
     } catch (error) {
