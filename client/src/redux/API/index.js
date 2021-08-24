@@ -52,8 +52,11 @@ export const createPostForum = (data) => API.post(`/forumposts/create`, data);
 // RUTA /forumposts
 export const highlightPost = (post_id) => API.put(`/forumposts/highlight_post/${post_id}`);
 
-
-
+// rutas file
+export const createFile = (data) => API.post(`/files`, data);
+export const getAllFiles = () => API.get(`/files`);
+export const deleteFile = (file_id) => API.delete(`/files/${file_id}`);
+export const searchFiles = (name) => API.get(`/files?name=${name}`);
 
 
 // ruta para articles
