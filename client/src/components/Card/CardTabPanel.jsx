@@ -15,8 +15,17 @@ const useStyles = makeStyles({
     minWidth: 500,
     maxWidth: 500,
     margin: '20px',
-    height: 250,
-
+    height: 210,
+    "@media (max-width: 601px)": {
+      // margin: '0px',
+      minWidth: 325,
+      maxWidth: 325,
+      height: 210,
+      marginLeft: '-24px',
+      display:'block',
+      overflowX: "auto",
+      width:'100%'
+    },
   },
   bullet: {
     display: 'inline-block',
@@ -71,7 +80,7 @@ export default function CardTabPanel (props) {
         <Typography className={classes.pos} color="textSecondary">
           {date}
         </Typography>
-        <Typography variant="body2" component="p" style={{height:'100px'}}>
+        <Typography variant="body2" component="p" style={{height:'60px'}}>
           {abstract}
           <br />
         </Typography>
