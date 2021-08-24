@@ -1,6 +1,7 @@
 import axios from "axios";
 const { REACT_APP_URL_API } = process.env;
 const API = axios.create({ baseURL: REACT_APP_URL_API });
+export const GET_COMMENTS_REPORTS = "GET_COMMENTS_REPORTS";
 
 //con este intercertor pueden enviar sus peticiones directamente con el token en los headers
 API.interceptors.request.use((req) => {
@@ -56,7 +57,6 @@ export const deletePost = (art_id) => API.delete(`/article/${art_id}`);
 export const createPostForum = (data) => API.post(`/forumposts/create`, data);
 export const postComment = (data) => API.post(`/forum_comments`, data);
 
-
 // rutas file
 export const createFile = (data) => API.post(`/files`, data);
 export const getAllFiles = () => API.get(`/files`);
@@ -79,3 +79,15 @@ export const getArticleWhithoutSectionAuth = () =>
 
 // reports
 export const postReport = (data) => API.post(`/report`, data);
+export const getCommentsReports = (prop, value) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(
+        `${REACT_APP_URL_API}/report?prop=${prop}&value=${value}`
+      );
+      dispatch({ type: GET_COMMENTS_REPORTS, payload: response.data });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
