@@ -6,21 +6,21 @@ const { DATABASE_URL } = process.env;
 
 const sequelize = new Sequelize(
   DATABASE_URL,
-  /* {
+   {
     logging: false,
     native: false,
-  } */
-  {
-    logging: false,
-    dialect: "postgres",
-    protocol: "postgres",
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false,
-      },
-    },
-  }
+  } 
+  // {
+  //   logging: false,
+  //   dialect: "postgres",
+  //   protocol: "postgres",
+  //   dialectOptions: {
+  //     ssl: {
+  //       require: true,
+  //       rejectUnauthorized: false,
+  //     },
+  //   },
+  // }
 );
 
 const basename = path.basename(__filename);
@@ -109,8 +109,8 @@ Report.belongsTo(Comment, { foreignKey: "comment_id" });
 Forumpost.hasMany(Report, { foreignKey: "post_id" });
 Report.belongsTo(Forumpost, { foreignKey: "post_id" });
 
-// Forumpost.belongsToMany(Report, {through: "report_forum"})
-// Report.belongsToMany(Forumpost, {through: "report_forum"})
+User.hasMany(Report, { foreignKey: "user_id" });
+Report.belongsTo(User, { foreignKey: "user_id"})
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
