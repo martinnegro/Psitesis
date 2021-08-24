@@ -33,7 +33,7 @@ router.post("/", authorizeAccessToken, async (req, res, next) => {
   }
 });
 
-router.get("/", async (req, res, next) => {
+/* router.get("/", async (req, res, next) => {
   try {
     const { prop, value } = req.query;
     const commentsReports = await Comment.findAll({
@@ -55,6 +55,6 @@ router.get("/", async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-});
+}); */
 
 module.exports = router;
