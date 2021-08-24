@@ -16,6 +16,7 @@ import Forum from './views/Forum/Forum';
 import Forum_Post from "./views/Forum_Post/Forum_Post";
 import GetForumSubTopic from "./views/GetForumSubtopic/GetForumSubtopic";
 import CreatePostForum from './views/CreatePostForum/CreatePostForum';
+import Notifications from './views/Notifications';
 
 const App = () => {
 	return (
@@ -35,6 +36,7 @@ const App = () => {
 					exact
 					component={InstitutionBio}
 				/>
+				<ProtectedRoute path="/notifications" exact component={Notifications} />
 				<ProtectedRoute path="/adminpanel" exact component={Admin_Panel} />
 				<ProtectedRoute path="/library" exact component={Library} />
 				<ProtectedRoute path="/home" exact component={Home} />
@@ -45,7 +47,7 @@ const App = () => {
         		<ProtectedRoute path="/forum/post/:post_id" exact component={Forum_Post} />
 				<ProtectedRoute>
 					<Route exact path="/colaborators" component={Colaborators}></Route>
-				</ProtectedRoute>
+				</ProtectedRoute>				
 				<Route path="*" render={() => <Redirect to="/" />} />
 			</Switch>
 		</div>

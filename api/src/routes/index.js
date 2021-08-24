@@ -17,6 +17,7 @@ const subtopics = require('./subTopics')
 const forum_comments = require("./forum_comments");
 const files = require('./file')
 const report = require("./report");
+const notification = require("./notification");
 const router = Router();
 
 
@@ -36,6 +37,7 @@ router.use('/forumposts',forumposts)
 router.use('/forum_home',forum_home);
 router.use('/subtopics', subtopics);
 router.use("/forum_comments", forum_comments);
+router.use("/notification", notification);
 router.use("/files", files);
 router.use('/report', report);
 

@@ -5,12 +5,11 @@ const path = require("path");
 const { DATABASE_URL } = process.env;
 
 const sequelize = new Sequelize(
-  DATABASE_URL,
-  /* {
+  DATABASE_URL,{
     logging: false,
     native: false,
-  } */
-  {
+  } 
+  /*{
     logging: false,
     dialect: "postgres",
     protocol: "postgres",
@@ -20,7 +19,7 @@ const sequelize = new Sequelize(
         rejectUnauthorized: false,
       },
     },
-  }
+  } */
 );
 
 const basename = path.basename(__filename);
@@ -60,6 +59,7 @@ const {
   Subtopic,
   Forumpost,
   Comment,
+  Notification,
   Report,
 } = sequelize.models;
 
@@ -103,14 +103,25 @@ Comment.belongsTo(Comment, {
   as: "parent_comment",
 });
 
+User.hasMany(Notification, { as: "sender", foreignKey: "senderId" });
+User.hasMany(Notification, { as: "receiver", foreignKey: "receiverId" });
+Notification.belongsTo(User, {
+  foreignKey: 'senderId',
+  as: 'sender'
+})
+Notification.belongsTo(User, {
+  foreignKey: 'receiverId',
+  as: 'receiver'
+})
+
 Comment.hasMany(Report, { foreignKey: "comment_id" });
 Report.belongsTo(Comment, { foreignKey: "comment_id" });
 
 Forumpost.hasMany(Report, { foreignKey: "post_id" });
 Report.belongsTo(Forumpost, { foreignKey: "post_id" });
 
-// Forumpost.belongsToMany(Report, {through: "report_forum"})
-// Report.belongsToMany(Forumpost, {through: "report_forum"})
+User.hasMany(Report, { foreignKey: "user_id" });
+Report.belongsTo(User, { foreignKey: "user_id" });
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

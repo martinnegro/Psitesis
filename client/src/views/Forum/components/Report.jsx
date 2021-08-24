@@ -3,6 +3,7 @@ import { makeStyles,Button,TextField,Container } from '@material-ui/core/';
 import CheckIcon from '@material-ui/icons/Check';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { postReport } from '../../../redux/API';
+import {useSelector } from "react-redux";
 const useStyles = makeStyles((theme) => ({
     root: {
       '& > *': {
@@ -13,11 +14,13 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const Report =  ({cancellReport,commentId,postId}) =>{
+    const userId = useSelector((state) => state.authReducer.user.user_id)
     const classes = useStyles();
     const [report,setReport] = useState({
         rep_reason: "",
         comment_id : commentId,
-        post_id : postId
+        post_id : postId,
+        user: userId
     })
 
     const handleOnChange = (e) =>{

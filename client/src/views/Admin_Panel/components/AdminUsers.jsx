@@ -31,6 +31,7 @@ import axios from 'axios';
 import { getAllUsers } from '../../../redux/actions/usersActions'
 import { changeUserRole, changeUserColab } from '../../../redux/API'; 
 
+
 import './AdminUsers.css'
 const { REACT_APP_URL_API } = process.env;
 const useStyles1 = makeStyles((theme) => ({
@@ -155,6 +156,7 @@ export default function AdminUsers() {
   const getRoleName = (id) => {
     if (roles.length > 0){
         const aux = roles.find(r => r.id === id)
+        if (aux === undefined) return 'No role name'
         return aux.name
     }
   }
