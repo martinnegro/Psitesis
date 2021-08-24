@@ -5,11 +5,11 @@ const path = require("path");
 const { DATABASE_URL } = process.env;
 
 const sequelize = new Sequelize(
-  DATABASE_URL,{
+  /*  DATABASE_URL,{
     logging: false,
     native: false,
-  } 
-  /*{
+  }  */
+  {
     logging: false,
     dialect: "postgres",
     protocol: "postgres",
@@ -19,7 +19,7 @@ const sequelize = new Sequelize(
         rejectUnauthorized: false,
       },
     },
-  } */
+  }
 );
 
 const basename = path.basename(__filename);
@@ -106,13 +106,13 @@ Comment.belongsTo(Comment, {
 User.hasMany(Notification, { as: "sender", foreignKey: "senderId" });
 User.hasMany(Notification, { as: "receiver", foreignKey: "receiverId" });
 Notification.belongsTo(User, {
-  foreignKey: 'senderId',
-  as: 'sender'
-})
+  foreignKey: "senderId",
+  as: "sender",
+});
 Notification.belongsTo(User, {
-  foreignKey: 'receiverId',
-  as: 'receiver'
-})
+  foreignKey: "receiverId",
+  as: "receiver",
+});
 
 Comment.hasMany(Report, { foreignKey: "comment_id" });
 Report.belongsTo(Comment, { foreignKey: "comment_id" });
