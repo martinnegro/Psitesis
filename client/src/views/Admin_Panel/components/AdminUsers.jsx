@@ -156,6 +156,7 @@ export default function AdminUsers() {
   const getRoleName = (id) => {
     if (roles.length > 0){
         const aux = roles.find(r => r.id === id)
+        if (aux === undefined) return 'No role name'
         return aux.name
     }
   }

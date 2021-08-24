@@ -10,12 +10,18 @@ router.get("/", async (req, res) => {
     const { search } = req.query;
     if (search) {
       const article = await Tag.findAll({
-        include: { model: Article },
+        include: [{ 
+          model: Article,
+          where: { art_visibility: true }
+        }],
         where: { tag_name: { [Op.iLike]: `%${search}%` } },
       });
       if (article.length === 0) {
         const artTitle = await Article.findAll({
-          where: { art_title: { [Op.iLike]: `%${search}%` } },
+          where: {
+            where: { art_visibility: true },
+            art_title: { [Op.iLike]: `%${search}%` } 
+          },
         });
         if (artTitle.length === 0) {
           const autor = await User.findAll({
@@ -25,7 +31,10 @@ router.get("/", async (req, res) => {
             res.json({ message: "Articulo no encontrado" });
           } else {
             const artAutor = await Article.findAll({
-              where: { user_id: autor[0].user_id },
+              where: {
+                where: { art_visibility: true },
+                user_id: autor[0].user_id
+              },
             });
             res.json(artAutor);
           }
