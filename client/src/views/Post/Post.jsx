@@ -239,7 +239,7 @@ function Post() {
     const tagsVal = tags;
     
 
-    if(!tituloVal || !tagsVal || reseñaVal.length === 0 || bodyVal.length === 0 || subcategoriaVal === 0||categoriaVal===0){
+    if(!tituloVal || !tagsVal || reseñaVal.length === 0 || bodyVal.length === 0 ){
       setOpenSnack(true)
     }else{
 
