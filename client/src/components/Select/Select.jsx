@@ -12,14 +12,14 @@ const Selectores = () => {
 		name: el.cat_name,
 		id: el.cat_id,
 		subcategories: sgat.filter((obj) => obj.cat_id === el.cat_id),
-	}));
+}));
 
 	return (
 		<Fragment>
 			{selectores?.map((e) => (
 				<optgroup key={e.id} label={e.name}>
 					{e.subcategories?.map((s) => (
-						<option key={s.sub_cat_id}  value={`${e.id}/${s.sub_cat_id}`}>
+						<option key={s.sub_cat_id}  value={`${s.sub_cat_id}`}>
 							{s.sub_cat_name}
 						</option>
 					))}

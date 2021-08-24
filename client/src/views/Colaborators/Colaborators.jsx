@@ -6,6 +6,7 @@ import {
 	getUsersAdmin,
 	getUsersColaborator,
 } from '../../redux/actions/usersActions';
+import { getAllCollabs } from '../../redux/API';
 import { useDispatch, useSelector } from 'react-redux';
 import BiosContainer from '../../components/Bios/BiosContainer';
 import Institutions from '../../components/Institutions/Institutions';
@@ -54,10 +55,24 @@ const useStyles = makeStyles((theme) => ({
 		color: 'white',
 	},
 	tabs: {
+		backgroundColor: "#031927",
 		'& .MuiTabs-flexContainer': {
 			justifyContent: 'space-around',
 		},
+		'&:focus': {
+			color: 'white',
+		  }, 
+		  "& .MuiTabs-indicator":{
+			backgroundColor: 'white'
+		  }
 	},
+    tabsText:{
+		color: "#93827F",
+		'&:focus': {
+		  color: 'white',
+		},
+		
+	  },
 }));
 
 function TabPanel(props) {
@@ -98,16 +113,14 @@ function a11yProps(index) {
 
 export default function Colaborators() {
 	const dispatch = useDispatch();
-	const { admins, colaborators } = useSelector(
-		(state) => state.usersReducer
-	);
+	const [ collabs, setCollabs ] = useState()
 	const institutions = useSelector(
 		(state) => state.institutionsReducer.institutions
 	);
 
-	useEffect(() => {
-		dispatch(getUsersAdmin('rol_mALahPQjTe8Re7vf'));
-		dispatch(getUsersColaborator('rol_ZtYREJr7Fq2n211C'));
+	useEffect(async () => {
+		const newCollabs = await getAllCollabs();
+		setCollabs(newCollabs.data)
 		dispatch(getInstitutions());
 	}, [dispatch]);
 
@@ -137,23 +150,13 @@ export default function Colaborators() {
 						aria-label="scrollable auto tabs example"
 						className={classes.tabs}
 					>
-						<Tab label="Bios" {...a11yProps(0)} />
-						<Tab label="Instituciones" {...a11yProps(1)} />
+						<Tab label="Bios" {...a11yProps(0)} className={classes.tabsText} />
+						<Tab label="Instituciones" {...a11yProps(1)} className={classes.tabsText} />
 					</Tabs>
 				</AppBar>
 				<TabPanel value={value} index={0}>
-					{admins?.map((user) => {
-							return (
-								<BiosContainer
-									id={user.user_id_A0}
-									key={user.user_id}
-									userName={user.user_name}
-									biography={user.biography}
-									imgProfile={user.user_img_profile}
-								></BiosContainer>
-							);
-						})}
-					{colaborators?.map((user) => {
+					
+					{collabs?.map((user) => {
 							return (
 								<BiosContainer
 									id={user.user_id_A0}

@@ -18,6 +18,23 @@ export const getUserMetadata = (id) => {
 	};
 };
 
+export const updateLinkInMetadata = (body, user_id_A0) => {
+	return async (dispatch) => {
+		try {
+			const data = { ...body, user_id_A0: user_id_A0 };
+			const response = await API.updateLinkInMetadata(data);
+			if (
+				response?.data?.message === 'successful' &&
+				response?.data?.metadata !== null
+			) {
+				dispatch(setMetadata(response.data.metadata));
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
+};
+
 export const createNewLinkInMetadata = (newLink, user_id_A0) => {
 	return async (dispatch) => {
 		try {

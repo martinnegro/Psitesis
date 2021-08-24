@@ -26,7 +26,7 @@ module.exports = (sequelize) => {
       post_views: {
         type: DataTypes.INTEGER,
       },
-      post_state: {
+      post_open: {
         type: DataTypes.BOOLEAN,
       },
       post_likes: {
@@ -34,6 +34,9 @@ module.exports = (sequelize) => {
       },
       post_edited: {
           type: DataTypes.BOOLEAN
+      },
+      post_highlight: {
+        type: DataTypes.BOOLEAN
       }
     }
   );

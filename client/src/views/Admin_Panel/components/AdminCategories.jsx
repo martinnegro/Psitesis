@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
 import {
 	Table,
 	TableHead,
@@ -31,6 +30,16 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ConfirmAlertDeleteSubCategory from './ConfirmAlertDeleteSubCategory';
 import ConfirmAlertDeleteCategory from './ConfirmAlertDeleteCategory';
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+	table2: {
+	  "@media (max-width: 601px)": {
+		display: "block",
+		overflowX: "auto",
+	  },
+	},
+  }));
 
 const CustomInputCell = ({ newCat, name, handleNewCat }) => {
 	return (
@@ -93,12 +102,13 @@ const CustomTableCellSubCategory = ({
 };
 
 const AdminCategories = () => {
-	const { getAccessTokenSilently } = useAuth0();
 	const categories = useSelector((state) => state.rootReducer.cat_sub);
 	const dispatch = useDispatch();
 	const [rowsCategories, setRowsCategories] = useState([]);
 	const [previous, setPrevious] = useState({});
 	const [previousSub, setPreviousSub] = useState({});
+	const classes = useStyles();
+
 
 	useEffect(() => {
 		dispatch(getAllCatSub());
@@ -178,8 +188,7 @@ const AdminCategories = () => {
 
 	const onUpdateCategory = async (id) => {
 		const body = rowsCategories.find((category) => category.id === id);
-		const token = await getAccessTokenSilently();
-		dispatch(setCategory(body, token));
+		dispatch(setCategory(body));
 		onToggleEditMode(id);
 	};
 
@@ -188,8 +197,7 @@ const AdminCategories = () => {
 		const subCategory = category.subCategories.find(
 			(subCategory) => subCategory.id === sub_id
 		);
-		const token = await getAccessTokenSilently();
-		dispatch(setSubCategory(subCategory, token));
+		dispatch(setSubCategory(subCategory));
 		onToggleEditModeSubCategory(cat_id, sub_id);
 	};
 
@@ -278,8 +286,7 @@ const AdminCategories = () => {
 
 	const handleConfirmSub = async (id) => {
 		setOpenSub(false);
-		const token = await getAccessTokenSilently();
-		dispatch(deleteSubCategory(id, token));
+		dispatch(deleteSubCategory(id));
 	};
 
 	const handleClickOpen = (id) => {
@@ -298,8 +305,7 @@ const AdminCategories = () => {
 
 	const handleConfirm = async (id) => {
 		setOpen(false);
-		const token = await getAccessTokenSilently();
-		dispatch(deleteCategory(id, token));
+		dispatch(deleteCategory(id));
 	};
 
 	const [isCreating, setIsCreating] = useState(false);
@@ -349,15 +355,13 @@ const AdminCategories = () => {
 	};
 
 	const confirmNewCat = async (newCategory) => {
-		const token = await getAccessTokenSilently();
-		dispatch(createNewCategory(newCategory, token));
+		dispatch(createNewCategory(newCategory));
 		setIsCreating(false);
 		setNewCat(initialNewCat);
 	};
 
 	const confirmNewSubCat = async (id) => {		
-		const token = await getAccessTokenSilently();
-		dispatch(createNewSubCategory({...newSubCat[id], id: id}, token));
+		dispatch(createNewSubCategory({...newSubCat[id], id: id}));
 		setIsCreatingSub({
 			...isCreatingSub,
 			[id]: false,
@@ -382,8 +386,8 @@ const AdminCategories = () => {
 					Categorias
 				</AccordionSummary>
 				<AccordionDetails>
-					<Table size="small" width="100%">
-						<TableHead>
+					<Table size="small" width="100%" className={classes.table2}>
+						<TableHead >
 							<TableCell>Nombre</TableCell>
 							<TableCell align="right">Editar</TableCell>
 							<TableCell align="right">Eliminar</TableCell>
@@ -469,7 +473,7 @@ const AdminCategories = () => {
 						Sub-Categorias de {category.name}
 					</AccordionSummary>
 					<AccordionDetails>
-						<Table size="small" width="100%">
+						<Table size="small" width="100%" className={classes.table2}>
 							<TableHead>
 								<TableCell>Nombre</TableCell>
 								<TableCell>Descripción</TableCell>

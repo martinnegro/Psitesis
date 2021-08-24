@@ -14,6 +14,7 @@ import {
 
 import SearchIcon from '@material-ui/icons/Search';
 import { getAllArticle, orderArticles, getArticleTag } from "../../redux/actions/actionsArticles";
+import {getUserDetail} from "../../redux/actions/usersActions";
 import { Link } from "react-router-dom";
 
 //Menu Bottom
@@ -55,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   tipoh2: {
+    textTransform: 'uppercase',
     "@media (max-width: 601px)": {
       marginTop: 0,
       fontSize: "1.75rem",
@@ -68,7 +70,9 @@ export default function Home() {
   const classes = useStyles();
   const articles = useSelector((state) => state.articlesReducer.articles); // Nueva forma de acceder al estado por combineReducer
   const orderedArticles = useSelector((state) => state.articlesReducer.orderedArticles)
+  const userId = useSelector((state) => state.authReducer.user.user_id)
   const dispatch = useDispatch();
+
 
   useEffect(() => {
     dispatch(getAllArticle());
@@ -76,7 +80,13 @@ export default function Home() {
 
   useEffect(()=>{
     dispatch(orderArticles("art_views","DESC"))
-  },[dispatch])
+  },[dispatch,articles])
+
+  useEffect(() => {
+		if (userId) {
+			dispatch(getUserDetail(userId));
+		}
+	}, [dispatch, userId]);
 
   // const [ search, setSearch ] = useState('')
   const [pageNumber, setPageNumber] = useState(0);
@@ -106,9 +116,9 @@ export default function Home() {
   };
   
   
-
   return (
     <Container>
+      
       <div className={classes.offset}></div>
       <Nav />
       <Container className={classes.Home}>
@@ -193,7 +203,7 @@ export default function Home() {
               variant="contained"
               size="medium"
               color="purple"
-              onClick={() => history.push('/home')}
+              onClick={()=>dispatch(getAllArticle('views','DESC'))}
               classes={{
                 root: classes.root,
                 label: classes.label,

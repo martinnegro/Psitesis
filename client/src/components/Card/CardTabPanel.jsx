@@ -34,6 +34,13 @@ const useStyles = makeStyles({
     width: '100%',
     justifyContent: 'space-between',
     backgroundColor: 'white'
+  },
+  button:{
+    color: 'white',
+    backgroundColor: '#031927',
+      '&:hover': {
+        backgroundColor: '#010b12',
+    }
   }
 });
 
@@ -71,7 +78,12 @@ export default function CardTabPanel (props) {
       </CardContent>
       <CardActions className={classes.cardContents}>
       <Typography component="p" >{idUser[0]?.user_name}</Typography>
-      <Button  size="small"  onClick={() => history.push(`/post/${id}`)} ><AddIcon/></Button>
+      <Button 
+      className={classes.button}  
+      size="small"  
+      onClick={() => history.push(`/post/${id}`)}
+      endIcon={<AddIcon/>}
+      >VER</Button>
       </CardActions>
     </Card>
   );

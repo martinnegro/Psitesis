@@ -1,30 +1,30 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import MenuIcon from '@material-ui/icons/Menu';
-import Avatar from '@material-ui/core/Avatar';
-import Drawer from '@material-ui/core/Drawer';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import MenuIcon from "@material-ui/icons/Menu";
+import Avatar from "@material-ui/core/Avatar";
+import Drawer from "@material-ui/core/Drawer";
 
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import PeopleAltTwoToneIcon from '@material-ui/icons/PeopleAltTwoTone';
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import PeopleAltTwoToneIcon from "@material-ui/icons/PeopleAltTwoTone";
 
-import Divider from '@material-ui/core/Divider';
+import Divider from "@material-ui/core/Divider";
 
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
 
-import { makeStyles, useTheme } from '@material-ui/core';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import clsx from 'clsx';
+import { Icon, makeStyles, useTheme } from "@material-ui/core";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import clsx from "clsx";
 
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
-import BookOutlinedIcon from '@material-ui/icons/BookOutlined';
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
+import BookOutlinedIcon from "@material-ui/icons/BookOutlined";
 // import ForumIcon from '@material-ui/icons/Forum';
 // import PeopleOutlineOutlinedIcon from '@material-ui/icons/PeopleOutlineOutlined';
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -34,14 +34,18 @@ import ForumTwoToneIcon from "@material-ui/icons/ForumTwoTone";
 
 import logo from "../../assets/Logo.png";
 import { useHistory } from "react-router-dom";
-import userAvatar from '../../assets/user.jpg';
-import { useSelector, useDispatch } from 'react-redux';
-import { logOut } from './../../redux/actions/actionsAuth';
+import userAvatar from "../../assets/user.jpg";
+import { useSelector, useDispatch } from "react-redux";
+import { logOut } from "./../../redux/actions/actionsAuth";
 //Submenu
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
+import { grey } from "@material-ui/core/colors";
+import ForumOutlinedIcon from '@material-ui/icons/ForumOutlined';
+import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
 
 const drawerWidth = 270;
 
@@ -131,17 +135,17 @@ const useStyles = makeStyles((theme) => ({
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
-    }
+    },
   },
 }));
 
 export default function Nav() {
-	const { isAuthenticated, user } = useSelector((state) => state.authReducer); // Nueva forma de acceder al estado por combineReducer
-	const dispatch = useDispatch();
+  const { isAuthenticated, user } = useSelector((state) => state.authReducer); // Nueva forma de acceder al estado por combineReducer
+  const dispatch = useDispatch();
 
-	const handleLogout = () => {
-		dispatch(logOut());
-	};
+  const handleLogout = () => {
+    dispatch(logOut());
+  };
 
   const history = useHistory();
 
@@ -168,6 +172,16 @@ export default function Nav() {
     setAnchorEl(null);
   };
 
+  const [anchorEl2, setAnchorEl2] = React.useState(null);
+
+  const handleClick2 = (event) => {
+    setAnchorEl2(event.currentTarget);
+  };
+
+  const handleClose2 = () => {
+    setAnchorEl2(null);
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -188,43 +202,179 @@ export default function Nav() {
             <MenuIcon />
           </IconButton>
           <div className={classes.logoMax}>
-            <Link to={`/user/${user?.user_id}`}>
-              <Avatar variant="square" src={logo} className={classes.square} />
-            </Link>
+            {/* <Link to={`/user/${user?.user_id}`}> */}
+            <Avatar variant="square" src={logo} className={classes.square} />
+            {/* </Link> */}
           </div>
 
           {isAuthenticated ? (
-            <Link to={`/user/${user?.user_id}`}>
-              <Avatar alt="User" src={user.picture} />
-            </Link>
+            <>
+              <Button
+                aria-controls="simple-menu2"
+                aria-haspopup="true"
+                onClick={handleClick2}
+              >
+                <Avatar alt="User" src={user.picture} />
+              </Button>
+              <Menu
+                id="simple-menu2"
+                anchorEl={anchorEl2}
+                keepMounted
+                open={Boolean(anchorEl2)}
+                onClose={handleClose2}
+              >
+                {/* <MenuItem>
+                  <IconButton
+                    color="inherit"
+                    aria-label="add"
+                    onClick={handleClose2}
+                  >
+                    <HighlightOffIcon fontSize='10px' />&nbsp;
+                    <Typography variant="subtitle2" color="initial" style={{fontSize: '8px', textTransform: 'uppercase'}}>
+                      CLOSE
+                    </Typography>
+                  </IconButton>
+                </MenuItem> */}
+
+                {user?.roles?.includes("admin") ||
+                user?.roles?.includes("superadmin") ? (
+                  <>
+                    <MenuItem>
+                      <span
+                        color="inherit"
+                        aria-label="add"
+                        onClick={() => history.push("/post")}
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          color: grey[600],
+                        }}
+                      >
+                        <AddCircleOutlineIcon fontSize="10px" />
+                        &nbsp;
+                        <Typography
+                          variant="subtitle2"
+                          color="initial"
+                          style={{
+                            fontSize: "12px",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          CREAR ARTICULO
+                        </Typography>
+                      </span>
+                    </MenuItem>
+                    <MenuItem>
+                      <span
+                        edge="end"
+                        color="inherit"
+                        onClick={() => history.push("/adminpanel")}
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          color: grey[600],
+                        }}
+                      >
+                        <SettingsIcon fontSize="10px" />
+                        &nbsp;
+                        <Typography
+                          variant="subtitle2"
+                          color="initial"
+                          style={{
+                            fontSize: "12px",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          PANEL DE ADMINISTRADOR
+                        </Typography>
+                      </span>
+                    </MenuItem>
+                  </>
+                ) : null}
+
+                <MenuItem>
+                  <span
+                    edge="end"
+                    color="inherit"
+                    onClick={() => history.push(`/user/${user?.user_id}`)}
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      color: grey[600],
+                    }}
+                  >
+                    {/* <Link to={`/user/${user?.user_id}`}> */}
+                    <PersonOutlineIcon fontSize="10px" />
+                    &nbsp;
+                    <Typography
+                      variant="subtitle2"
+                      color="initial"
+                      style={{ fontSize: "12px", textTransform: "uppercase" }}
+                    >
+                      PERFIL
+                    </Typography>
+                    {/* </Link> */}
+                  </span>
+                </MenuItem>
+                <MenuItem>
+                  <span
+                    edge="end"
+                    color="inherit"
+                    onClick={handleLogout}
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      color: grey[600],
+                    }}
+                  >
+                    <ExitToAppIcon fontSize="10px" />
+                    &nbsp;
+                    <Typography
+                      variant="subtitle2"
+                      color="initial"
+                      style={{ fontSize: "12px", textTransform: "uppercase" }}
+                    >
+                      CERRAR SESION
+                    </Typography>
+                  </span>
+                </MenuItem>
+              </Menu>
+            </>
           ) : (
             <Link to={`/user/${user?.user_id}`}>
               <Avatar alt="User" src={userAvatar} />
             </Link>
           )}
 
-          <div className={classes.ocultReverse}>
-            <Button
+          {/*<div className={classes.ocultReverse}>
+             <Button
               aria-controls="simple-menu"
               aria-haspopup="true"
               onClick={handleClick}
             >
-              <MenuIcon />
-            </Button>
-            <Menu
+              <MenuIcon style={{ color: '#ffffff' }} />
+            </Button> */}
+          {/* <Menu
               id="simple-menu"
               anchorEl={anchorEl}
               keepMounted
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-				<MenuItem>
+              <MenuItem>
                 <IconButton
                   color="inherit"
                   aria-label="add"
                   onClick={handleClose}
                 >
-                  <HighlightOffIcon /><Typography variant="subtitle2" color="initial">CLOSE</Typography>
+                  <HighlightOffIcon fontSize='10px' />&nbsp;
+                  <Typography variant="subtitle2" color="initial" style={{fontSize: '8px', textTransform: 'uppercase'}}>
+                    CLOSE
+                  </Typography>
                 </IconButton>
               </MenuItem>
               <MenuItem>
@@ -233,25 +383,26 @@ export default function Nav() {
                   aria-label="add"
                   onClick={() => history.push("/post")}
                 >
-                  <AddCircleOutlineIcon /><Typography variant="subtitle2" color="initial">ADD POST</Typography>
+                  <AddCircleOutlineIcon  fontSize='10px' />&nbsp;
+                  <Typography variant="subtitle2" color="initial" style={{fontSize: '8px', textTransform: 'uppercase'}}>
+                    ADD POST
+                  </Typography>
                 </IconButton>
               </MenuItem>
-			  <MenuItem>
+              <MenuItem>
                 <IconButton
                   edge="end"
                   color="inherit"
                   onClick={() => history.push("/adminpanel")}
                 >
-                  <SettingsIcon /><Typography variant="subtitle2" color="initial">PANEL ADMIN</Typography>
+                  <SettingsIcon fontSize='10px' />&nbsp;
+                  <Typography variant="subtitle2" color="initial" style={{fontSize: '8px', textTransform: 'uppercase'}}>
+                    PANEL ADMIN
+                  </Typography>
                 </IconButton>
               </MenuItem>
-              <MenuItem>
-                <IconButton edge="end" color="inherit" >
-                  <ExitToAppIcon /><Typography variant="subtitle2" color="initial">LOGOUT</Typography>
-                </IconButton>
-              </MenuItem>
-            </Menu>
-          </div>
+            </Menu> 
+          </div>*/}
         </Toolbar>
       </AppBar>
 
@@ -278,34 +429,33 @@ export default function Nav() {
           </IconButton>
         </div>
         <Divider />
-
         <ListItem button onClick={() => history.push("/home")}>
           <ListItemIcon>
             <HomeOutlinedIcon />
           </ListItemIcon>
-          <ListItemText>Home</ListItemText>
+          <ListItemText style={{textTransform: 'uppercase'}}>Inicio</ListItemText>
         </ListItem>
         <ListItem button onClick={() => history.push("/guiadetesis")}>
           <ListItemIcon>
             <BookOutlinedIcon />
           </ListItemIcon>
-          <ListItemText>Guía de Tesis</ListItemText>
+          <ListItemText style={{textTransform: 'uppercase'}}>Guía de Tesis</ListItemText>
         </ListItem>
         <ListItem button onClick={() => history.push("/forum")}>
           <ListItemIcon>
-            <ForumTwoToneIcon />
+            <ForumOutlinedIcon />
           </ListItemIcon>
-          <ListItemText>Foro</ListItemText>
+          <ListItemText style={{textTransform: 'uppercase'}}>Foro</ListItemText>
         </ListItem>
         <ListItem button onClick={() => history.push("/colaborators")}>
           <ListItemIcon>
-            <PeopleAltTwoToneIcon />
+            <PeopleAltOutlinedIcon />
           </ListItemIcon>
-          <ListItemText>Colaboradores</ListItemText>
+          <ListItemText style={{textTransform: 'uppercase'}}>Colaboradores</ListItemText>
         </ListItem>
-
         <Divider />
-        {user?.roles?.includes('admin') || user?.roles?.includes('superadmin') ? (
+        {/*{user?.roles?.includes("admin") ||
+        user?.roles?.includes("superadmin") ? (
           <>
             <ListItem button onClick={() => history.push("/post")}>
               <ListItemIcon>
@@ -318,17 +468,10 @@ export default function Nav() {
                 <SettingsIcon />
               </ListItemIcon>
               <ListItemText>Panel de Administrador</ListItemText>
-            </ListItem>
+            </ListItem> 
           </>
         ) : null}
-        <Divider />
-
-        <ListItem button onClick={handleLogout}>
-          <ListItemIcon>
-            <ExitToAppIcon />
-          </ListItemIcon>
-          <ListItemText>LogOut</ListItemText>
-        </ListItem>
+        <Divider />*/}
       </Drawer>
     </div>
   );

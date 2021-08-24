@@ -1,9 +1,15 @@
-import React from "react"
+import {React,useState} from "react"
 import { Link } from 'react-router-dom'
-import { Card, CardContent, Avatar, Typography, makeStyles, Box,Container,Divider,Button } from '@material-ui/core'
+import { Avatar, Typography, makeStyles, Box,Container,Divider,Button } from '@material-ui/core'
 import ReportTwoToneIcon from '@material-ui/icons/ReportTwoTone';
-import FormatQuoteTwoToneIcon from '@material-ui/icons/FormatQuoteTwoTone';
+import EditIcon from '@material-ui/icons/Edit';
 import ReplyTwoToneIcon from '@material-ui/icons/ReplyTwoTone';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import { useDispatch, useSelector } from "react-redux";
+import EditComment from "./EditComment"
+import { deleteComment } from "../../../redux/API";
+import { getDateTime } from "../../../utils/auth";
+import Report from "./Report";
 
 const useStyle = makeStyles({
     root: {
@@ -51,7 +57,7 @@ const useStyle = makeStyles({
         margin: "20px"
     },
     iconContainer:{
-        margin: "10px"
+        margin: "10px",
 
     },
     contentContainer : {
@@ -61,63 +67,91 @@ const useStyle = makeStyles({
         color: "inherit",
         styles: "none",
         textDecoration: "none"
+    },
+    divider:{
+        width: "100%"
+    },
+    button:{
+        fontSize: "7px"
+    }
+});
+const CommentCard = ({id,date,userName,image,content,userId,handleCommentComponent,fetchPostData,deleted}) =>{
+    const classes = useStyle();
+    const loggedUserId =  useSelector((state) => state.authReducer.user.user_id)
+    const [edit,setEdit] = useState(false)
+    const [report,setReport] = useState(false)
+    const handleEdit = () => {
+        setEdit(true)
+    }
+    const cancellEdit = () => {
+        setEdit(false)
+    }
+    const handleDelete = async () => {
+        await deleteComment(id)
+        await fetchPostData()
     }
 
-});
+    const handleReport = () =>{
+        setReport(true)
+    }
 
-const CommentCard = ({id,date,likes,views,userName,image,content,userId,handleCommentComponent}) =>{
-    const classes = useStyle();
+    const cancellReport = () =>{
+        setReport(false)
+    }
     return(
         <Container className = {classes.root} >
             <Link className = {classes.links} to = {`/user/${userId}`}>
-            <Box className={classes.user} >
-                        <Avatar className={classes.avatar} alt={userName} src={image}/>
-                        <div>
+                <Box className={classes.user} >
+                    <Avatar className={classes.avatar} alt={userName} src={image}/> 
+                    <div>
                         <Typography color="textSecondary">
-                                {date}
-                            </Typography>
-                        <Typography className={classes.autor} color="textSecondary">
-                            <span> {userName}</span>
+                            {getDateTime(date)}
                         </Typography>
-                        </div>
-                    </Box>
-                    </Link>
+                        <Typography fontWeight = {500}className={classes.autor} variant = "body2">
+                            <span fontWeight = {500} > Por {userName}</span>
+                        </Typography>
+                    </div> 
+                </Box>
+            </Link>
                     <Box>
-                           
                         </Box>
                         <Box className = {classes.contentContainer}>
-                        <Typography>
+                        <Typography variant = "body1">
                         <span
-              dangerouslySetInnerHTML={{
-                __html: `${content}`,
-              }}
-            />
+                            dangerouslySetInnerHTML={{
+                              __html: `${content}`,
+                            }}
+                        />
                         </Typography>
                     </Box>
-
-                    <Box className = {classes.iconsContainer}>
+                    
+                            
+                    {deleted === false ? <Box className = {classes.iconsContainer}>
                     <Box className = {classes.iconContainer}>
-                    <Typography color="textSecondary">
-                        
-                                <ReportTwoToneIcon/> <Button> Reportar </Button>
-                                
+                    <Typography>
+                    <Button className = {classes.button} onClick = {handleReport}> <ReportTwoToneIcon style={{ fontSize: 15 }}  /> Reportar </Button>
+                    {report ? <Report cancellReport = {cancellReport} commentId = {id}/> : null}         
                             </Typography>
                             </Box>
                             <Box className = {classes.iconContainer}>
                             <Typography color="textSecondary">
-                                
-                                 <FormatQuoteTwoToneIcon/> <Button>Citar</Button>
+                            <Button className = {classes.button} onClick =  {(e) => handleCommentComponent(e,id)}> <ReplyTwoToneIcon style={{ fontSize: 15 }} /> Responder</Button>
                             </Typography>
                             </Box>
                             <Box className = {classes.iconContainer}>
                             <Typography color="textSecondary">
-                                 <ReplyTwoToneIcon/> <Button onClick =  {() => handleCommentComponent(id)}>Responder</Button>
-                            </Typography>
+                                    <Button className = {classes.button} onClick = {handleEdit}>
+                                    <EditIcon  style={{ fontSize: 15 }} /> 
+                                        Editar
+                                    </Button> 
+                                    <Button className = {classes.button} onClick = {handleDelete}>
+                                        <DeleteForeverIcon  style={{ fontSize: 15 }}/>Eliminar</Button> 
+                                {edit ? <EditComment id = {id} content = {content} cancellEdit = {cancellEdit} fetchPostData = {fetchPostData}></EditComment> : null}
+                            </Typography>     
                             </Box>
-                            </Box>
-                            <Divider/>
+                            </Box >  : null}
+                            <Divider className = {classes.divider}/>
         </Container>
-        
     )
 }
 
