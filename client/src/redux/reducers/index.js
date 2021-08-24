@@ -6,6 +6,7 @@ import usersReducer from "./usersReducer";
 import metadataReducer from "./metadataReducer";
 import articlesReducer from "./articlesReducer";
 import forumReducer from "./forumReducer";
+import filesReducer from "./filesReducer";
 
 // combina todos los reducer
 export default combineReducers({
@@ -16,4 +17,5 @@ export default combineReducers({
   usersReducer,
   articlesReducer,
   forumReducer,
+  filesReducer,
 });

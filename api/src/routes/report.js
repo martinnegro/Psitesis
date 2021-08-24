@@ -3,9 +3,9 @@ const router = Router();
 const { v4: uuidv4 } = require("uuid");
 const { authorizeAccessToken, checkAdminPermission } = require("../auth/index");
 
-const { Report, Comment, ForumPost } = require("../db");
+const { Report, User, Comment } = require("../db");
 
-router.post("/", async (req, res, next) => {
+router.post("/", authorizeAccessToken, async (req, res, next) => {
   try {
     const { rep_reason, comment_id, post_id } = await req.body;
     let newReport = await Report.create({
@@ -13,6 +13,12 @@ router.post("/", async (req, res, next) => {
       rep_reason,
       rep_resolved: false,
     });
+
+    const aux_user = await User.findOne({
+      where: { user_id_A0: req.user.sub },
+    });
+
+    await newReport.setUser(aux_user.user_id);
 
     if (comment_id !== null) {
       await newReport.setComment(comment_id);
@@ -22,6 +28,30 @@ router.post("/", async (req, res, next) => {
       await newReport.setForumpost(post_id);
     }
     return res.json(newReport);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/", async (req, res, next) => {
+  try {
+    const { prop, value } = req.query;
+    const commentsReports = await Comment.findAll({
+      attributes: [
+        "comment_id",
+        "comment_contents",
+        "deleted",
+        "post_id",
+        "user_id",
+      ],
+      include: {
+        model: Report,
+        where: {
+          [prop]: value,
+        },
+      },
+    });
+    return res.json(commentsReports);
   } catch (err) {
     next(err);
   }

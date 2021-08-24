@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   tipoh2: {
+    textTransform: 'uppercase',
     "@media (max-width: 601px)": {
       marginTop: 0,
       fontSize: "1.75rem",
