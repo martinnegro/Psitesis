@@ -4,14 +4,14 @@ import {
   GET_SUB_TOPICS,
 } from "../actions/forumActions";
 
-import { GET_COMMENTS_REPORTS } from "../API";
+import { GET_REPORTS } from "../API";
 
 const initialState = {
   topicsAndSubtopics: [],
   last20Post: [],
   forumSubtopics: null,
   subtopics: [],
-  commentsReports: [],
+  reports: [],
 };
 
 export default function forumReducer(state = initialState, { type, payload }) {
@@ -30,14 +30,15 @@ export default function forumReducer(state = initialState, { type, payload }) {
     case GET_SUB_TOPICS:
       console.log(payload);
       return {
-        state,
+        ...state,
         subtopics: payload,
       };
-    case GET_COMMENTS_REPORTS:
+    case GET_REPORTS:
       return {
-        state,
-        commentsReports: payload,
+        ...state,
+        reports: payload,
       };
+
     default:
       return state;
   }

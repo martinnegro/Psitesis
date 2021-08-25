@@ -1,7 +1,7 @@
 import axios from "axios";
 const { REACT_APP_URL_API } = process.env;
 const API = axios.create({ baseURL: REACT_APP_URL_API });
-export const GET_COMMENTS_REPORTS = "GET_COMMENTS_REPORTS";
+export const GET_REPORTS = "GET_POST_REPORTS";
 
 //con este intercertor pueden enviar sus peticiones directamente con el token en los headers
 API.interceptors.request.use((req) => {
@@ -78,20 +78,25 @@ export const highlightPost = (post_id) =>
 // ruta para articles
 export const getArticleWhithoutSectionAuth = () =>
   API.get(`/article/sinseccion/hola`);
-export const changeVisibility = (art_id) => API.put(`/article/change_show/${art_id}`)
-export const getHideArticles = () => API.get('/article/hide_articles')
+export const changeVisibility = (art_id) =>
+  API.put(`/article/change_show/${art_id}`);
+export const getHideArticles = () => API.get("/article/hide_articles");
 
 // reports
 export const postReport = (data) => API.post(`/report`, data);
-export const getCommentsReports = (prop, value) => {
+
+export const getReports = (prop, value) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(
         `${REACT_APP_URL_API}/report?prop=${prop}&value=${value}`
       );
-      dispatch({ type: GET_COMMENTS_REPORTS, payload: response.data });
+      dispatch({ type: GET_REPORTS, payload: response.data });
     } catch (error) {
       console.error(error);
     }
   };
 };
+
+export const editReport = (id) => API.put(`report/resolve/${id}`);
+export const deleteReport = (id) => API.delete(`report/delete/${id}`);
