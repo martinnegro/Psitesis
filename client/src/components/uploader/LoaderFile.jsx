@@ -17,9 +17,6 @@ const LoaderFile = ({ desc, file, setFile, setLoading }) => {
 		if (url) {
 			setFile(null)
 			setLoading(false)
-			console.log('dentro de la cosa',desc)
-			console.log('dentro de la cosa',url)
-			console.log('dentro de la cosa',file.name)
 			const fileToCreate = {name: file.name, description:desc, url:url}
 			dispatch(createFile(fileToCreate));
 		}
