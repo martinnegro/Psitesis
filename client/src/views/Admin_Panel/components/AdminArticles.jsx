@@ -12,6 +12,7 @@ import {
     TableRow,
     Typography
 } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 
 function AdminArticles() {
@@ -47,9 +48,13 @@ function AdminArticles() {
                 <TableBody>
                     {
                         hideArts.map(a => (
-                            <TableRow>
+                            <TableRow key={a.art_id}>
                             <TableCell>{a.user.user_name}</TableCell>
-                            <TableCell>{a.art_title}</TableCell>
+                            <TableCell>
+                                <Link to={`/post/${a.art_id}`}>
+                                    {a.art_title}
+                                </Link>
+                            </TableCell>
                             <TableCell>
                                 <Button onClick={() => showArticle(a.art_id)}>
                                     MOSTRAR

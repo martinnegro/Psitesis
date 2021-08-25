@@ -136,7 +136,7 @@ router.put('/change_show/:art_id', async (req,res,next) => {
   try {
     const art = await Article.findByPk(art_id);
     art.art_visibility = !art.art_visibility;
-    art.save();
+    await art.save();
     res.json({ message: 'Updated' })
   } catch(err) { next(err) }
 });
