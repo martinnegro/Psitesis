@@ -38,14 +38,14 @@ const CommentReportedCard = ({content,postId,reports}) =>{
   }
   function handleResolve(id){
     editReport(id);
-    getReports();
+    
     
     
   }
 
   function handleDelete(id){
     deleteReport(id);
-    getReports();
+    
     
   }
     return(
