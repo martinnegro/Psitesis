@@ -22,11 +22,15 @@ const useStyles = makeStyles({
   },
   link:{
       textDecoration: "none",
-      color: "inherit"
+      color: "inherit",
+      fontSize: 12
   },
   table: {
     minWidth: 650,
   },
+  container:{
+    margin: "20px",
+  }
   
 });
 
@@ -46,11 +50,11 @@ const CommentReportedCard = ({commentContent,postContent,postId,fetchData,report
       await fetchData("rep_resolved","false") 
   }
     return(
-        <Container>
+        <Container className = {classes.container}>
           
             <Card className = {classes.root}>
             <CardContent>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h5" component="h5">
             <Link className = {classes.link} to = {`/forum/post/${postId}`}>
           {commentContent ? commentContent : postContent}
           </Link>
@@ -75,10 +79,7 @@ const CommentReportedCard = ({commentContent,postContent,postId,fetchData,report
         </TableBody>
         <TableBody>
 
-         {/* COMMENTS */}
-         
            {reports.map((report)=> (
-        
             <TableRow key={report.rep_id}>
               {console.log(report)}
             <TableCell component="th" scope="row">
@@ -86,7 +87,7 @@ const CommentReportedCard = ({commentContent,postContent,postId,fetchData,report
             </TableCell>
             <TableCell align="right">{report.rep_reason}</TableCell>
             <TableCell align="right"><Button onClick =  {() => handleResolve(report.rep_id)}><CheckIcon/></Button></TableCell>
-            <TableCell align="right"><Button onClick = {() => handleDelete(report.rep_id)}><DeleteForeverIcon/></Button></TableCell>
+            <TableCell align="right"><Button onClick = {() => handleDelete(report.rep_id)}><DeleteForeverIcon color="secondary"/></Button></TableCell>
           </TableRow>
            ))
          }
