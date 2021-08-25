@@ -83,7 +83,11 @@ router.put("/resolve/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const report = await Report.findByPk(id);
-    report.rep_resolved = true;
+    if (report.rep_resolved) {
+      report.rep_resolved = false;
+    } else {
+      report.rep_resolved = true;
+    }
     await report.save();
     return res.json(report);
   } catch (err) {
