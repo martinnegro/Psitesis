@@ -1,8 +1,26 @@
 import React, { useState, useRef, useEffect } from "react";
-import { makeStyles, TextField, Typography } from "@material-ui/core";
+import { makeStyles, TextField, createTheme} from "@material-ui/core";
 import { purple } from "@material-ui/core/colors";
 import { Button } from "@material-ui/core";
 import './dragImage.css';
+import { ThemeProvider } from '@material-ui/core/styles';
+
+const theme = createTheme({
+	palette: {
+		primary: {
+			main: purple[500],
+			light: '#ffc4ff',
+			dark: '#9c64a6',
+			contrastText: '#fff',
+		},
+		secondary: {
+			main: purple[500],
+			light: '#ffc4ff',
+			dark: '#9c64a6',
+			contrastText: '#fff',
+		},
+	},
+});
 
 
 const useStyles = makeStyles((theme) => ({
@@ -20,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
   border: 'none',
   borderRadius: '3px',
   height: '32px',
+  fontWeight: '400',
 	'&:hover': {
 		backgroundColor: '#031927',
     cursor: 'default'
@@ -120,6 +139,7 @@ const DragFile = ({ setDesc, setMedia, setLoading }) => {
 
       <div className={classes.formInput}>
         <form>
+        <ThemeProvider theme={theme}>
           <TextField
             id="outlined-full-width"
             label="DESCRPCION"
@@ -142,6 +162,7 @@ const DragFile = ({ setDesc, setMedia, setLoading }) => {
             rows={3}
             multiline
           />
+          </ThemeProvider>
         </form>
         <div style={{ display: "flex", flexDirection: "column", marginTop: '20px' }}>
           {error && <div className="drag__message">{messageError}</div>}
