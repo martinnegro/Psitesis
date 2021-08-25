@@ -138,17 +138,21 @@ export default function Home() {
             Bienvenidos
           </Typography>
           <Typography>
-            En Psitesis encontrarás {/* <NavLink to='#'> */}
+            En Psitesis encontrarás
             <span style={{ color: "purple" }}>ARTICULOS</span>
-            {/* </NavLink> */} escritos por {/* <NavLink to='#'> */}
+             escritos por
             <span style={{ color: "purple" }}>COLABORADORES</span>
-            {/* </NavLink> */} expertos en la contrucción de tesis.
+             expertos en la contrucción de tesis.
           </Typography>
           <Typography>
-            Si seguís con dudas podés escribir en el {/* <NavLink to='#'> */}
+            Si seguís con dudas podés escribir en el
             <span style={{ color: "purple" }}>FORO</span>
-            {/* </NavLink> */}, donde encontrarás otros colegas que puedan
+            , donde encontrarás otros colegas que puedan
             ayudarte.
+          </Typography>
+          <br />
+          <Typography>
+            También podes visitar nuestra sección con archivos para descargar haciendo <Link to='/library'>click aquí</Link>
           </Typography>
         </Container>
 
@@ -173,7 +177,10 @@ export default function Home() {
           :
           null
         }
-        <Container>
+        <Container style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+          <Typography variant="p" color="initial" style={{flexGrow: 1}}>
+            Artículos más leídos.
+          </Typography>
           <ReactPaginate
             previousLabel={"<"}
             nextLabel={">"}
