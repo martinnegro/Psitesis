@@ -2,7 +2,7 @@ const { Router } = require("express");
 const router = Router();
 const { v4: uuidv4 } = require("uuid");
 const { authorizeAccessToken, checkAdminPermission } = require("../auth/index");
-
+const { sendNotificationAllAdmins } = require("./../utils");
 const { Report, User, Comment, Forumpost } = require("../db");
 
 router.post("/", authorizeAccessToken, async (req, res, next) => {
@@ -27,6 +27,13 @@ router.post("/", authorizeAccessToken, async (req, res, next) => {
     if (post_id !== null) {
       await newReport.setForumpost(post_id);
     }
+
+    sendNotificationAllAdmins(
+      req,
+      "Comentario-Post reportado",
+      "/adminpanel",
+      aux_user.user_id
+    );
     return res.json(newReport);
   } catch (err) {
     next(err);
