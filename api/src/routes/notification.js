@@ -9,7 +9,6 @@ router.get('/', authorizeAccessToken, async (req, res, next) => {
 		const user = await User.findOne({
 			where: { user_id_A0: req.user.sub },
 		});
-		console.log(user.user_id);
 		const notifications = await Notification.findAll({
 			where: { receiver_id: user.user_id },
 			order: [['updatedAt', 'DESC']],
@@ -55,6 +54,27 @@ router.get('/test', authorizeAccessToken, async (req, res, next) => {
 			},
 		};
 		req.io.to(req.user.sub).emit('NOTIFICATIONS', message);
+		res.json({ message: 'successful' });
+	} catch (error) {
+		next(error);
+	}
+});
+
+router.put('/', authorizeAccessToken, async (req, res, next) => {
+	try {
+		const user = await User.findOne({
+			where: { user_id_A0: req.user.sub },
+		});
+		await Notification.update(
+			{
+				read: true,
+			},
+			{
+				where: {
+					receiverId: user.user_id,
+				},
+			}
+		);
 		res.json({ message: 'successful' });
 	} catch (error) {
 		next(error);
