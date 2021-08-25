@@ -442,7 +442,7 @@ const cancellReport = () =>{
         {/*//////////////////////////////////////////////////////////////////////*/}
         {/*ICONO COMENTAR POST*/}
         
-          <Container className={classes.commentIcon}>
+          <Container id = "comments" className={classes.commentIcon}>
             {
               post?.post_open && (
                 <Button

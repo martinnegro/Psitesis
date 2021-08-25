@@ -84,7 +84,7 @@ const Admin_Panel = () => {
               aria-controls="panel1bh-content"
               id="panel1bh-header"
             >
-              Comentarios Reportados
+              Comentarios y posts reportados
             </AccordionSummary>
             <AccordionDetails>
               <CommentsReported />

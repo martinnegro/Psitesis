@@ -11,6 +11,7 @@ import { deleteComment } from "../../../redux/API";
 import { getDateTime } from "../../../utils/auth";
 import Report from "./Report";
 import QuoteCard from "./QuoteCard";
+import { HashLink } from 'react-router-hash-link';
 
 const useStyle = makeStyles({
     root: {
@@ -151,13 +152,14 @@ const CommentCard = ({comment,handleCommentComponent,fetchPostData,respondedComm
      
                     </Typography>
                     <Typography color="textSecondary">
-                        <Button
+                        <HashLink className = {classes.links} to = "#comments"><Button
                             className={classes.button}
                             onClick={(e) => handleCommentComponent(e,comment.comment_id)}
                         >
                             <ReplyTwoToneIcon style={{ fontSize: 15 }}/> 
                             Responder
                         </Button>
+                        </HashLink>
                     </Typography> 
                             <Typography color="textSecondary">
                                 <Button 
