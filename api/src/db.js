@@ -6,10 +6,7 @@ const { DATABASE_URL } = process.env;
 
 const sequelize = new Sequelize(
   DATABASE_URL,
-  /* {
-    logging: false,
-    native: false,
-  } */
+
   {
     logging: false,
     dialect: "postgres",

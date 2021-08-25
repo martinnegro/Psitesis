@@ -188,7 +188,7 @@ router.get("/sinseccion/hola", async (req, res, next) => {
     let articleWithoutCategory = await Article.findAll( {
       where: { 
         sub_cat_id: null,
-        where: { art_visibility: true }
+        art_visibility: true
       }
     })
   
