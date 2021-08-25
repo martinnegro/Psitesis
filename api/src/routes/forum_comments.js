@@ -23,6 +23,7 @@ router.post("/", async (req, res, next) => {
       comment_contents,
       post_id,
       user_id,
+      // RESPOSNE_TO_COMMENT_ID ES EL ID DEL COMENTARIO QUE USER_ID RESPONDE
       response_to_comment_id,
       deleted: false,
     });

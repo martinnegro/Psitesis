@@ -99,7 +99,7 @@ const CommentCard = ({id,date,userName,image,content,userId,handleCommentCompone
         setReport(false)
     }
     return(
-        <Container className = {classes.root} >
+        <Container id = {id} className = {classes.root}>
             <Link className = {classes.links} to = {`/user/${userId}`}>
                 <Box className={classes.user} >
                     <Avatar className={classes.avatar} alt={userName} src={image}/> 
