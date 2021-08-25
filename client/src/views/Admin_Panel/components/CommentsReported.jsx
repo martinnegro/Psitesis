@@ -9,7 +9,7 @@ const CommentsReported = () =>{
     const dispatch = useDispatch();
     useEffect(()=>{
         dispatch(getReports("rep_resolved","false"))
-    },[getReports])
+    },[])
 
     return(
         <Container>

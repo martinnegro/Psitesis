@@ -33,7 +33,7 @@ router.post("/", authorizeAccessToken, async (req, res, next) => {
   }
 });
 
-/* router.get("/", async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const { prop, value } = req.query;
 
@@ -70,7 +70,7 @@ router.post("/", authorizeAccessToken, async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}); */
+});
 
 router.put("/resolve/:id", async (req, res, next) => {
   try {
