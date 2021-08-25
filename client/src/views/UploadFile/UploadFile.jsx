@@ -17,6 +17,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import { Divider } from "@material-ui/core";
 import ReactPaginate from "react-paginate";
 import s from './UploadFile.module.css';
+import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
@@ -62,6 +63,11 @@ const useStyles = makeStyles((theme) => ({
   iconButton: {
     padding: 10,
   },
+  estiloTypBtn: {
+    textAlign: 'center', 
+    alignItems: 'center', 
+    fontSize: 10
+  }
 }));
 
 const Library = () => {
@@ -73,6 +79,7 @@ const Library = () => {
   const [reload, setReload] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [pageNumber, setPageNumber] = useState(0);
+  const [mostrar, setMostrar] = useState(false);
 
   const postsByPage = 9;
   const pagesVisited = pageNumber * postsByPage;
@@ -96,34 +103,52 @@ const Library = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-      console.log('Hice click')
       dispatch(searchFiles(busqueda))
       setIsSearching(true)
       setReload(true)
   }
 
+  const onClickMostrar = () => {
+    setMostrar(!mostrar)
+  }
+
+ 
 
   return (
     <Container>
       <div className={classes.offset}></div>
       <Nav />
       <Container className={classes.Home}>
-        {
-        user?.roles?.includes("admin") ||
-        user?.roles?.includes("superadmin") ? (
-          <>
-            <Uploader />
-          </>
-        ) : null}
-
-        <br />
-        <Divider />
-        <br />
-
         <Typography variant="h2" align="center" className={classes.tipoh2}>
           Biblioteca
         </Typography>
 
+        {
+        user?.roles?.includes("admin") ||
+        user?.roles?.includes("superadmin") ? (
+          <> 
+          {
+            !mostrar ? (<span>
+              <Button
+              onClick={onClickMostrar}              
+              >
+               <Typography variant="p" color="initial" className={classes.estiloTypBtn}>Subir Archivo</Typography>  
+              </Button>
+            </span>) : (<span>
+            <Button
+            onClick={onClickMostrar}
+            >
+              <Typography variant="p" color="initial" className={classes.estiloTypBtn}>Ocultar Formulario</Typography>
+            </Button>
+          </span>)
+          }
+                   
+          {mostrar ? (
+            <Uploader />
+          ) : (null)}            
+          </>
+        ) : null}
+        <br />
         <Paper
           component="form"
           className={classes.root}
@@ -145,7 +170,9 @@ const Library = () => {
           </IconButton>
         </Paper>
 
-        <Container>
+
+        {files.length > 0 ? (
+          <Container>
           <ReactPaginate
             previousLabel={"<"}
             nextLabel={">"}
@@ -158,6 +185,8 @@ const Library = () => {
             activeClassName={s.paginationActive}
           />
         </Container>
+        ) : (null) }
+        
 
         <Container className={classes.contCard}>
           {files.length > 0 ? (

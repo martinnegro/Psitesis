@@ -16,13 +16,17 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
 	'color': '#ffffff',
-	'backgroundColor': purple[500],
+	'backgroundColor': '#031927',
+  border: 'none',
+  borderRadius: '3px',
+  height: '32px',
 	'&:hover': {
-		backgroundColor: purple[700],
+		backgroundColor: '#031927',
+    cursor: 'default'
 	},
 },
 root2: {
-	color: purple[500],
+	textTransform: 'uppercase',
 },
 formInput: {
   display: "flex", 
@@ -51,7 +55,6 @@ const DragFile = ({ setDesc, setMedia, setLoading }) => {
   const typesImages = ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/msword']
 
   const isImageValid = (file) => {
-    console.log('file --->', file)
     if (file && typesImages.includes(file.type)) {
       setError(false);
       return true;
@@ -114,9 +117,6 @@ const DragFile = ({ setDesc, setMedia, setLoading }) => {
 
   return (
     <div style={{ alignItems: "center", textAlign: "center" }}>
-      <Typography variant="h2" align="center" className={classes.tipoh2}>
-        Subir archivo
-      </Typography>
 
       <div className={classes.formInput}>
         <form>
@@ -145,13 +145,16 @@ const DragFile = ({ setDesc, setMedia, setLoading }) => {
         </form>
         <div style={{ display: "flex", flexDirection: "column", marginTop: '20px' }}>
           {error && <div className="drag__message">{messageError}</div>}
-          <input
-		  	className={classes.root2}
+          <div class="file-select" id="src-file1" >
+            <input
+		  	    className={classes.root2}
             ref={refInputFile}
             type="file"
             name="file"
             onChange={uploadImage}			
-          />  
+          /> 
+          </div>
+           
 		  <br />        
           <Button onClick={handleSave} className={classes.root}>Guardar Archivo</Button>
         </div>
