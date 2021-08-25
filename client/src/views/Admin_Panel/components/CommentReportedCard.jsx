@@ -61,12 +61,15 @@ const CommentReportedCard = ({commentContent,postContent,postId,fetchData,report
   }
     return(
         <Container className = {classes.container}>
-          
             <Card className = {classes.root}>
             <CardContent>
         <Typography variant="h5" component="h5">
             <Link className = {classes.link} to = {`/forum/post/${postId}`}>
-          {commentContent ? commentContent : postContent}
+          <span
+              dangerouslySetInnerHTML={{
+                __html: `${commentContent ? commentContent : postContent}`,
+              }}
+            />
           </Link>
         </Typography>
 
