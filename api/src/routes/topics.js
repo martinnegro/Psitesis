@@ -9,4 +9,18 @@ router.get("/", (req, res, next) => {
     .catch((err) => next(err));
 });
 
+router.post("/", async (req, res, next) => {
+  try{
+    const {topic_name} = req.body;
+    let newTopic = await Topic.create({
+      topic_id: uuidv4(),
+      topic_name
+    })
+
+   return res.json(newTopic)
+  }catch(err){
+    next(err);
+  }
+})
+
 module.exports = router;

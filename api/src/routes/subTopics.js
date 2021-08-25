@@ -1,5 +1,5 @@
 const { Router } = require("express");
-
+const { v4: uuidv4 } = require("uuid");
 const router = Router();
 const { Subtopic, Forumpost, User, Comment, Topic } = require("../db");
 
@@ -30,5 +30,21 @@ router.get("/:id", async (req, res) => {
     })
     res.json(query[0]);
 });
+
+router.post('/', async (req, res,next) => {
+  try{
+    const {sub_topic_name, sub_topic_description, topic_id} = req.body;
+    let newSubtopic = await Subtopic.create({
+      sub_topic_id : uuidv4(),
+      sub_topic_name,
+      sub_topic_description
+    })
+    await newSubtopic.setTopic(topic_id)
+    return res.json(newSubtopic)
+
+  }catch(err){
+    next(err);
+  }
+})
 
 module.exports = router;
