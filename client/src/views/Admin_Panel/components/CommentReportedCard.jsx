@@ -30,40 +30,38 @@ const useStyles = makeStyles({
   
 });
 
-const CommentReportedCard = ({content,postId,reports}) =>{
+const CommentReportedCard = ({commentContent,postContent,postId,fetchData,reports,dataPosts}) =>{
   const [details,setDetails] = useState(false)
   const classes = useStyles();
   function handleDetails(){
       details ? setDetails(false) : setDetails(true)
   }
-  function handleResolve(id){
-    editReport(id);
-    
-    
+  async function handleResolve(id){
+    await editReport(id);
+     await fetchData("rep_resolved","false") 
     
   }
-
-  function handleDelete(id){
-    deleteReport(id);
-    
-    
+  async function handleDelete(id){
+     await deleteReport(id);
+      await fetchData("rep_resolved","false") 
   }
     return(
         <Container>
+          
             <Card className = {classes.root}>
             <CardContent>
         <Typography variant="h5" component="h2">
             <Link className = {classes.link} to = {`/forum/post/${postId}`}>
-          {content}
+          {commentContent ? commentContent : postContent}
           </Link>
         </Typography>
-        
+
       </CardContent>
       <CardActions>
         <Button onClick = {handleDetails} size="small">{details ? "No mostrar" : "Mostrar reportes"}</Button>
       </CardActions>
             </Card>
-            {details ?  <TableContainer component={Paper}>
+            {details ? <TableContainer component={Paper}>
       <Table className={classes.table} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
@@ -76,16 +74,22 @@ const CommentReportedCard = ({content,postId,reports}) =>{
         <TableBody>
         </TableBody>
         <TableBody>
-          {reports.map((row) => (
-            <TableRow key={row.name}>
+
+         {/* COMMENTS */}
+         
+           {reports.map((report)=> (
+        
+            <TableRow key={report.rep_id}>
+              {console.log(report)}
             <TableCell component="th" scope="row">
-              {row.user.user_name}
+              {report.user.user_name}
             </TableCell>
-            <TableCell align="right">{row.rep_reason}</TableCell>
-            <TableCell align="right"><Button onClick = {handleResolve(row.rep_id)}><CheckIcon/></Button></TableCell>
-            <TableCell align="right"><Button onClick = {handleDelete(row.rep_id)}><DeleteForeverIcon/></Button></TableCell>
+            <TableCell align="right">{report.rep_reason}</TableCell>
+            <TableCell align="right"><Button onClick =  {() => handleResolve(report.rep_id)}><CheckIcon/></Button></TableCell>
+            <TableCell align="right"><Button onClick = {() => handleDelete(report.rep_id)}><DeleteForeverIcon/></Button></TableCell>
           </TableRow>
-          ))}
+           ))
+         }
         </TableBody>
       </Table>
     </TableContainer> : null}

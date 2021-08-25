@@ -3,24 +3,35 @@ import { useDispatch,useSelector } from 'react-redux';
 import { getReports } from '../../../redux/API';
 import {Container} from '@material-ui/core/'
 import CommentReportedCard from './CommentReportedCard';
+import axios from "axios";
+const { REACT_APP_URL_API } = process.env;
 const CommentsReported = () =>{
-    const commentsReported = useSelector((state) => state.forumReducer.reports.comments)
-    const postsReported = useSelector((state) => state.forumReducer.reports.posts)
+    const [data,setData] = useState()
+    /* const commentsReported = useSelector((state) => state.forumReducer.reports.comments)
+    const postsReported = useSelector((state) => state.forumReducer.reports.posts) */
     const dispatch = useDispatch();
-    useEffect(()=>{
-        dispatch(getReports("rep_resolved","false"))
+    
+
+    useEffect(async()=>{
+        await fetchData("rep_resolved","false")
     },[])
 
+    async function fetchData(prop,value){
+        const fetchedData = await axios.get(`${REACT_APP_URL_API}/report?prop=${prop}&value=${value}`)
+        setData(fetchedData.data)
+    }
     return(
         <Container>
-            {commentsReported ? commentsReported.map((comment)=>{
+            {console.log(data)}
+            
+            {data ? data.comments.map((comment)=>{
                 return(
-                    <CommentReportedCard getReports = {getReports} content = {comment.comment_contents} postId = {comment.post_id} reports = {comment.reports}></CommentReportedCard>
+                    <CommentReportedCard reports = {comment.reports} fetchData = {fetchData} commentContent = {comment.comment_contents} postId = {comment.post_id} ></CommentReportedCard>
                 )
             }) : null}
-            {postsReported ? postsReported.map((post)=>{
+            {data ? data.posts.map((post)=>{
                 return(
-                    <CommentReportedCard getReports = {getReports} content = {post.post_contents} reports = {post.reports}></CommentReportedCard>
+                    <CommentReportedCard dataPosts = {post.reports} fetchData = {fetchData} postContent = {post.post_contents} reports = {post.reports} postId = {post.post_id}></CommentReportedCard>
                 )
             }): null}
         </Container>
