@@ -41,7 +41,7 @@ const Report =  ({cancellReport,commentId,postId}) =>{
     return(
         <div>
             <form type = "submit" className = {classes.root} >
-            <TextField id="standard-basic" label="Motivo" onChange = {handleOnChange} value = {report.rep_reason} />
+            <TextField size="small"id="standard-basic" label="Motivo" onChange = {handleOnChange} value = {report.rep_reason} />
             <Container>
             <Button onClick = {cancellReport}  > <CancelOutlinedIcon style={{ fontSize: 15 }}/></Button>
             <Button type = "submit" onClick = {handleSubmit}> <CheckIcon style={{ fontSize: 15 }}/></Button>
