@@ -202,13 +202,9 @@ function Post() {
   };
 
   const handleInputCat = (e) => {
-    let index = e.target.selectedIndex;
-    let option = e.target.options[index].value;
-    console.log("option: ", option);
-
-    setCategoria(option.split("/")[0]);
-    setSubcategoria(option.split("/")[1]);
-
+    let sub_cat_id = e.target.value;
+    if (parseInt(sub_cat_id) === -1) sub_cat_id = null;
+    setSubcategoria(sub_cat_id);
 
     const {name, type} = e.target;
 
@@ -219,10 +215,6 @@ function Post() {
       })
     }
   };
-
-  const inputsValidations = e=>{
-    console.log(e.target);
-  }
 
   const handleSubmitBody = async (e) => {
     e.preventDefault();
