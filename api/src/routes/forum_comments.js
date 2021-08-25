@@ -73,6 +73,7 @@ router.put("/edit/:comment_id", async (req, res, next) => {
     const { comment_contents } = req.body;
     const comment = await Comment.findByPk(comment_id);
     comment.comment_contents = comment_contents;
+    comment.comment_edited = true;
     await comment.save();
     return res.json(comment);
   } catch (err) {
@@ -88,6 +89,18 @@ router.put("/delete/:comment_id", async (req, res, next) => {
     comment.deleted = true;
     await comment.save();
     res.json({ message: "Deleted" });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/highlight/:comment_id', async (req,res, next) => {
+  const { comment_id } = req.params;
+  try {
+    const comment = await Comment.findByPk(comment_id);
+    comment.comment_highlight = !comment.comment_highlight 
+    await comment.save();
+    res.json({ message: "OK" });
   } catch (err) {
     next(err);
   }

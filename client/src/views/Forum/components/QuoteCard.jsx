@@ -22,9 +22,14 @@ const QuoteCard = ({userName,commentContent,commentId}) =>{
             <Typography
                 className={classes.autor}
                 color="textSecondary"
+                
             >
                 <span>En respuesta a {userName} </span>
             </Typography>
+            <Typography
+                variant="body2"
+                style={{ fontStyle: "italic" }}
+            >
             "
             <span
               dangerouslySetInnerHTML={{
@@ -32,6 +37,7 @@ const QuoteCard = ({userName,commentContent,commentId}) =>{
               }}
             />
             "
+            </Typography>
         </Paper>
         
     )

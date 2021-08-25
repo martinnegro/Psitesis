@@ -5,9 +5,10 @@ import ReportTwoToneIcon from '@material-ui/icons/ReportTwoTone';
 import EditIcon from '@material-ui/icons/Edit';
 import ReplyTwoToneIcon from '@material-ui/icons/ReplyTwoTone';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
 import { useDispatch, useSelector } from "react-redux";
 import EditComment from "./EditComment"
-import { deleteComment } from "../../../redux/API";
+import { deleteComment, highlightComment } from "../../../redux/API";
 import { getDateTime } from "../../../utils/auth";
 import Report from "./Report";
 import QuoteCard from "./QuoteCard";
@@ -52,7 +53,10 @@ const useStyle = makeStyles({
         textDecoration: "none"
     },
     button:{
-        fontSize: "7px"
+        margin: "3px",
+        fontSize: "10px",
+        display: "flex",
+        justifyContent: "start"
     }
 });
 const CommentCard = ({comment,handleCommentComponent,fetchPostData,respondedComment}) =>{
@@ -78,12 +82,24 @@ const CommentCard = ({comment,handleCommentComponent,fetchPostData,respondedComm
     const cancellReport = () =>{
         setReport(false)
     }
+
+    const handleHighlight = async () => {
+        try {
+            const response = await highlightComment(comment.comment_id)
+            fetchPostData()
+        } catch(err) { alert('No update') }
+    };
+    const highlight = () => {
+        if (comment.comment_highlight) return { border: "2px solid gold", backgroundColor: "#E9F089" };
+        else return {}
+    };
     return(
         <Paper 
             variant="outlined"
             key={comment.comment_id}
             id={comment.comment_id}
             className = {classes.root}
+            style= {highlight()}
         >
             <Container className={classes.commentInfo}>
                 <Box className={classes.user} >
@@ -124,6 +140,13 @@ const CommentCard = ({comment,handleCommentComponent,fetchPostData,respondedComm
                 <Box>
                     </Box>
                     <Box className = {classes.contentContainer}>
+                    {
+                        comment.comment_edited ?
+                        <Typography color="textSecondary">
+                            (EDITADO)
+                        </Typography>
+                        :null
+                    }
                     <Typography variant = "body1">
                     <span
                         dangerouslySetInnerHTML={{
@@ -136,60 +159,72 @@ const CommentCard = ({comment,handleCommentComponent,fetchPostData,respondedComm
             {
                 comment.deleted === false ? 
                 <Box className = {classes.iconsContainer}>
-                    <Typography>
-                        <Button className = {classes.button} onClick = {handleReport}>
-                            <ReportTwoToneIcon style={{ fontSize: 15 }}  />
-                            Reportar 
-                        </Button>
+                    <Button
+                        className = {classes.button}
+                        onClick = {handleReport}
+                        startIcon={<ReportTwoToneIcon style={{ fontSize: 15 }}/>}
+                        variant="contained"
+                        disableElevation
+                    >
+                        Reportar 
+                    </Button>
+                    <Report
+                        open={report}
+                        cancellReport={cancellReport} 
+                        content={comment.comment_contents}
+                        commentId={comment.comment_id}
+                    />
+                    <Button
+                        className={classes.button}
+                        onClick={(e) => handleCommentComponent(e,comment.comment_id)}
+                        startIcon={<ReplyTwoToneIcon style={{ fontSize: 15 }}/> }
+                        variant="contained"
+                        disableElevation
+                    >
+                        Responder
+                    </Button>
+                    <Button 
+                        className={classes.button}
+                        onClick={handleEdit}
+                        startIcon={<EditIcon style={{ fontSize: 15 }} /> }
+                        variant="contained"
+                        disableElevation
+                    >
                         
-                            <Report
-                                open={report}
-                                cancellReport={cancellReport} 
-                                content={comment.comment_contents}
-                                commentId={comment.comment_id}
-                            />
-     
-                    </Typography>
-                    <Typography color="textSecondary">
-                        <Button
-                            className={classes.button}
-                            onClick={(e) => handleCommentComponent(e,comment.comment_id)}
-                        >
-                            <ReplyTwoToneIcon style={{ fontSize: 15 }}/> 
-                            Responder
-                        </Button>
-                    </Typography> 
-                            <Typography color="textSecondary">
-                                <Button 
-                                    className={classes.button}
-                                    onClick={handleEdit}
-                                >
-                                    <EditIcon style={{ fontSize: 15 }} /> 
-                                        Editar
-                                </Button> 
-                                <Button 
-                                    className={classes.button}
-                                    onClick = {handleDelete}
-                                >
-                                    <DeleteForeverIcon  style={{ fontSize: 15 }}/>
-                                    Eliminar
-                                </Button> 
-                                {
-                                    edit ? 
-                                    <EditComment 
-                                        open={edit}
-                                        id={comment.comment_id}
-                                        content={comment.comment_contents}
-                                        cancellEdit={cancellEdit}
-                                        fetchPostData={fetchPostData}
-                                    ></EditComment>
-                                    : null
-                                }
-                            </Typography>     
-                        </Box>
-
-                    : null
-                }
+                        Editar
+                    </Button> 
+                    <Button 
+                        className={classes.button}
+                        onClick = {handleDelete}
+                        startIcon={<DeleteForeverIcon  style={{ fontSize: 15 }}/>}
+                        variant="contained"
+                        disableElevation
+                    >
+                        Eliminar
+                    </Button> 
+                    <EditComment 
+                        open={edit}
+                        id={comment.comment_id}
+                        content={comment.comment_contents}
+                        cancellEdit={cancellEdit}
+                        fetchPostData={fetchPostData}
+                    />
+                    <Button 
+                        className={classes.button}
+                        onClick = {handleHighlight}
+                        startIcon={<StarBorderIcon  style={{ fontSize: 15 }}/>}
+                        variant="contained"
+                        disableElevation
+                    >
+                        {
+                            comment.comment_highlight ?
+                            'Unhighlight' 
+                            : 'DESTACAR' 
+                        }
+                    </Button> 
+                </Box>
+                : null
+            }
         </Paper>
     )
 }
