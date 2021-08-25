@@ -27,19 +27,40 @@ router.post("/", async (req, res, next) => {
       response_to_comment_id,
       deleted: false,
     });
-    const newUser = await Forumpost.findOne({
+    const officialPoster = await Forumpost.findOne({
       where: {
         post_id: post_id,
       },
       include: [{ model: User, attributes: ["user_id"] }],
     });
-    sendNotification(
-      req,
-      "Han comentado tu post",
-      `/forum/post/${post_id}`,
-      newUser.user_id,
-      user_id
-    );
+
+    const replyingTo = await Comment.findOne({
+      where: {
+        comment_id: response_to_comment_id,
+      },
+      include: [{ model: User, attributes: ["user_id"] }],
+    });
+
+    if (response_to_comment_id) {
+      sendNotification(
+        req,
+        "Han contestado un comentario tuyo",
+        `/forum/post/${post_id}#${id}`,
+        replyingTo.user_id,
+        user_id
+      );
+    }
+
+    if (user_id !== officialPoster.user_id) {
+      sendNotification(
+        req,
+        "Han comentado tu post",
+        `/forum/post/${post_id}`,
+        officialPoster.user_id,
+        user_id
+      );
+    }
+
     return res.status(201).send(newComment);
   } catch (err) {
     next(err);
