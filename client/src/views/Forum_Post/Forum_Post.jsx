@@ -23,7 +23,7 @@ import Nav from "../../components/Nav/Nav";
 import CommentCard from "../Forum/components/CommentCard";
 import ConfirmDeleteAlert from "./components/ConfirmDeleteAlert";
 import Comment from "../Forum/components/Comment";
-
+import { purple } from "@material-ui/core/colors";
 import { getUserDetail } from "../../redux/actions/usersActions";
 import { highlightPost } from "../../redux/API";
 import axios from "axios";
@@ -86,26 +86,27 @@ const useStyle = makeStyles({
   commentsContainer: {
     width: "100%"
   },
-  commentIcon: {
-    width: "40px",
-    display: "flex",
-    justifyContent: "right",
-  },
+  
   hide: {
     display: "none",
   },
+  respondAndPaginate: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   replyButton: {
-    fontSize: "80px",
-    color: "#ff99bb",
-    marginTop: "30px"
+    color: "#ffffff",
+    
+    backgroundColor: purple[500],
+    "&:hover": {
+      backgroundColor: purple[700],
+    },
   },
-  
-   paginate:{
-    marginTop: "0px"
-  },
-  divider:{
-    width: "100%",
-    marginTop: "5px"
+  paginate:{
+    marginTop: "0px",
+    width: "25%",
+    
   },
   buttonContainer:{
     display: "flex",
@@ -147,8 +148,11 @@ function Forum_Post() {
             data = fetchedPost.data
         }
         if (!data) return 
-        const auxComment = data.comments.sort((a,b)=> a.createdAt < b.createdAt ? -1 : 1)
-        setOrderedComments(auxComment)
+        const highlighted = data.comments.filter(c => c.comment_highlight)
+        const unHighlight = data.comments.filter(c => !c.comment_highlight)
+        highlighted.sort((a,b)=> a.createdAt < b.createdAt ? -1 : 1)
+        unHighlight.sort((a,b)=> a.createdAt < b.createdAt ? -1 : 1)
+        setOrderedComments([...highlighted, ...unHighlight])
         setPost(data);
         setEditing({ 
             isEditing: false,
@@ -275,9 +279,12 @@ const cancellReport = () =>{
     <>
     <Nav></Nav>
     <Container className={classes.root}>
+      {/*-/////////////////////////////////////////////////////////////-*/}
+      {/*-/////////////////----ACCIONES DE POST ---////////////////////-*/}
       {post ? (
         <Container className={classes.main}>
           <Box className={classes.buttonGroup}>
+            {/*-/////////////////////////////------EDICION------////////////////////////////////-*/}
             {editing.isEditing ? (
               <>
                 <IconButton>
@@ -292,12 +299,15 @@ const cancellReport = () =>{
                 <EditIcon />
               </IconButton>
             )}
+            {/*-//////////////////------ABRIR Y CERRAR THREAD------////////////////////-*/}
             <Button onClick={handleStatusThread} variant="contained" disableElevation>
               {post.post_open ? "Cerrar Thread" : "Abrir Thread"}
             </Button>
+            {/*-//////////////////------DESTACAR POST------////////////////////-*/}
             <Button onClick={handleHighlightPost}  variant="contained" disableElevation>
               {post.post_highlight ? "Eliminar Destacado" : "Destacar Post"}
             </Button>
+            {/*-//////////////////------ELIMINAR POST------////////////////////-*/}
             <IconButton
               color="secondary"
               onClick={() => setOpenAlertDelete(true)}
@@ -312,6 +322,7 @@ const cancellReport = () =>{
               post_title={post.post_title}
             />
           </Box>
+          {/*-//////////////////------CONTENEDOR DEL POST------////////////////////-*/}
           <Paper className={classes.postContainer}>
           <Box className={classes.header}>
             {editing.isEditing ? (
@@ -335,6 +346,7 @@ const cancellReport = () =>{
           ) : (
             <></>
           )}
+          {/*-//////////////////------USER INFO------////////////////////-*/}
           <Box className={classes.info}>
             <Avatar
               className={classes.avatar}
@@ -369,6 +381,7 @@ const cancellReport = () =>{
               </Paper>
             )}
           </Box>
+          {/*-//////////////////------REPORTAR POST------////////////////////-*/}
             <Container className = {classes.buttonContainer}>
             <Button  onClick = {handleReport} variant="contained" disableElevation>
               <ReportTwoToneIcon />
@@ -396,11 +409,28 @@ const cancellReport = () =>{
         <div className={classes.root}>CARGANDO</div>
       )}
 
-    {/* <Divider className = {classes.divider}/> */}
       
+      {/*-//////////////////------BOTON POST Y PAGINADO------////////////////////-*/}
       <Paper className={classes.commentsArea}>
-        <Container className = {classes.paginate}>
+        <Box className={classes.respondAndPaginate}>
+        
+              {
+                post?.post_open && (
+                  <Button
+                    className={commentComponent ? classes.hide : null}
+                    onClick={(e) => handleCommentComponent(e, null)}
+                    startIcon={<ReplyIcon />}
+                    className={classes.replyButton}
+                  >
+                    Responder Post
+                  </Button>
+                )
+              }  
+
+
+        
           <ReactPaginate
+            className={classes.paginate}
             previousLabel={"<"}
             nextLabel={">"}
             pageCount={pageCount}
@@ -411,7 +441,8 @@ const cancellReport = () =>{
             disabledClassName={s.paginationDisabled}
             activeClassName={s.paginationActive}
           />
-        </Container>
+        
+        </Box>
       {/*//////////////////////////////////////////////////////////////////////*/}
       {/*//////////////////////////////////////////////////////////////////////*/}
       {/* --------- COMMENTS ----------*/}
@@ -440,22 +471,25 @@ const cancellReport = () =>{
             }
         {/*//////////////////////////////////////////////////////////////////////*/}
         {/*//////////////////////////////////////////////////////////////////////*/}
-        {/*ICONO COMENTAR POST*/}
+        {/*-//////////////////------PAGINADO Y COMENTAR------////////////////////-*/}
+        <Box className={classes.respondAndPaginate}>
         
-          <Container id = "comments" className={classes.commentIcon}>
-            {
-              post?.post_open && (
-                <Button
-                  className={commentComponent ? classes.hide : null}
-                  onClick={(e) => handleCommentComponent(e, null)}
-                >
-                  <ReplyIcon className={classes.replyButton} />
-                </Button>
-              )
-            }  
-          </Container>
-        <Container>
+              {
+                post?.post_open && (
+                  <Button
+                    id = "comments"
+                    className={commentComponent ? classes.hide : null}
+                    onClick={(e) => handleCommentComponent(e, null)}
+                    startIcon={<ReplyIcon />}
+                    className={classes.replyButton}
+                  >
+                    Responder Post
+                  </Button>
+                )
+              }  
+
           <ReactPaginate
+            className={classes.paginate}
             previousLabel={"<"}
             nextLabel={">"}
             pageCount={pageCount}
@@ -466,7 +500,8 @@ const cancellReport = () =>{
             disabledClassName={s.paginationDisabled}
             activeClassName={s.paginationActive}
           />
-        </Container>
+
+        </Box>
         </Paper>
       </Container>
     </>

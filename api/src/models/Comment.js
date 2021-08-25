@@ -29,5 +29,11 @@ module.exports = (sequelize) => {
     deleted: {
       type: DataTypes.BOOLEAN,
     },
+    comment_highlight: {
+      type: DataTypes.BOOLEAN,
+    },
+    comment_edited: {
+      type: DataTypes.BOOLEAN,
+    }
   });
 };

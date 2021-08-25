@@ -72,6 +72,7 @@ export const editComment = (id, data) =>
 
 // delete comment
 export const deleteComment = (id) => API.put(`/forum_comments/delete/${id}`);
+export const highlightComment = (id) => API.put(`/forum_comments/highlight/${id}`);
 
 // RUTA /forumposts
 export const highlightPost = (post_id) =>
