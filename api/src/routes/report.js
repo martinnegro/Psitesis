@@ -33,6 +33,7 @@ router.post("/", authorizeAccessToken, async (req, res, next) => {
   }
 });
 
+<<<<<<< HEAD
 router.get("/", async (req, res, next) => {
   try {
     const { prop, value } = req.query;
@@ -94,4 +95,6 @@ router.delete("/delete/:id", async (req, res, next) => {
     next(err);
   }
 });
+=======
+>>>>>>> main
 module.exports = router;
