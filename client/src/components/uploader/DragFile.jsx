@@ -1,8 +1,26 @@
 import React, { useState, useRef, useEffect } from "react";
-import { makeStyles, TextField, Typography } from "@material-ui/core";
+import { makeStyles, TextField, createTheme} from "@material-ui/core";
 import { purple } from "@material-ui/core/colors";
 import { Button } from "@material-ui/core";
 import './dragImage.css';
+import { ThemeProvider } from '@material-ui/core/styles';
+
+const theme = createTheme({
+	palette: {
+		primary: {
+			main: purple[500],
+			light: '#ffc4ff',
+			dark: '#9c64a6',
+			contrastText: '#fff',
+		},
+		secondary: {
+			main: purple[500],
+			light: '#ffc4ff',
+			dark: '#9c64a6',
+			contrastText: '#fff',
+		},
+	},
+});
 
 
 const useStyles = makeStyles((theme) => ({
@@ -16,13 +34,18 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
 	'color': '#ffffff',
-	'backgroundColor': purple[500],
+	'backgroundColor': '#031927',
+  border: 'none',
+  borderRadius: '3px',
+  height: '32px',
+  fontWeight: '400',
 	'&:hover': {
-		backgroundColor: purple[700],
+		backgroundColor: '#031927',
+    cursor: 'default'
 	},
 },
 root2: {
-	color: purple[500],
+	textTransform: 'uppercase',
 },
 formInput: {
   display: "flex", 
@@ -51,7 +74,6 @@ const DragFile = ({ setDesc, setMedia, setLoading }) => {
   const typesImages = ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/msword']
 
   const isImageValid = (file) => {
-    console.log('file --->', file)
     if (file && typesImages.includes(file.type)) {
       setError(false);
       return true;
@@ -114,12 +136,10 @@ const DragFile = ({ setDesc, setMedia, setLoading }) => {
 
   return (
     <div style={{ alignItems: "center", textAlign: "center" }}>
-      <Typography variant="h2" align="center" className={classes.tipoh2}>
-        Subir archivo
-      </Typography>
 
       <div className={classes.formInput}>
         <form>
+        <ThemeProvider theme={theme}>
           <TextField
             id="outlined-full-width"
             label="DESCRPCION"
@@ -142,16 +162,20 @@ const DragFile = ({ setDesc, setMedia, setLoading }) => {
             rows={3}
             multiline
           />
+          </ThemeProvider>
         </form>
         <div style={{ display: "flex", flexDirection: "column", marginTop: '20px' }}>
           {error && <div className="drag__message">{messageError}</div>}
-          <input
-		  	className={classes.root2}
+          <div class="file-select" id="src-file1" >
+            <input
+		  	    className={classes.root2}
             ref={refInputFile}
             type="file"
             name="file"
             onChange={uploadImage}			
-          />  
+          /> 
+          </div>
+           
 		  <br />        
           <Button onClick={handleSave} className={classes.root}>Guardar Archivo</Button>
         </div>

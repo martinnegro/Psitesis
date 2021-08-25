@@ -105,6 +105,7 @@ const sendNotificationAllAdmins = async (req, description, link, senderId) => {
 		});
 		const adminsIDInDB = [];
 		const notifications = [];
+		const sended = [];
 		for (let f in adminsInDB) {
 			adminsIDInDB.push(adminsInDB[f].user_id);
 			notifications.push({
@@ -115,23 +116,26 @@ const sendNotificationAllAdmins = async (req, description, link, senderId) => {
 				receiverId: adminsInDB[f].user_id,
 				senderId: senderId,
 			});
-			req.io.to(adminsInDB[f].user_id_A0).emit('NOTIFICATIONS', {
-				id: uuidv4(),
-				link: link,
-				read: false,
-				createdAt: new Date(),
-				description: description,
-				receiverId: adminsInDB[f].user_id,
-				senderId: senderId,
-				receiver: {
-					user_id: adminsInDB[f].user_id,
-					user_img_profile: adminsInDB[f].user_img_profile,
-				},
-				sender: {
-					user_id: userSender.user_id,
-					user_img_profile: userSender.user_img_profile,
-				},
-			});
+			if(!sended.includes(adminsInDB[f].user_id_A0)){
+				req.io.to(adminsInDB[f].user_id_A0).emit('NOTIFICATIONS', {
+					id: uuidv4(),
+					link: link,
+					read: false,
+					createdAt: new Date(),
+					description: description,
+					receiverId: adminsInDB[f].user_id,
+					senderId: senderId,
+					receiver: {
+						user_id: adminsInDB[f].user_id,
+						user_img_profile: adminsInDB[f].user_img_profile,
+					},
+					sender: {
+						user_id: userSender.user_id,
+						user_img_profile: userSender.user_img_profile,
+					},
+				});
+				sended.push(adminsInDB[f].user_id_A0);
+			}			
 		}
 		await Notification.bulkCreate(notifications);
 	} catch (error) {
