@@ -6,7 +6,7 @@ import {
   Input,
   makeStyles,
   IconButton,
-  TextField,
+  Paper,
   Button,
   Divider
 } from "@material-ui/core";
@@ -23,7 +23,7 @@ import Nav from "../../components/Nav/Nav";
 import CommentCard from "../Forum/components/CommentCard";
 import ConfirmDeleteAlert from "./components/ConfirmDeleteAlert";
 import Comment from "../Forum/components/Comment";
-import QuoteCard from "../Forum/components/QuoteCard";
+
 import { getUserDetail } from "../../redux/actions/usersActions";
 import { highlightPost } from "../../redux/API";
 import axios from "axios";
@@ -37,21 +37,36 @@ const { REACT_APP_URL_API } = process.env;
 
 const useStyle = makeStyles({
   root: {
-    margin: "150px auto 0 auto",
+    padding: 0,
+    margin: "100px auto 0 auto",
     width: "1000px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  main: {
+    padding: 0
   },
   buttonGroup: {
+    width: "50%",
+    margin: "0 auto 10px auto",
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
+  },
+  postContainer: {
+    padding: "10px"
   },
   header: {
+    width: "100%",
+    margin: "10px 0 10px 0",
     display: "flex",
-    alignItems: "end",
+    alignItems: "baseline",
     justifyContent: "space-evenly",
   },
   info: {
     margin: "10px 0 10px 0",
     display: "flex",
+    alignSelf: "start",
     alignItems: "center",
     justifyContent: "start",
   },
@@ -62,6 +77,14 @@ const useStyle = makeStyles({
   },
   textField: {
     width: "100%",
+  },
+  commentsArea: {
+    width: "1000px",
+    margin: "20px auto 0 auto",
+    padding: "5px"
+  },
+  commentsContainer: {
+    width: "100%"
   },
   commentIcon: {
     width: "40px",
@@ -76,20 +99,21 @@ const useStyle = makeStyles({
     color: "#ff99bb",
     marginTop: "30px"
   },
+  
    paginate:{
-    marginTop: "70px"
+    marginTop: "0px"
   },
   divider:{
     width: "100%",
-    marginTop: "30px"
+    marginTop: "5px"
   },
   buttonContainer:{
     display: "flex",
     justifyContent:"center",
-    margin: "30px"
+    margin: "5px"
   },
   btnText: {
-    fontSize: "10px",
+    fontSize: "15px",
   }
 });
 
@@ -181,12 +205,6 @@ function Forum_Post() {
 
   // FIND RESPONDING TO USER NAME
 
-  const respondingToUser = (postId, arr) => {
-    const postFound = arr.find((post) => post.comment_id === postId);
-    const user = postFound.user.user_name;
-    return user;
-  };
-
   const handleCommentComponent = (_e,response_to_comment_id) =>{
       commentComponent ? setCommentComponent(false) : setCommentComponent(true)
       setCommentComponent(true)
@@ -223,9 +241,8 @@ function Forum_Post() {
   // HANDLE COMMENT COMPONENT
 
   const respondingToComment = (postId,arr) =>{
-    const postFound = arr.find(post => post.comment_id === postId)
-    const postContent = postFound.comment_contents;
-    return postContent
+    return arr.find(post => post.comment_id === postId)
+    
 }
   const handleCancellComment = () => {
     setCommentComponent(false);
@@ -255,10 +272,11 @@ const cancellReport = () =>{
 }
 
   return (
-    <Container>
-      <Nav></Nav>
+    <>
+    <Nav></Nav>
+    <Container className={classes.root}>
       {post ? (
-        <Container className={classes.root}>
+        <Container className={classes.main}>
           <Box className={classes.buttonGroup}>
             {editing.isEditing ? (
               <>
@@ -274,10 +292,10 @@ const cancellReport = () =>{
                 <EditIcon />
               </IconButton>
             )}
-            <Button onClick={handleStatusThread}>
+            <Button onClick={handleStatusThread} variant="contained" disableElevation>
               {post.post_open ? "Cerrar Thread" : "Abrir Thread"}
             </Button>
-            <Button onClick={handleHighlightPost}>
+            <Button onClick={handleHighlightPost}  variant="contained" disableElevation>
               {post.post_highlight ? "Eliminar Destacado" : "Destacar Post"}
             </Button>
             <IconButton
@@ -294,6 +312,7 @@ const cancellReport = () =>{
               post_title={post.post_title}
             />
           </Box>
+          <Paper className={classes.postContainer}>
           <Box className={classes.header}>
             {editing.isEditing ? (
               <Input
@@ -324,7 +343,7 @@ const cancellReport = () =>{
             />
             <Box>
               <Typography color="textSecondary">{post.post_date}</Typography>
-              <Typography  variant = "body2">
+              <Typography  variant="body2" color="textSecondary"  >
                 Por {post.user.user_name}
               </Typography>
             </Box>
@@ -339,6 +358,7 @@ const cancellReport = () =>{
                 formats={Forum_Post.formats}  
               />
             ) : (
+              <Paper variant="outlined" style={{padding: 5}}>
               <Typography>
                 <span
                   dangerouslySetInnerHTML={{
@@ -346,13 +366,22 @@ const cancellReport = () =>{
                   }}
                 />
               </Typography>
+              </Paper>
             )}
+          </Box>
             <Container className = {classes.buttonContainer}>
-            <Button  onClick = {handleReport}><ReportTwoToneIcon style={{ fontSize: 15 }}/><span className = {classes.btnText}>Reportar</span></Button>
-            {report ? <Report postId = {post_id} cancellReport = {cancellReport}/>  : null}
+            <Button  onClick = {handleReport} variant="contained" disableElevation>
+              <ReportTwoToneIcon />
+              <span className = {classes.btnText}>Reportar</span>
+            </Button>
+            <Report
+              open={report}
+              postId={post_id}
+              cancellReport={cancellReport}
+              content={post.post_contents}
+            />
             </Container>
             
-          </Box>
           {post.post_open ? (
             <></>
           ) : (
@@ -361,15 +390,16 @@ const cancellReport = () =>{
             </Typography>
           )}
           
+        </Paper>
         </Container>
       ) : (
         <div className={classes.root}>CARGANDO</div>
       )}
 
-      <Divider className = {classes.divider}/>
+    {/* <Divider className = {classes.divider}/> */}
       
-
-<Container className = {classes.paginate}>
+      <Paper className={classes.commentsArea}>
+        <Container className = {classes.paginate}>
           <ReactPaginate
             previousLabel={"<"}
             nextLabel={">"}
@@ -385,34 +415,21 @@ const cancellReport = () =>{
       {/*//////////////////////////////////////////////////////////////////////*/}
       {/*//////////////////////////////////////////////////////////////////////*/}
       {/* --------- COMMENTS ----------*/}
-      <Container>
+      <Container className={classes.commentsContainer}>
             {
             post ? orderedComments?.slice(pagesVisited, pagesVisited + postsByPage).map((comment)=>{
                 return(
-                    <div>
-                        <Container>
-                        {comment.response_to_comment_id ? <QuoteCard  userName = {respondingToUser(comment.response_to_comment_id,post.comments)} commentContent = {respondingToComment(comment.response_to_comment_id,post.comments)} commentId = {comment.response_to_comment_id} ></QuoteCard> : null}
-                        </Container>
-                    <CommentCard 
-                        fetchPostData = {fetchPostData}
-                        key = {comment.comment_id}
-                        id = {comment.comment_id}
-                        content = {comment.comment_contents}
-                        date = {comment.comment_date}
-                        userName = {comment.user.user_name}
-                        image = {comment.user.user_img_profile}
-                        userId = {comment.user.user_id_A0}
-                        handleCommentComponent = {handleCommentComponent} 
-                        date = {comment.createdAt}
-                        deleted = {comment.deleted}                       
-                    ></CommentCard>
-                    </div>
+                        <CommentCard 
+                            fetchPostData = {fetchPostData}
+                            comment={comment}
+                            handleCommentComponent = {handleCommentComponent} 
+                            respondedComment={respondingToComment(comment.response_to_comment_id,post.comments)}
+                        />
                 )
                 }) : <div className={classes.root}>CARGANDO</div> 
             } 
             {/*//////////////////////////////////////////////////////////////////////*/}
-          </Container>
-          <Container>
+      </Container>
             {
                 commentComponent ? 
                 <Comment 
@@ -421,7 +438,6 @@ const cancellReport = () =>{
                     response_to_comment_id={commentIdForResponse}
                 /> : null
             }
-            </Container>
         {/*//////////////////////////////////////////////////////////////////////*/}
         {/*//////////////////////////////////////////////////////////////////////*/}
         {/*ICONO COMENTAR POST*/}
@@ -438,7 +454,7 @@ const cancellReport = () =>{
               )
             }  
           </Container>
-          <Container>
+        <Container>
           <ReactPaginate
             previousLabel={"<"}
             nextLabel={">"}
@@ -451,9 +467,9 @@ const cancellReport = () =>{
             activeClassName={s.paginationActive}
           />
         </Container>
-        </Container>
-                
-  
+        </Paper>
+      </Container>
+    </>
   );
 }
 
