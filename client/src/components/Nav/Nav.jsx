@@ -113,6 +113,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	logoMax: {
 		'flexGrow': 1,
+		marginLeft: 16,
 		'@media (max-width: 600px)': {
 			display: 'none',
 		},
@@ -278,9 +279,9 @@ export default function Nav() {
 						<MenuIcon />
 					</IconButton>
 					<div className={classes.logoMax}>
-						{/* <Link to={`/user/${user?.user_id}`}> */}
-						<Avatar variant="square" src={logo} className={classes.square} />
-						{/* </Link> */}
+						
+						<Avatar variant="square" src={logo} />
+						
 					</div>
 
 					{isAuthenticated ? (
