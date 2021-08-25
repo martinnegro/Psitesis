@@ -141,11 +141,14 @@ const CommentCard = ({comment,handleCommentComponent,fetchPostData,respondedComm
                             <ReportTwoToneIcon style={{ fontSize: 15 }}  />
                             Reportar 
                         </Button>
-                        {
-                            report ? 
-                            <Report cancellReport = {cancellReport} commentId = {comment.comment_id}/>
-                            : null
-                        }         
+                        
+                            <Report
+                                open={report}
+                                cancellReport={cancellReport} 
+                                content={comment.comment_contents}
+                                commentId={comment.comment_id}
+                            />
+     
                     </Typography>
                     <Typography color="textSecondary">
                         <Button
@@ -174,6 +177,7 @@ const CommentCard = ({comment,handleCommentComponent,fetchPostData,respondedComm
                                 {
                                     edit ? 
                                     <EditComment 
+                                        open={edit}
                                         id={comment.comment_id}
                                         content={comment.comment_contents}
                                         cancellEdit={cancellEdit}

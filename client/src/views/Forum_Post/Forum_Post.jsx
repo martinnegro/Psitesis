@@ -374,7 +374,12 @@ const cancellReport = () =>{
               <ReportTwoToneIcon />
               <span className = {classes.btnText}>Reportar</span>
             </Button>
-            {report ? <Report postId = {post_id} cancellReport = {cancellReport}/>  : null}
+            <Report
+              open={report}
+              postId={post_id}
+              cancellReport={cancellReport}
+              content={post.post_contents}
+            />
             </Container>
             
           {post.post_open ? (

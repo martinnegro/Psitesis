@@ -1,19 +1,26 @@
 import {React,useState} from 'react'
-import { makeStyles,Button,TextField,Container } from '@material-ui/core/';
+import { makeStyles,Button,TextField,Container, Dialog, DialogTitle, DialogContent, Typography, DialogActions, Box } from '@material-ui/core/';
 import CheckIcon from '@material-ui/icons/Check';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import { postReport } from '../../../redux/API';
 import {useSelector } from "react-redux";
 const useStyles = makeStyles((theme) => ({
     root: {
-      '& > *': {
-        margin: theme.spacing(1),
-        width: '25ch',
-      },
+        padding: "10px",
+        display: "flex",
+        flexDirection: "column"  
     },
+    title: {
+        padding: "10px 0 0 10px"
+    },
+    input: {
+        width: "80%",
+        margin: "10px"
+        
+    }
   }));
 
-const Report =  ({cancellReport,commentId,postId}) =>{
+const Report =  ({cancellReport,commentId,postId,open,content}) =>{
     const userId = useSelector((state) => state.authReducer.user.user_id)
     const classes = useStyles();
     const [report,setReport] = useState({
@@ -39,15 +46,41 @@ const Report =  ({cancellReport,commentId,postId}) =>{
         })
     }
     return(
-        <div>
-            <form type = "submit" className = {classes.root} >
-            <TextField size="small"id="standard-basic" label="Motivo" onChange = {handleOnChange} value = {report.rep_reason} />
-            <Container>
-            <Button onClick = {cancellReport}  > <CancelOutlinedIcon style={{ fontSize: 15 }}/></Button>
-            <Button type = "submit" onClick = {handleSubmit}> <CheckIcon style={{ fontSize: 15 }}/></Button>
+        <Dialog open={open} >
+            <Box className={classes.root}>
+            <DialogTitle className={classes.title}>
+                Reportar
+            </DialogTitle>
+            <DialogContent>
+                <Typography>
+                    {content}
+                </Typography>
+            </DialogContent>
+            
+            <form type = "submit"  >
+                <TextField
+                    id="standard-basic"
+                    label="Motivo"
+                    onChange={handleOnChange}
+                    value={report.rep_reason}
+                    className={classes.input}
+                />
+                    <Container>
+                        <Button 
+                            onClick={cancellReport}
+                        >
+                            <CancelOutlinedIcon/>
+                        </Button>
+            <Button 
+                type="submit"
+                onClick = {handleSubmit}
+            >
+                <CheckIcon/>
+            </Button>
             </Container>
             </form>
-        </div>
+            </Box>
+        </Dialog>
     )
 }
 
