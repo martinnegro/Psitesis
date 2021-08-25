@@ -45,7 +45,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import { grey, purple } from '@material-ui/core/colors';
-import { setReadNotifications } from '../../redux/actions/actionsNotifications';
+import { markAsRead } from '../../redux/actions/actionsNotifications';
 import ForumOutlinedIcon from '@material-ui/icons/ForumOutlined';
 import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
 
@@ -232,7 +232,7 @@ export default function Nav() {
 
 	const handleClickNotifications = (event) => {
 		setAnchorNotifications(event.currentTarget);
-		dispatch(setReadNotifications());
+		dispatch(markAsRead());
 	};
 	const handleCloseNotifications = () => {
 		setAnchorNotifications(null);

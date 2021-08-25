@@ -59,6 +59,8 @@ export const postComment = (data) => API.post(`/forum_comments`, data);
 // ruta notification
 export const getNotifications = () => API.get(`/notification`);
 export const sentNotificationTest = () => API.get(`/notification/test`);
+export const markAsRead = () => API.put(`/notification`);
+
 // rutas file
 export const createFile = (data) => API.post(`/files`, data);
 export const getAllFiles = () => API.get(`/files`);

@@ -55,6 +55,17 @@ export const setReadNotifications = () => {
 	};
 };
 
+export const markAsRead = () => {
+	return async (dispatch) => {
+		try {
+			dispatch(setReadNotifications());
+			await API.markAsRead();         
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};
+
 export const setSocketIO = (socket) => {
 	return {
 		type: SET_SOCKET_IO,
