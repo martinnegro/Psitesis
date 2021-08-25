@@ -477,6 +477,7 @@ const cancellReport = () =>{
               {
                 post?.post_open && (
                   <Button
+                    id = "comments"
                     className={commentComponent ? classes.hide : null}
                     onClick={(e) => handleCommentComponent(e, null)}
                     startIcon={<ReplyIcon />}

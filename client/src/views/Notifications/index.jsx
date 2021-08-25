@@ -11,6 +11,7 @@ import {
 	TableBody,
 	TableRow,
 	TableFooter,
+	Box,
 	Avatar,
 } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
@@ -20,44 +21,31 @@ import NavBottom from '../../components/NavBottom/NavBottom';
 
 const useStyles = makeStyles((theme) => ({
 	offset: theme.mixins.toolbar,
-	Notifications: {
-		'marginLeft': theme.spacing(5),
+	notifications: {
+		'paddingRight': theme.spacing(1),
+		'paddingLeft': theme.spacing(9),
 		'marginTop': theme.spacing(5),
 		'display': 'flex',
 		'flexDirection': 'column',
 		'alignItems': 'center',
 		'justifyContent': 'center',
 		'@media (max-width: 601px)': {
+			paddingRight: theme.spacing(0),
+			paddingLeft: theme.spacing(0),
 			marginLeft: theme.spacing(0),
 		},
 	},
-	root: {
-		padding: '2px 4px',
-		display: 'flex',
-		alignItems: 'center',
-		width: '70%',
-		marginTop: '20px',
-		marginBottom: '30px',
-	},
-	table: {
-		minWidth: 400,
-	},
-	ali: {
+	align: {
 		flexGrow: 1,
 		align: 'center',
-		display: 'flex',
-		alignItems: 'center',
-		textAlign: 'center',
-		overflow: 'auto',
-		justify: 'center',
-	},
-	ali2: {
-		flexGrow: 1,
 		whiteSpace: 'normal',
 		alignItems: 'center',
 		textAlign: 'center',
+		margin: 'auto',
+		justifyContent: 'center',
 	},
 }));
+
 const calcDate = (time) => {
 	var date = new Date(time),
 		diff = (new Date().getTime() - date.getTime()) / 1000,
@@ -101,13 +89,14 @@ const Notifications = () => {
 		<Container>
 			<div className={classes.offset}></div>
 			<Nav />
-			<Container className={classes.Notifications}>
+			<Container className={classes.notifications}>
 				<Container align="center" component={Paper}>
-					<Table className={classes.table} aria-label="custom pagination table">
+					<Table aria-label="custom pagination table">
 						<TableHead>
 							<TableRow>
-								<TableCell>Notificationes</TableCell>
-								<TableCell align="center"></TableCell>
+								<TableCell className={classes.align} colspan="2">
+									Notificationes
+								</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -147,44 +136,56 @@ const Notifications = () => {
 										.slice((page - 1) * 10, (page - 1) * 10 + 10)
 										.map((row) => (
 											<TableRow key={row.id}>
-											<TableCell component="th" scope="row" align="center">
-												<Link
-													to={`/user/${row.sender.user_id_A0}`}
-													style={{ textDecoration: 'none' }}
-												>
-													<Avatar
-														alt={row.sender.user_id}
-														src={row.sender.user_img_profile}
-													/>
-												</Link>
-											</TableCell>
-											<TableCell align="left">
-												<span>
-													{row.link ? (
-														<Link
-															to={`${row.link}`}
-															style={{ textDecoration: 'none' }}
-														>
-															{row.description}
-														</Link>
-													) : (
-														row.description
-													)}
-												</span>
-												<br />
-												<span>{calcDate(row.createdAt)}</span>
-											</TableCell>
-										</TableRow>
+												<TableCell component="th" scope="row" align="center">
+													<Link
+														to={`/user/${row.sender.user_id_A0}`}
+														style={{ textDecoration: 'none' }}
+													>
+														<Avatar
+															alt={row.sender.user_id}
+															src={row.sender.user_img_profile}
+														/>
+													</Link>
+												</TableCell>
+												<TableCell align="left">
+													<span>
+														{row.link ? (
+															<Link
+																to={`${row.link}`}
+																style={{ textDecoration: 'none' }}
+															>
+																{row.description}
+															</Link>
+														) : (
+															row.description
+														)}
+													</span>
+													<br />
+													<span>{calcDate(row.createdAt)}</span>
+												</TableCell>
+											</TableRow>
 										))}
 						</TableBody>
-						<TableFooter>
+						<TableFooter colspan="2">
 							<TableRow>
-								<Pagination
-									align="center"
-									count={totalPages}
-									page={page}
-									onChange={handleChange}
-								/>
+								<TableCell
+									component="th"
+									scope="row"
+									className={classes.align}
+									colspan="2"
+								>
+									<Box
+										display="flex"
+										alignItems="center"
+										justifyContent="center"
+									>
+										<Pagination
+											count={totalPages}
+											page={page}
+											onChange={handleChange}
+										/>
+									</Box>
+								</TableCell>
 							</TableRow>
 						</TableFooter>
 					</Table>

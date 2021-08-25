@@ -12,6 +12,7 @@ import { deleteComment, highlightComment } from "../../../redux/API";
 import { getDateTime } from "../../../utils/auth";
 import Report from "./Report";
 import QuoteCard from "./QuoteCard";
+import { HashLink } from 'react-router-hash-link';
 
 const useStyle = makeStyles({
     root: {
@@ -174,15 +175,17 @@ const CommentCard = ({comment,handleCommentComponent,fetchPostData,respondedComm
                         content={comment.comment_contents}
                         commentId={comment.comment_id}
                     />
-                    <Button
-                        className={classes.button}
-                        onClick={(e) => handleCommentComponent(e,comment.comment_id)}
-                        startIcon={<ReplyTwoToneIcon style={{ fontSize: 15 }}/> }
-                        variant="contained"
-                        disableElevation
-                    >
-                        Responder
-                    </Button>
+                    <HashLink className = {classes.links} to = "#comments">
+                        <Button
+                            className={classes.button}
+                            onClick={(e) => handleCommentComponent(e,comment.comment_id)}
+                            startIcon={<ReplyTwoToneIcon style={{ fontSize: 15 }}/> }
+                            variant="contained"
+                            disableElevation
+                        >
+                            Responder
+                        </Button>
+                    </HashLink>
                     <Button 
                         className={classes.button}
                         onClick={handleEdit}

@@ -53,7 +53,11 @@ const Report =  ({cancellReport,commentId,postId,open,content}) =>{
             </DialogTitle>
             <DialogContent>
                 <Typography>
-                    {content}
+                <span
+              dangerouslySetInnerHTML={{
+                __html: `${content}`,
+              }}
+            />
                 </Typography>
             </DialogContent>
             

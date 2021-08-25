@@ -1,10 +1,9 @@
 import {React,useState} from "react"
-import {Container,Button, Dialog}  from '@material-ui/core'
+import {Button, Dialog}  from '@material-ui/core'
 import ReactQuill from "react-quill";
 import CheckIcon from '@material-ui/icons/Check';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import "./EditComment.css"
-/* import { editComment } from "../../../utils/auth"; */
 import { editComment } from "../../../redux/API";
 
  const EditComment =   ({id,content,cancellEdit,fetchPostData,open}) => {
