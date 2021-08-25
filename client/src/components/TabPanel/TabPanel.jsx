@@ -31,7 +31,7 @@ export default function TabPanel(props) {
         if(!subcategory['Generales']){
             setSub({ Generales:[{ 
             sub_cat_id: "Generales",
-            sub_cat_name: "Generales",
+            // sub_cat_name: "Generales",
             sub_cat_description: null,
             cat_id: "Generales",
             articles: [...ArticleWithoutSection]

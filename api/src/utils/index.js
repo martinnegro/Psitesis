@@ -1,15 +1,14 @@
-const { Notification, User } = require('./../db');
-
+const { Notification, User } = require("./../db");
+const { v4: uuidv4 } = require("uuid");
 const organizeRoles = (roles) => {
-	const organizedRoles = [];
-	if (roles) {
-		for (let i in roles) {
-			organizedRoles.push(roles[i].name);
-		}
-	}
-	return organizedRoles;
+  const organizedRoles = [];
+  if (roles) {
+    for (let i in roles) {
+      organizedRoles.push(roles[i].name);
+    }
+  }
+  return organizedRoles;
 };
-
 
 /**
  * Crea una notificaion en la base de datos y despues la envia por socket al destinatario si esta conectado
@@ -23,42 +22,49 @@ const organizeRoles = (roles) => {
  * @receiverId el id del usuario que recibira la notificacion, es el user_id de User en la BD
  * @senderId el id del usuario que envia la notificacion, es el user_id de User en la BD
  */
-const sendNotification =  async (req, description, link, receiverId, senderId) => {
-	try {
-		const notification = {
-			id: uuidv4(),
-			link: link,
-			read: false,
-			description: description,
-			receiverId: receiverId,
-			senderId: senderId,
-		};
-		await Notification.create(notification);
-		const user = await User.findOne({
-			where: { user_id: receiverId },
-		});
-		const notificationCreated = await Notification.findOne({
-			where: { id: notification.id },
-			include: [
-				{
-					model: User,
-					as: 'receiver',
-					attributes: ['user_id', 'user_img_profile', 'user_id_A0'],
-				},
-				{
-					model: User,
-					as: 'sender',
-					attributes: ['user_id', 'user_img_profile', 'user_id_A0'],
-				},
-			],
-		});
-		req.io.to(user.user_id_A0).emit('NOTIFICATIONS', notificationCreated);
-	} catch (error) {
-		return error;
-	}
+const sendNotification = async (
+  req,
+  description,
+  link,
+  receiverId,
+  senderId
+) => {
+  try {
+    const notification = {
+      id: uuidv4(),
+      link: link,
+      read: false,
+      description: description,
+      receiverId: receiverId,
+      senderId: senderId,
+    };
+    await Notification.create(notification);
+    const user = await User.findOne({
+      where: { user_id: receiverId },
+    });
+    const notificationCreated = await Notification.findOne({
+      where: { id: notification.id },
+      include: [
+        {
+          model: User,
+          as: "receiver",
+          attributes: ["user_id", "user_img_profile", "user_id_A0"],
+        },
+        {
+          model: User,
+          as: "sender",
+          attributes: ["user_id", "user_img_profile", "user_id_A0"],
+        },
+      ],
+    });
+    req.io.to(user.user_id_A0).emit("NOTIFICATIONS", notificationCreated);
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
 };
 
 module.exports = {
-	sendNotification,
-	organizeRoles,
+  sendNotification,
+  organizeRoles,
 };

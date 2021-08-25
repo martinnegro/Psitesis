@@ -20,7 +20,7 @@ const sequelize = new Sequelize(
         rejectUnauthorized: false,
       },
     },
-  } */
+  }
 );
 
 const basename = path.basename(__filename);
