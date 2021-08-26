@@ -526,7 +526,7 @@ export default function AdminTopics() {
 													onClick={() =>
 														onRevertSubTopic(
 															subTopic.id,
-															subTopic.cat_id
+															subTopic.topic_id
 														)
 													}
 												>
