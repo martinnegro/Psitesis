@@ -19,6 +19,8 @@ import {Link} from 'react-router-dom'
 import { purple } from '@material-ui/core/colors';
 import style from './Forum.module.css'
 
+import NavBottom from "../../components/NavBottom/NavBottom"
+
 
 const theme = createTheme({
   palette: {
@@ -47,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
   tab: {
     backgroundColor: "#031927",
+
   },
   offset: theme.mixins.toolbar,
   title: {
@@ -58,8 +61,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    '@media (max-width: 601px)': {
+      marginTop: "0",
+},
   },
+  
   tabsText: {
     color: "#93827F",
   },
@@ -72,11 +79,15 @@ const useStyles = makeStyles((theme) => ({
     },
     offset: theme.mixins.toolbar,
     title:{
-        marginTop: '20px',
+        marginTop: '0px',
         backgroundColor: 'purple',
         width: '100%',
         textAlign: 'center',
-        color: 'white'
+        color: 'white',
+        '@media (max-width: 601px)': {
+          display: 'none',
+          margin: 0,
+        },
     },
     tabsText:{
       color: "#93827F",
@@ -95,6 +106,9 @@ const useStyles = makeStyles((theme) => ({
   },
   lastMssg: {
     width: "100%",
+    '@media (max-width: 601px)': {
+            padding: "0",
+		},
     
   },
   title2: {
@@ -104,6 +118,19 @@ const useStyles = makeStyles((theme) => ({
       display: 'block',
     },
     // marginLeft: '164px',
+
+  },
+  box:{
+    '@media (max-width: 601px)': {
+      padding: "0",
+},
+  },
+  contenedorTabs:{
+
+    '@media (max-width: 601px)': {
+			marginTop: 0,
+      padding: 0
+		},
   },
 }));
 
@@ -115,6 +142,9 @@ const useStyles2 = makeStyles({
 		'&:hover': {
 			backgroundColor: purple[700],
 		},
+
+    
+    
     
 	},
 	modal: {
@@ -135,6 +165,7 @@ const useStyles2 = makeStyles({
 		boxShadow: theme.shadows[5],
 		padding: theme.spacing(2, 4, 3),
 		maxWidth: '10%',
+    
 	},
 	Home: {
 		marginTop: theme.spacing(5),
@@ -142,6 +173,7 @@ const useStyles2 = makeStyles({
 		flexDirection: 'column',
 		alignItems: 'center',
 		justifyContent: 'center',
+    
 	},
 	tipoh2: {
 		'@media (max-width: 601px)': {
@@ -157,6 +189,8 @@ const useStyles2 = makeStyles({
 			width: '80vw',
 		},
 	},
+
+
 });
 
 function TabPanel(props) {
@@ -169,9 +203,9 @@ function TabPanel(props) {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
-      styles={{ display: "flex" }}
+      styles={{ display: "flex"}}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && <Box p={3} style={{padding: 0}}>{children}</Box>}
     </div>
   );
 }
@@ -223,7 +257,7 @@ const Forum = () => {
   },[last20Post]);
     
     return (
-        <Container>
+        <Container className={classes.contenedorTabs}>
           <ThemeProvider theme={theme}>
              <div className={classes.offset}></div>
         <Nav/>
@@ -231,8 +265,8 @@ const Forum = () => {
             <Typography variant='h2' className={classes.title2} >Foro</Typography>
       
         </Container>
-        <div className={classes.root}>
-          <AppBar className = {classes.tab} position="static" color="default" >
+        <div className={classes.root} >
+          <AppBar className = {classes.tab} position="static" color="default">
             <Tabs
               value={value}
               onChange={handleChange}
@@ -255,11 +289,11 @@ const Forum = () => {
           </AppBar>
          
           
-          <TabPanel value={value} index={0}>
+          <TabPanel value={value} index={0} >
             <Container>
               {topicsAndSubtopics ? topicsAndSubtopics.map((topic)=>{
                 return(
-                  <div>
+                  <div >
                     <TopicCard
                       id={topic.topic_id}
                       name={topic.topic_name}
@@ -281,7 +315,7 @@ const Forum = () => {
             )}
           </Container>
         </TabPanel>
-        <TabPanel value={value} index={1}>
+        <TabPanel value={value} index={1} >
           <Container className={classes.lastMssg}>
             {last20Post ? (
               orderedPost.map((p) => <PostCard post={p} />)
@@ -292,6 +326,12 @@ const Forum = () => {
           </TabPanel>
         </div>
         </ThemeProvider>
+        <br />
+      <br />
+      <br />
+      <br />
+        <NavBottom />
+
       </Container>
     )
 }

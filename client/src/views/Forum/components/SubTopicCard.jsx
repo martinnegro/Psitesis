@@ -8,14 +8,17 @@ const useStyle = makeStyles({
     },
     title:{
         fontSize: "1.5rem",
-        padding: "20px"
+        padding: "20px",
     },
     secondary:{
         fontSize: "1rem",
-        padding: "20px"
+        padding: "20px",
     },
     container: {
-        paddingLeft: "7rem"
+        paddingLeft: "7rem",
+        '@media (max-width: 601px)': {
+            padding: 0,
+		},
     }
 });
 

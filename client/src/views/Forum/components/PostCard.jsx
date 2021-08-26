@@ -11,8 +11,15 @@ const useStyle = makeStyles({
         },
         margin: 'auto',
         flexGrow: '1',
-        flexBasis: '0'
+        flexBasis: '0',
+
+        '@media (max-width: 601px)': {
+			display: "block",
+            overflowX: "auto",
+            padding: "0 10px 0 15px",
+		},
     },
+    
     
     inLine: {
         display: "flex",
@@ -28,12 +35,21 @@ const useStyle = makeStyles({
     },
     title: {
         fontSize: "1.5rem",    
-        margin: "0 0 0 5px"
+        margin: "0 0 0 5px",
+        '@media (max-width: 601px)': {
+			fontSize: 15,
+            width: '300px',
+		},
+
     },
     commentsAndDate: {
         width: "25%",
         display: "flex",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        '@media (max-width: 601px)': {
+			fontSize: 15,
+            width: '250px',
+		},
     },
     footer: {
         margin: "0",
@@ -50,7 +66,15 @@ const useStyle = makeStyles({
         margin: "0 5px 0 5px",
         width: "2rem",
         height: "2rem"
-    }
+    },
+    tipografia:{
+
+        '@media (max-width: 601px)': {
+			fontSize: 15,
+            width: '170px',
+		},
+
+    },
 
 });
 function PostCard( {post} ) {
@@ -68,7 +92,7 @@ function PostCard( {post} ) {
                     <Box className={classes.titleAndCat}>
                         {
                             post.subtopic ?
-                            <Typography color="textSecondary">
+                            <Typography color="textSecondary" className={classes.tipografia}>
                                 EN {post.subtopic.sub_topic_name.toUpperCase()}:
                             </Typography> :
                             <></>
@@ -80,19 +104,23 @@ function PostCard( {post} ) {
                         </Link>
                     </Box>
                     <Box className={classes.commentsAndDate}>
-                        <Typography color="textSecondary">
+                        <Typography color="textSecondary" className={classes.tipografia}>
                             {post.comments.length} Comentarios
                         </Typography>
-                        <Typography  color="textSecondary" gutterBottom>
-                            {getDateTime(post.createdAt)}
+                        <Typography  color="textSecondary" gutterBottom className={classes.tipografia}>
+                            {getDateTime(post.createdAt)} 
                         </Typography>
                     </Box>
                 </Box>
                 <Box className={classes.footer} color="textSecondary">
-                    <Typography className={classes.user} color="textSecondary">
-                        <span>Creado por</span>
+                    <Typography className={classes.user} color="textSecondary" className={classes.tipografia}>
+                        {/* <span>Creado por</span> */}
+                        <span style= {{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
                         <Avatar className={classes.avatar} alt={post.user.user_name} src={post.user.user_img_profile}/>
                         <span>{post.user.user_name}</span>
+                        </span>
+
+                        
                     </Typography>
                     
                 </Box>
