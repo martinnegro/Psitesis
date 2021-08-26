@@ -33,6 +33,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 //Menucito
 import NavBottom from "../../components/NavBottom/NavBottom";
+import { userHasPermission } from "../../utils/roles";
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
@@ -113,6 +114,7 @@ const Art_Detail = () => {
   ); // Nueva forma de acceder al estado por combineReducer
   const user = useSelector((state) => state.authReducer.user); // Nueva forma de acceder al estado por combineReducer
   const users = useSelector((state) => state.usersReducer.users);
+  const localUserId = useSelector((state) => state.usersReducer.userDetail.user_id)
   const [idUser, setIdUser] = useState([]);
   const [enablePost, setEnablePost] = useState(false);
 
@@ -228,7 +230,7 @@ const Art_Detail = () => {
               </div>
               {enablePost ? (
                 <div className={s.btns}>
-                  <Button
+                  {userHasPermission(user.roles[0],['superadmin','admin'],true,false) || localUserId == articlesDetail?.user_id ? <Button
                     startIcon={<DeleteIcon />}
                     variant="contained"
                     size="medium"
@@ -240,7 +242,8 @@ const Art_Detail = () => {
                     onClick={handleClickOpen}
                   >
                     Eliminar
-                  </Button>
+                  </Button> : null}
+                  {console.log(articlesDetail)}
                   <Dialog
                     fullScreen={fullScreen}
                     open={open}
@@ -265,7 +268,7 @@ const Art_Detail = () => {
                     </DialogActions>
                   </Dialog>
                   &nbsp; &nbsp;
-                  <Button
+                  {userHasPermission(user.roles[0],['superadmin','admin'],true,false) || localUserId == articlesDetail?.user_id ? <Button
                     startIcon={<EditIcon />}
                     size="medium"
                     color="primary"
@@ -276,9 +279,9 @@ const Art_Detail = () => {
                     onClick={editArticle}
                   >
                     Editar
-                  </Button>
+                  </Button> : null }
                   &nbsp; &nbsp;
-                  <Button
+                  {userHasPermission(user.roles[0],['superadmin','admin'],true,false) ? <Button
                     startIcon={<VisibilityIcon />}
                     size="medium"
                     color="primary"
@@ -290,7 +293,7 @@ const Art_Detail = () => {
                     onClick={onClickVisbility}
                   >
                     {articlesDetail.art_visibility ? "OCULTAR" : "MOSTRAR"}
-                  </Button>
+                  </Button> : null }
                 </div>
               ) : null}
 

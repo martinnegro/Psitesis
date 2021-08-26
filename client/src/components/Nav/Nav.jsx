@@ -48,7 +48,7 @@ import { grey, purple } from '@material-ui/core/colors';
 import { markAsRead } from '../../redux/actions/actionsNotifications';
 import ForumOutlinedIcon from '@material-ui/icons/ForumOutlined';
 import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
-
+import { userHasPermission } from '../../utils/roles';
 const drawerWidth = 270;
 
 const useStyles = makeStyles((theme) => ({
@@ -448,8 +448,7 @@ export default function Nav() {
                   </IconButton>
                 </MenuItem> */}
 
-								{user?.roles?.includes('admin') ||
-								user?.roles?.includes('superadmin') ? (
+								{userHasPermission(user.roles[0],['admin','superadmin','collaborator'],true,false) ? (
 									<>
 										<MenuItem>
 											<span
