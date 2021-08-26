@@ -134,6 +134,9 @@ export default function InstitutionBio(props) {
                 </Container>
               </div>
             ) : null}
+            <br />
+            <br />
+            <br />
            <NavBottom />
           </Container>
         </div>
