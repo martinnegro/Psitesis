@@ -69,7 +69,7 @@ router.delete('/delete/:sub_topic_id', async (req, res, next)=>{
     await subtopic.destroy();
     res.json({message: "Deleted"})
   }catch(err){
-    next(err);
+    next(err)
   }
 })
 
