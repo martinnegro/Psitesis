@@ -77,6 +77,9 @@ const useStyles = makeStyles((theme) => ({
     tab:{
       backgroundColor: "#031927"
     },
+    "& .MuiTab-textColorPrimary.Mui-selected":{
+			color: 'white'
+		  },
     offset: theme.mixins.toolbar,
     title:{
         marginTop: '0px',
@@ -93,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
       color: "#93827F",
       '&:focus': {
         color: 'white',
-      }
+      },
     },
     tabs:{
       "& .MuiTabs-flexContainer":{
