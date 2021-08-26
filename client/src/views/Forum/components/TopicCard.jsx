@@ -22,7 +22,12 @@ const useStyle = makeStyles({
         fontSize: "2rem",
         textAlign: "start",
         color: '#861C55',
-        padding: "20px"
+        padding: "20px",
+        '@media (max-width: 601px)': {
+            padding: 0,
+            margin: '0 auto',
+ 
+		},
     },
     divider:{
         background: "#861C55",
