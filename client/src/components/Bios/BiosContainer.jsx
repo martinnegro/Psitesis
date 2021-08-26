@@ -86,7 +86,7 @@ export default function BiosContainer({ id, userName, biography, imgProfile }) {
             {userName}
             <Divider style={{ width: "250px" }} />
             </Typography>
-            <Typography variant = "h2">
+            <Typography variant = "p">
             {biography}
             <Divider style={{ width: "250px" }} />
             </Typography>
