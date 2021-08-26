@@ -215,7 +215,7 @@ const CommentCard = ({comment,handleCommentComponent,fetchPostData,respondedComm
                         cancellEdit={cancellEdit}
                         fetchPostData={fetchPostData}
                     />
-                    {userHasPermission(user.roles[0],['admin','superAdmin']) ? <Button 
+                    {userHasPermission(user.roles[0],['admin','superadmin'],false,true) ? <Button 
                         className={classes.button}
                         onClick = {handleHighlight}
                         startIcon={<StarBorderIcon  style={{ fontSize: 15 }}/>}
