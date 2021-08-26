@@ -111,7 +111,7 @@ const UserInstitutions = ({ user }) => {
 						<TableCell className={classes.tableCell}>
 							{i.inst_descriptions}
 						</TableCell>
-						{userHasPermission(myUser.roles[0],['adminn','superadminn']) ? (
+						{userHasPermission(myUser.roles[0],['admin','superadmin'],true,false) ? (
 							<TableCell className={classes.tableCell}>
 								<IconButton className={classes.iconButton}>
 									<DeleteForeverIcon onClick={() => handleDelete(i.inst_id)} />

@@ -30,7 +30,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { getAllUsers } from '../../../redux/actions/usersActions'
 import { changeUserRole, changeUserColab } from '../../../redux/API'; 
-
+import { userHasPermission } from '../../../utils/roles';
 
 import './AdminUsers.css'
 const { REACT_APP_URL_API } = process.env;
@@ -42,13 +42,15 @@ const useStyles1 = makeStyles((theme) => ({
 }));
 
 function TablePaginationActions(props) {
+  const user = useSelector((state) => state.authReducer.user)
   const classes = useStyles1();
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
-
   const handleFirstPageButtonClick = (event) => {
     onPageChange(event, 0);
   };
+
+  console.log(user)
 
   const handleBackButtonClick = (event) => {
     onPageChange(event, page - 1);
@@ -61,6 +63,8 @@ function TablePaginationActions(props) {
   const handleLastPageButtonClick = (event) => {
     onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
+
+  
 
   return (
     <div className={classes.root}>
@@ -116,7 +120,6 @@ export default function AdminUsers() {
   const [ input, setInput ] = React.useState('');
   const [ users, setUsers ] = React.useState([]);
   const dispatch = useDispatch();
-
   const emptyusers = usersPerPage - Math.min(usersPerPage, users.length - page * usersPerPage);
 
   useEffect(()=>{
@@ -223,7 +226,7 @@ export default function AdminUsers() {
                 {getRoleName(row.user_rol_id)}
                 {
                     !wantChangeRole[row.user_id] ?
-                    <Button onClick={()=>onWantChangeRol(row.user_id)}>CAMBIAR</Button> :
+                    <Button onClick={()=>onWantChangeRol(row.user_id)}>CAMBIAR</Button>:
                     <>
                     <FormControl className={classes.formControl}>
                       <InputLabel id="demo-simple-select-label">Age</InputLabel>

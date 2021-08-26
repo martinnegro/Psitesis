@@ -447,10 +447,9 @@ export default function Nav() {
                     </Typography>
                   </IconButton>
                 </MenuItem> */}
-
-								{userHasPermission(user.roles[0],['admin','superadmin','collaborator'],true,false) ? (
+	
 									<>
-										<MenuItem>
+										{userHasPermission(user.roles[0],['superadmin','admin','collaborator'],true,false) ? <MenuItem>
 											<span
 												color="inherit"
 												aria-label="add"
@@ -475,8 +474,8 @@ export default function Nav() {
 													CREAR ARTICULO
 												</Typography>
 											</span>
-										</MenuItem>
-										<MenuItem>
+										</MenuItem> : null}
+										{userHasPermission(user.roles[0],['superadmin','admin'],true,false) ? <MenuItem>
 											<span
 												edge="end"
 												color="inherit"
@@ -501,9 +500,9 @@ export default function Nav() {
 													PANEL DE ADMINISTRADOR
 												</Typography>
 											</span>
-										</MenuItem>
+										</MenuItem> : null}
 									</>
-								) : null}
+								
 
 								<MenuItem>
 									<span
