@@ -14,6 +14,7 @@ import Report from "./Report";
 import QuoteCard from "./QuoteCard";
 import { HashLink } from 'react-router-hash-link';
 import { userHasPermission } from "../../../utils/roles";
+import ConfirmDeleteComment from "./ConfirmDeleteComment";
 
 const useStyle = makeStyles({
     root: {
@@ -67,6 +68,8 @@ const CommentCard = ({comment,handleCommentComponent,fetchPostData,respondedComm
     const {user} = useSelector((state) => state.authReducer);
     const [edit,setEdit] = useState(false)
     const [report,setReport] = useState(false)
+    // ===>> ESTADO PARA DELETE
+    const [ wantDelete, setWantDelete ] = useState(false)
     const handleEdit = () => {
         setEdit(true)
     }
@@ -201,13 +204,21 @@ const CommentCard = ({comment,handleCommentComponent,fetchPostData,respondedComm
                     </Button> : null}
                     {userHasPermission(user.roles[0],['admin','superadmin'],comment.user.user_id_A0,loggedUserId) ? <Button 
                         className={classes.button}
-                        onClick = {handleDelete}
+                        onClick = {()=>setWantDelete(true)}
                         startIcon={<DeleteForeverIcon  style={{ fontSize: 15 }}/>}
                         variant="contained"
                         disableElevation
                     >
                         Eliminar
                     </Button > : null}
+                    {/*======>>> MODAL PARA ELIMINAR*/}
+                    <ConfirmDeleteComment
+                        open={wantDelete}
+                        handleDelete={handleDelete}
+                        commentContent={comment.comment_contents}
+                        setWantDelete={setWantDelete}
+                    />
+                    {/*******************************/}
                     <EditComment 
                         open={edit}
                         id={comment.comment_id}
