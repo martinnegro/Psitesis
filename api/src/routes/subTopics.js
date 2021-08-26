@@ -33,30 +33,40 @@ router.get("/:id", async (req, res) => {
 
 router.post('/', async (req, res,next) => {
   try{
-    const {sub_topic_name, sub_topic_description, topic_id} = req.body;
+    const {name, description, id} = req.body;
+    console.log(req.body)
     let newSubtopic = await Subtopic.create({
       sub_topic_id : uuidv4(),
-      sub_topic_name,
-      sub_topic_description
+      sub_topic_name: name,
+      sub_topic_description: description,
     })
-    await newSubtopic.setTopic(topic_id)
-    return res.json(newSubtopic)
+    await newSubtopic.setTopic(id)
+
+    let allTopics = await Topic.findAll({
+      include: {model: Subtopic}
+    })
+    return res.json(allTopics)
+    
 
   }catch(err){
     next(err);
   }
 })
 
-router.put('/edit/:sub_topic_id', async (req, res, next) => {
+router.put('/edit', async (req, res, next) => {
   try{
-    const {sub_topic_id} = req.params;
-    const {name, description} = req.body;
-    const subtopic = await Subtopic.findByPk(sub_topic_id)
+  
+    const {id, name, description} = req.body;
+    const subtopic = await Subtopic.findByPk(id)
     console.log(subtopic)
     subtopic.sub_topic_name = name;
     subtopic.sub_topic_description = description;
     await subtopic.save()
-    return res.json(subtopic)
+
+    let allTopics = await Topic.findAll({
+      include: {model: Subtopic}
+    })
+    return res.json(allTopics)
   }catch(err){
     next(err);
   }
@@ -67,9 +77,12 @@ router.delete('/delete/:sub_topic_id', async (req, res, next)=>{
   try{
     const subtopic = await Subtopic.findByPk(sub_topic_id);
     await subtopic.destroy();
-    res.json({message: "Deleted"})
+    let allTopics = await Topic.findAll({
+      include: {model: Subtopic}
+    })
+    return res.json(allTopics)
   }catch(err){
-    next(err);
+    next(err)
   }
 })
 

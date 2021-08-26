@@ -103,3 +103,13 @@ export const getReports = (prop, value) => {
 
 export const editReport = (id) => API.put(`report/resolve/${id}`);
 export const deleteReport = (id) => API.delete(`report/delete/${id}`);
+
+//rutas topic subtopic 
+export const getAllTopicSubTopic = () => API.get(`subtopics`)
+export const createNewTopic = (data) => API.post(`topics`, data)
+export const setTopic = (data) => API.put(`topics/edit`, data)
+export const deleteTopic = (id) => API.delete(`topics/delete/${id}` )
+
+export const createNewSubTopic =(data) => API.post(`subtopics`, data)
+export const setSubTopic=(data) => API.put(`subtopics/edit`, data)
+export const deleteSubTopic=(id) => API.delete(`subtopics/delete/${id}`)
