@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from '@material-ui/icons';
 import { Slide, Box } from '@material-ui/core';
 import img1 from './../../assets/Image1.png';
 import img2 from './../../assets/Image2.png';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
 const CarouselSlide = (props) => {
 	const { backgroundColor, description, src } = props.content;
@@ -29,6 +30,13 @@ const CarouselSlide = (props) => {
 			color: '#800080',
 			margin: theme.spacing(3),
 		},
+		btnIr: {
+			display: 'none',
+			textDecoration: 'none',
+			'@media (max-width: 601px)': {
+				display: 'block',
+			},
+		}
 	}));
 
 	const classes = useStyles();
@@ -41,7 +49,10 @@ const CarouselSlide = (props) => {
 				) : (
 					<img className={classes.img} src={img2} alt="Carousel2" />
 				)}
-				<Typography className={classes.h1}>{description}</Typography>
+				<Typography className={classes.h1}>
+					{description}					
+				</Typography>
+				<a href='#ingresar' className={classes.btnIr}><KeyboardArrowDownIcon /></a>
 			</div>
 		</Box>
 	);
