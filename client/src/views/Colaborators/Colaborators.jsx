@@ -19,7 +19,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { ThemeProvider } from '@material-ui/core/styles';
-import { purple, azul } from '@material-ui/core/colors';
+import { grey } from '@material-ui/core/colors';
 import axios from 'axios';
 import NavBottom from "../../components/NavBottom/NavBottom";
 
@@ -27,18 +27,18 @@ const { REACT_APP_URL_API } = process.env;
 const theme = createTheme({
 	palette: {
 		primary: {
-			main: '#031927',
-			light: '#ffc4ff',
-			dark: '#9c64a6',
-			contrastText: '#fff',
+		  main: grey[50],
+		  light: "#ffc4ff",
+		  dark: "#9c64a6",
+		  contrastText: "#fff",
 		},
 		secondary: {
-			main: '#FCFCFF',
-			light: '#ffc4ff',
-			dark: '#9c64a6',
-			contrastText: '#fff',
+		  main: grey[500],
+		  light: "#ffc4ff",
+		  dark: "#9c64a6",
+		  contrastText: "#fff",
 		},
-	},
+	  },
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -67,8 +67,8 @@ const useStyles = makeStyles((theme) => ({
 		'&:focus': {
 			color: 'white',
 		  }, 
-		  "& .MuiTabs-indicator":{
-			backgroundColor: 'white'
+		  "& .MuiTab-textColorPrimary.Mui-selected":{
+			color: 'white'
 		  }
 	},
     tabsText:{
@@ -76,6 +76,9 @@ const useStyles = makeStyles((theme) => ({
 		'&:focus': {
 		  color: 'white',
 		},
+		'& MuiTab-wrapper': {
+			color: 'grey',
+		}
 		
 	  },
 	  barResponsive: {
@@ -152,6 +155,7 @@ export default function Colaborators() {
 	return (
 		<Container className={classes.contenedorTabs}>
 			<div className={classes.offset}></div>
+			<ThemeProvider theme={theme}>
 			<Nav />
 			<Container className={classes.title}>
 				<Typography variant="h2">Colaboradores</Typography>
@@ -200,8 +204,9 @@ export default function Colaborators() {
 								);
 						  })
 						: null}
-				</TabPanel>
+				</TabPanel>				
 			</div>
+			</ThemeProvider>
 			<br />
 			<br />
 			<br />
