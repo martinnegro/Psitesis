@@ -13,6 +13,7 @@ import { getDateTime } from "../../../utils/auth";
 import Report from "./Report";
 import QuoteCard from "./QuoteCard";
 import { HashLink } from 'react-router-hash-link';
+import { userHasPermission } from "../../../utils/roles";
 
 const useStyle = makeStyles({
     root: {
@@ -63,6 +64,7 @@ const useStyle = makeStyles({
 const CommentCard = ({comment,handleCommentComponent,fetchPostData,respondedComment}) =>{
     const classes = useStyle();
     const loggedUserId =  useSelector((state) => state.authReducer.user.user_id)
+    const {user} = useSelector((state) => state.authReducer);
     const [edit,setEdit] = useState(false)
     const [report,setReport] = useState(false)
     const handleEdit = () => {
@@ -104,9 +106,10 @@ const CommentCard = ({comment,handleCommentComponent,fetchPostData,respondedComm
         >
             <Container className={classes.commentInfo}>
                 <Box className={classes.user} >
+                    {console.log(comment)}
                     <Link 
                         className={classes.links}
-                        to={`/user/${comment.user.user_id}`}
+                        to={`/user/${comment.user.user_id_A0}`}
                     >
                         <Avatar className={classes.avatar} alt={comment.user.user_name} src={comment.user.user_img_profile}/> 
                     </Link>
@@ -186,7 +189,7 @@ const CommentCard = ({comment,handleCommentComponent,fetchPostData,respondedComm
                             Responder
                         </Button>
                     </HashLink>
-                    <Button 
+                    {userHasPermission(user.roles[0],['superadmin','admin'],comment.user.user_id_A0,loggedUserId) ? <Button 
                         className={classes.button}
                         onClick={handleEdit}
                         startIcon={<EditIcon style={{ fontSize: 15 }} /> }
@@ -195,8 +198,8 @@ const CommentCard = ({comment,handleCommentComponent,fetchPostData,respondedComm
                     >
                         
                         Editar
-                    </Button> 
-                    <Button 
+                    </Button> : null}
+                    {userHasPermission(user.roles[0],['admin','superadmin'],comment.user.user_id_A0,loggedUserId) ? <Button 
                         className={classes.button}
                         onClick = {handleDelete}
                         startIcon={<DeleteForeverIcon  style={{ fontSize: 15 }}/>}
@@ -204,7 +207,7 @@ const CommentCard = ({comment,handleCommentComponent,fetchPostData,respondedComm
                         disableElevation
                     >
                         Eliminar
-                    </Button> 
+                    </Button > : null}
                     <EditComment 
                         open={edit}
                         id={comment.comment_id}
@@ -212,7 +215,7 @@ const CommentCard = ({comment,handleCommentComponent,fetchPostData,respondedComm
                         cancellEdit={cancellEdit}
                         fetchPostData={fetchPostData}
                     />
-                    <Button 
+                    {userHasPermission(user.roles[0],['admin','superAdmin']) ? <Button 
                         className={classes.button}
                         onClick = {handleHighlight}
                         startIcon={<StarBorderIcon  style={{ fontSize: 15 }}/>}
@@ -224,7 +227,7 @@ const CommentCard = ({comment,handleCommentComponent,fetchPostData,respondedComm
                             'Unhighlight' 
                             : 'DESTACAR' 
                         }
-                    </Button> 
+                    </Button>  : null}
                 </Box>
                 : null
             }
