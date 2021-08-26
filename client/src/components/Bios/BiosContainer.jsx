@@ -7,6 +7,7 @@ import Avatar from "@material-ui/core/Avatar";
 import { deepOrange, green } from "@material-ui/core/colors";
 import Divider from "@material-ui/core/Divider";
 import Container from "@material-ui/core/Container";
+import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,12 +80,18 @@ export default function BiosContainer({ id, userName, biography, imgProfile }) {
               {" "}
             </Avatar>
           </div>
+          
           <div className={classes.text}>
-            <h3>{userName}</h3>
-            <h3>Bio</h3>
+          <Typography variant = "h2">
+            {userName}
+            <Divider style={{ width: "250px" }} />
+            </Typography>
+            <Typography variant = "h2">
             {biography}
             <Divider style={{ width: "250px" }} />
+            </Typography>
           </div>
+          
         </Container>
       </Link>
     </Container>
