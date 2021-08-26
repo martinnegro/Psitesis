@@ -78,6 +78,7 @@ const Admin_Panel = () => {
               <AdminInstitutions />
             </AccordionDetails>
           </Accordion>
+          
           <AdminCategories />
           <AdminTopics/>
           <Accordion className={classes.table2}>

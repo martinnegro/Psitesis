@@ -390,7 +390,7 @@ export default function AdminTopics() {
         return state;
       });
     };
-  return (<div>
+  return (<>
 
 <Accordion>
 				<AccordionSummary
@@ -614,5 +614,5 @@ export default function AdminTopics() {
 					</AccordionDetails>
 				</Accordion>
 			))}
-  </div>);
+  </>);
 }
