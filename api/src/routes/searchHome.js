@@ -13,27 +13,27 @@ router.get("/", async (req, res) => {
         include: [{ 
           model: Article,
           required: false,
-          where: { art_visibility: true }
+          // where: { art_visibility: true }
         }],
-        where: { tag_name: { [Op.iLike]: `%${search}%` } },
+        where: { tag_name: { [Op.iLike]: `${search}` } },
       });
       if (article.length === 0) {
         const artTitle = await Article.findAll({
           where: {
-            where: { art_visibility: true },
+            art_visibility: true ,
             art_title: { [Op.iLike]: `%${search}%` } 
           },
         });
         if (artTitle.length === 0) {
           const autor = await User.findAll({
-            where: { user_name: { [Op.iLike]: `%${search}%` } },
+            where: { user_name: { [Op.iLike]: `${search}%` } },
           });
           if (autor.length === 0) {
             res.json({ message: "Articulo no encontrado" });
           } else {
             const artAutor = await Article.findAll({
               where: {
-                where: { art_visibility: true },
+                art_visibility: true ,
                 user_id: autor[0].user_id
               },
             });

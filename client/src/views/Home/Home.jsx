@@ -129,12 +129,11 @@ export default function Home() {
     if (tag) {
       dispatch(getArticleTag(tag));
     }
-
     if (tag === "") {
-      dispatch(orderArticles("art_views", "DESC"));
+      dispatch(orderArticles('art_views', "DESC"));
     }
   }, [tag, dispatch]);
-
+  console.log(tag)
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
@@ -174,13 +173,12 @@ export default function Home() {
             onChange={onChange}
             name="search"
           />
-          <IconButton
-            type="submit"
+          {/* <IconButton
             className={classes.iconButton}
             aria-label="search"
-          >
-            <SearchIcon />
-          </IconButton>
+          > */}
+            {/* <SearchIcon />
+          </IconButton> */}
         </Paper>
         {tag !== ""?
           <Typography variant="h4">Resultado de su busqueda para <span style={{ color: "purple" }}>{tag}</span></Typography>
