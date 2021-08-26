@@ -10,18 +10,17 @@ const sequelize = new Sequelize(
     logging: false,
     native: false,
   } */
-
-  // {
-  //   logging: false,
-  //   dialect: "postgres",
-  //   protocol: "postgres",
-  //   dialectOptions: {
-  //     ssl: {
-  //       require: true,
-  //       rejectUnauthorized: false,
-  //     },
-  //   },
-  // }
+  {
+    logging: false,
+    dialect: "postgres",
+    protocol: "postgres",
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+  }
 );
 
 const basename = path.basename(__filename);
