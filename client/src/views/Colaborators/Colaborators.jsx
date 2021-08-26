@@ -21,6 +21,8 @@ import Box from '@material-ui/core/Box';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { purple, azul } from '@material-ui/core/colors';
 import axios from 'axios';
+import NavBottom from "../../components/NavBottom/NavBottom";
+
 const { REACT_APP_URL_API } = process.env;
 const theme = createTheme({
 	palette: {
@@ -53,6 +55,9 @@ const useStyles = makeStyles((theme) => ({
 		width: '100%',
 		textAlign: 'center',
 		color: 'white',
+		"@media (max-width: 601px)": {
+			display: 'none',
+		  },
 	},
 	tabs: {
 		backgroundColor: "#031927",
@@ -73,6 +78,12 @@ const useStyles = makeStyles((theme) => ({
 		},
 		
 	  },
+	  barResponsive: {
+		"@media (max-width: 601px)": {
+			display: "block",
+			overflowX: "auto",
+		  },  
+	  }
 }));
 
 function TabPanel(props) {
@@ -139,7 +150,7 @@ export default function Colaborators() {
 				<Typography variant="h2">Colaboradores</Typography>
 			</Container>
 			<div className={classes.root}>
-				<AppBar position="static" color="default">
+				<AppBar position="static" color="default" className={classes.barResponsive}>
 					<Tabs
 						value={value}
 						onChange={handleChange}
@@ -184,6 +195,11 @@ export default function Colaborators() {
 						: null}
 				</TabPanel>
 			</div>
+			<br />
+			<br />
+			<br />
+			<br />
+			<NavBottom />
 		</Container>
 	);
 }
