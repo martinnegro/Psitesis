@@ -5,43 +5,34 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   getArticleDetail,
   clearDetail,
-} from '../../redux/actions/actionsArticles';
-import {
-  getAllUsers
-} from '../../redux/actions/usersActions';
-import {
-  deletePost,
-  getAllCatSub,
-} from "../../redux/actions/actions";
-import { changeVisibility } from "../../redux/API"; 
+} from "../../redux/actions/actionsArticles";
+import { getAllUsers } from "../../redux/actions/usersActions";
+import { deletePost, getAllCatSub } from "../../redux/actions/actions";
+import { changeVisibility } from "../../redux/API";
 import { useHistory, useParams } from "react-router-dom";
 import { Container, makeStyles, Typography, Button } from "@material-ui/core";
 import s from "./Art_Detail.module.css";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { purple } from "@material-ui/core/colors";
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import VisibilityIcon from '@material-ui/icons/Visibility';
-
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import VisibilityIcon from "@material-ui/icons/Visibility";
 
 //Modal confirmacion eliminar
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useTheme } from '@material-ui/core/styles';
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { useTheme } from "@material-ui/core/styles";
 //MOdal
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 //Menucito
 import NavBottom from "../../components/NavBottom/NavBottom";
-
-
-
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
@@ -81,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
   },
   Home: {
     margin: theme.spacing(1),
-    marginTop: '15px',
+    marginTop: "15px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -117,19 +108,21 @@ const Art_Detail = () => {
   const { id } = useParams();
 
   const dispatch = useDispatch();
-  const articlesDetail = useSelector((state) => state.articlesReducer.articlesDetail); // Nueva forma de acceder al estado por combineReducer
+  const articlesDetail = useSelector(
+    (state) => state.articlesReducer.articlesDetail
+  ); // Nueva forma de acceder al estado por combineReducer
   const user = useSelector((state) => state.authReducer.user); // Nueva forma de acceder al estado por combineReducer
   const users = useSelector((state) => state.usersReducer.users);
   const [idUser, setIdUser] = useState([]);
-	const [enablePost, setEnablePost] = useState(false);
+  const [enablePost, setEnablePost] = useState(false);
 
   const history = useHistory();
 
   const classes = useStyles();
 
   useEffect(() => {
-    dispatch(getAllCatSub())
-    }, [dispatch]);
+    dispatch(getAllCatSub());
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(getArticleDetail(id));
@@ -144,28 +137,32 @@ const Art_Detail = () => {
     setIdUser(users?.filter((u) => u.user_id === articlesDetail?.user_id));
   }, [articlesDetail?.user_id, users]);
 
-	useEffect(() => {
-		if (articlesDetail && user) {      
-			if (articlesDetail.user_id === user.user_id || user.roles.includes('admin') || user.roles.includes('superadmin')) {
-					setEnablePost(true);
-			} else {
+  useEffect(() => {
+    if (articlesDetail && user) {
+      if (
+        articlesDetail.user_id === user.user_id ||
+        user.roles.includes("admin") ||
+        user.roles.includes("superadmin")
+      ) {
+        setEnablePost(true);
+      } else {
         setEnablePost(true);
       }
-		}
-	}, [articlesDetail, history, user]);
+    }
+  }, [articlesDetail, history, user]);
 
-  const deletePostHandler = async () => {  
-    dispatch(deletePost(id))
-  }
+  const deletePostHandler = async () => {
+    dispatch(deletePost(id));
+  };
 
   const editArticle = () => {
-    history.push('/postEdit/'+ id);
-  }
+    history.push("/postEdit/" + id);
+  };
 
   //Modal constantes:
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -178,7 +175,7 @@ const Art_Detail = () => {
   const handleConfirm = () => {
     deletePostHandler();
     setOpen(false);
-    setTextModal('eliminado')
+    setTextModal("eliminado");
     setOpen2(true);
     setTimeout(handleClose2, 1000);
   };
@@ -196,116 +193,132 @@ const Art_Detail = () => {
   };
 
   //Texto Modal
-  const [textModal, setTextModal]= useState('')
+  const [textModal, setTextModal] = useState("");
 
   const onClickVisbility = async () => {
     try {
-    const response = await changeVisibility(id);
-    dispatch(getArticleDetail(id))
-    } catch(err) { alert('No update') }
-  };  
+      const response = await changeVisibility(id);
+      dispatch(getArticleDetail(id));
+    } catch (err) {
+      alert("No update");
+    }
+  };
 
   return (
     <Container>
-       <ThemeProvider theme={theme}>       
-      <div className={classes.offset}></div>
-      <Nav />
-      <Container className={classes.Home}>
-      {articlesDetail !== undefined ? (
+      <ThemeProvider theme={theme}>
+        <div className={classes.offset}></div>
+        <Nav />
         <Container className={classes.Home}>
-          <div className={s.perfil} style={{fontSize: 10}}>
-            <div>
-              <Typography variant="p" >
-                Sección: {articlesDetail?.subcategory?.sub_cat_name}
-              </Typography>
-            </div>
-            <div className={s.perfil2} >
-              <Typography variant="p">{idUser[0]?.user_name}</Typography>
-              &nbsp;
-              <Typography variant="p">el {articlesDetail?.art_date}</Typography>
-            </div>
-          </div>
-{enablePost ? <div className={s.btns}>
-           <Button 
-           startIcon={<DeleteIcon />}
-           variant="contained"
-              size="medium"
-              color="primary"
-              classes={{
-                root: classes.root,
-                label: classes.label,
-              }} onClick={handleClickOpen}>
-                Eliminar
-              </Button>
-              <Dialog
-        fullScreen={fullScreen}
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="responsive-dialog-title"
-      >
-        <DialogTitle id="responsive-dialog-title">ELIMINAR ARTICULO</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Estas seguro que quieres eliminar el articulo
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose} color="primary">
-            Cancelar
-          </Button>
-          <Button onClick={handleConfirm} color="primary" autoFocus>
-            Aceptar
-          </Button>
-        </DialogActions>
-      </Dialog>
-              &nbsp;
-              &nbsp;
-              <Button 
-              startIcon={<EditIcon />}
-              size="medium"
-              color="primary"
-              classes={{
-                root: classes.root,
-                label: classes.label,
-              }} onClick={editArticle}>
-                Editar
-              </Button>
-              <Button 
-                startIcon={<VisibilityIcon />}
-                size="medium"
-                color="primary"
-                classes={{ 
-                  root: classes.root, 
-                  label: classes.label,
-                  showButton: classes.showButton
-                }}
-                onClick={onClickVisbility}
+          {articlesDetail !== undefined ? (
+            <Container className={classes.Home}>
+              <div className={s.perfil} style={{ fontSize: 10 }}>
+                <div>
+                  <Typography variant="p">
+                    Sección: {articlesDetail?.subcategory?.sub_cat_name}
+                  </Typography>
+                </div>
+                <div className={s.perfil2}>
+                  <Typography variant="p">{idUser[0]?.user_name}</Typography>
+                  &nbsp;
+                  <Typography variant="p">
+                    el {articlesDetail?.art_date}
+                  </Typography>
+                </div>
+              </div>
+              {enablePost ? (
+                <div className={s.btns}>
+                  <Button
+                    startIcon={<DeleteIcon />}
+                    variant="contained"
+                    size="medium"
+                    color="primary"
+                    classes={{
+                      root: classes.root,
+                      label: classes.label,
+                    }}
+                    onClick={handleClickOpen}
+                  >
+                    Eliminar
+                  </Button>
+                  <Dialog
+                    fullScreen={fullScreen}
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="responsive-dialog-title"
+                  >
+                    <DialogTitle id="responsive-dialog-title">
+                      ELIMINAR ARTICULO
+                    </DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>
+                        Estas seguro que quieres eliminar el articulo
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button autoFocus onClick={handleClose} color="primary">
+                        Cancelar
+                      </Button>
+                      <Button onClick={handleConfirm} color="primary" autoFocus>
+                        Aceptar
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                  &nbsp; &nbsp;
+                  <Button
+                    startIcon={<EditIcon />}
+                    size="medium"
+                    color="primary"
+                    classes={{
+                      root: classes.root,
+                      label: classes.label,
+                    }}
+                    onClick={editArticle}
+                  >
+                    Editar
+                  </Button>
+                  &nbsp; &nbsp;
+                  <Button
+                    startIcon={<VisibilityIcon />}
+                    size="medium"
+                    color="primary"
+                    classes={{
+                      root: classes.root,
+                      label: classes.label,
+                      showButton: classes.showButton,
+                    }}
+                    onClick={onClickVisbility}
+                  >
+                    {articlesDetail.art_visibility ? "OCULTAR" : "MOSTRAR"}
+                  </Button>
+                </div>
+              ) : null}
+
+              <Typography
+                variant="h2"
+                color="initial"
+                className={classes.tipoh2}
               >
-                { articlesDetail.art_visibility ? 'OCULTAR' : 'MOSTRAR' }
-              </Button>
-           </div>  : null}         
-          
-          <Typography variant="h2" color="initial" className={classes.tipoh2}>
-            {articlesDetail.art_title}
-          </Typography>
-          <br/>
-          <Typography align='justify' variant="body2" component="p">
-            <span
-              dangerouslySetInnerHTML={{
-                __html: articlesDetail.art_contents,
-              }}
-            />
-          </Typography>
-        </Container>
-      ) : (
-        <div className={`${s.lds_ring} ${s.centrar}`}>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      )}
-      <div>
+                {articlesDetail.art_title}
+              </Typography>
+              <br />
+              <Typography align="justify" variant="body2" component="p">
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: articlesDetail.art_contents,
+                  }}
+                />
+              </Typography>
+            </Container>
+          ) : (
+            <div className={`${s.lds_ring} ${s.centrar}`}>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          )}
+          <div>
             {/* <button type="button" onClick={handleOpen2}>
         algo
       </button> */}
@@ -328,7 +341,7 @@ const Art_Detail = () => {
               </Fade>
             </Modal>
           </div>
-          </Container>
+        </Container>
       </ThemeProvider>
       <br />
       <br />
