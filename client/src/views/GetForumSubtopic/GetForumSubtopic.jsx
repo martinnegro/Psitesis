@@ -72,8 +72,8 @@ export default function GetForumSubTopic(){
         if (forum) {
             const highlighted = forum.forumposts.filter(p => p.post_highlight);
             const unHighlight = forum.forumposts.filter(p => !p.post_highlight);
-            highlighted.sort((a,b) => a.createdAt > b.createdAt ? 1 : -1 );
-            unHighlight.sort((a,b) => a.createdAt > b.createdAt ? 1 : -1 );
+            highlighted.sort((a,b) => a.createdAt < b.createdAt ? 1 : -1 );
+            unHighlight.sort((a,b) => a.createdAt < b.createdAt ? 1 : -1 );
             setOrderedPost([...highlighted,...unHighlight])
         };
     },[forum]);
