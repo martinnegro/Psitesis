@@ -77,6 +77,9 @@ const useStyle = makeStyles({
   },
   cardsContainer: {
     width: "100%",
+    "@media (max-width: 601px)": {
+      padding: 0
+     }
   },
   stylebtn: {
     backgroundColor: "purple",
