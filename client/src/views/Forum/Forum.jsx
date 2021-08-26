@@ -216,8 +216,8 @@ const Forum = () => {
       if (last20Post) {
           const highlighted = last20Post.filter(p => p.post_highlight);
           const unHighlight = last20Post.filter(p => !p.post_highlight);
-          highlighted.sort((a,b) => a.createdAt > b.createdAt ? 1 : -1 );
-          unHighlight.sort((a,b) => a.createdAt > b.createdAt ? 1 : -1 );
+          highlighted.sort((a,b) => a.createdAt < b.createdAt ? 1 : -1 );
+          unHighlight.sort((a,b) => a.createdAt < b.createdAt ? 1 : -1 );
           setOrderedPost([...highlighted,...unHighlight])
       };
   },[last20Post]);
