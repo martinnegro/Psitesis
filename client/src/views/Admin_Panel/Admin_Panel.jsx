@@ -12,6 +12,7 @@ import AdminUsers from "./components/AdminUsers";
 import CommentsReported from "./components/CommentsReported";
 import NavBottom from "../../components/NavBottom/NavBottom";
 import AdminArticles from "./components/AdminArticles";
+import AdminTopics from "./components/AdminTopics";
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
@@ -78,6 +79,7 @@ const Admin_Panel = () => {
             </AccordionDetails>
           </Accordion>
           <AdminCategories />
+          <AdminTopics/>
           <Accordion className={classes.table2}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
