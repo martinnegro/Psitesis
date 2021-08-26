@@ -13,7 +13,8 @@ import CommentsReported from "./components/CommentsReported";
 import NavBottom from "../../components/NavBottom/NavBottom";
 import AdminArticles from "./components/AdminArticles";
 import AdminTopics from "./components/AdminTopics";
-
+import { userHasPermission } from "../../utils/roles";
+import { useSelector } from 'react-redux';
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
   Admin_Panel: {
@@ -45,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Admin_Panel = () => {
   const classes = useStyles();
+  const userDetail = useSelector((state) => state.authReducer.user)
 
   return (
     <Container>
@@ -54,7 +56,8 @@ const Admin_Panel = () => {
           Panel de Administrador
         </Typography>
         <div className={classes.root}>
-          <Accordion className={classes.table2}>
+          {userHasPermission(userDetail.roles[0],['superadmin'],true,false) ? <Accordion className={classes.table2}>
+            {console.log(userDetail.roles[0])}
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1bh-content"
@@ -65,7 +68,7 @@ const Admin_Panel = () => {
             <AccordionDetails>
               <AdminUsers />
             </AccordionDetails>
-          </Accordion>
+          </Accordion> : null}
           <Accordion>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}

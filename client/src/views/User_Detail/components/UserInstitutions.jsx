@@ -21,6 +21,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import axios from 'axios';
+import { userHasPermission } from '../../../utils/roles';
 const { REACT_APP_URL_API } = process.env;
 
 const useStyle = makeStyles({
@@ -110,9 +111,7 @@ const UserInstitutions = ({ user }) => {
 						<TableCell className={classes.tableCell}>
 							{i.inst_descriptions}
 						</TableCell>
-						{myUser.user_id === user.user_id ||
-						myUser?.roles?.includes('admin') ||
-						myUser?.roles?.includes('superadmin') ? (
+						{userHasPermission(myUser.roles[0],['admin','superadmin'],true,false) ? (
 							<TableCell className={classes.tableCell}>
 								<IconButton className={classes.iconButton}>
 									<DeleteForeverIcon onClick={() => handleDelete(i.inst_id)} />

@@ -48,7 +48,7 @@ import { grey, purple } from '@material-ui/core/colors';
 import { markAsRead } from '../../redux/actions/actionsNotifications';
 import ForumOutlinedIcon from '@material-ui/icons/ForumOutlined';
 import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
-
+import { userHasPermission } from '../../utils/roles';
 const drawerWidth = 270;
 
 const useStyles = makeStyles((theme) => ({
@@ -447,11 +447,9 @@ export default function Nav() {
                     </Typography>
                   </IconButton>
                 </MenuItem> */}
-
-								{user?.roles?.includes('admin') ||
-								user?.roles?.includes('superadmin') ? (
+	
 									<>
-										<MenuItem>
+										{userHasPermission(user.roles[0],['superadmin','admin','collaborator'],true,false) ? <MenuItem>
 											<span
 												color="inherit"
 												aria-label="add"
@@ -476,8 +474,8 @@ export default function Nav() {
 													CREAR ARTICULO
 												</Typography>
 											</span>
-										</MenuItem>
-										<MenuItem>
+										</MenuItem> : null}
+										{userHasPermission(user.roles[0],['superadmin','admin'],true,false) ? <MenuItem>
 											<span
 												edge="end"
 												color="inherit"
@@ -502,9 +500,9 @@ export default function Nav() {
 													PANEL DE ADMINISTRADOR
 												</Typography>
 											</span>
-										</MenuItem>
+										</MenuItem> : null}
 									</>
-								) : null}
+								
 
 								<MenuItem>
 									<span

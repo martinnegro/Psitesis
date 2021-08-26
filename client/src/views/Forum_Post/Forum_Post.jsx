@@ -31,6 +31,9 @@ import ReactQuill from "react-quill";
 import ReactPaginate from "react-paginate";
 import s from "./Forum_Post.module.css";
 import Report from "../Forum/components/Report";
+import { userHasPermission } from "../../utils/roles";
+import Link from 'react-router-dom'
+
 
 
 const { REACT_APP_URL_API } = process.env;
@@ -121,6 +124,7 @@ const useStyle = makeStyles({
 function Forum_Post() {
     const classes = useStyle()
     const userId = useSelector((state) => state.authReducer.user.user_id)
+    const user = useSelector((state) => state.authReducer.user)
     const dispatch = useDispatch();
     const { post_id } = useParams();
     const history = useHistory();
@@ -294,26 +298,26 @@ const cancellReport = () =>{
                   <CloseIcon />
                 </IconButton>
               </>
-            ) : (
+            ) : userHasPermission(user.roles[0],['superadmin','admin'],post.user.user_id_A0,userId) ? (
               <IconButton onClick={handleWantEdit}>
                 <EditIcon />
               </IconButton>
-            )}
+            ) : null }
             {/*-//////////////////------ABRIR Y CERRAR THREAD------////////////////////-*/}
-            <Button onClick={handleStatusThread} variant="contained" disableElevation>
+            {userHasPermission(user.roles[0],['superadmin','admin'],true,false) ? <Button onClick={handleStatusThread} variant="contained" disableElevation>
               {post.post_open ? "Cerrar Thread" : "Abrir Thread"}
-            </Button>
+            </Button> : null}
             {/*-//////////////////------DESTACAR POST------////////////////////-*/}
-            <Button onClick={handleHighlightPost}  variant="contained" disableElevation>
+            {userHasPermission(user.roles[0],['superadmin','admin'],true,false) ? <Button onClick={handleHighlightPost}  variant="contained" disableElevation>
               {post.post_highlight ? "Eliminar Destacado" : "Destacar Post"}
-            </Button>
+            </Button> : null}
             {/*-//////////////////------ELIMINAR POST------////////////////////-*/}
-            <IconButton
+            {userHasPermission(user.roles[0],['superadmin','admin'],post.user.user_id_A0,userId) ? <IconButton
               color="secondary"
               onClick={() => setOpenAlertDelete(true)}
             >
               <DeleteForeverIcon />
-            </IconButton>
+            </IconButton> : null}
             <ConfirmDeleteAlert
               open={openAlertDelete}
               openOkDelete={okDelete}
