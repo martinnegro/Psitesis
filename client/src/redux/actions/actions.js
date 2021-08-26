@@ -5,6 +5,8 @@ export const GET_ALL_CAT_SUB = 'GET_ALL_CAT_SUB';
 export const GET_CATEGORY = 'GET_CATEGORY';
 export const GET_SUB_CATEGORY = 'GET_SUB_CATEGORY';
 
+export const GET_TOPIC_SUBTOPICS = 'GET TOPIC_SUBTOPICS';
+
 
 //////////////////////////////////////
 export const GET_ADMINS = 'GET_ADMINS';
@@ -220,3 +222,130 @@ export const createPostForum = (newPost) => {
 };
 
 
+export const getAllTopicSubTopic = () => {
+	return async (dispatch) => {
+		try {
+			const response = await API.getAllTopicSubTopic();
+			if (response.data) {
+				dispatch({
+					type: GET_TOPIC_SUBTOPICS,
+					payload: response.data,
+				});
+			}
+		} catch (err) {
+			console.log(err);
+			return;
+		}
+	};
+};
+
+export const createNewTopic = (newTopic) => {
+	return async (dispatch) => {
+		try {
+			const response = await API.createNewTopic(newTopic);
+			if (response.data) {
+				dispatch({
+					type: GET_TOPIC_SUBTOPICS,
+					payload: response.data,
+				});
+			}
+		} catch (err) {
+			console.log(err);
+			return;
+		}
+	};
+};
+
+export const setTopic = (body) => {
+	return async (dispatch) => {
+		try {
+			const data = {
+				id: body.id,
+				name: body.name,
+			};
+			const response = await API.setTopic(data);
+			if (response.data) {
+				dispatch({
+					type: GET_TOPIC_SUBTOPICS,
+					payload: response.data,
+				});
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};
+
+export const deleteTopic = (id) => {
+	return async (dispatch) => {
+		try {
+			console.log('eliminar');
+			const response = await API.deleteTopic(id);
+			if (response.data) {
+				dispatch({
+					type: GET_TOPIC_SUBTOPICS,
+					payload: response.data,
+				});
+			}
+		} catch (err) {
+			console.log(err);
+			return;
+		}
+	};
+};
+
+export const createNewSubTopic = (newSubTopic) => {
+	return async (dispatch) => {
+		try {
+			const response = await API.createNewSubTopic(newSubTopic);
+			if (response.data) {
+				dispatch({
+					type: GET_TOPIC_SUBTOPICS,
+					payload: response.data,
+				});
+			}
+		} catch (err) {
+			console.log(err);
+			return;
+		}
+	};
+};
+
+export const setSubTopic = (body) => {
+	return async (dispatch) => {
+		try {
+			const data = {
+				id: body.id,
+				name: body.name,
+				description: body.description,
+			};
+			const response = await API.setSubTopic(data);
+			if (response.data) {
+				dispatch({
+					type: GET_TOPIC_SUBTOPICS,
+					payload: response.data,
+				});
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};
+
+export const deleteSubTopic = (id) => {
+	return async (dispatch) => {
+		try {
+			console.log('eliminar');
+			const response = await API.deleteSubTopic(id);
+			if (response.data) {
+				dispatch({
+					type: GET_TOPIC_SUBTOPICS,
+					payload: response.data,
+				});
+			}
+		} catch (err) {
+			console.log(err);
+			return;
+		}
+	};
+};
