@@ -83,7 +83,14 @@ const useStyles = makeStyles((theme) => ({
 			display: "block",
 			overflowX: "auto",
 		  },  
-	  }
+	  },
+	  contenedorTabs:{
+
+		'@media (max-width: 601px)': {
+				marginTop: 0,
+		  padding: 0
+			},
+	  },
 }));
 
 function TabPanel(props) {
@@ -143,7 +150,7 @@ export default function Colaborators() {
 	};
 
 	return (
-		<Container>
+		<Container className={classes.contenedorTabs}>
 			<div className={classes.offset}></div>
 			<Nav />
 			<Container className={classes.title}>
