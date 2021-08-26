@@ -25,14 +25,14 @@ const App = () => {
       <Switch>
         <Route path="/" exact component={Landing} />
         {userHasPermission(
-          user.roles[0],
+          user?.roles[0],
           ["superadmin", "admin", "collaborator"],
           true,
           false
         ) ? (
           <ProtectedRoute path="/post" exact component={Post} />
         ) : null}
-        {userHasPermission(user.roles[0], [
+        {userHasPermission(user?.roles[0], [
           "superadmin",
           "admin",
           "collaborator",
@@ -52,7 +52,7 @@ const App = () => {
         />
         <ProtectedRoute path="/notifications" exact component={Notifications} />
         {userHasPermission(
-          user.roles[0],
+          user?.roles[0],
           ["superadmin", "admin"],
           true,
           false
