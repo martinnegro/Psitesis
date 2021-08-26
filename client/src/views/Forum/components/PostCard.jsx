@@ -29,7 +29,10 @@ const useStyle = makeStyles({
         '@media (max-width: 601px)': {
 			width: "100%",            
             padding: "0 10px 0 15px",
+            display: "block",
+            overflowX: "auto",
 		},
+
     },
     
     
