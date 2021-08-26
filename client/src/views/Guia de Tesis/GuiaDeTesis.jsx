@@ -42,13 +42,18 @@ const useStyles = makeStyles((theme) => ({
     offset: theme.mixins.toolbar,
     blog:{
       "@media (max-width: 601px)":{
-        marginTop: theme.spacing(3),
+        marginTop: theme.spacing(0),
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         // display: "block",
         overflowX: "auto",
+        width: '100%',
+        padding: 0,
+        "& .MuiTabs-flexContainer":{
+          paddingLeft: 100,
+        }
       }
     },
     title:{
@@ -73,11 +78,7 @@ const useStyles = makeStyles((theme) => ({
       }, 
       "& .MuiTabs-indicator":{
         backgroundColor: 'white'
-      },
-      // "@media (max-width: 601px)":{
-      //  display: "block",
-      //  overflowX: "auto",
-      // }
+      }
     },
     tabsText:{
       color: "#93827F",
@@ -180,7 +181,7 @@ const useStyles = makeStyles((theme) => ({
     paper: {
       margin: theme.spacing(1),
       width: '270px'
-    },
+    }
   }));
 
 export default function GuiaDeTesis() {
@@ -264,7 +265,7 @@ export default function GuiaDeTesis() {
                     </div>
                 </Container>
                 <div className={classes.root}>
-                  <AppBar position="static" color="default">
+                  <AppBar position="static" color="default" >
                     <Tabs
                       value={value}
                       onChange={handleChange}
