@@ -82,7 +82,10 @@ const useStyles = makeStyles({
 		border: '2px solid purple',
 		boxShadow: theme.shadows[5],
 		padding: theme.spacing(2, 4, 3),
-		maxWidth: '10%',
+    maxWidth: '10%',
+    '@media (max-width: 601px)': {
+			maxWidth: '30%',
+		},		
 	},
 	Home: {
 		marginTop: theme.spacing(5),
