@@ -67,6 +67,9 @@ const useStyles = makeStyles({
 		boxShadow: theme.shadows[5],
 		padding: theme.spacing(2, 4, 3),
 		maxWidth: '10%',
+		'@media (max-width: 601px)': {
+			maxWidth: '50%',
+		},
 	},
 	Home: {
 		marginTop: theme.spacing(5),
