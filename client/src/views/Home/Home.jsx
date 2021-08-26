@@ -71,6 +71,22 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: "10px",
     },
   },
+  estiloH5: {
+    flexGrow: 1, 
+    textTransform: 'uppercase',
+    "@media (max-width: 601px)": {     
+      fontSize: "1.20rem",
+      marginBottom: 20,      
+    },
+  },
+  estiloMasLeidos: {
+    display: 'flex', 
+    flexDirection: 'row', 
+    alignItems: 'center',
+    "@media (max-width: 601px)": {
+      flexDirection: 'column',
+    },
+  }
 }));
 
 export default function Home() {
@@ -113,12 +129,11 @@ export default function Home() {
     if (tag) {
       dispatch(getArticleTag(tag));
     }
-
     if (tag === "") {
-      dispatch(orderArticles("art_views", "DESC"));
+      dispatch(orderArticles('art_views', "DESC"));
     }
   }, [tag, dispatch]);
-
+  console.log(tag)
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
@@ -138,17 +153,15 @@ export default function Home() {
             Bienvenidos
           </Typography>
           <Typography>
-            En Psitesis encontrarás {/* <NavLink to='#'> */}
-            <span style={{ color: "purple" }}>ARTICULOS</span>
-            {/* </NavLink> */} escritos por {/* <NavLink to='#'> */}
-            <span style={{ color: "purple" }}>COLABORADORES</span>
-            {/* </NavLink> */} expertos en la contrucción de tesis.
+            En Psitesis encontrarás <span style={{ color: "purple" }}>ARTICULOS</span> escritos por <span style={{ color: "purple" }}>COLABORADORES</span> expertos en la contrucción de tesis.
           </Typography>
           <Typography>
-            Si seguís con dudas podés escribir en el {/* <NavLink to='#'> */}
-            <span style={{ color: "purple" }}>FORO</span>
-            {/* </NavLink> */}, donde encontrarás otros colegas que puedan
+            Si seguís con dudas podés escribir en el <span style={{ color: "purple" }}>FORO</span>, donde encontrarás otros colegas que puedan
             ayudarte.
+          </Typography>
+          <br />
+          <Typography>
+            También podes visitar nuestra sección con archivos para descargar haciendo <Link to='/library'>click aquí</Link>
           </Typography>
         </Container>
 
@@ -160,20 +173,22 @@ export default function Home() {
             onChange={onChange}
             name="search"
           />
-          <IconButton
-            type="submit"
+          {/* <IconButton
             className={classes.iconButton}
             aria-label="search"
-          >
-            <SearchIcon />
-          </IconButton>
+          > */}
+            {/* <SearchIcon />
+          </IconButton> */}
         </Paper>
         {tag !== ""?
           <Typography variant="h4">Resultado de su busqueda para <span style={{ color: "purple" }}>{tag}</span></Typography>
           :
           null
         }
-        <Container>
+        <Container className={classes.estiloMasLeidos}>
+          <Typography variant="h5" color="initial" className={classes.estiloH5}>
+            Artículos más leídos.
+          </Typography>
           <ReactPaginate
             previousLabel={"<"}
             nextLabel={">"}

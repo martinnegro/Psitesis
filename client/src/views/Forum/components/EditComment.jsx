@@ -1,13 +1,12 @@
 import {React,useState} from "react"
-import {Container,Button}  from '@material-ui/core'
+import {Button, Dialog}  from '@material-ui/core'
 import ReactQuill from "react-quill";
 import CheckIcon from '@material-ui/icons/Check';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import "./EditComment.css"
-/* import { editComment } from "../../../utils/auth"; */
 import { editComment } from "../../../redux/API";
 
- const EditComment =   ({id,content,cancellEdit,fetchPostData}) => {
+ const EditComment =   ({id,content,cancellEdit,fetchPostData,open}) => {
 
     const [comment,setComment] = useState(content)
 
@@ -27,7 +26,7 @@ import { editComment } from "../../../redux/API";
         setComment(content)
     }
     return(
-        <Container>
+        <Dialog open={open}>
             <ReactQuill 
             modules={EditComment.modules}
             formats={EditComment.formats}
@@ -38,7 +37,7 @@ import { editComment } from "../../../redux/API";
             </ReactQuill>
             <Button onClick = {cancellEdit}> <CancelOutlinedIcon/></Button>
             <Button onClick = {handleSubmit}><CheckIcon/></Button>
-        </Container>
+        </Dialog>
     )
 
 }

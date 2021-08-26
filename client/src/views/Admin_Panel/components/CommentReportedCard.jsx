@@ -1,10 +1,11 @@
 import {React,useState} from 'react';
-import {makeStyles,Card,CardActions,CardContent,Button,Typography,Container,Table,TableBody,TableCell,TableContainer,TableHead,TableRow,Paper}
+import {makeStyles,Card,CardActions,CardContent,Button,Typography,Container,Table,TableBody,TableCell,TableContainer,TableHead,TableRow,Paper, responsiveFontSizes}
  from '@material-ui/core/'
 import {Link} from 'react-router-dom'
 import { editReport,deleteReport, getReports } from '../../../redux/API';
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
@@ -34,7 +35,7 @@ const useStyles = makeStyles({
   
 });
 
-const CommentReportedCard = ({commentContent,postContent,postId,fetchData,reports,dataPosts}) =>{
+const CommentReportedCard = ({commentContent,postContent,postId,fetchData,reports,resolve}) =>{
   const [details,setDetails] = useState(false)
   const classes = useStyles();
   function handleDetails(){
@@ -42,21 +43,33 @@ const CommentReportedCard = ({commentContent,postContent,postId,fetchData,report
   }
   async function handleResolve(id){
     await editReport(id);
-     await fetchData("rep_resolved","false") 
-    
+     if (resolve) {
+      await fetchData("rep_resolved","true")
+     }
+     else{
+      await fetchData("rep_resolved","false")
+     }   
   }
   async function handleDelete(id){
      await deleteReport(id);
-      await fetchData("rep_resolved","false") 
+     if (resolve) {
+      await fetchData("rep_resolved","false")
+     }
+     else{
+      await fetchData("rep_resolved","true")
+     }    
   }
     return(
         <Container className = {classes.container}>
-          
             <Card className = {classes.root}>
             <CardContent>
         <Typography variant="h5" component="h5">
             <Link className = {classes.link} to = {`/forum/post/${postId}`}>
-          {commentContent ? commentContent : postContent}
+          <span
+              dangerouslySetInnerHTML={{
+                __html: `${commentContent ? commentContent : postContent}`,
+              }}
+            />
           </Link>
         </Typography>
 
@@ -71,7 +84,7 @@ const CommentReportedCard = ({commentContent,postContent,postId,fetchData,report
           <TableRow>
             <TableCell>Usuario reportando</TableCell>
             <TableCell align="right">Razon</TableCell>
-            <TableCell align="right">Marcar Resuelto</TableCell>
+            <TableCell align="right">{!resolve ? `Marcar resuelto` : `Marcar sin resolver`}</TableCell>
             <TableCell align="right">Eliminar</TableCell>
           </TableRow>
         </TableHead>
@@ -86,7 +99,7 @@ const CommentReportedCard = ({commentContent,postContent,postId,fetchData,report
               {report.user.user_name}
             </TableCell>
             <TableCell align="right">{report.rep_reason}</TableCell>
-            <TableCell align="right"><Button onClick =  {() => handleResolve(report.rep_id)}><CheckIcon/></Button></TableCell>
+            <TableCell align="right"><Button onClick =  {() => handleResolve(report.rep_id)}>{!resolve ? <CheckIcon/> : <KeyboardBackspaceIcon/>}</Button></TableCell>
             <TableCell align="right"><Button onClick = {() => handleDelete(report.rep_id)}><DeleteForeverIcon color="secondary"/></Button></TableCell>
           </TableRow>
            ))

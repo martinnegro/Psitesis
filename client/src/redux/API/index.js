@@ -59,6 +59,8 @@ export const postComment = (data) => API.post(`/forum_comments`, data);
 // ruta notification
 export const getNotifications = () => API.get(`/notification`);
 export const sentNotificationTest = () => API.get(`/notification/test`);
+export const markAsRead = () => API.put(`/notification`);
+
 // rutas file
 export const createFile = (data) => API.post(`/files`, data);
 export const getAllFiles = () => API.get(`/files`);
@@ -70,6 +72,7 @@ export const editComment = (id, data) =>
 
 // delete comment
 export const deleteComment = (id) => API.put(`/forum_comments/delete/${id}`);
+export const highlightComment = (id) => API.put(`/forum_comments/highlight/${id}`);
 
 // RUTA /forumposts
 export const highlightPost = (post_id) =>

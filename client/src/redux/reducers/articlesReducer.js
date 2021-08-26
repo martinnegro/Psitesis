@@ -34,6 +34,7 @@ export default function articlesReducer(
         orderedArticles: payload,
       };
     case GET_ARTICLE_TAG:
+      console.log(payload, 'payload');
       return {
         ...state,
         orderedArticles: payload,

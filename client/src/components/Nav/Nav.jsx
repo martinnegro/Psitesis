@@ -45,7 +45,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import { grey, purple } from '@material-ui/core/colors';
-import { setReadNotifications } from '../../redux/actions/actionsNotifications';
+import { markAsRead } from '../../redux/actions/actionsNotifications';
 import ForumOutlinedIcon from '@material-ui/icons/ForumOutlined';
 import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
 
@@ -113,6 +113,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	logoMax: {
 		'flexGrow': 1,
+		marginLeft: 16,
 		'@media (max-width: 600px)': {
 			display: 'none',
 		},
@@ -232,7 +233,7 @@ export default function Nav() {
 
 	const handleClickNotifications = (event) => {
 		setAnchorNotifications(event.currentTarget);
-		dispatch(setReadNotifications());
+		dispatch(markAsRead());
 	};
 	const handleCloseNotifications = () => {
 		setAnchorNotifications(null);
@@ -278,9 +279,9 @@ export default function Nav() {
 						<MenuIcon />
 					</IconButton>
 					<div className={classes.logoMax}>
-						{/* <Link to={`/user/${user?.user_id}`}> */}
-						<Avatar variant="square" src={logo} className={classes.square} />
-						{/* </Link> */}
+						
+						<Avatar variant="square" src={logo} />
+						
 					</div>
 
 					{isAuthenticated ? (
