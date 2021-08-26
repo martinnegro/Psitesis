@@ -4,6 +4,19 @@ import { Card, CardContent, Avatar, Typography, makeStyles, Box } from '@materia
 import { getDateTime } from '../../../utils/auth';
 
 const useStyle = makeStyles({
+    container: {
+        '@media (max-width: 601px)': {
+			borderRadius: 0
+		},
+    },
+    bigLink: {
+        pointerEvents: 'none',
+        textDecoration: "none",
+        '@media (max-width: 601px)': {
+            textDecoration: "none",
+			pointerEvents: 'all'
+		},
+    },
     root: {
         padding: "0 10px 0 15px",
         "&:last-child": {
@@ -14,8 +27,7 @@ const useStyle = makeStyles({
         flexBasis: '0',
 
         '@media (max-width: 601px)': {
-			display: "block",
-            overflowX: "auto",
+			width: "100%",            
             padding: "0 10px 0 15px",
 		},
     },
@@ -24,21 +36,35 @@ const useStyle = makeStyles({
     inLine: {
         display: "flex",
         alignItems: "baseline",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        '@media (max-width: 601px)': {
+            flexDirection: "column-reverse"
+		},
+        
     },
     titleAndCat: {
         display: "flex",
-        alignItems: "baseline"
+        alignItems: "baseline",
+        '@media (max-width: 601px)': {
+            flexDirection: "column"
+        }
+    },
+    subtopic: {
+        '@media (max-width: 601px)': {
+            fontSize: 17
+        }
     },
     link: {
-        textDecoration: "none"
+        textDecoration: "none",
+        pointerEvents: 'all'
     },
+    
     title: {
         fontSize: "1.5rem",    
         margin: "0 0 0 5px",
         '@media (max-width: 601px)': {
-			fontSize: 15,
-            width: '300px',
+            margin: 0,
+			fontSize: 22,            
 		},
 
     },
@@ -47,8 +73,21 @@ const useStyle = makeStyles({
         display: "flex",
         justifyContent: "space-between",
         '@media (max-width: 601px)': {
-			fontSize: 15,
-            width: '250px',
+            width: '100%',
+            
+            flexDirection: "row-reverse"
+		},
+    },
+    comments:{
+        '@media (max-width: 601px)': {
+            textAlign: "end",
+            fontSize: 17
+		},
+    },
+    date: {
+        '@media (max-width: 601px)': {
+            fontSize: 17,
+            margin: 0,
 		},
     },
     footer: {
@@ -56,25 +95,26 @@ const useStyle = makeStyles({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        
     },
     user: {
         display: "flex",
-        alignItems: "center"
+        alignItems: "center",
+        '@media (max-width: 601px)': {
+            fontSize: 17
+        }
     },
     avatar: {
         margin: "0 5px 0 5px",
         width: "2rem",
-        height: "2rem"
-    },
-    tipografia:{
-
+        height: "2rem",
         '@media (max-width: 601px)': {
-			fontSize: 15,
-            width: '170px',
-		},
-
+            width: "15px",
+            height: "15px",
+        }
     },
+    
 
 });
 function PostCard( {post} ) {
@@ -86,45 +126,47 @@ function PostCard( {post} ) {
     };
 
     return (
-        <Card style={highlight()} variant="outlined">
+
+        <Card style={highlight()} variant="outlined" className={classes.container}>
+            <Link to={`/forum/post/${post.post_id}`} className={classes.link} className={classes.bigLink}>
             <CardContent className={classes.root}>
                 <Box className={classes.inLine} >
                     <Box className={classes.titleAndCat}>
                         {
                             post.subtopic ?
-                            <Typography color="textSecondary" className={classes.tipografia}>
+                            <Typography color="textSecondary" className={classes.subtopic}>
                                 EN {post.subtopic.sub_topic_name.toUpperCase()}:
                             </Typography> :
                             <></>
                         }
                         <Link to={`/forum/post/${post.post_id}`} className={classes.link}>
-                        <Typography className={classes.title} color="textPrimary">
+                        <Typography className={classes.title} color="textPrimary" noWrap={true}>
                             {post.post_title}
                         </Typography>
                         </Link>
                     </Box>
                     <Box className={classes.commentsAndDate}>
-                        <Typography color="textSecondary" className={classes.tipografia}>
+                        <Typography color="textSecondary" className={classes.comments}>
                             {post.comments.length} Comentarios
                         </Typography>
-                        <Typography  color="textSecondary" gutterBottom className={classes.tipografia}>
+                        <Typography  color="textSecondary" gutterBottom className={classes.date}>
                             {getDateTime(post.createdAt)} 
                         </Typography>
                     </Box>
                 </Box>
                 <Box className={classes.footer} color="textSecondary">
-                    <Typography className={classes.user} color="textSecondary" className={classes.tipografia}>
-                        {/* <span>Creado por</span> */}
+                    <Typography className={classes.user} color="textSecondary" noWrap={true}>
+                        <span>Creado por</span>
                         <span style= {{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
                         <Avatar className={classes.avatar} alt={post.user.user_name} src={post.user.user_img_profile}/>
                         <span>{post.user.user_name}</span>
                         </span>
-
                         
                     </Typography>
                     
                 </Box>
             </CardContent>
+            </Link>
         </Card>
     )
 }
