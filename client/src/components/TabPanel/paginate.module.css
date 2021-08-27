@@ -11,7 +11,7 @@
   @media only screen and (max-width: 601px) {
     .paginationBttns{
     justify-content: center;
-    margin-left: -20px;
+    margin-left: 0;
     /* margin-right: 50%; */
     }
 }
