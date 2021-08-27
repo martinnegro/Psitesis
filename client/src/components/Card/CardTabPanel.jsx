@@ -21,7 +21,7 @@ const useStyles = makeStyles({
       minWidth: 325,
       maxWidth: 325,
       height: 210,
-      marginLeft: '-24px',
+      // marginLeft: '-24px',
       display:'block',
       overflowX: "auto",
       width:'100%'
