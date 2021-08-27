@@ -103,11 +103,18 @@ const useStyles = makeStyles({
 	},
 	anchoInput: {
 		'marginTop': 20,
-		'width': '50vw',
+		'width': '40vw',
 		'@media (max-width: 601px)': {
-			width: '80vw',
+			width: '70vw',
 		},
 	},
+  estiloResenia: {
+    marginTop: 20 , 
+    maxWidth: '40vw',
+    '@media (max-width: 601px)': {
+			maxWidth: '70vw',
+		},
+  }
 });
 
 function Post() {
@@ -354,7 +361,7 @@ useEffect(() => {
             <TextField
               id="outlined-full-width"
               label="Reseña"
-              style={{ marginTop: 20 , maxWidth: '70%'}}
+              className={classes.estiloResenia}
               placeholder="Placeholder"
               helperText={`Disponible - ${120 - reseña.length} caracteres`}
               fullWidth
