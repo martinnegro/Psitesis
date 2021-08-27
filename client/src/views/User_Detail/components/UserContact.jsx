@@ -204,7 +204,7 @@ const UserContactManager = ({ user }) => {
                     <>Link</>
                   )}
                 </Link>
-                {user?.user_id_A0 === myUser?.user_id_A0 ||
+                {user?.user_id_A0 === myUser?.user_id ||
                 myUser?.roles?.includes("admin") ||
                 myUser?.roles?.includes("superadmin") ? (
                   <>
