@@ -42,15 +42,12 @@ const useStyles1 = makeStyles((theme) => ({
 }));
 
 function TablePaginationActions(props) {
-  const user = useSelector((state) => state.authReducer.user)
   const classes = useStyles1();
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
   const handleFirstPageButtonClick = (event) => {
     onPageChange(event, 0);
   };
-
-  console.log(user)
 
   const handleBackButtonClick = (event) => {
     onPageChange(event, page - 1);
@@ -64,7 +61,7 @@ function TablePaginationActions(props) {
     onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
 
-  
+  console.log('Count:',count,'page:', page,'rowsPerPage:', rowsPerPage,'onPageChange,', onPageChange)
 
   return (
     <div className={classes.root}>
@@ -119,8 +116,9 @@ export default function AdminUsers() {
   const [ selects, setSelects ] = React.useState({});
   const [ input, setInput ] = React.useState('');
   const [ users, setUsers ] = React.useState([]);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const dispatch = useDispatch();
-  const emptyusers = usersPerPage - Math.min(usersPerPage, users.length - page * usersPerPage);
+  const emptyusers = rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage);
 
   useEffect(()=>{
     if (input.length > 0) {
@@ -137,10 +135,11 @@ export default function AdminUsers() {
     setPage(newPage);
   };
 
-  const handleChangeUsersPerPage = (event) => {
-    setUsersPerPage(parseInt(event.target.value, 10));
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
 
   useEffect(async ()=>{
     const response = await axios.get(`${REACT_APP_URL_API}/users/get_roles`);
@@ -209,8 +208,8 @@ export default function AdminUsers() {
             <TableCell>Colaborador</TableCell>
         </TableHead>
         <TableBody>
-          {(usersPerPage > 0
-            ? users.slice(page * usersPerPage, page * usersPerPage + usersPerPage)
+          {(rowsPerPage > 0
+            ? users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : users
           ).map((row) => (
             <TableRow key={row.name}>
@@ -270,17 +269,18 @@ export default function AdminUsers() {
         <TableFooter>
           <TableRow>
             <TablePagination
-              usersPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
               colSpan={3}
               count={users.length}
-              usersPerPage={usersPerPage}
+              rowsPerPage={rowsPerPage}
+          
               page={page}
               SelectProps={{
                 inputProps: { 'aria-label': 'rows per page' },
                 native: true,
               }}
               onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeUsersPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
               ActionsComponent={TablePaginationActions}
             />
           </TableRow>
