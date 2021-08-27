@@ -160,22 +160,6 @@ router.put("/add_inst", async (req, res, next) => {
   }
 });
 
-router.put("/editUserName/:user_id_A0", async (req, res, next) => {
-  try {
-    const { user_id_A0 } = req.params;
-    const { userName } = req.body;
-    console.log(userName);
-    const user = await User.findOne({
-      where: { user_id_A0 },
-    });
-    user.user_name = userName;
-    await user.save();
-    return res.json(user);
-  } catch (err) {
-    next(err);
-  }
-});
-
 router.delete("/delete_inst", async (req, res, next) => {
   const { user_id_A0, inst_id } = req.query;
   try {
@@ -201,6 +185,72 @@ router.delete("/delete_inst", async (req, res, next) => {
     next(err);
   }
 });
+
+/*****************************************************/
+/*         RUTAS NOMBRE DE USUARIO                   */
+/*****************************************************/
+
+router.put("/editUserName/:user_id_A0", async (req, res, next) => {
+  try {
+    const { user_id_A0 } = req.params;
+    const { user_name } = req.body;
+    const user = await User.findOne({
+      where: { user_id_A0 },
+    });
+    user.user_name = user_name;
+    await user.save();
+    return res.json(user);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete('/delete_name/:user_id_A0', async (req, res, next) => {
+  try {
+    const { user_id_A0 } = req.params;
+    const user = await User.findOne({
+      where: { user_id_A0 },
+    });
+    user.user_name = '';
+    await user.save();
+    return res.json(user);
+  } catch (err) {
+    next(err);
+  }
+});
+
+/*****************************************************/
+/*         RUTAS BIO DE USUARIO                      */
+/*****************************************************/
+
+router.put('/edit_bio_user/:user_id_A0', async (req, res, next) => {
+  try {
+    const { user_id_A0 } = req.params;
+    const {  biography } = req.body;
+    const user = await User.findOne({
+      where: { user_id_A0 },
+    });
+    user.biography = biography;
+    await user.save();
+    res.json({ message: 'ok' });
+  } catch(err) { next(err) }
+});
+
+router.delete('/delete_bio/:user_id_A0', async(req, res, next) => {
+  try {
+    const { user_id_A0 } = req.params;
+    const user = await User.findOne({
+      where: { user_id_A0 },
+    });
+    user.biography = '';
+    await user.save();
+    return res.json(user);
+  } catch (err) {
+    next(err);
+  }
+});
+
+
 
 /****************************************************/
 // RUTAS DE STATUS COLABORADOR

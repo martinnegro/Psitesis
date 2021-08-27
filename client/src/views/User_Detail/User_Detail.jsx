@@ -14,6 +14,7 @@ import {
 import { useTheme } from "@material-ui/styles";
 import NavBottom from "../../components/NavBottom/NavBottom";
 import ChangeNickName from "./components/ChangeNickName";
+import UserBio from "./components/UserBio";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 10,
     padding: "20px 10px 10px 20px",
     display: "flex",
-    alignItems: "center",
+    alignItems: "start",
     "@media (max-width: 601px)": {
       padding: "10px 0px",
       display: "flex",
@@ -30,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
       alignItems: "center",
       justifyContent: "center",
     },
+  },
+  nameAndBio: {
+    
   },
   boxTop: {
     "@media (min-width: 601px)": {
@@ -59,6 +63,7 @@ function User_Detail(props) {
     return () => dispatch(clearUserDetail());
   }, [dispatch, user_id_A0]);
 
+
   return (
     <Container>
       <Nav></Nav>
@@ -72,8 +77,15 @@ function User_Detail(props) {
                 src={userDetail.user_img_profile}
                 className={classes.avatar}
               />
+              <Box className={classes.nameAndBio}>
+                <ChangeNickName 
+                  user={userDetail}
+                />
+                <UserBio 
+                  user={userDetail}
+                />
+              </Box>
               <UserContact user={userDetail} />
-              <ChangeNickName></ChangeNickName>
             </Paper>
             <UserInstitutions user={userDetail} />
             <UserArticles user={userDetail} />

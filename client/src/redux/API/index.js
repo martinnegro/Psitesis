@@ -26,8 +26,11 @@ export const changeUserRole = (idUser, oldRoleId, newRolId) =>
 export const changeUserColab = (user_id_A0) =>
   API.put(`/users/change_colab/${user_id_A0}`);
 export const getAllCollabs = () => API.get("users/get_all_collab");
-export const editUserName = (id, userName) =>
-  API.put(`users/editUserName/${id}`, userName);
+export const editUserName = (id, user_name) =>
+  API.put(`users/editUserName/${id}`, { user_name });
+export const editUserBio = (id, biography) => API.put(`users/edit_bio_user/${id}`,{ biography });
+export const deleteUserName = (id) => API.delete(`users/delete_name/${id}`)
+export const deleteUserBio  = (id) => API.delete(`users/delete_bio/${id}`)
 //peticiones ruta metadata
 export const getUserMetadata = (id) => API.get(`/metadata?id=${id}`);
 export const createNewLinkInMetadata = (data) => API.post("/metadata", data);
