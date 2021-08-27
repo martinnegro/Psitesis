@@ -175,10 +175,6 @@ const UserContactManager = ({ user }) => {
 
   return (
     <Box>
-      {/* <Box style={{ color: "#861C55", fontSize: "30px" }}>Contacto</Box> */}
-      <Typography variant="h2" color="initial" className={classes.tipoh2}>
-        Contacto
-      </Typography>
       <Table>
         {rows.map((row) => (
           <TableRow>
@@ -290,6 +286,7 @@ const UserContactManager = ({ user }) => {
       ) : (
         <></>
       )}
+      
     </Box>
   );
 };

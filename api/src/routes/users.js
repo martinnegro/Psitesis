@@ -83,13 +83,13 @@ router.post("/", async (req, res, next) => {
 /****************************************************/
 // RUTAS DE MANEJO DE ROLES
 /****************************************************/
-router.get('/get_roles', async (req, res, next) => {
-	try {
-		const roles = await management.roles.getAll();
-		res.json(roles);
-	} catch (err) {
-		next(err);
-	}
+router.get("/get_roles", async (req, res, next) => {
+  try {
+    const roles = await management.roles.getAll();
+    res.json(roles);
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.put("/change_role", async (req, res, next) => {
@@ -98,26 +98,27 @@ router.put("/change_role", async (req, res, next) => {
   var paramsDel = { id: idUser };
   var dataDel = { roles: [oldRoleId] };
 
-	try {
-	await management.users.removeRoles(paramsDel, dataDel, (err) => {
-		err && next(err);
-	});
+  try {
+    await management.users.removeRoles(paramsDel, dataDel, (err) => {
+      err && next(err);
+    });
 
-	const paramsAssign = { id: idUser };
-	const dataAssign = { roles: [newRolId] };
-	await management.assignRolestoUser(paramsAssign, dataAssign);
-	const user = await User.findOne({where: { user_id_A0: idUser }});
-	user.user_rol_id = newRolId;
-	await user.save();
+    const paramsAssign = { id: idUser };
+    const dataAssign = { roles: [newRolId] };
+    await management.assignRolestoUser(paramsAssign, dataAssign);
+    const user = await User.findOne({ where: { user_id_A0: idUser } });
+    user.user_rol_id = newRolId;
+    await user.save();
 
-	res.json({ message: 'Updated' });
-	} catch (err) { next(err) }
-
+    res.json({ message: "Updated" });
+  } catch (err) {
+    next(err);
+  }
 });
 /****************************************************************************************/
 /****************************************************************************************/
 /*/       SE ENVIARON AL FONDO LAS DOS RUTAS GET ('/' y '/:user_id_A0')                /*/
-/*/                  PARA QUE NO INTERFIERAN CON OTRAS                                 /*/  
+/*/                  PARA QUE NO INTERFIERAN CON OTRAS                                 /*/
 /****************************************************************************************/
 /****************************************************************************************/
 
@@ -185,29 +186,98 @@ router.delete("/delete_inst", async (req, res, next) => {
   }
 });
 
-/****************************************************/
-// RUTAS DE STATUS COLABORADOR
-/****************************************************/
+/*****************************************************/
+/*         RUTAS NOMBRE DE USUARIO                   */
+/*****************************************************/
 
-router.put('/change_colab/:user_id_A0', async (req,res,next)=>{
-  const { user_id_A0 } = req.params;
-  try{
+router.put("/editUserName/:user_id_A0", async (req, res, next) => {
+  try {
+    const { user_id_A0 } = req.params;
+    const { user_name } = req.body;
     const user = await User.findOne({
-      where: { user_id_A0 }
+      where: { user_id_A0 },
     });
-    user.user_colab = !user.user_colab;
+    user.user_name = user_name;
+    await user.save();
+    return res.json(user);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete('/delete_name/:user_id_A0', async (req, res, next) => {
+  try {
+    const { user_id_A0 } = req.params;
+    const user = await User.findOne({
+      where: { user_id_A0 },
+    });
+    user.user_name = '';
+    await user.save();
+    return res.json(user);
+  } catch (err) {
+    next(err);
+  }
+});
+
+/*****************************************************/
+/*         RUTAS BIO DE USUARIO                      */
+/*****************************************************/
+
+router.put('/edit_bio_user/:user_id_A0', async (req, res, next) => {
+  try {
+    const { user_id_A0 } = req.params;
+    const {  biography } = req.body;
+    const user = await User.findOne({
+      where: { user_id_A0 },
+    });
+    user.biography = biography;
     await user.save();
     res.json({ message: 'ok' });
   } catch(err) { next(err) }
 });
 
-router.get('/get_all_collab', async (req,res,next) => {
+router.delete('/delete_bio/:user_id_A0', async(req, res, next) => {
   try {
-    const colabs = await User.findAll({ where: { user_colab: true } })
-    res.json(colabs)
-  } catch(err) { next(err) }
+    const { user_id_A0 } = req.params;
+    const user = await User.findOne({
+      where: { user_id_A0 },
+    });
+    user.biography = '';
+    await user.save();
+    return res.json(user);
+  } catch (err) {
+    next(err);
+  }
 });
 
+
+
+/****************************************************/
+// RUTAS DE STATUS COLABORADOR
+/****************************************************/
+
+router.put("/change_colab/:user_id_A0", async (req, res, next) => {
+  const { user_id_A0 } = req.params;
+  try {
+    const user = await User.findOne({
+      where: { user_id_A0 },
+    });
+    user.user_colab = !user.user_colab;
+    await user.save();
+    res.json({ message: "ok" });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/get_all_collab", async (req, res, next) => {
+  try {
+    const colabs = await User.findAll({ where: { user_colab: true } });
+    res.json(colabs);
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.get("/", authorizeAccessToken, async (req, res, next) => {
   try {
@@ -251,7 +321,7 @@ router.get("/:user_id_A0", authorizeAccessToken, async (req, res, next) => {
         {
           model: Article,
           required: false,
-          where: { art_visibility: true }
+          where: { art_visibility: true },
         },
       ],
     });

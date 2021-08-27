@@ -26,7 +26,11 @@ export const changeUserRole = (idUser, oldRoleId, newRolId) =>
 export const changeUserColab = (user_id_A0) =>
   API.put(`/users/change_colab/${user_id_A0}`);
 export const getAllCollabs = () => API.get("users/get_all_collab");
-
+export const editUserName = (id, user_name) =>
+  API.put(`users/editUserName/${id}`, { user_name });
+export const editUserBio = (id, biography) => API.put(`users/edit_bio_user/${id}`,{ biography });
+export const deleteUserName = (id) => API.delete(`users/delete_name/${id}`)
+export const deleteUserBio  = (id) => API.delete(`users/delete_bio/${id}`)
 //peticiones ruta metadata
 export const getUserMetadata = (id) => API.get(`/metadata?id=${id}`);
 export const createNewLinkInMetadata = (data) => API.post("/metadata", data);
@@ -72,7 +76,8 @@ export const editComment = (id, data) =>
 
 // delete comment
 export const deleteComment = (id) => API.put(`/forum_comments/delete/${id}`);
-export const highlightComment = (id) => API.put(`/forum_comments/highlight/${id}`);
+export const highlightComment = (id) =>
+  API.put(`/forum_comments/highlight/${id}`);
 
 // RUTA /forumposts
 export const highlightPost = (post_id) =>
@@ -104,12 +109,12 @@ export const getReports = (prop, value) => {
 export const editReport = (id) => API.put(`report/resolve/${id}`);
 export const deleteReport = (id) => API.delete(`report/delete/${id}`);
 
-//rutas topic subtopic 
-export const getAllTopicSubTopic = () => API.get(`subtopics`)
-export const createNewTopic = (data) => API.post(`topics`, data)
-export const setTopic = (data) => API.put(`topics/edit`, data)
-export const deleteTopic = (id) => API.delete(`topics/delete/${id}` )
+//rutas topic subtopic
+export const getAllTopicSubTopic = () => API.get(`subtopics`);
+export const createNewTopic = (data) => API.post(`topics`, data);
+export const setTopic = (data) => API.put(`topics/edit`, data);
+export const deleteTopic = (id) => API.delete(`topics/delete/${id}`);
 
-export const createNewSubTopic =(data) => API.post(`subtopics`, data)
-export const setSubTopic=(data) => API.put(`subtopics/edit`, data)
-export const deleteSubTopic=(id) => API.delete(`subtopics/delete/${id}`)
+export const createNewSubTopic = (data) => API.post(`subtopics`, data);
+export const setSubTopic = (data) => API.put(`subtopics/edit`, data);
+export const deleteSubTopic = (id) => API.delete(`subtopics/delete/${id}`);
