@@ -41,3 +41,10 @@
   justify-content: center;
   margin: 0 auto;
 }
+
+@media (max-width: 600px) {
+  .paginationBttns a {
+    padding: 5px;
+  margin: 4px;
+  }
+}

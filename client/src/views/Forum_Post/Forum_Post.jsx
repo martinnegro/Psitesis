@@ -8,13 +8,13 @@ import {
   IconButton,
   Paper,
   Button,
-  Divider
+  Divider,
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import DoneIcon from "@material-ui/icons/Done";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import ReportTwoToneIcon from '@material-ui/icons/ReportTwoTone';
+import ReportTwoToneIcon from "@material-ui/icons/ReportTwoTone";
 import ReplyIcon from "@material-ui/icons/Reply";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
@@ -32,32 +32,55 @@ import ReactPaginate from "react-paginate";
 import s from "./Forum_Post.module.css";
 import Report from "../Forum/components/Report";
 import { userHasPermission } from "../../utils/roles";
-import Link from 'react-router-dom'
-
+import Link from "react-router-dom";
+import NavBottom from "../../components/NavBottom/NavBottom";
 
 
 const { REACT_APP_URL_API } = process.env;
 
-const useStyle = makeStyles({
+const useStyle = makeStyles((theme) =>({
+  offset: theme.mixins.toolbar,
   root: {
     padding: 0,
-    margin: "100px auto 0 auto",
+    margin: "0 auto",
     width: "1000px",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
+    "@media (max-width: 601px)": {
+      maxWidth: "100vw",
+      margin: 0,
+    },
   },
   main: {
-    padding: 0
+    padding: 0,
   },
   buttonGroup: {
     width: "50%",
     margin: "0 auto 10px auto",
     display: "flex",
     justifyContent: "space-evenly",
+    "@media (max-width: 601px)": {
+      maxWidth: "100vw",
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-around",
+    },
+  },
+  margin5: {
+    "@media (max-width: 601px)": {
+      fontSize: 8,
+      padding: 2,
+      margin: 3,
+      color: "#ffffff",
+      backgroundColor: '#031927',
+    },
   },
   postContainer: {
-    padding: "10px"
+    padding: "10px",
+    "@media (max-width: 601px)": {
+      padding: 0
+    },
   },
   header: {
     width: "100%",
@@ -65,6 +88,14 @@ const useStyle = makeStyles({
     display: "flex",
     alignItems: "baseline",
     justifyContent: "space-evenly",
+    "@media (max-width: 601px)": {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      margin: '0 auto',
+      alignItems: 'center',
+      paddingTop: '10px',
+    },
   },
   info: {
     margin: "10px 0 10px 0",
@@ -72,6 +103,9 @@ const useStyle = makeStyles({
     alignSelf: "start",
     alignItems: "center",
     justifyContent: "start",
+    "@media (max-width: 601px)": {
+     paddingLeft: 10,
+    },
   },
   avatar: {
     margin: "0 5px 0 5px",
@@ -84,12 +118,15 @@ const useStyle = makeStyles({
   commentsArea: {
     width: "1000px",
     margin: "20px auto 0 auto",
-    padding: "5px"
+    padding: "5px",
+    "@media (max-width: 601px)": {
+      width: "100vw",
+    },
   },
   commentsContainer: {
-    width: "100%"
+    width: "100%",
   },
-  
+
   hide: {
     display: "none",
   },
@@ -97,80 +134,131 @@ const useStyle = makeStyles({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    "@media (max-width: 601px)": {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
   },
   replyButton: {
     color: "#ffffff",
-    
-    backgroundColor: purple[500],
+    backgroundColor: '#031927',
+    width: '20vw',
     "&:hover": {
-      backgroundColor: purple[700],
+      backgroundColor: '#031927',
+    },
+    "@media (max-width: 601px)": {
+      fontSize: 10,
+      width: '60vw',
     },
   },
-  paginate:{
+  paginate: {
     marginTop: "0px",
     width: "25%",
-    
   },
-  buttonContainer:{
+  buttonContainer: {
     display: "flex",
-    justifyContent:"center",
-    margin: "5px"
+    justifyContent: "center",
+    margin: "5px",
+    "@media (max-width: 601px)": {
+      width: "100vw",
+      margin: 0,
+      padding: 0,
+    },
+  },
+  btnRepotar: {
+    margin: "5px",
+    backgroundColor: 'transparent',
+    "&:hover": {
+      backgroundColor: 'transparent',
+      color: purple[500],
+    },
+    color: purple[700],
+    "@media (max-width: 601px)": {     
+      margin: '10 auto',
+      padding: 5,
+    },
   },
   btnText: {
     fontSize: "15px",
-  }
-});
+    "@media (max-width: 601px)": {
+      fontSize: 10,
+      margin: "5 0",
+      padding: 5,
+    },
+  },
+  letra10: {
+    "@media (max-width: 601px)": {
+      fontSize: 10,
+    },
+  },
+  editado10: {
+    "@media (max-width: 601px)": {
+      fontSize: 10,
+      margin: '0 auto',
+      alignItems: 'center',
+      textAlign: 'center',
+    },
+  },
+  letra15: {
+    "@media (max-width: 601px)": {
+      fontSize: 15,
+    },
+  },
+}));
 
 function Forum_Post() {
-    const classes = useStyle()
-    const userId = useSelector((state) => state.authReducer.user.user_id)
-    const user = useSelector((state) => state.authReducer.user)
-    const dispatch = useDispatch();
-    const { post_id } = useParams();
-    const history = useHistory();
-    const [ post, setPost ] = useState();
-    const [ editing, setEditing ] = useState({isEditing: false});
-    const [ previous, setPrevious ] = useState();
-    const [ openAlertDelete, setOpenAlertDelete ] = useState(false);
-    const [ okDelete, setOkDelete ] = useState(false);
-    const [ commentIdForResponse, setCommentIdForResponse ] = useState();
-    const [ commentComponent, setCommentComponent ] = useState(false);
-    const [ orderedComments,setOrderedComments ] = useState([]);
-    const [pageNumber, setPageNumber] = useState(0);
-    const postsByPage = 9;
-    const pagesVisited = pageNumber * postsByPage;
-    const pageCount = Math.ceil(orderedComments.length / postsByPage);
-    const [report,setReport] = useState(false)
-    
-    useEffect(async()=>{
-        fetchPostData();
-    },[]);
+  const classes = useStyle();
+  const userId = useSelector((state) => state.authReducer.user.user_id);
+  const user = useSelector((state) => state.authReducer.user);
+  const dispatch = useDispatch();
+  const { post_id } = useParams();
+  const history = useHistory();
+  const [post, setPost] = useState();
+  const [editing, setEditing] = useState({ isEditing: false });
+  const [previous, setPrevious] = useState();
+  const [openAlertDelete, setOpenAlertDelete] = useState(false);
+  const [okDelete, setOkDelete] = useState(false);
+  const [commentIdForResponse, setCommentIdForResponse] = useState();
+  const [commentComponent, setCommentComponent] = useState(false);
+  const [orderedComments, setOrderedComments] = useState([]);
+  const [pageNumber, setPageNumber] = useState(0);
+  const postsByPage = 9;
+  const pagesVisited = pageNumber * postsByPage;
+  const pageCount = Math.ceil(orderedComments.length / postsByPage);
+  const [report, setReport] = useState(false);
 
-    const fetchPostData = async (data) => {
-        if (!data){
-            const fetchedPost = await axios.get(`${REACT_APP_URL_API}/forumposts/${post_id}`);
-            data = fetchedPost.data
-        }
-        if (!data) return 
-        const highlighted = data.comments.filter(c => c.comment_highlight)
-        const unHighlight = data.comments.filter(c => !c.comment_highlight)
-        highlighted.sort((a,b)=> a.createdAt < b.createdAt ? -1 : 1)
-        unHighlight.sort((a,b)=> a.createdAt < b.createdAt ? -1 : 1)
-        setOrderedComments([...highlighted, ...unHighlight])
-        setPost(data);
-        setEditing({ 
-            isEditing: false,
-            post_contents: data.post_contents,
-            post_title: data.post_title,
-         })
-         console.log(data)
-    };
-    
-    useEffect(() => {
-		if (userId) {
-			dispatch(getUserDetail(userId));
-		}
-	}, [dispatch, userId]);
+  useEffect(async () => {
+    fetchPostData();
+  }, []);
+
+  const fetchPostData = async (data) => {
+    if (!data) {
+      const fetchedPost = await axios.get(
+        `${REACT_APP_URL_API}/forumposts/${post_id}`
+      );
+      data = fetchedPost.data;
+    }
+    if (!data) return;
+    const highlighted = data.comments.filter((c) => c.comment_highlight);
+    const unHighlight = data.comments.filter((c) => !c.comment_highlight);
+    highlighted.sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1));
+    unHighlight.sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1));
+    setOrderedComments([...highlighted, ...unHighlight]);
+    setPost(data);
+    setEditing({
+      isEditing: false,
+      post_contents: data.post_contents,
+      post_title: data.post_title,
+    });
+    console.log(data);
+  };
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(getUserDetail(userId));
+    }
+  }, [dispatch, userId]);
 
   // LOGICA PARA EDITAR TÍTULO y CONTENIDO
   const handleWantEdit = () => {
@@ -213,11 +301,11 @@ function Forum_Post() {
 
   // FIND RESPONDING TO USER NAME
 
-  const handleCommentComponent = (_e,response_to_comment_id) =>{
-      commentComponent ? setCommentComponent(false) : setCommentComponent(true)
-      setCommentComponent(true)
-      setCommentIdForResponse(response_to_comment_id);
-}
+  const handleCommentComponent = (_e, response_to_comment_id) => {
+    commentComponent ? setCommentComponent(false) : setCommentComponent(true);
+    setCommentComponent(true);
+    setCommentIdForResponse(response_to_comment_id);
+  };
   // LOGICA PARA ABRIR Y CERRAR THREAD
   const handleStatusThread = async () => {
     try {
@@ -248,10 +336,9 @@ function Forum_Post() {
 
   // HANDLE COMMENT COMPONENT
 
-  const respondingToComment = (postId,arr) =>{
-    return arr.find(post => post.comment_id === postId)
-    
-}
+  const respondingToComment = (postId, arr) => {
+    return arr.find((post) => post.comment_id === postId);
+  };
   const handleCancellComment = () => {
     setCommentComponent(false);
   };
@@ -271,243 +358,295 @@ function Forum_Post() {
     setPageNumber(selected);
   };
 
-  const handleReport = () =>{
-    setReport(true)
-}
+  const handleReport = () => {
+    setReport(true);
+  };
 
-const cancellReport = () =>{
-    setReport(false)
-}
+  const cancellReport = () => {
+    setReport(false);
+  };
 
   return (
     <>
-    <Nav></Nav>
-    <Container className={classes.root}>
-      {/*-/////////////////////////////////////////////////////////////-*/}
-      {/*-/////////////////----ACCIONES DE POST ---////////////////////-*/}
-      {post ? (
-        <Container className={classes.main}>
-          <Box className={classes.buttonGroup}>
-            {/*-/////////////////////////////------EDICION------////////////////////////////////-*/}
-            {editing.isEditing ? (
-              <>
-                <IconButton>
-                  <DoneIcon onClick={handleConfirmEditing} />
+    <div className={classes.offset}></div>
+      <Nav />
+      <br />
+      <Container className={classes.root}>
+        {/*-/////////////////////////////////////////////////////////////-*/}
+        {/*-/////////////////----ACCIONES DE POST ---////////////////////-*/}
+        {post ? (
+          <Container className={classes.main}>
+            <Box className={classes.buttonGroup}>
+              {/*-/////////////////////////////------EDICION------////////////////////////////////-*/}
+              {editing.isEditing ? (
+                <>
+                  <IconButton>
+                    <DoneIcon onClick={handleConfirmEditing} />
+                  </IconButton>
+                  <IconButton onClick={handleCancelEditing}>
+                    <CloseIcon />
+                  </IconButton>
+                </>
+              ) : userHasPermission(
+                  user.roles[0],
+                  ["superadmin", "admin"],
+                  post.user.user_id_A0,
+                  userId
+                ) ? (
+                <IconButton onClick={handleWantEdit}>
+                  <EditIcon />
                 </IconButton>
-                <IconButton onClick={handleCancelEditing}>
-                  <CloseIcon />
+              ) : null}
+              {/*-//////////////////------ABRIR Y CERRAR THREAD------////////////////////-*/}
+              {userHasPermission(
+                user.roles[0],
+                ["superadmin", "admin"],
+                true,
+                false
+              ) ? (
+                <Button
+                  onClick={handleStatusThread}
+                  variant="contained"
+                  disableElevation
+                  className={classes.margin5}
+                >
+                  {post.post_open ? "Cerrar Thread" : "Abrir Thread"}
+                </Button>
+              ) : null}
+              {/*-//////////////////------DESTACAR POST------////////////////////-*/}
+              {userHasPermission(
+                user.roles[0],
+                ["superadmin", "admin"],
+                true,
+                false
+              ) ? (
+                <Button
+                  onClick={handleHighlightPost}
+                  variant="contained"
+                  disableElevation
+                  className={classes.margin5}
+                >
+                  {post.post_highlight ? "Eliminar Destacado" : "Destacar Post"}
+                </Button>
+              ) : null}
+              {/*-//////////////////------ELIMINAR POST------////////////////////-*/}
+              {userHasPermission(
+                user.roles[0],
+                ["superadmin", "admin"],
+                post.user.user_id_A0,
+                userId
+              ) ? (
+                <IconButton
+                  color="secondary"
+                  onClick={() => setOpenAlertDelete(true)}
+                >
+                  <DeleteForeverIcon />
                 </IconButton>
-              </>
-            ) : userHasPermission(user.roles[0],['superadmin','admin'],post.user.user_id_A0,userId) ? (
-              <IconButton onClick={handleWantEdit}>
-                <EditIcon />
-              </IconButton>
-            ) : null }
-            {/*-//////////////////------ABRIR Y CERRAR THREAD------////////////////////-*/}
-            {userHasPermission(user.roles[0],['superadmin','admin'],true,false) ? <Button onClick={handleStatusThread} variant="contained" disableElevation>
-              {post.post_open ? "Cerrar Thread" : "Abrir Thread"}
-            </Button> : null}
-            {/*-//////////////////------DESTACAR POST------////////////////////-*/}
-            {userHasPermission(user.roles[0],['superadmin','admin'],true,false) ? <Button onClick={handleHighlightPost}  variant="contained" disableElevation>
-              {post.post_highlight ? "Eliminar Destacado" : "Destacar Post"}
-            </Button> : null}
-            {/*-//////////////////------ELIMINAR POST------////////////////////-*/}
-            {userHasPermission(user.roles[0],['superadmin','admin'],post.user.user_id_A0,userId) ? <IconButton
-              color="secondary"
-              onClick={() => setOpenAlertDelete(true)}
-            >
-              <DeleteForeverIcon />
-            </IconButton> : null}
-            <ConfirmDeleteAlert
-              open={openAlertDelete}
-              openOkDelete={okDelete}
-              handleConfirm={handleConfirmDeletePost}
-              handleCancel={() => setOpenAlertDelete(false)}
-              post_title={post.post_title}
-            />
-          </Box>
-          {/*-//////////////////------CONTENEDOR DEL POST------////////////////////-*/}
-          <Paper className={classes.postContainer}>
-          <Box className={classes.header}>
-            {editing.isEditing ? (
-              <Input
-                value={editing.post_title}
-                name="post_title"
-                onChange={handleOnChange}
+              ) : null}
+              <ConfirmDeleteAlert
+                open={openAlertDelete}
+                openOkDelete={okDelete}
+                handleConfirm={handleConfirmDeletePost}
+                handleCancel={() => setOpenAlertDelete(false)}
+                post_title={post.post_title}
               />
-            ) : (
-              <Typography variant="h3" color="initial">
-                {editing.post_title}
-              </Typography>
-            )}
-            <Typography color="textSecondary">
-              en {post.subtopic.topic.topic_name.toUpperCase()} /{" "}
-              {post.subtopic.sub_topic_name.toUpperCase()}
-            </Typography>
-          </Box>
-          {post.post_edited ? (
-            <Typography color="textSecondary">(EDITADO)</Typography>
-          ) : (
-            <></>
-          )}
-          {/*-//////////////////------USER INFO------////////////////////-*/}
-          <Box className={classes.info}>
-            <Avatar
-              className={classes.avatar}
-              alt={post.user.user_name}
-              src={post.user.user_img_profile}
-            />
-            <Box>
-              <Typography color="textSecondary">{post.post_date}</Typography>
-              <Typography  variant="body2" color="textSecondary"  >
-                Por {post.user.user_name}
-              </Typography>
             </Box>
-          </Box>
-          <Box>
-            {editing.isEditing ? (
-              <ReactQuill
-                value={editing.post_contents}
-                name="post_contents"
-                onChange={handleOnChange}
-                modules={Forum_Post.modules}
-                formats={Forum_Post.formats}  
-              />
-            ) : (
-              <Paper variant="outlined" style={{padding: 5}}>
-              <Typography>
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: `${editing.post_contents}`,
-                  }}
+            {/*-//////////////////------CONTENEDOR DEL POST------////////////////////-*/}
+            <Paper className={classes.postContainer}>
+              <Box className={classes.header}>
+                {editing.isEditing ? (
+                  <Input
+                    value={editing.post_title}
+                    name="post_title"
+                    onChange={handleOnChange}
+                  />
+                ) : (
+                  <Typography
+                    variant="h3"
+                    color="initial"
+                    className={classes.letra15}
+                  >
+                    {editing.post_title}
+                  </Typography>
+                )}
+                <Typography color="textSecondary" className={classes.letra10}>
+                  en {post.subtopic.topic.topic_name.toUpperCase()} /{" "}
+                  {post.subtopic.sub_topic_name.toUpperCase()}
+                </Typography>
+              </Box>
+              {post.post_edited ? (
+                <Typography color="textSecondary" className={classes.editado10}>(EDITADO)</Typography>
+              ) : (
+                <></>
+              )}
+              {/*-//////////////////------USER INFO------////////////////////-*/}
+              <Box className={classes.info}>
+                <Avatar
+                  className={classes.avatar}
+                  alt={post.user.user_name}
+                  src={post.user.user_img_profile}
                 />
-              </Typography>
-              </Paper>
+                <Box>
+                  <Typography color="textSecondary" className={classes.letra10}>
+                    {post.post_date}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    className={classes.letra10}
+                  >
+                    Por {post.user.user_name}
+                  </Typography>
+                </Box>
+              </Box>
+              <Box>
+                {editing.isEditing ? (
+                  <ReactQuill
+                    value={editing.post_contents}
+                    name="post_contents"
+                    onChange={handleOnChange}
+                    modules={Forum_Post.modules}
+                    formats={Forum_Post.formats}
+                  />
+                ) : (
+                  <Paper variant="outlined" style={{ padding: 5 }}>
+                    <Typography>
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: `${editing.post_contents}`,
+                        }}
+                      />
+                    </Typography>
+                  </Paper>
+                )}
+              </Box>
+              {/*-//////////////////------REPORTAR POST------////////////////////-*/}
+              <Container className={classes.buttonContainer}>
+                <Button
+                  onClick={handleReport}
+                  variant="contained"
+                  disableElevation
+                  className={classes.btnRepotar}
+                >
+                  <ReportTwoToneIcon />
+                  <span className={classes.btnText}>Reportar</span>
+                </Button>
+                <Report
+                  open={report}
+                  postId={post_id}
+                  cancellReport={cancellReport}
+                  content={post.post_contents}
+                />
+              </Container>
+
+              {post.post_open ? (
+                <></>
+              ) : (
+                <Typography color="textSecondary">
+                  La sección de comentarios ha sido cerrada.
+                </Typography>
+              )}
+            </Paper>
+          </Container>
+        ) : (
+          <div className={classes.root}>CARGANDO</div>
+        )}
+
+        {/*-//////////////////------BOTON POST Y PAGINADO------////////////////////-*/}
+        <Paper className={classes.commentsArea}>
+          <Box className={classes.respondAndPaginate}>
+            {post?.post_open && (
+              <Button
+                className={commentComponent ? classes.hide : null}
+                onClick={(e) => handleCommentComponent(e, null)}
+                startIcon={<ReplyIcon />}
+                className={classes.replyButton}
+              >
+                Responder Post
+              </Button>
             )}
-          </Box>
-          {/*-//////////////////------REPORTAR POST------////////////////////-*/}
-            <Container className = {classes.buttonContainer}>
-            <Button  onClick = {handleReport} variant="contained" disableElevation>
-              <ReportTwoToneIcon />
-              <span className = {classes.btnText}>Reportar</span>
-            </Button>
-            <Report
-              open={report}
-              postId={post_id}
-              cancellReport={cancellReport}
-              content={post.post_contents}
+
+            <ReactPaginate
+              className={classes.paginate}
+              previousLabel={"<"}
+              nextLabel={">"}
+              pageCount={pageCount}
+              onPageChange={changePage}
+              containerClassName={s.paginationBttns}
+              previousLinkClassName={s.previousBttn}
+              nextLinkClassName={s.nextBttn}
+              disabledClassName={s.paginationDisabled}
+              activeClassName={s.paginationActive}
             />
-            </Container>
-            
-          {post.post_open ? (
-            <></>
-          ) : (
-            <Typography color="textSecondary">
-              La sección de comentarios ha sido cerrada.
-            </Typography>
-          )}
-          
-        </Paper>
-        </Container>
-      ) : (
-        <div className={classes.root}>CARGANDO</div>
-      )}
-
-      
-      {/*-//////////////////------BOTON POST Y PAGINADO------////////////////////-*/}
-      <Paper className={classes.commentsArea}>
-        <Box className={classes.respondAndPaginate}>
-        
-              {
-                post?.post_open && (
-                  <Button
-                    className={commentComponent ? classes.hide : null}
-                    onClick={(e) => handleCommentComponent(e, null)}
-                    startIcon={<ReplyIcon />}
-                    className={classes.replyButton}
-                  >
-                    Responder Post
-                  </Button>
-                )
-              }  
-
-
-        
-          <ReactPaginate
-            className={classes.paginate}
-            previousLabel={"<"}
-            nextLabel={">"}
-            pageCount={pageCount}
-            onPageChange={changePage}
-            containerClassName={s.paginationBttns}
-            previousLinkClassName={s.previousBttn}
-            nextLinkClassName={s.nextBttn}
-            disabledClassName={s.paginationDisabled}
-            activeClassName={s.paginationActive}
-          />
-        
-        </Box>
-      {/*//////////////////////////////////////////////////////////////////////*/}
-      {/*//////////////////////////////////////////////////////////////////////*/}
-      {/* --------- COMMENTS ----------*/}
-      <Container className={classes.commentsContainer}>
-            {
-            post ? orderedComments?.slice(pagesVisited, pagesVisited + postsByPage).map((comment)=>{
-                return(
-                        <CommentCard 
-                            fetchPostData = {fetchPostData}
-                            comment={comment}
-                            handleCommentComponent = {handleCommentComponent} 
-                            respondedComment={respondingToComment(comment.response_to_comment_id,post.comments)}
-                        />
-                )
-                }) : <div className={classes.root}>CARGANDO</div> 
-            } 
+          </Box>
+          {/*//////////////////////////////////////////////////////////////////////*/}
+          {/*//////////////////////////////////////////////////////////////////////*/}
+          {/* --------- COMMENTS ----------*/}
+          <Container className={classes.commentsContainer}>
+            {post ? (
+              orderedComments
+                ?.slice(pagesVisited, pagesVisited + postsByPage)
+                .map((comment) => {
+                  return (
+                    <CommentCard
+                      fetchPostData={fetchPostData}
+                      comment={comment}
+                      handleCommentComponent={handleCommentComponent}
+                      respondedComment={respondingToComment(
+                        comment.response_to_comment_id,
+                        post.comments
+                      )}
+                    />
+                  );
+                })
+            ) : (
+              <div className={classes.root}>CARGANDO</div>
+            )}
             {/*//////////////////////////////////////////////////////////////////////*/}
-      </Container>
-            {
-                commentComponent ? 
-                <Comment 
-                    fetchPostData = {fetchPostData} 
-                    handleCancellComment = {handleCancellComment} 
-                    response_to_comment_id={commentIdForResponse}
-                /> : null
-            }
-        {/*//////////////////////////////////////////////////////////////////////*/}
-        {/*//////////////////////////////////////////////////////////////////////*/}
-        {/*-//////////////////------PAGINADO Y COMENTAR------////////////////////-*/}
-        <Box className={classes.respondAndPaginate}>
-        
-              {
-                post?.post_open && (
-                  <Button
-                    id = "comments"
-                    className={commentComponent ? classes.hide : null}
-                    onClick={(e) => handleCommentComponent(e, null)}
-                    startIcon={<ReplyIcon />}
-                    className={classes.replyButton}
-                  >
-                    Responder Post
-                  </Button>
-                )
-              }  
+          </Container>
+          {commentComponent ? (
+            <Comment
+              fetchPostData={fetchPostData}
+              handleCancellComment={handleCancellComment}
+              response_to_comment_id={commentIdForResponse}
+            />
+          ) : null}
+          {/*//////////////////////////////////////////////////////////////////////*/}
+          {/*//////////////////////////////////////////////////////////////////////*/}
+          {/*-//////////////////------PAGINADO Y COMENTAR------////////////////////-*/}
+          <Box className={classes.respondAndPaginate}>
+            {post?.post_open && (
+              <Button
+                id="comments"
+                className={commentComponent ? classes.hide : null}
+                onClick={(e) => handleCommentComponent(e, null)}
+                startIcon={<ReplyIcon />}
+                className={classes.replyButton}
+              >
+                Responder Post
+              </Button>
+            )}
 
-          <ReactPaginate
-            className={classes.paginate}
-            previousLabel={"<"}
-            nextLabel={">"}
-            pageCount={pageCount}
-            onPageChange={changePage}
-            containerClassName={s.paginationBttns}
-            previousLinkClassName={s.previousBttn}
-            nextLinkClassName={s.nextBttn}
-            disabledClassName={s.paginationDisabled}
-            activeClassName={s.paginationActive}
-          />
-
-        </Box>
+            <ReactPaginate
+              className={classes.paginate}
+              previousLabel={"<"}
+              nextLabel={">"}
+              pageCount={pageCount}
+              onPageChange={changePage}
+              containerClassName={s.paginationBttns}
+              previousLinkClassName={s.previousBttn}
+              nextLinkClassName={s.nextBttn}
+              disabledClassName={s.paginationDisabled}
+              activeClassName={s.paginationActive}
+            />
+          </Box>
         </Paper>
       </Container>
+      <br />
+      <br />
+      <br />
+      <br />
+      <NavBottom />
     </>
   );
 }
