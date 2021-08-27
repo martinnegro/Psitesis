@@ -12,11 +12,13 @@ import {
   Button 
 } from '@material-ui/core';
 import { editUserName, getUserDetail, deleteUserName } from '../../../redux/API';
-
+import { useSelector, useDispatch } from "react-redux";
 import Edit from '@material-ui/icons/Edit';
 import Close from '@material-ui/icons/Close';
 import DoneIcon from "@material-ui/icons/Done";
 import DeleteForever from '@material-ui/icons/DeleteForever';
+import { userHasPermission } from '../../../utils/roles';
+import { useParams } from "react-router-dom";
 
 const useStyle = makeStyles({
   nameAndButton: {
@@ -30,6 +32,8 @@ const   ChangeNickName = ({ user }) =>{
     const        [ input, setInput ]        = useState();
     const    [ canSubmit, setCanSubmit ]    = useState(false);
     const  [ wantDelete, setWantDelete ]    = useState(false);
+    const myUser = useSelector((state) => state.authReducer.user);
+    const { user_id_A0 } = useParams();
 
     const onWantEdit = () => {
         setWantEditName(true);
@@ -93,15 +97,15 @@ const   ChangeNickName = ({ user }) =>{
             <Typography style={{ color: '#861C55', fontSize: '30px' }}>
                 { user.user_name ? user.user_name : <div style={{fontStyle: 'italic'}}>Agregar Nombre</div> }
             </Typography>
-            <IconButton 
+            {userHasPermission(myUser.roles[0],['superadmin'],myUser.user_id,user_id_A0) ? <IconButton 
                 onClick={onWantEdit}
             >
                 <Edit />
-            </IconButton>
+            </IconButton> : null}
             {/*   WANT DELETE    */}
-            <IconButton onClick={()=>setWantDelete(true)}>
+            {userHasPermission(myUser.roles[0],['superadmin'],myUser.user_id,user_id_A0) ? <IconButton onClick={()=>setWantDelete(true)}>
                 <DeleteForever />
-            </IconButton>
+            </IconButton>  : null}
             <Dialog open={wantDelete}>
                 <DialogTitle>
                     ¿Quieres borrar el nombre?

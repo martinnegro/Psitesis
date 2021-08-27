@@ -18,7 +18,9 @@ import Edit from '@material-ui/icons/Edit';
 import Close from '@material-ui/icons/Close';
 import DoneIcon from "@material-ui/icons/Done";
 import DeleteForever from '@material-ui/icons/DeleteForever';
-
+import { useParams } from "react-router-dom";
+import { userHasPermission } from '../../../utils/roles';
+import { useSelector, useDispatch } from "react-redux";
 const useStyle = makeStyles({
     root: {
     },
@@ -35,6 +37,8 @@ function UserBio({ user }) {
     const       [ input, setInput ]       = useState();
     const   [ canSubmit, setCanSubmit ]   = useState(false);
     const  [ wantDelete, setWantDelete ]  = useState(false);
+    const myUser = useSelector((state) => state.authReducer.user);
+    const { user_id_A0 } = useParams();
 
     const onWantEdit = () => {
         setWantEditBio(true);
@@ -95,20 +99,20 @@ function UserBio({ user }) {
             </Box>
             :
             <Box className={classes.bioAndButton}>
-            <Typography>
+            {userHasPermission(myUser.roles[0],['superadmin'],myUser.user_id,user_id_A0) ? <Typography>
                 { user.biography ? user.biography : <div style={{ fontStyle: 'italic' }}>Añadir Bio</div> }
-            </Typography>
-            <IconButton 
+            </Typography> : null}
+            {userHasPermission(myUser.roles[0],['superadmin'],myUser.user_id,user_id_A0) ? <IconButton 
                 variant='contained'
                 disableElevation
                 onClick={onWantEdit}
             >
                 <Edit style={ {fontSize: 20} }/>
-            </IconButton>
+            </IconButton> : null}
             {/*   WANT DELETE    */}
-            <IconButton onClick={()=>setWantDelete(true)}>
+            {userHasPermission(myUser.roles[0],['superadmin'],myUser.user_id,user_id_A0) ? <IconButton onClick={()=>setWantDelete(true)}>
                 <DeleteForever />
-            </IconButton>
+            </IconButton> : null}
             <Dialog open={wantDelete}>
                 <DialogTitle>
                     ¿Quieres borrar la bio?

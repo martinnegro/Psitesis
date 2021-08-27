@@ -55,6 +55,7 @@ const Admin_Panel = () => {
         <Typography variant="h2" color="initial" className={classes.tipoh2}>
           Panel de Administrador
         </Typography>
+        {console.log(userDetail.roles[0])}
         <div className={classes.root}>
           {userHasPermission(userDetail.roles[0],['superadmin'],true,false) ? <Accordion className={classes.table2}>
             {console.log(userDetail.roles[0])}
