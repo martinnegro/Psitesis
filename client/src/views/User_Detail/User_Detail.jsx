@@ -13,6 +13,7 @@ import {
 } from "./../../redux/actions/usersActions";
 import { useTheme } from "@material-ui/styles";
 import NavBottom from "../../components/NavBottom/NavBottom";
+import ChangeNickName from "./components/ChangeNickName";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -40,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
     width: "150px",
     margin: "0 20px 20px 0",
   },
+  container: {
+    display: "flex"
+  }
 }));
 
 function User_Detail(props) {
@@ -69,6 +73,7 @@ function User_Detail(props) {
                 className={classes.avatar}
               />
               <UserContact user={userDetail} />
+              <ChangeNickName></ChangeNickName>
             </Paper>
             <UserInstitutions user={userDetail} />
             <UserArticles user={userDetail} />
