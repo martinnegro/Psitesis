@@ -68,12 +68,16 @@ const useStyle = makeStyles((theme) =>({
     },
   },
   margin5: {
+    color:'#031927',
+    backgroundColor: 'transparent',
+    "&:focus": {
+      color:'#031927',
+      backgroundColor: 'transparent',
+    },
     "@media (max-width: 601px)": {
       fontSize: 8,
       padding: 2,
       margin: 3,
-      color: "#ffffff",
-      backgroundColor: '#031927',
     },
   },
   postContainer: {
@@ -84,10 +88,15 @@ const useStyle = makeStyles((theme) =>({
   },
   header: {
     width: "100%",
-    margin: "10px 0 10px 0",
+    //margin: "10px 0 10px 0",
+    // display: "flex",
+    // alignItems: "baseline",
+    // justifyContent: "space-evenly",
     display: "flex",
-    alignItems: "baseline",
-    justifyContent: "space-evenly",
+      flexDirection: "column",
+      justifyContent: "center",
+      margin: '0 auto',
+      alignItems: 'center',
     "@media (max-width: 601px)": {
       display: "flex",
       flexDirection: "column",
@@ -171,9 +180,9 @@ const useStyle = makeStyles((theme) =>({
     backgroundColor: 'transparent',
     "&:hover": {
       backgroundColor: 'transparent',
-      color: purple[500],
+      color: '#031927',
     },
-    color: purple[700],
+    color: '#031927',
     "@media (max-width: 601px)": {     
       margin: '10 auto',
       padding: 5,
@@ -193,14 +202,15 @@ const useStyle = makeStyles((theme) =>({
     },
   },
   editado10: {
+    margin: '0 auto',
+    alignItems: 'center',
+    textAlign: 'center',
     "@media (max-width: 601px)": {
       fontSize: 10,
-      margin: '0 auto',
-      alignItems: 'center',
-      textAlign: 'center',
     },
   },
   letra15: {
+    textTransform: 'uppercase',
     "@media (max-width: 601px)": {
       fontSize: 15,
     },
