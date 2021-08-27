@@ -60,7 +60,12 @@ const useStyles = makeStyles((theme) => ({
 			display: "block",
 			overflowX: "auto",
 		  },  
-	  }
+	  },
+    textH2: {
+      "@media (max-width: 601px)": {
+        fontSize: '1.2rem'
+      },
+    }
 }));
 export default function BiosContainer({ id, userName, biography, imgProfile }) {
   const classes = useStyles();
@@ -82,7 +87,7 @@ export default function BiosContainer({ id, userName, biography, imgProfile }) {
           </div>
           
           <div className={classes.text}>
-          <Typography variant = "h2">
+          <Typography variant = "h2" className={classes.textH2}>
             {userName}
             <Divider style={{ width: "250px" }} />
             </Typography>
