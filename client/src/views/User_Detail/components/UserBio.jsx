@@ -99,10 +99,10 @@ function UserBio({ user }) {
             </Box>
             :
             <Box className={classes.bioAndButton}>
-            {userHasPermission(myUser.roles[0],['superadmin'],myUser.user_id,user_id_A0) ? <Typography>
+            {userHasPermission(myUser.roles[0],['none'],myUser.user_id,user_id_A0) ? <Typography>
                 { user.biography ? user.biography : <div style={{ fontStyle: 'italic' }}>Añadir Bio</div> }
             </Typography> : null}
-            {userHasPermission(myUser.roles[0],['superadmin'],myUser.user_id,user_id_A0) ? <IconButton 
+            {userHasPermission(myUser.roles[0],['none'],myUser.user_id,user_id_A0) ? <IconButton 
                 variant='contained'
                 disableElevation
                 onClick={onWantEdit}
