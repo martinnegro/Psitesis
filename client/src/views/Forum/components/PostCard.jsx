@@ -2,11 +2,17 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Card, CardContent, Avatar, Typography, makeStyles, Box } from '@material-ui/core'
 import { getDateTime } from '../../../utils/auth';
+import { Divider } from '@material-ui/core';
+import { purple } from '@material-ui/core/colors';
 
 const useStyle = makeStyles({
     container: {
         '@media (max-width: 601px)': {
-			borderRadius: 0
+			borderRadius: 0,
+            border: 'none',
+            // borderBottom: 'solid 1px  #031927',
+            // borderBottomWidth: 'medium',
+            // borderBottomWidth: 'thin',
 		},
     },
     bigLink: {
@@ -29,9 +35,10 @@ const useStyle = makeStyles({
         '@media (max-width: 601px)': {
 			width: "100%",            
             padding: "0 10px 0 15px",
+            margin: '10px auto',
             display: "block",
             overflowX: "auto",
-		},
+        },
 
     },
     
@@ -117,8 +124,15 @@ const useStyle = makeStyles({
             height: "15px",
         }
     },
-    
-
+    dividerColor: {
+    display: 'none',
+    '@media (max-width: 601px)': {
+        display: 'block',
+        marginTop: 15,
+        background: 'purple',
+        width: '90vw'
+    }
+}
 });
 function PostCard( {post} ) {
     const classes = useStyle();
@@ -168,6 +182,7 @@ function PostCard( {post} ) {
                     </Typography>
                     
                 </Box>
+                <Divider className={classes.dividerColor}/>
             </CardContent>
             </Link>
         </Card>
