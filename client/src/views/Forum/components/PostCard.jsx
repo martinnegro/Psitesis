@@ -39,7 +39,6 @@ const useStyle = makeStyles({
             display: "block",
             overflowX: "auto",
         },
-
     },
     
     
@@ -183,6 +182,7 @@ function PostCard( {post} ) {
                     
                 </Box>
                 <Divider className={classes.dividerColor}/>
+                <div style={{height: '10px'}}></div>
             </CardContent>
             </Link>
         </Card>
