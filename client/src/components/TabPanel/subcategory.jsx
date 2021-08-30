@@ -38,7 +38,16 @@ const useStyles = makeStyles((theme) => ({
             fontSize: "1.75rem",
             marginBottom:'0px',
         }
-    }
+    },
+    container2:{
+        display:'flex', 
+        justifyContent:'space-between',
+        flexWrap: 'wrap',
+        "@media (max-width: 601px)":{
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+        }}
   }));
 
 export default function Subcategoria (props) {
@@ -63,10 +72,8 @@ export default function Subcategoria (props) {
                 {name}
             </Typography>
         <Container 
-            style={{
-            display:'flex', 
-            justifyContent:'space-between',
-            flexWrap: 'wrap'}}>
+        className={classes.container2}
+            style={{}}>
                 {
                     articles.length > 0 
                     ? articles 

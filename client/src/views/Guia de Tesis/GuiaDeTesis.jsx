@@ -51,9 +51,9 @@ const useStyles = makeStyles((theme) => ({
         overflowX: "auto",
         width: '100%',
         padding: 0,
-        "& .MuiTabs-flexContainer":{
-          paddingLeft: 100,
-        }
+        // "& .MuiTabs-flexContainer":{
+        //   paddingLeft: 100,
+        // }
       }
     },
     title:{
@@ -69,16 +69,27 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     tabs:{
-      backgroundColor: "#031927",
       "& .MuiTabs-flexContainer":{
         justifyContent:'space-around'
       }, 
+      backgroundColor: "#031927",
       '&:focus': {
         color: 'white',
       }, 
       "& .MuiTabs-indicator":{
         backgroundColor: 'white'
-      }
+      },
+      "@media (max-width: 601px)":{
+        '& .MuiSvgIcon-fontSizeSmall':{
+          color: 'white',
+        },
+        "& .MuiTabs-flexContainer":{
+          justifyContent:'inherit'
+        }, 
+      },
+     
+      
+      
     },
     tabsText:{
       color: "#93827F",
@@ -138,7 +149,7 @@ const useStyles = makeStyles((theme) => ({
       // vertical padding + font size from searchIcon
       paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
       // transition: theme.transitions.create('width'),
-      width: '80%',
+      width: '100%',
       heigth: '100%',
 
       // backgroundColor: 'purple'
@@ -160,10 +171,11 @@ const useStyles = makeStyles((theme) => ({
     fab:{
       display: 'none',
       "@media (max-width: 601px)":{
+      width:'100%',
       display: 'flex',
       margin: 0,
       top: 'auto',
-      right: '-10px',
+      // right: '-10px',
       bottom: 59,
       left: 'auto',
       position: 'fixed',
@@ -180,7 +192,28 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
       margin: theme.spacing(1),
-      width: '270px'
+      maxWidth: '80%'
+    },
+    h4tipo:{
+      marginBottom:'15px', 
+      marginTop:'15px',
+      "@media (max-width: 601px)":{
+        fontSize: '1.7rem',
+      }
+    },
+    cardSearch:{
+        display:'flex', 
+        justifyContent:'space-between',
+        flexWrap: 'wrap',
+      "@media (max-width: 601px)":{
+        display: 'flex',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+        // '& .MuiContainer-root' : {
+        //   padding:'0px'
+        // }
+
+      }
     }
   }));
 
@@ -272,10 +305,10 @@ export default function GuiaDeTesis() {
                       // indicatorColor="primary"
                       // textColor="primary"
                       variant="scrollable"
-                      scrollButtons
+                      scrollButtons='on'
                       // allowScrollButtonsMobile
                       // scrollButtons={true}
-                      aria-label="visible arrows tabs example"
+                      aria-label="scrollable auto tabs example"
                       className={classes.tabs}
                     >
                     {
@@ -292,20 +325,23 @@ export default function GuiaDeTesis() {
                       <Container>
                         <Typography 
                           variant='h4' 
-                          style={{marginBottom:'15px', marginTop:'15px'}}>
+                          className={classes.h4tipo}>
                         Resultados del blog para <span style={{color:'purple'}}>{search}</span>:
                         </Typography>
                         <Container 
-                        style={{
+                        className={classes.cardSearch}
+                        /* style={{
                           display:'flex', 
                           justifyContent:'center',
-                          flexWrap: 'wrap'}}>
+                          flexWrap: 'wrap'}} */>
                             {
                               orderedArticles?.length > 0 
                               ? orderedArticles
                               ?.slice(pagesVisited, pagesVisited + postsByPage)
                               .map(a => (
-                                <Container style={{marginLeft:'-10px'}}>
+                                // <Container
+                                
+                                // style={{marginLeft:'-10px'}}>
                                     <Card2
                                     title ={a.art_title}
                                     abstract={a.art_abstract}
@@ -313,7 +349,7 @@ export default function GuiaDeTesis() {
                                     body={a.art_contents}
                                     id={a.art_id}
                                     userId={a.user_id}/>
-                                  </Container>
+                                  // </Container>
                               )) : <Typography variant="h6" color="initial">No hay resultados para su búsqueda</Typography>
                             }
                         </Container>
@@ -342,7 +378,7 @@ export default function GuiaDeTesis() {
                   }
      
                     <Container className={classes.fab} style={checked ? { backgroundColor: 'white',} : null}>
-                             <div className={classes.container2}>
+                             {/* <div className={classes.container2}> */}
                                 <Fade in={checked}>
                                   <Paper elevation={4} className={classes.paper}>
                                     <InputBase placeholder="Search…" value={search} onChange={onChange} 
@@ -353,8 +389,8 @@ export default function GuiaDeTesis() {
                                       inputProps={{ 'aria-label': 'search' }}/>
                                   </Paper>
                                 </Fade>
-                              </div>
-                        <Fab style={{backgroundColor: '#031927', color:'white'}} aria-label="add">
+                              {/* </div> */}
+                        <Fab style={{backgroundColor: '#031927', color:'white', /* width:'100%' */}} aria-label="add">
                         <SearchIcon onClick={handleChange2}/>
                         </Fab>
                   </Container>
