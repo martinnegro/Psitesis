@@ -174,9 +174,8 @@ const DragFile = ({ setDesc, setMedia, setLoading }) => {
             name="file"
             onChange={uploadImage}			
           /> 
-          </div>
-           
-		  <br />        
+          </div>              
+          <div style={{height: '20px'}}></div>       
           <Button onClick={handleSave} className={classes.root}>Guardar Archivo</Button>
         </div>
       </div>
