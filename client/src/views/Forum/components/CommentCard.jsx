@@ -62,7 +62,7 @@ const useStyle = makeStyles({
         justifyContent: "start"
     }
 });
-const CommentCard = ({comment,handleCommentComponent,fetchPostData,respondedComment}) =>{
+const CommentCard = ({comment,handleCommentComponent,fetchPostData,respondedComment,postIsOpen}) =>{
     const classes = useStyle();
     const loggedUserId =  useSelector((state) => state.authReducer.user.user_id)
     const {user} = useSelector((state) => state.authReducer);
@@ -164,7 +164,7 @@ const CommentCard = ({comment,handleCommentComponent,fetchPostData,respondedComm
                 </Box>
             </Container>
             {
-                comment.deleted === false ? 
+                comment.deleted === false && postIsOpen ? 
                 <Box className = {classes.iconsContainer}>
                     <Button
                         className = {classes.button}
