@@ -606,6 +606,7 @@ function Forum_Post() {
                         comment.response_to_comment_id,
                         post.comments
                       )}
+                      postIsOpen = {post.post_open}
                     />
                   );
                 })
