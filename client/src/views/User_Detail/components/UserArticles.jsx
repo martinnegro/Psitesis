@@ -8,7 +8,9 @@ const useStyle = makeStyles({
         padding: "10px"
     },
     artsContainer: {
-        display: "flex"
+        display: "flex",
+        flexDirection: 'row',
+        flexWrap: 'wrap',
     }
 });
 function UserArticles({user}) {
