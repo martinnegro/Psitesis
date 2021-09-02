@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { useSelector } from 'react-redux';
-import Optiones from '../Options/Options';
+
 
 const Selectores = () => {
 	const cat_sub = useSelector((state) => state.rootReducer.cat_sub);

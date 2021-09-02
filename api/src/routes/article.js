@@ -19,7 +19,6 @@ router.post(
       user_id, 
       art_abstract
     } = req.body;
-    console.log(sub_cat_id)
     let aux_id = user_id;
     const art_id = uuidv4();
     if (aux_id.includes("google")) {
