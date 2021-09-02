@@ -30,11 +30,13 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Selectores from '../../components/Select/Select';
+import AuthorSelectors from './components/AuthorSelectors';
 //menucito
 import NavBottom from "../../components/NavBottom/NavBottom";
 import Container from "@material-ui/core/Container"; 
 //validation
 import { minLengthValidation } from "../../utils/validations/formValidations";
+import { userHasPermission } from '../../utils/roles/index'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
@@ -127,15 +129,15 @@ function Post() {
 
 	const classes = useStyles();
 
-	const [enablePost, setEnablePost] = useState(false);
-	const [body, setBody] = useState('');
-	const [titulo, setTitulo] = useState('');
-	const [reseña, setReseña] = useState('');
-	const [subcategoria, setSubcategoria] = useState(null);
-	const [categoria, setCategoria] = useState(null);
-	const [tags, setTags] = useState('');
-
-//validation...
+	const [   enablePost, setEnablePost   ] = useState(false);
+	const [         body, setBody         ] = useState('');
+	const [       titulo, setTitulo       ] = useState('');
+	const [       reseña, setReseña       ] = useState('');
+	const [ subcategoria, setSubcategoria ] = useState(null);
+	const [         tags, setTags         ] = useState('');
+  const [       author, setAuthor       ] = useState();
+  
+  // VALIDATION...
   const [formValid, setformValid] = useState({
     titulo:false,
     reseña:false,
@@ -148,7 +150,7 @@ function Post() {
   function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
-  //....validation
+  //....VALIDATION
   
   //MOdal
   //const classes = useStyles();
@@ -226,6 +228,10 @@ function Post() {
     }
   };
 
+  const handleInputAuthor = (e) => {
+    setAuthor(e.target.value);
+  };
+
   const handleSubmitBody = async (e) => {
     e.preventDefault();
     const tituloVal = titulo;
@@ -240,13 +246,12 @@ function Post() {
 		  	art_title: titulo,
 		  	// cat_id: categoria,
 		  	sub_cat_id: subcategoria,
-		  	user_id: user.user_id,
+		  	user_id: author,
 		  	art_abstract: reseña,
 		  	art_date: date,
 		  	art_tags: tags.split(',').map((e) => e.trim()),
 		  	art_id: id ? articlesDetail.art_id : null,
 		  };
-      console.log("data: ", data);
       // action createPost or editPost
 	    if (id) {
 		    dispatch(editPost(data));
@@ -287,6 +292,7 @@ useEffect(() => {
 		setTitulo(articlesDetail.art_title);
 		setReseña(articlesDetail.art_abstract);
 		setSubcategoria(articlesDetail.sub_cat_id);
+    setAuthor(articlesDetail.user_id);
 		if (
 			articlesDetail.user_id === user.user_id ||
 			user.roles.includes('admin') ||
@@ -302,6 +308,7 @@ useEffect(() => {
 
 useEffect(() => {
 	dispatch(getAllCatSub());
+  console.log('----> user:',user)
 }, []);
 
 	//Modal
@@ -346,8 +353,8 @@ useEffect(() => {
               <InputLabel htmlFor="grouped-native-select">Categoria</InputLabel>
               <Select
                 native
-                defaultValue=""
-				value={subcategoria}
+                defaultValue=''
+				        value={subcategoria}
                 id="grouped-native-select"
                 onChange={handleInputCat}
                 required
@@ -356,6 +363,30 @@ useEffect(() => {
                 <Selectores />
               </Select>
             </FormControl>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+      
+              
+              <FormControl>
+                <InputLabel htmlFor="grouped-native-select">Autor</InputLabel>
+                <Select
+                  native
+                  defaultValue={author}
+				          value={author}
+                  id="grouped-native-select"
+                  onChange={handleInputAuthor}
+                  required
+                >
+                  
+                  <option value={user.user_id}>{`${user.name}`} (vos)</option>
+                  {
+                    userHasPermission(user.roles[0],['superadmin','admin'],false,true) ?
+                    <AuthorSelectors />
+                    : null
+                  }
+                </Select>
+              </FormControl>
+      
+      
           </div>
           <br />
             <TextField
